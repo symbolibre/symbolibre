@@ -19,7 +19,7 @@ Parser.cpp: Parser.y expression.o
 .PHONY: clean mrproper
 
 clean:
-	rm -rf *.o *.c Parser.cpp Lexer.cpp Parser.h
+	rm -rf *.o *.c Parser.cpp Lexer.cpp Parser.h stack.hh
 
 mrproper: clean
 	rm -rf $(EXEC)

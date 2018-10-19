@@ -26,24 +26,24 @@ public :
 
 // Atomic elements
 
-class number_node : public ExpressionNode
+class NumberNode : public ExpressionNode
 {
 protected:
     float num;
 
 public:
-    number_node(float value); // This is the class constructor: given a float value it creates a number_node element
+    NumberNode(float value); // This is the class constructor: given a float value it creates a NumberNode element
     virtual float evaluate() override; // Look at expression.cpp for the implementation
 };
 
 // For empty tokens (we parse incomplete expressions)
-class empty_node : public ExpressionNode
+class EmptyNode : public ExpressionNode
 {
 protected:
     float num;
 
 public:
-    empty_node(float value); // This is the class constructor: given a float value it creates a number_node element
+    EmptyNode(float value); // This is the class constructor: given a float value it creates a NumberNode element
     virtual float evaluate() override; // Look at expression.cpp for the implementation
 };
 
@@ -53,42 +53,42 @@ public:
 
 /*We create a generic class for all operators in order to factorise code
 An operator node consists in two children, and the operation which is going to be performed on both children */
-class operator_node : public ExpressionNode
+class OperatorNode : public ExpressionNode
 {
 protected: // Protected here, not private, because we want childs to be able to access to these elements
     std::unique_ptr<ExpressionNode> left;
     std::unique_ptr<ExpressionNode> right;
 public:
-    operator_node(ExpressionNode &L, ExpressionNode &R); // class initialisator
+    OperatorNode(ExpressionNode &L, ExpressionNode &R); // class initialisator
 };
 
 
 // Each operator is a subclass of the big class operato_node
-class plus_node : public operator_node
+class PlusNode : public OperatorNode
 {
 public:
-    plus_node(ExpressionNode &L, ExpressionNode &R);
+    PlusNode(ExpressionNode &L, ExpressionNode &R);
     virtual float evaluate() override;
 };
 
-class times_node : public operator_node
+class TimesNode : public OperatorNode
 {
 public:
-    times_node(ExpressionNode &L, ExpressionNode &R);
+    TimesNode(ExpressionNode &L, ExpressionNode &R);
     virtual float evaluate() override;
 };
 
-class minus_node : public operator_node
+class MinusNode : public OperatorNode
 {
 public:
-    minus_node(ExpressionNode &L, ExpressionNode &R);
+    MinusNode(ExpressionNode &L, ExpressionNode &R);
     virtual float evaluate() override;
 };
 
-class frac_node : public operator_node
+class FracNode : public OperatorNode
 {
 public:
-    frac_node(ExpressionNode &L, ExpressionNode &R);
+    FracNode(ExpressionNode &L, ExpressionNode &R);
     virtual float evaluate() override;
 };
 
@@ -96,18 +96,18 @@ public:
 
 // Unary operators (only minus for now, but there will be log, integration, etc)
 
-class unary_node : public ExpressionNode
+class UnaryNode : public ExpressionNode
 {
 protected:
     ExpressionNode *child;
 public:
-    unary_node(ExpressionNode &C);
+    UnaryNode(ExpressionNode &C);
 };
 
-class unary_minus_node : public unary_node
+class UnaryMinusNode : public UnaryNode
 {
 public:
-    unary_minus_node(ExpressionNode &C);
+    UnaryMinusNode(ExpressionNode &C);
     virtual float evaluate() override;
 };
 

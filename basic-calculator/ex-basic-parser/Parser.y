@@ -6,16 +6,15 @@ int yyparse();
 int yylex();
 int yyerror(char *s);
 
-/* yypares() returns an integer. However, we also want to have access to the AST that we construct.
+/* yyparse() returns an integer. However, we also want to have access to the AST that we construct.
 So we declare a pointer root that is going to points to the AST */
 ExpressionNode *root;
 
-using namespace std;
-
 %}
 
-// We start one an expression
+// We start our programm with this rule
 %start Exp
+
 
 
 // We define our different elements
@@ -23,6 +22,9 @@ using namespace std;
   ExpressionNode *exp;  /* For the expressions. Since it is a pointer, no problem. */
   float       value;  /* For the lexical analyser. NUMBER tokens */
 }
+
+// This destructor will empty all the stack when bison meet a syntax error, so there are no memory leakage
+%destructor {free($$); } <exp>
 
 /* Lets inform Bison about the type of each terminal and non-terminal */
 %type <exp>   Calc
@@ -48,43 +50,42 @@ using namespace std;
 
 %%
 
-/* Since we create new nodes along the computation, there is going to be some memory leackage if the parser trigger an exception.
-There is also going to be a segfault.
-Please don't mind it */
+Exp: Calc { $$ = NULL; root = $1; } // We don't assign $$ to $1 because the destructor routine free elements even when the parsing works.
+// It means that root would be freed before being returned, which lead to a segfault.
 
-Exp: Calc { $$ = $1; root = $$; }
-
-Calc: NUMBER { $$ = new number_node($1); }
+Calc: NUMBER { $$ = new NumberNode($1); }
    | Add {$$ = $1; }
    | Minus {$$ = $1; }
    | Times {$$ = $1; }
    | Divided {$$ = $1; }
    | Paren { $$ = $1; }
-   | Empty { $$ = new empty_node(0); }
-  
-Empty: %empty
 
 Paren : LPAR Calc RPAR { $$ = $2; }
-   
 
-Add : Calc PLUS Calc {$$ = new plus_node(*$1,*$3); }
+Add : Calc PLUS Calc {$$ = new PlusNode(*$1,*$3); }
 
-Minus : Calc MINUS Calc {$$ = new minus_node(*$1,*$3); }
+Minus : Calc MINUS Calc {$$ = new MinusNode(*$1,*$3); }
 
-Times : Calc TIMES Calc {$$ = new times_node(*$1,*$3); }
+Times : Calc TIMES Calc {$$ = new TimesNode(*$1,*$3); }
 
-Divided : Calc DIVIDED Calc {$$ = new frac_node(*$1,*$3); }
+Divided : Calc DIVIDED Calc {$$ = new FracNode(*$1,*$3); }
 %%
 
-// This is still really ugly, don't mind it
+// output "sytax error"
 int yyerror(char *s) {
-	printf("yyerror : %s\n",s);
+        printf("%s\n",s);
 	return 1;
 }
 
 int main(void) {
-	yyparse();
-	float b = root->evaluate(); // Couldn't use cout. I don't know why yet. Don't mind it.
-	printf("%f\n",b);
-	return 0;
+	int a = yyparse();
+	if (a==0) { // If there was no error then we evaluate our AST.
+	  float b = root->evaluate();
+	  printf("%f\n",b);
+	  free(root);
+	  return 0;
+	}
+	else {
+	  return 1;
+	}
 }

@@ -8,15 +8,15 @@
 
 // Atomic elements
 
-number_node::number_node(float value) : num(value) {}
+NumberNode::NumberNode(float value) : num(value) {}
 
-float number_node::evaluate()
+float NumberNode::evaluate()
 {
     return num;
 }
 
-empty_node::empty_node(float value) : num(value) {}
-float empty_node::evaluate()
+EmptyNode::EmptyNode(float value) : num(value) {}
+float EmptyNode::evaluate()
 {
     printf("Oh an empty node\n");
     return num;
@@ -25,17 +25,16 @@ float empty_node::evaluate()
 
 
 
-
 // Operators nodes
 
 
 // Initialisation of any operator node
-operator_node::operator_node(ExpressionNode &L, ExpressionNode &R) : left(&L), right(&R) {}
+OperatorNode::OperatorNode(ExpressionNode &L, ExpressionNode &R) : left(&L), right(&R) {}
 
 // Evaluation of each operator node
 // We need to redefine the constructor, but this is done in a generic way so this is modular
-plus_node::plus_node(ExpressionNode &L, ExpressionNode &R) : operator_node(L, R) {}
-float plus_node::evaluate()
+PlusNode::PlusNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
+float PlusNode::evaluate()
 {
     float left_num, right_num;
     left_num  = left->evaluate();
@@ -43,8 +42,8 @@ float plus_node::evaluate()
     return (left_num + right_num);
 }
 
-times_node::times_node(ExpressionNode &L, ExpressionNode &R) : operator_node(L, R) {}
-float times_node::evaluate()
+TimesNode::TimesNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
+float TimesNode::evaluate()
 {
     float left_num, right_num;
     left_num  = left->evaluate();
@@ -52,8 +51,8 @@ float times_node::evaluate()
     return (left_num * right_num);
 }
 
-minus_node::minus_node(ExpressionNode &L, ExpressionNode &R) : operator_node(L, R) {}
-float minus_node::evaluate()
+MinusNode::MinusNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
+float MinusNode::evaluate()
 {
     float left_num, right_num;
     left_num  = left->evaluate();
@@ -61,8 +60,8 @@ float minus_node::evaluate()
     return (left_num - right_num);
 }
 
-frac_node::frac_node(ExpressionNode &L, ExpressionNode &R) : operator_node(L, R) {}
-float frac_node::evaluate()
+FracNode::FracNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
+float FracNode::evaluate()
 {
     float left_num, right_num;
     left_num  = left->evaluate();
@@ -74,10 +73,10 @@ float frac_node::evaluate()
 
 // Unary functions
 
-unary_node::unary_node(ExpressionNode &C) : child(&C) {}
+UnaryNode::UnaryNode(ExpressionNode &C) : child(&C) {}
 
-unary_minus_node::unary_minus_node(ExpressionNode &C): unary_node(C) {}
-float unary_minus_node::evaluate()
+UnaryMinusNode::UnaryMinusNode(ExpressionNode &C): UnaryNode(C) {}
+float UnaryMinusNode::evaluate()
 {
     return (-child->evaluate());
 }
