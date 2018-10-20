@@ -25,6 +25,10 @@ bool EditionTree::editDIGIT(int)
     return false;
 }
 
+bool EditionTree::empty()
+{
+    return true;
+}
 bool EditionTree::reachedRIGHT()
 {
     return false;
@@ -51,6 +55,11 @@ bool EditionTree::editMOVEDOWN()
     return false;
 }
 
+bool EditionTree::editDELETE()
+{
+    return false;
+}
+
 
 /* ****************************************************************** */
 /* **********************       FLOW NODE      ********************** */
@@ -72,8 +81,19 @@ void FlowNode::ascii(int shift, bool cc)
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
     std::cout << " └" << (cc ? '*' : ' ') << "FLOW NODE\n";
-    for (auto it = flow.begin(); it != flow.end(); it++)
-        (*it)->ascii(shift + 1, cc && it == itcursor_pos);
+    if (!between)
+        for (auto it = flow.begin(); it != flow.end(); it++)
+            (*it)->ascii(shift + 1, cc && it == itcursor_pos);
+    else
+        for (auto it = flow.begin(); it != flow.end(); it++) {
+            if (it == itcursor_pos) {
+                for (int i = 0; i < shift + 1; i++)
+                    std::cout << "  ";
+                std::cout << " └▒\n";
+            }
+            (*it)->ascii(shift + 1, false);
+        }
+
     return;
 }
 
@@ -82,6 +102,10 @@ void FlowNode::drop_cursor(movedir)
     return;
 }
 
+bool FlowNode::empty(void)
+{
+    return flow.begin() == flow.end();
+}
 
 bool FlowNode::reachedRIGHT(void)
 {
@@ -141,7 +165,8 @@ bool FlowNode::editMOVERIGHT(void)
     /* Several cases to handle ; to main possibilities :
      * - either the cursor is between two nodes
      * - or it is on a text node. */
-
+    if (empty())
+        return false;
     if (between) {
         if (!reachedRIGHT()) {
             between = false;
@@ -178,6 +203,10 @@ bool FlowNode::editMOVERIGHT(void)
 
 bool FlowNode::editMOVELEFT(void)
 {
+    /* So many cases. The astuce corrector is welcome
+     * to optimize the number of lines of the following. */
+    if (empty())
+        return false;
     if (between) {
         if (!reachedLEFT()) {
             between = false;
@@ -223,13 +252,32 @@ bool FlowNode::editMOVELEFT(void)
         return true;
 }
 
+/* UP and DOWN are way easier for Flow nodes */
+
 bool FlowNode::editMOVEUP(void)
 {
-    return false;
+    if (empty() || between)
+        return false;
+    else
+        return (*itcursor_pos)->editMOVEUP();
 }
+
 bool FlowNode::editMOVEDOWN(void)
 {
-    return false;
+    if (empty() || between)
+        return false;
+    else
+        return (*itcursor_pos)->editMOVEDOWN();
+}
+
+bool FlowNode::editDELETE(void)
+{
+    if (empty())
+        return false;
+    else if (between) /* FIXME : tired of sub cases */
+        return false;
+    else
+        return (*itcursor_pos)->editDELETE();
 }
 
 
@@ -278,6 +326,11 @@ void TextNode::drop_cursor(movedir dir)
     return;
 }
 
+bool TextNode::empty(void)
+{
+    return text.size() == 0;
+}
+
 bool TextNode::reachedRIGHT(void)
 {
     return cursor_pos == (int) text.size();
@@ -307,11 +360,24 @@ bool TextNode::editMOVELEFT(void)
 
 bool TextNode::editMOVEUP(void)
 {
+    cursor_pos = text.size();
     return false;
 }
+
 bool TextNode::editMOVEDOWN(void)
 {
+    cursor_pos = 0;
     return false;
+}
+
+bool TextNode::editDELETE(void)
+{
+    if (cursor_pos) {
+        cursor_pos--;
+        text.erase(cursor_pos, 1);
+        return true;
+    } else
+        return false; /* nothing deleted */
 }
 
 bool TextNode::editDIGIT(int digit)

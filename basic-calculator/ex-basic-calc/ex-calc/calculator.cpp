@@ -104,6 +104,7 @@ void Calculator::fracopON() {}
 
 void Calculator::backspaceON()
 {
+    display->recvDELETE();
 }
 
 void Calculator::clearON()
@@ -112,14 +113,16 @@ void Calculator::clearON()
 
 void Calculator::upON()
 {
+    display->recvARROW(UP);
 }
-
-void Calculator::downON() {}
+void Calculator::downON()
+{
+    display->recvARROW(DOWN);
+}
 void Calculator::rightON()
 {
     display->recvARROW(RIGHT);
 }
-
 void Calculator::leftON()
 {
     display->recvARROW(LEFT);

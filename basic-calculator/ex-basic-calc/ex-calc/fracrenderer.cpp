@@ -33,6 +33,12 @@ void FracRenderer::recvARROW(arrowkey dir)
     case RIGHT:
         expr.editMOVERIGHT();
         break;
+    case UP:
+        expr.editMOVEUP();
+        break;
+    case DOWN:
+        expr.editMOVEDOWN();
+        break;
     default:
         break;
     }
@@ -43,6 +49,12 @@ void FracRenderer::recvARROW(arrowkey dir)
 void FracRenderer::recvDIGIT(int digit)
 {
     expr.editDIGIT(digit);
+    update();
+}
+
+void FracRenderer::recvDELETE(void)
+{
+    expr.editDELETE();
     update();
 }
 

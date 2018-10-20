@@ -33,6 +33,7 @@ public: /* methods */
     virtual void drop_cursor(movedir dir); /* specific to cursor repositioning */
     /* Administrative : two methods that tells if the cursor has space
      * to move right/left. */
+    virtual bool empty(void);
     virtual bool reachedRIGHT(void);
     virtual bool reachedLEFT(void);
 
@@ -45,6 +46,8 @@ public: /* methods */
     virtual bool editMOVEUP(void);
     virtual bool editMOVEDOWN(void);
 
+    /* About some delete actions */
+    virtual bool editDELETE(void); /* A first violent delete. */
     virtual bool editDIGIT(int digit);
     //virtual void editDELETE(void); TODO
 };
@@ -64,6 +67,7 @@ public:
     bool editDIGIT(int digit)                   override;
 
     /* Administrative : */
+    bool empty(void) override;
     bool reachedRIGHT(void) override;
     bool reachedLEFT(void) override;
 
@@ -72,6 +76,9 @@ public:
     bool editMOVELEFT(void) override;
     bool editMOVEUP(void) override;
     bool editMOVEDOWN(void) override;
+
+    /* About deleting */
+    bool editDELETE(void)    override;
 };
 
 class TextNode : public EditionTree
@@ -86,6 +93,7 @@ public:
     void drop_cursor(movedir dir)               override;
 
     /* Administrative : */
+    bool empty(void) override;
     bool reachedRIGHT(void) override;
     bool reachedLEFT(void) override;
 
@@ -94,6 +102,9 @@ public:
     bool editMOVELEFT(void) override;
     bool editMOVEUP(void) override;
     bool editMOVEDOWN(void) override;
+
+    /* About deleting */
+    bool editDELETE(void) override;
 
     bool editDIGIT(int digit) override;
 };

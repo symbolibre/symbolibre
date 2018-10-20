@@ -28,6 +28,7 @@ public:
 
     void recvARROW(arrowkey dir);
     void recvDIGIT(int digit);
+    void recvDELETE(void);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
