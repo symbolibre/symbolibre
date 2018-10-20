@@ -28,10 +28,10 @@ void FracRenderer::recvARROW(arrowkey dir)
 {
     switch (dir) {
     case LEFT:
-        expr.editMOVE(MLEFT);
+        expr.editMOVELEFT();
         break;
     case RIGHT:
-        expr.editMOVE(MRIGHT);
+        expr.editMOVERIGHT();
         break;
     default:
         break;
@@ -50,7 +50,7 @@ void FracRenderer::paintEvent(QPaintEvent * /* */)
 {
     /* Doing nothing ! */
     std::cout << "NEW EDIT" << std::endl;
-    expr.ascii(0);
+    expr.ascii(0, true);
 }
 
 

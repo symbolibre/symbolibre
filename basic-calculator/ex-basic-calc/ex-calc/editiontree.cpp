@@ -2,7 +2,7 @@
 
 
 
-void EditionTree::ascii(int shift)
+void EditionTree::ascii(int shift, bool)
 {
     /* Pure EditionTree are not supposed to be printed */
     for (int i = 0; i < shift; i++)
@@ -17,21 +17,44 @@ void EditionTree::drop_cursor(movedir)
     exit(1);
 }
 
-EditionTree *EditionTree::editDIGIT(int)
+bool EditionTree::editDIGIT(int)
 {
     //digit = digit; /* -Wextra */
     std::cerr   << "cannot insert digit in a raw edition tree." << std::endl;
     exit(1); /* KA-BOOM */
-    return NULL;
+    return false;
 }
 
-EditionTree *EditionTree::editMOVE(movedir)
+bool EditionTree::reachedRIGHT()
 {
-    return NULL;
+    return false;
+}
+bool EditionTree::reachedLEFT()
+{
+    return false;
+}
+
+bool EditionTree::editMOVERIGHT()
+{
+    return false;
+}
+bool EditionTree::editMOVELEFT()
+{
+    return false;
+}
+bool EditionTree::editMOVEUP()
+{
+    return false;
+}
+bool EditionTree::editMOVEDOWN()
+{
+    return false;
 }
 
 
-/* FlowNode */
+/* ****************************************************************** */
+/* **********************       FLOW NODE      ********************** */
+/* ****************************************************************** */
 
 FlowNode::FlowNode(nodetype arg_ntype)
 {
@@ -43,14 +66,14 @@ FlowNode::FlowNode(nodetype arg_ntype)
     itcursor_pos = flow.begin();
 }
 
-void FlowNode::ascii(int shift)
+void FlowNode::ascii(int shift, bool cc)
 {
     /* Flow nodes have only one child, so quite east too */
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
-    std::cout << " └ FLOW NODE\n";
+    std::cout << " └" << (cc ? '*' : ' ') << "FLOW NODE\n";
     for (auto it = flow.begin(); it != flow.end(); it++)
-        (*it)->ascii(shift + 1);
+        (*it)->ascii(shift + 1, cc && it == itcursor_pos);
     return;
 }
 
@@ -59,118 +82,161 @@ void FlowNode::drop_cursor(movedir)
     return;
 }
 
-EditionTree *FlowNode::editDIGIT(int digit)
+
+bool FlowNode::reachedRIGHT(void)
+{
+    /* It the cursor can be stricly moved to the right, returns 'false'
+     * otherwise returns 'true'. */
+    if (flow.begin() == flow.end())
+        return true; /* empty flow */
+    if (itcursor_pos == flow.end())
+        return true; /* should not happen */
+    if (++itcursor_pos == flow.end()) {
+        itcursor_pos --;
+        if (between || (*itcursor_pos)->ntype == TEXT)
+            return true;
+        else
+            return false;
+    }
+    itcursor_pos --;
+    return false;
+}
+
+bool FlowNode::reachedLEFT(void)
+{
+    /* It the cursor can be stricly moved to the left, returns 'false'
+     * otherwise returns 'true'. */
+    if (flow.begin() == flow.end())
+        return false;
+    if (itcursor_pos == flow.begin()) {
+        if (!between || (*itcursor_pos)->ntype == TEXT)
+            return true;
+        else
+            return false;
+    }
+    return false;
+}
+
+/* ********************** EDITION METHODS ********************** */
+
+bool FlowNode::editDIGIT(int digit)
 {
     /* If the cursor is at node, recursively call on it */
     /* If the cursor is between two nodes, add a new node. This is by convention
-     * the case when the flow is empty */
+     * the case when the flow is empty. Beware that we can be between two
+     * TEXT-nodes only! */
     if (between) {
         auto new_text = std::make_unique<TextNode>();
-        new_text->cursor_node = new_text.get();
         itcursor_pos = flow.insert(itcursor_pos, std::move(new_text));
         between = false;
     }
-    cursor_node = (*itcursor_pos)->editDIGIT(digit);
-    return this;
+    (*itcursor_pos)->editDIGIT(digit);
+    return true;
 }
 
-EditionTree *FlowNode::editMOVE(movedir dir)
-{
-    /* A bit complicated : if the children returns NULL, we have to drop the cursor
-     * somewhere */
-    if (!flow.size()) {
-        if (ntype == ROOT)
-            return this;
-        else
-            return NULL; /* the last case should not happen */
-    }
+/* About moving the cursor */
 
-    if (!between) {
-        cursor_node = (*itcursor_pos)->editMOVE(dir);
-        if (cursor_node != NULL)
-            return this;
-    }
-    /* otherwise : we have to manage a deplacement */
-    std::cout << "special case" << std::endl;
-    switch (dir) {
-    case MLEFT:
-        if (itcursor_pos != flow.begin()) { /* Usual case : there is space left */
-            if (between) /* the cursor is between two existing nodes : drop it
-                                            * on the left, RIGHT align */
-            {
-                between = false;
-                cursor_node = (* itcursor_pos).get();
-                (* itcursor_pos)->drop_cursor(MRIGHT);
-                return this;
-            }
-            /* usual left */
-            itcursor_pos--;
-            if ((*itcursor_pos)->ntype != TEXT) {
-                between = true;
-                cursor_node = this;
-                return this;
-            } else {
-                between = false;
-                cursor_node = (*itcursor_pos).get();
-                (* itcursor_pos)->drop_cursor(MRIGHT);
-                return this;
-            }
-        } else if (ntype == ROOT) {
-            std::cout << "check\n";
+bool FlowNode::editMOVERIGHT(void)
+{
+    /* Several cases to handle ; to main possibilities :
+     * - either the cursor is between two nodes
+     * - or it is on a text node. */
+
+    if (between) {
+        if (!reachedRIGHT()) {
+            between = false;
+            itcursor_pos++;
             (*itcursor_pos)->drop_cursor(MLEFT);
-            cursor_node = (*itcursor_pos).get();
-            return this; /* cannot go left from left side of ROOT */
-        } else { /* No place left, not ROOT : just exit */
-            return NULL;
-        }
-        break;
-    case MRIGHT:
-        if (itcursor_pos != flow.end()) { /* place right */
+            return true;
+        } else if (ntype == ROOT)
+            return true; /* Extreme right : does nothing */
+        else
+            return false; /* The cursor cannot be moved right */
+    }
+    /* between == false */
+    else if (!(*itcursor_pos)->editMOVERIGHT()) { /* child are a FAILURE >:-( */
+        if (reachedRIGHT()) {
+            if (ntype == ROOT)
+                (*itcursor_pos)->drop_cursor(MRIGHT);
+            else
+                return false;
+        } else if ((*itcursor_pos)->ntype == TEXT) {
             itcursor_pos ++;
-            if (between) /* the cursor is between two existing nodes : drop it
-                                            * on the left, RIGHT align */
+            between = false;
+        } else if ((*itcursor_pos++)->ntype != TEXT) /* always tries to move on
+                                                                                                * existing text */
+        {
+            between = true;
+            itcursor_pos --;
+        } else
+            between = false;
+
+        return true;
+    } else
+        return true;
+}
+
+bool FlowNode::editMOVELEFT(void)
+{
+    if (between) {
+        if (!reachedLEFT()) {
+            between = false;
+            (*itcursor_pos)->drop_cursor(MRIGHT);
+            return true;
+        } else if (ntype == ROOT)
+            return true; /* ROOT is lazy */
+        else
+            return false;
+    }
+    /* between == false */
+    else if (!(*itcursor_pos)->editMOVELEFT()) { /* child are failure again... :/ */
+        if (reachedLEFT()) {
+            if ((*itcursor_pos)->ntype == TEXT) {
+                if (ntype == ROOT) {
+                    (*itcursor_pos)->drop_cursor(MLEFT);
+                    return true;
+                } else
+                    return false;
+            } else /* a bit specific : between cannot point at the left of the most
+                  * western node, thus we create a text node */
             {
+                auto new_text = std::make_unique<TextNode>();
+                itcursor_pos = flow.insert(itcursor_pos, std::move(new_text));
                 between = false;
-                cursor_node = (*itcursor_pos).get();
-                (* itcursor_pos)->drop_cursor(MLEFT);
-                return this;
+                return true;
             }
-            /* usual right */
-            if ((*itcursor_pos)->ntype != TEXT) {
+        } else if ((*itcursor_pos)->ntype != TEXT) {
+            itcursor_pos --;
+            if ((*itcursor_pos)->ntype == TEXT) {
+                (*itcursor_pos)->drop_cursor(MRIGHT);
+                between = false;
+            } else
                 between = true;
-                cursor_node = this;
-                return this;
-            } else {
-                between = false;
-                cursor_node = (*itcursor_pos).get();
-                (* itcursor_pos)->drop_cursor(MLEFT);
-                return this;
-            }
-        } else if (ntype == ROOT) {
+            return true;
+        } else {
             itcursor_pos --;
             (*itcursor_pos)->drop_cursor(MRIGHT);
-            cursor_node = (*itcursor_pos).get();
-            return this;
+            between = false;
+            return true;
         }
-        /* cannot go right from right side of ROOT */
-        else { /* No place right, not ROOT : just exit */
-            itcursor_pos --;
-            return NULL;
-        }
-        break;
-    case MUP:
-        // TODO
-        break;
-    case MDOWN:
-        // TODO
-        break;
-    default:
-        return this;
-    }
-    return this;
+    } else
+        return true;
 }
 
-/* TextNode */
+bool FlowNode::editMOVEUP(void)
+{
+    return false;
+}
+bool FlowNode::editMOVEDOWN(void)
+{
+    return false;
+}
+
+
+/* ****************************************************************** */
+/* **********************       TEXT NODE      ********************** */
+/* ****************************************************************** */
+
 
 TextNode::TextNode(void)
 {
@@ -179,16 +245,15 @@ TextNode::TextNode(void)
     height        =    0;
     center_height =    0;
     cursor_pos    =    0;
-    cursor_node   = NULL;
     text          =   "";
 }
 
-void TextNode::ascii(int shift)
+void TextNode::ascii(int shift, bool cc)
 {
     /* Text nodes have only one child so it's easy */
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
-    if (cursor_node == this) {
+    if (cc) {
         std::cout << " └ \"";
         for (int i = 0; i < cursor_pos; i++)
             std::cout << text[i];
@@ -202,46 +267,58 @@ void TextNode::ascii(int shift)
     return;
 }
 
-void TextNode::drop_cursor(movedir)
+void TextNode::drop_cursor(movedir dir)
 {
+    /* I could do a switch, but the syntax is ugly on my text editor. */
+    if (dir == MRIGHT || dir == MDOWN)
+        cursor_pos = text.size();
+    else if (dir == MLEFT  || dir == MUP)
+        cursor_pos = 0;
 
+    return;
 }
 
-EditionTree *TextNode::editDIGIT(int digit)
+bool TextNode::reachedRIGHT(void)
+{
+    return cursor_pos == (int) text.size();
+}
+bool TextNode::reachedLEFT(void)
+{
+    return cursor_pos == 0;
+}
+
+bool TextNode::editMOVERIGHT(void)
+{
+    if (reachedRIGHT())
+        return false;
+    else
+        cursor_pos ++;
+    return true; /* And... this is not ambiguous :-) */
+}
+
+bool TextNode::editMOVELEFT(void)
+{
+    if (reachedLEFT())
+        return false;
+    else
+        cursor_pos --;
+    return true;
+}
+
+bool TextNode::editMOVEUP(void)
+{
+    return false;
+}
+bool TextNode::editMOVEDOWN(void)
+{
+    return false;
+}
+
+bool TextNode::editDIGIT(int digit)
 {
     /* Easy node */
     text.insert(text.begin() + cursor_pos, digit + '0');
     cursor_pos++;
-    return this;
+    return true;
 }
 
-EditionTree *TextNode::editMOVE(movedir dir)
-{
-    /* Because text nodes are leafs, there is no need to handle recursive things */
-    switch (dir) {
-    case MLEFT:
-        if (cursor_pos > 0) {
-            cursor_pos --;
-            return this;
-        } else
-            return cursor_node = NULL;
-        break;
-    case MRIGHT:
-        if (cursor_pos < (int)text.size()) {
-            cursor_pos ++;
-            return this;
-        } else
-            return cursor_node = NULL;
-        break;
-    case MUP:
-        return cursor_node = NULL;
-        break;
-    case MDOWN:
-        return cursor_node = NULL;
-        break;
-    default:
-        return this;
-        break;
-    }
-    return this;
-}

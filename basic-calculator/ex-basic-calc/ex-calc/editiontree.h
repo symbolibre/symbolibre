@@ -15,7 +15,7 @@ enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
 enum nodetype { NONE, ROOT, FLOW, TEXT };
 
 class EditionTree /* Edition tree represents a set of class, and should
-                                     * not be used alone. */
+                   * not be used alone. */
 {
 public: /* attributes */
     nodetype ntype;
@@ -25,17 +25,27 @@ public: /* attributes */
     int center_height;
 
     int cursor_pos;
-    EditionTree *cursor_node;
+    //  bool cursor_node;
 
 public: /* methods */
-    virtual void ascii(int shift);
+    virtual void ascii(int shift, bool contains_cursor);
 
     virtual void drop_cursor(movedir dir); /* specific to cursor repositioning */
+    /* Administrative : two methods that tells if the cursor has space
+     * to move right/left. */
+    virtual bool reachedRIGHT(void);
+    virtual bool reachedLEFT(void);
 
-    /* All edition methods returns a pointer to the node containing the cursor,
-     * or NULL if the cursor must change of node. */
-    virtual EditionTree *editMOVE(movedir dir);
-    virtual EditionTree *editDIGIT(int digit);
+    /* All edition methods return 'true' if they were able to do the edition
+     * locally, and return 'false' if it has to be done above in the e.t.
+     * The cursor is always either on a text node or between two non-text
+     * nodes. */
+    virtual bool editMOVERIGHT(void);
+    virtual bool editMOVELEFT(void);
+    virtual bool editMOVEUP(void);
+    virtual bool editMOVEDOWN(void);
+
+    virtual bool editDIGIT(int digit);
     //virtual void editDELETE(void); TODO
 };
 
@@ -49,10 +59,19 @@ private:
 
 public:
     FlowNode(nodetype arg_ntype = FLOW);
-    void ascii(int shift) override;
-    void drop_cursor(movedir dir)            override;
-    EditionTree *editDIGIT(int digit)  override;
-    EditionTree *editMOVE(movedir dir) override;
+    void ascii(int shift, bool contains_cursor) override;
+    void drop_cursor(movedir dir)               override;
+    bool editDIGIT(int digit)                   override;
+
+    /* Administrative : */
+    bool reachedRIGHT(void) override;
+    bool reachedLEFT(void) override;
+
+    /* About moving the cursor */
+    bool editMOVERIGHT(void) override;
+    bool editMOVELEFT(void) override;
+    bool editMOVEUP(void) override;
+    bool editMOVEDOWN(void) override;
 };
 
 class TextNode : public EditionTree
@@ -63,21 +82,31 @@ protected:
 
 public:
     TextNode();
-    void ascii(int shift) override;
-    void drop_cursor(movedir dir)      override;
-    EditionTree *editMOVE(movedir dir) override;
-    EditionTree *editDIGIT(int digit)  override;
+    void ascii(int shift, bool contains_cursor) override;
+    void drop_cursor(movedir dir)               override;
+
+    /* Administrative : */
+    bool reachedRIGHT(void) override;
+    bool reachedLEFT(void) override;
+
+    /* About moving the cursor */
+    bool editMOVERIGHT(void) override;
+    bool editMOVELEFT(void) override;
+    bool editMOVEUP(void) override;
+    bool editMOVEDOWN(void) override;
+
+    bool editDIGIT(int digit) override;
 };
 
 /*
 class FracNode : public EditionTree
 {
-    protected:
-        FlowNode numerator;
-        FlowNode denominator;
+  protected:
+    FlowNode numerator;
+    FlowNode denominator;
 
-    public:
-        FracNode(void);
+  public:
+    FracNode(void);
 }; */
 
 #endif // EDITIONTREE_H
