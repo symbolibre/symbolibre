@@ -2,10 +2,13 @@ QT += widgets
 
 HEADERS       = button.h \
 								editiontree.h \ 
+								editionarea.h \
+								flow.h \
                 fracrenderer.h \
                 calculator.h 
 SOURCES       = button.cpp \
-								editiontree.cpp \
+								editionarea.cpp \
+								flow.cpp \
 								fracrenderer.cpp \
                 calculator.cpp \
                 main.cpp

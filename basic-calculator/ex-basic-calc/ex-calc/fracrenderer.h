@@ -2,7 +2,7 @@
 #define FRACRENDERER_H
 
 #include <QWidget>
-#include "editiontree.h"
+#include "flow.h"
 
 /* From an ideomatic point of view, the main app communicate inputs to
  * this renderer, and the renderer transmits them to the edition tree that
@@ -17,7 +17,7 @@ class FracRenderer : public QWidget
     Q_OBJECT
 
 public:
-    FlowNode expr;
+    Flow expr;
 
 public:
 

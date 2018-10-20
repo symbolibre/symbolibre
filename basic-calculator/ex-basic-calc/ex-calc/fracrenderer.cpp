@@ -1,5 +1,5 @@
 #include "fracrenderer.h"
-#include "editiontree.h"
+#include "flow.h"
 
 #include <QPainter>
 
@@ -28,16 +28,16 @@ void FracRenderer::recvARROW(arrowkey dir)
 {
     switch (dir) {
     case LEFT:
-        expr.editMOVELEFT();
+        expr.editMoveLeft();
         break;
     case RIGHT:
-        expr.editMOVERIGHT();
+        expr.editMoveRight();
         break;
     case UP:
-        expr.editMOVEUP();
+        expr.editMoveUp();
         break;
     case DOWN:
-        expr.editMOVEDOWN();
+        expr.editMoveDown();
         break;
     default:
         break;
@@ -48,13 +48,13 @@ void FracRenderer::recvARROW(arrowkey dir)
 
 void FracRenderer::recvDIGIT(int digit)
 {
-    expr.editDIGIT(digit);
+    expr.editDigit(digit);
     update();
 }
 
 void FracRenderer::recvDELETE(void)
 {
-    expr.editDELETE();
+    expr.editDelete();
     update();
 }
 
