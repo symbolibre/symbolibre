@@ -27,23 +27,23 @@ Calculator::Calculator(QWidget *parent)
     Button *plusButton    = createButton(tr("+"), SLOT(subopON()));
 
     /* Buttons : arrows */
-    Button *leftButton      = createButton(tr("←"), SLOT(leftON()));
-    Button *rightButton     = createButton(tr("→"), SLOT(rightON()));
-    Button *upButton        = createButton(tr("↑"), SLOT(upON()));
-    Button *downButton      = createButton(tr("↓"), SLOT(downON()));
+    Button *leftButton    = createButton(tr("←"), SLOT(leftON()));
+    Button *rightButton   = createButton(tr("→"), SLOT(rightON()));
+    Button *upButton      = createButton(tr("↑"), SLOT(upON()));
+    Button *downButton    = createButton(tr("↓"), SLOT(downON()));
 
     /* -------- Grid -------- */
     QGridLayout *keyboardLayout = new QGridLayout;
     keyboardLayout->setSizeConstraint(QLayout::SetFixedSize);
-    keyboardLayout->addWidget(display,                 0, 0, 1, 6);
+    keyboardLayout->addWidget(display,         0, 0, 1, 6);
     keyboardLayout->addWidget(backspaceButton, 1, 4, 1, 1);
-    keyboardLayout->addWidget(clearButton,         2, 4, 1, 1);
+    keyboardLayout->addWidget(clearButton,     2, 4, 1, 1);
 
     /* Arrows buttons */
-    keyboardLayout->addWidget(upButton,                1, 2, 1, 1);
-    keyboardLayout->addWidget(leftButton,          2, 1, 1, 1);
-    keyboardLayout->addWidget(downButton,          2, 2, 1, 1);
-    keyboardLayout->addWidget(rightButton,         2, 3, 1, 1);
+    keyboardLayout->addWidget(upButton,        1, 2, 1, 1);
+    keyboardLayout->addWidget(leftButton,      2, 1, 1, 1);
+    keyboardLayout->addWidget(downButton,      2, 2, 1, 1);
+    keyboardLayout->addWidget(rightButton,     2, 3, 1, 1);
 
     for (int i = 1; i < NumDigitButtons; ++i) {
         int row    = ((9 - i) / 3) + 3;
@@ -61,6 +61,11 @@ Calculator::Calculator(QWidget *parent)
     keyboardLayout->addWidget(plusButton,  6, 4);
 
     setLayout(keyboardLayout);
+
+    QAction *action_quit = new QAction(this);
+    action_quit->setShortcut(QKeySequence("Ctrl+Q"));
+    connect(action_quit, &QAction::triggered, this, &Calculator::close);
+    addAction(action_quit);
 
     setWindowTitle(tr("Demo"));
 }
