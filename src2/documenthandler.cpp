@@ -233,12 +233,12 @@ doc_language DocumentHandler::docLanguage() const
     return m_docLanguage;
 }
 
-void DocumentHandler::setDocLanguage(doc_language lang)
+void DocumentHandler::setDocLanguage(int lang)
 {
     /*TODO :
      * change the extension name (.py, .ml ... ) PROPERLY
     */
-    m_docLanguage = lang;
+    m_docLanguage = (doc_language) lang;
     return;
 }
 

@@ -132,26 +132,31 @@ ApplicationWindow {
                 checked: true
                 height: 30
                 text: qsTr("Text file")
+                onClicked: document.setDocLanguage(0)
             }
 
             RadioButton {
                 height: 30
                 text: qsTr("Ocaml file")
+                onClicked: document.setDocLanguage(1)
             }
 
             RadioButton {
                 height: 30
                 text: qsTr("Python file")
+                onClicked: document.setDocLanguage(2)
             }
 
             RadioButton {
                 height: 30
                 text: qsTr("TI-Basic file")
+                onClicked: document.setDocLanguage(3)
             }
 
             RadioButton {
                 height: 30
                 text: qsTr("Casio-Basic file")
+                onClicked: document.setDocLanguage(4)
             }
 
             Button {

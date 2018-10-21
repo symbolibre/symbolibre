@@ -123,7 +123,7 @@ public:
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
     void saveAs(const QUrl &fileUrl);
-    void setDocLanguage(doc_language language);
+    void setDocLanguage(int language);
 
 Q_SIGNALS:
     void documentChanged();
