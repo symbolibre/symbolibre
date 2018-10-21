@@ -1,4 +1,6 @@
 #include "flow.h"
+#include "editionarea.h"
+#include "paren.h"
 
 /* ****************************************************************** */
 /* **********************       FLOW NODE      ********************** */
@@ -28,9 +30,35 @@ void Flow::ascii(int shift, bool cc)
     return;
 }
 
-void Flow::drop_cursor(movedir)
+std::string Flow::get_text(void)
+/* FIXME : Bad complexity */
 {
-    /* TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO */
+    std::string str;
+    for (auto it = flow.begin(); it != flow.end(); it++)
+        str.insert(str.size(), (*it)->get_text());
+    return str;
+}
+
+void Flow::append(std::string &)
+{
+    return;
+}
+
+bool Flow::drop_cursor(movedir dir)
+{
+    if (dir == MLEFT || dir == MDOWN)
+        edited_node = flow.begin();
+    else if (dir == MRIGHT || dir == MUP)
+        edited_node = --flow.end();
+    else
+        return false;
+
+    /* the extreme nodes of a flow are edition areas, so we can drop into them */
+    return (*edited_node)->drop_cursor(dir);
+}
+
+void Flow::cutAtCursor(std::string &)
+{
     return;
 }
 
@@ -57,9 +85,9 @@ bool Flow::reachedLeft(void)
 
 /* ********************** EDITION METHODS ********************** */
 
-bool Flow::editDigit(int digit)
+bool Flow::editChar(char symbol)
 {
-    (*edited_node)->editDigit(digit);
+    (*edited_node)->editChar(symbol);
     return true;
 }
 
@@ -71,7 +99,8 @@ bool Flow::editMoveRight(void)
         return true;
     /* children are a FAILURE ! >:-( */
     else if (!reachedRight()) {
-        (*(++edited_node))->drop_cursor(MLEFT);
+        if (!(*(++edited_node))->drop_cursor(MLEFT))
+            !(*(++edited_node))->drop_cursor(MLEFT);
         return true;
     } else
         return false;
@@ -83,7 +112,8 @@ bool Flow::editMoveLeft(void)
         return true;
     /* children are a FAILURE again ! :-) */
     else if (!reachedLeft()) {
-        (*(--edited_node))->drop_cursor(MRIGHT);
+        if (!(*(--edited_node))->drop_cursor(MRIGHT))
+            (*(--edited_node))->drop_cursor(MRIGHT);
         return true;
     } else
         return false;
@@ -111,8 +141,40 @@ bool Flow::editDelete(void)
 {
     if (empty())
         return false;
-    /* FIXME : catch the value of the child, manage node deleting */
-    else
-        return (*edited_node)->editDelete();
+    if (!(*edited_node)->editDelete() && !reachedLeft())
+        /* child deleted nothing and a node have to be deleted*/
+    {
+        edited_node = flow.erase(--edited_node);
+        std::string right_str = (*edited_node)->get_text();
+        edited_node = --flow.erase(edited_node);
+        (*edited_node)->append(right_str);
+        return true;
+    } else
+        return false; /* nothing deleted */
+}
+
+
+bool Flow::editParen(nodetype paren_type)
+{
+    if ((*edited_node)->editParen(paren_type))
+        return true;
+
+    /* else : the edited node is obsviously an edition area, so we have to
+     * split into two an insert a parenthesis between the two edition areas. */
+
+    /* This code could be reduced, but would be harder to understand */
+    std::string right_str;
+    (*edited_node)->cutAtCursor(right_str);
+    ++edited_node;
+
+    auto new_paren = std::make_unique<Paren>(paren_type);
+    auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(right_str);
+
+    edited_node = ++flow.insert(edited_node, std::move(new_paren));
+    edited_node = flow.insert(edited_node, std::move(new_text));
+    (*edited_node)->drop_cursor(MLEFT);
+
+    return true;
 }
 

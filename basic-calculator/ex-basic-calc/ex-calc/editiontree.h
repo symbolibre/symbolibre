@@ -35,7 +35,7 @@
  */
 
 enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
-enum nodetype { NONE, ROOT, FLOW, TEXT };
+enum nodetype { NONE, ROOT, FLOW, TEXT, LPAREN, RPAREN };
 
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -52,8 +52,13 @@ public: /* attributes */
 
 public: /* methods */
     virtual void ascii(int shift, bool contains_cursor) = 0;
+    virtual std::string get_text(void) = 0; /* returns a text chain that can
+                                               be sent do Sage */
+    virtual void append(std::string &str) = 0; /* ghost one */
 
-    virtual void drop_cursor(movedir dir) = 0;
+    virtual bool drop_cursor(movedir dir) = 0; /* return 'true' if cursor can be
+                                                * dropped, 'false' otherwise. */
+    virtual void cutAtCursor(std::string &cut) = 0;
     /* specific to cursor repositioning */
 
     /* Administrative : two methods that tells if the cursor has space
@@ -72,9 +77,10 @@ public: /* methods */
     virtual bool editMoveDown(void) = 0;
 
     /* About some delete actions */
-    virtual bool editDelete(void) = 0; /* A first violent delete. */
-    virtual bool editDigit(int digit) = 0;
-    //virtual void editDELETE(void); TODO
+    virtual bool editDelete(void) = 0;
+
+    virtual bool editChar(char symbol) = 0;
+    virtual bool editParen(nodetype paren_type = LPAREN) = 0;
 };
 
 

@@ -24,7 +24,7 @@ QSize FracRenderer::sizeHint() const
     return QSize(400, 300);
 }
 
-void FracRenderer::recvARROW(arrowkey dir)
+void FracRenderer::recvArrow(arrowkey dir)
 {
     switch (dir) {
     case LEFT:
@@ -46,22 +46,56 @@ void FracRenderer::recvARROW(arrowkey dir)
     // TODO
 }
 
-void FracRenderer::recvDIGIT(int digit)
+void FracRenderer::recvDigit(int digit)
 {
-    expr.editDigit(digit);
+    expr.editChar(digit + '0');
     update();
 }
 
-void FracRenderer::recvDELETE(void)
+void FracRenderer::recvPlus()
+{
+    expr.editChar('+');
+    update();
+}
+
+void FracRenderer::recvMinus()
+{
+    expr.editChar('-');
+    update();
+}
+
+void FracRenderer::recvTimes()
+{
+    expr.editChar('*');
+    update();
+}
+
+void FracRenderer::recvLParen()
+{
+    expr.editParen(LPAREN);
+    update();
+}
+
+void FracRenderer::recvRParen()
+{
+    expr.editParen(RPAREN);
+    update();
+}
+
+void FracRenderer::recvFrac() {}
+
+void FracRenderer::recvDelete(void)
 {
     expr.editDelete();
     update();
 }
 
+void FracRenderer::recvClear() {}
+
 void FracRenderer::paintEvent(QPaintEvent * /* */)
 {
     /* Doing nothing ! */
-    std::cout << "NEW EDIT" << std::endl;
+    std::cout << '[' << expr.get_text() << ']' << std::endl;
     expr.ascii(0, true);
 }
 

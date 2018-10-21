@@ -20,7 +20,6 @@ private slots:
     void lparON();
     void rparON();
 
-    void unaryopON();
     void addopON();
     void subopON();
     void mulopON();

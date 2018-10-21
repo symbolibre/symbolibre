@@ -26,9 +26,16 @@ public:
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
 
-    void recvARROW(arrowkey dir);
-    void recvDIGIT(int digit);
-    void recvDELETE(void);
+    void recvArrow(arrowkey dir);
+    void recvDigit(int digit);
+    void recvPlus(void);
+    void recvMinus(void);
+    void recvTimes(void);
+    void recvLParen(void);
+    void recvRParen(void);
+    void recvFrac(void);
+    void recvDelete(void);
+    void recvClear(void);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

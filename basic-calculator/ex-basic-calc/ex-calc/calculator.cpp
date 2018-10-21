@@ -23,8 +23,8 @@ Calculator::Calculator(QWidget *parent)
     /* Buttons : operators */
     Button *fracButton    = createButton(tr("―"), SLOT(fracopON()));
     Button *timesButton   = createButton(tr("\303\227"), SLOT(mulopON()));
-    Button *minusButton   = createButton(tr("-"), SLOT(addopON()));
-    Button *plusButton    = createButton(tr("+"), SLOT(subopON()));
+    Button *minusButton   = createButton(tr("-"), SLOT(subopON()));
+    Button *plusButton    = createButton(tr("+"), SLOT(addopON()));
 
     /* Buttons : arrows */
     Button *leftButton    = createButton(tr("←"), SLOT(leftON()));
@@ -74,58 +74,63 @@ void Calculator::digitON()
 {
     Button *cbutton = qobject_cast<Button *>(sender());
     int value = cbutton->text().toInt();
-    display->recvDIGIT(value);
+    display->recvDigit(value);
 }
 
-void Calculator::lparON() {}
-void Calculator::rparON() {}
-
-void Calculator::unaryopON()
+void Calculator::lparON()
 {
-    Button *cbutton = qobject_cast<Button *>(sender());
-    QString cop = cbutton->text();
+    display->recvLParen();
+}
+void Calculator::rparON()
+{
+    display->recvRParen();
 }
 
 void Calculator::addopON()
 {
-    Button *cbutton = qobject_cast<Button *>(sender());
-    QString cop = cbutton->text();
+    display->recvPlus();
 }
 
-void Calculator::subopON() {}
+void Calculator::subopON()
+{
+    display->recvMinus();
+}
 
 void Calculator::mulopON()
 {
-    Button *cbutton = qobject_cast<Button *>(sender());
-    QString cop = cbutton->text();
+    display->recvTimes();
 }
 
-void Calculator::fracopON() {}
+void Calculator::fracopON()
+{
+    display->recvFrac();
+}
 
 void Calculator::backspaceON()
 {
-    display->recvDELETE();
+    display->recvDelete();
 }
 
 void Calculator::clearON()
 {
+    display->recvClear();
 }
 
 void Calculator::upON()
 {
-    display->recvARROW(UP);
+    display->recvArrow(UP);
 }
 void Calculator::downON()
 {
-    display->recvARROW(DOWN);
+    display->recvArrow(DOWN);
 }
 void Calculator::rightON()
 {
-    display->recvARROW(RIGHT);
+    display->recvArrow(RIGHT);
 }
 void Calculator::leftON()
 {
-    display->recvARROW(LEFT);
+    display->recvArrow(LEFT);
 }
 
 Button *Calculator::createButton(const QString &text, const char *member)
