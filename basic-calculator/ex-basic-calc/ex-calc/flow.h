@@ -33,8 +33,8 @@ public:
 
     /* The usual edition part */
     bool editChar(char symbol) override;
-    bool editParen(nodetype paren_type = LPAREN);
-
+    bool editParen(nodetype paren_type = LPAREN) override;
+    bool editFrac(void) override;
 };
 
 #endif // FLOW_H

@@ -35,7 +35,7 @@
  */
 
 enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
-enum nodetype { NONE, ROOT, FLOW, TEXT, LPAREN, RPAREN };
+enum nodetype { NONE, ROOT, FLOW, TEXT, LPAREN, RPAREN, FRAC };
 
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -81,6 +81,7 @@ public: /* methods */
 
     virtual bool editChar(char symbol) = 0;
     virtual bool editParen(nodetype paren_type = LPAREN) = 0;
+    virtual bool editFrac(void) = 0;
 };
 
 

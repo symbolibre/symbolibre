@@ -41,6 +41,7 @@ public:
 
     bool editChar(char symbol) override;
     bool editParen(nodetype paren_type = LPAREN) override;
+    bool editFrac(void) override;
 };
 
 #endif // EDITIONAREA_H

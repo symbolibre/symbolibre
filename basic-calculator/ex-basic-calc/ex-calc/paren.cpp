@@ -87,3 +87,7 @@ bool Paren::editParen(nodetype)
 {
     return false;
 }
+bool Paren::editFrac(void)
+{
+    return false;
+}

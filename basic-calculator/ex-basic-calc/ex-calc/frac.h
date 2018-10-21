@@ -1,22 +1,33 @@
-#ifndef PAREN_H
-#define PAREN_H
+#ifndef FRAC_H
+#define FRAC_H
+
+/* Frac for "fraction" are semantic nodes.
+ * Frac has two specific attributes: numerator and denominator that are flows
+ * in practice.
+ */
 
 #include "editiontree.h"
-#include <string>
+#include <memory>
 
-/* Parens are semantic nodes, yet a bit special because
- * they are leaf ones. */
+class Flow; /* forward declaration */
 
-class Paren : public EditionTree
+class Frac : public EditionTree
 {
+private:
+    std::unique_ptr<Flow> numerator;
+    std::unique_ptr<Flow> denominator;
+    bool cursor_on_top;
 
-public: /* methods */
-    Paren(nodetype paren_type = LPAREN);
+public:
+    Frac(void);
+
     void ascii(int shift, bool contains_cursor) override;
-    std::string get_text(void)                  override;
-    void append(std::string &)                   override;
+    std::string get_text(void) override; /* returns a text chain that can
+                                               be sent do Sage */
+    void append(std::string &str) override; /* ghost one */
 
-    bool drop_cursor(movedir dir) override;
+    bool drop_cursor(movedir dir) override; /* return 'true' if cursor can be
+                                                * dropped, 'false' otherwise. */
     void cutAtCursor(std::string &cut) override;
     /* specific to cursor repositioning */
 
@@ -43,4 +54,4 @@ public: /* methods */
     bool editFrac(void) override;
 };
 
-#endif // PAREN_H
+#endif // FRAC_H

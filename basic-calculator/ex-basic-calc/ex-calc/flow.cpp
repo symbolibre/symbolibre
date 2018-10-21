@@ -1,5 +1,6 @@
 #include "flow.h"
 #include "editionarea.h"
+#include "frac.h"
 #include "paren.h"
 
 /* ****************************************************************** */
@@ -64,7 +65,11 @@ void Flow::cutAtCursor(std::string &)
 
 bool Flow::empty(void)
 {
-    return flow.begin() == flow.end();
+    /* A flow has always an edition area, thus we want to know if there is
+     * only one edition area, and if it is empty. */
+    if (flow.begin() == flow.end())
+        return true;
+    return ++flow.begin() == flow.end() && (*(flow.begin()))->empty();
 }
 
 bool Flow::reachedRight(void)
@@ -74,8 +79,10 @@ bool Flow::reachedRight(void)
     else if (++edited_node == flow.end()) {
         edited_node--;
         return true;
-    } else
+    } else {
+        edited_node--;
         return false;
+    }
 }
 
 bool Flow::reachedLeft(void)
@@ -100,7 +107,7 @@ bool Flow::editMoveRight(void)
     /* children are a FAILURE ! >:-( */
     else if (!reachedRight()) {
         if (!(*(++edited_node))->drop_cursor(MLEFT))
-            !(*(++edited_node))->drop_cursor(MLEFT);
+            (*(++edited_node))->drop_cursor(MLEFT);
         return true;
     } else
         return false;
@@ -141,16 +148,19 @@ bool Flow::editDelete(void)
 {
     if (empty())
         return false;
-    if (!(*edited_node)->editDelete() && !reachedLeft())
+    if (!(*edited_node)->editDelete())
         /* child deleted nothing and a node have to be deleted*/
     {
+        if (reachedLeft())
+            return false;
+
         edited_node = flow.erase(--edited_node);
         std::string right_str = (*edited_node)->get_text();
         edited_node = --flow.erase(edited_node);
         (*edited_node)->append(right_str);
         return true;
     } else
-        return false; /* nothing deleted */
+        return true; /* nothing deleted */
 }
 
 
@@ -168,11 +178,35 @@ bool Flow::editParen(nodetype paren_type)
     ++edited_node;
 
     auto new_paren = std::make_unique<Paren>(paren_type);
-    auto new_text = std::make_unique<EditionArea>();
+    auto new_text  = std::make_unique<EditionArea>();
     new_text->set_to(right_str);
 
     edited_node = ++flow.insert(edited_node, std::move(new_paren));
     edited_node = flow.insert(edited_node, std::move(new_text));
+    (*edited_node)->drop_cursor(MLEFT);
+
+    return true;
+}
+
+bool Flow::editFrac(void)
+{
+    if ((*edited_node)->editFrac())
+        return true;
+
+    /* else : the edited node is obsviously an edition area, so we have to
+     * split into two an insert a fraction between the two edition areas. */
+
+    /* This code could be reduced, but would be harder to understand */
+    std::string right_str;
+    (*edited_node)->cutAtCursor(right_str);
+    ++edited_node;
+
+    auto new_frac = std::make_unique<Frac>();
+    auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(right_str);
+
+    edited_node = ++flow.insert(edited_node, std::move(new_frac));
+    edited_node = --flow.insert(edited_node, std::move(new_text));
     (*edited_node)->drop_cursor(MLEFT);
 
     return true;

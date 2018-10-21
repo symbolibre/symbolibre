@@ -82,7 +82,11 @@ void FracRenderer::recvRParen()
     update();
 }
 
-void FracRenderer::recvFrac() {}
+void FracRenderer::recvFrac()
+{
+    expr.editFrac();
+    update();
+}
 
 void FracRenderer::recvDelete(void)
 {
