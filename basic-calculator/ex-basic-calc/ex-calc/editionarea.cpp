@@ -1,4 +1,7 @@
 #include "editionarea.h"
+#include <QString>
+#include <algorithm>
+#include <Qt>
 
 /* ****************************************************************** */
 /* **********************       TEXT NODE      ********************** */
@@ -128,6 +131,13 @@ bool EditionArea::editDelete(void)
         return false; /* nothing deleted */
 }
 
+bool EditionArea::editClear(void)
+{
+    text.clear();
+    cursor_pos = 0;
+    return true;
+}
+
 bool EditionArea::editChar(char symbol)
 {
     /* Easy node */
@@ -147,3 +157,44 @@ bool EditionArea::editFrac(void)
     return false;
 }
 
+void EditionArea::compute_dimensions(QPainter &painter)
+{
+    QFontMetrics metrics = painter.fontMetrics();
+    QRect br = metrics.boundingRect(QString::fromStdString(text));
+
+    width  = br.width();
+    height = std::max(MIN_SIZE, br.height());
+    center_height = height / 2; // FIXME ?
+
+    return;
+}
+
+void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
+{
+    QRect brect = QRect(x, y, width, height);
+
+    //painter.setPen(Qt::yellow);
+    //painter.drawRect(brect);
+
+    //painter.setPen(Qt::black);
+    painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom,
+                     QString::fromStdString(text));
+
+    /* About printing the cursor: */
+    if (cursor) {
+        /* We have to make measurment to find the palce of the cursor */
+        painter.setPen(Qt::red);
+        QFontMetrics metrics = painter.fontMetrics();
+        QFont font           = painter.font();
+
+        int left_width = metrics.width(QString::fromStdString(text), cursor_pos);
+        QRect crect = QRect(x + left_width - font.pixelSize() / 2,
+                            y, font.pixelSize(), height);
+
+        painter.drawText(crect, Qt::AlignHCenter | Qt::AlignVCenter, QString("│"));
+        painter.setPen(Qt::black);
+        //painter.drawRect(crect);
+    }
+
+    return;
+}

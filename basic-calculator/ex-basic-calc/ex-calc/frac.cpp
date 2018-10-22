@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <algorithm>
 
 Frac::Frac(void)
 {
@@ -110,7 +111,7 @@ bool Frac::editMoveUp(void)
 bool Frac::editMoveDown(void)
 {
     if (!cursor_on_top)
-        return numerator->editMoveDown();
+        return denominator->editMoveDown();
     /* On top, if child do not go down, go to denominator-> */
     else if (!numerator->editMoveDown()) {
         cursor_on_top = false;
@@ -123,9 +124,16 @@ bool Frac::editMoveDown(void)
 bool Frac::editDelete(void)
 {
     if (cursor_on_top)
-        return numerator->editDelete();
+        numerator->editDelete();
     else
-        return denominator->editDelete();
+        denominator->editDelete();
+    return true;
+}
+
+bool Frac::editClear(void)
+{
+    numerator->editClear();
+    denominator->editClear();
 }
 
 bool Frac::editChar(char symbol)
@@ -150,4 +158,48 @@ bool Frac::editFrac(void)
         return numerator->editFrac();
     else
         return denominator->editFrac();
+}
+
+void Frac::compute_dimensions(QPainter &painter)
+{
+    numerator->compute_dimensions(painter);
+    denominator->compute_dimensions(painter);
+
+    width  = std::max(numerator->width, denominator->width);
+    if (width == 0) {
+        QFontMetrics metrics = painter.fontMetrics();
+        width = metrics.width(QChar('a'));
+    }
+    width += FRAC_SPACE;
+    height = UP_SPACE + DOWN_SPACE + numerator->height + denominator->height;
+    center_height = DOWN_SPACE + denominator->height;
+
+    return;
+}
+
+void Frac::draw(int x, int y, QPainter &painter, bool cursor)
+{
+    QRect brect = QRect(x, y, width, height);
+
+    painter.setPen(Qt::blue);
+    //painter.drawRect(brect);
+
+    painter.setPen(Qt::black);
+
+    /* numerator */
+    int x_numerator = x + (width - numerator->width) / 2;
+    numerator->draw(x_numerator, y, painter, cursor && cursor_on_top);
+
+    /* frac line */
+    int y_line = y + height - center_height;
+    painter.drawLine(x + FRAC_SPACE / 2, y_line, x - FRAC_SPACE / 2 + width, y_line);
+
+    /* Denominator */
+    int x_denominator = x + (width - denominator->width) / 2;
+    int y_denominator = y + height - center_height + UP_SPACE;
+
+    denominator->draw(x_denominator, y_denominator, painter,
+                      cursor && !cursor_on_top);
+
+    return;
 }

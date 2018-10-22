@@ -9,6 +9,10 @@
 #include "editiontree.h"
 #include <memory>
 
+#define UP_SPACE   2
+#define DOWN_SPACE 2
+#define FRAC_SPACE MIN_SIZE/2
+
 class Flow; /* forward declaration */
 
 class Frac : public EditionTree
@@ -48,10 +52,15 @@ public:
 
     /* About some delete actions */
     bool editDelete(void) override;
+    bool editClear(void) override;
 
     bool editChar(char symbol) override;
     bool editParen(nodetype paren_type = LPAREN) override;
     bool editFrac(void) override;
+
+    /* About computing dimensions */
+    void compute_dimensions(QPainter &painter) override;
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 
 #endif // FRAC_H

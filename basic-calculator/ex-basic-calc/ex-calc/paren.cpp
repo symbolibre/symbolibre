@@ -1,4 +1,6 @@
 #include "paren.h"
+#include <QString>
+#include <algorithm>
 
 Paren::Paren(nodetype paren_type)
 {
@@ -79,6 +81,10 @@ bool Paren::editDelete(void)
 {
     return false;
 }
+bool Paren::editClear(void)
+{
+    return false;
+}
 bool Paren::editChar(char)
 {
     return false;
@@ -90,4 +96,91 @@ bool Paren::editParen(nodetype)
 bool Paren::editFrac(void)
 {
     return false;
+}
+
+/* Dimensions */
+void Paren::compute_dimensions(QPainter &painter)
+{
+    // FIXME : adjust size
+    QFontMetrics metrics = painter.fontMetrics();
+    QRect br;
+    if (ntype == LPAREN)
+        br = metrics.boundingRect(QString("("));
+    else
+        br = metrics.boundingRect(QString(")"));
+
+    width  = br.width() + PAREN_SPACE;
+    height = std::max(MIN_SIZE, br.height());
+    center_height = height / 2; // FIXME ?
+}
+
+void Paren::draw(int x, int y, QPainter &painter, bool)
+{
+    QRect brect = QRect(x, y, width, height);
+
+    /*painter.setPen(Qt::green);
+    painter.drawRect(brect);
+    painter.setPen(Qt::black);*/
+
+    //std::cerr << "Paren height:" << height << "\n";
+
+    QFont font = painter.font();
+    int font_size = font.pixelSize();
+    if (font_size < 0)
+        font_size = MIN_SIZE;
+
+    if (height <= (int)(1.25 * font_size))
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter,
+                         ((ntype == LPAREN ? "(" : ")")));
+    else if (ntype == LPAREN)
+        /* Assume that font is at MIN_SIZE px size */
+    {
+        brect = QRect(x, y, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎛");
+
+        int y1 = y + height - font_size;
+        brect = QRect(x, y1, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, "⎝");
+
+        for (int y0 = y + font_size; y0 < y1 - font_size / 2; y0 += font_size) {
+            brect = QRect(x, y0, width, font_size);
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
+        }
+
+        /* corrections */
+        int y_mid = y + height - 3 * font_size / 2;
+        brect = QRect(x, y_mid, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
+
+        if (y1 - 4. / 3. * font_size > y) {
+            brect = QRect(x, y1 - (int)(2. / 3. * font_size), width, font_size);
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
+        }
+    } else if (ntype == RPAREN)
+        /* Assume that font is at MIN_SIZE px size */
+    {
+        brect = QRect(x, y, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎞");
+
+        int y1 = y + height - font_size;
+        brect = QRect(x, y1, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, "⎠");
+
+        for (int y0 = y + font_size; y0 < y1 - font_size / 2; y0 += font_size) {
+            brect = QRect(x, y0, width, font_size);
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎟");
+        }
+
+        /* corrections */
+        int y_mid = y + height - 3 * font_size / 2;
+        brect = QRect(x, y_mid, width, font_size);
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎟");
+
+        if (y1 - 4. / 3. * font_size > y) {
+            brect = QRect(x, y1 - (int)(2. / 3. * font_size), width, font_size);
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎟");
+        }
+    }
+
+    return;
 }

@@ -7,6 +7,8 @@
 /* Parens are semantic nodes, yet a bit special because
  * they are leaf ones. */
 
+#define PAREN_SPACE 4;
+
 class Paren : public EditionTree
 {
 
@@ -37,10 +39,15 @@ public: /* methods */
 
     /* About some delete actions */
     bool editDelete(void) override;
+    bool editClear(void) override;
 
     bool editChar(char symbol) override;
     bool editParen(nodetype paren_type = LPAREN) override;
     bool editFrac(void) override;
+
+    /* About computing dimensions */
+    void compute_dimensions(QPainter &painter) override;
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 
 #endif // PAREN_H

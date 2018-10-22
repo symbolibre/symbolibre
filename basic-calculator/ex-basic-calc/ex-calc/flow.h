@@ -3,6 +3,12 @@
 
 #include "editiontree.h"
 
+struct centeredBox {
+    int width;
+    int height;
+    int center_height;
+};
+
 class Flow : public EditionTree
 {
 private:
@@ -30,11 +36,19 @@ public:
 
     /* About deleting */
     bool editDelete(void)     override;
+    bool editClear(void)     override;
 
     /* The usual edition part */
     bool editChar(char symbol) override;
     bool editParen(nodetype paren_type = LPAREN) override;
     bool editFrac(void) override;
+
+    /* About computing dimensions */
+    void compute_dimensions(QPainter &painter) override;
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
+    struct centeredBox
+    parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &cur_node,
+              QPainter &painter);
 };
 
 #endif // FLOW_H

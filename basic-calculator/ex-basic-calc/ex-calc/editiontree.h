@@ -5,6 +5,12 @@
 #include <memory>
 #include <list>
 #include <string>
+#include <QPainter>
+#include <QFont>
+#include <QFontMetrics>
+#include <QRect>
+
+#define MIN_SIZE 20
 
 /* A brief introduction to EDITION TREES
  *
@@ -78,10 +84,16 @@ public: /* methods */
 
     /* About some delete actions */
     virtual bool editDelete(void) = 0;
+    virtual bool editClear(void)  = 0;
 
     virtual bool editChar(char symbol) = 0;
     virtual bool editParen(nodetype paren_type = LPAREN) = 0;
     virtual bool editFrac(void) = 0;
+
+
+    /* About computing dimension to print */
+    virtual void compute_dimensions(QPainter &painter) = 0;
+    virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
 };
 
 

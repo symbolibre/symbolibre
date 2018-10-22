@@ -94,13 +94,27 @@ void FracRenderer::recvDelete(void)
     update();
 }
 
-void FracRenderer::recvClear() {}
+void FracRenderer::recvClear()
+{
+    expr.editClear();
+    update();
+}
 
 void FracRenderer::paintEvent(QPaintEvent * /* */)
 {
     /* Doing nothing ! */
     std::cout << '[' << expr.get_text() << ']' << std::endl;
     expr.ascii(0, true);
+
+    QFont font = QFont("dejavu");
+    font.setStyleHint(QFont::Monospace);
+    font.setHintingPreference(QFont::PreferFullHinting);
+    font.setPixelSize(20);
+    QPainter painter(this);
+    painter.setFont(font);
+
+    expr.compute_dimensions(painter);
+    expr.draw(0, 0, painter, true);
 }
 
 
