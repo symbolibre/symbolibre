@@ -15,9 +15,8 @@ ApplicationWindow {
     title: document.fileName + qsTr(" - Symbolibre IDE")
 
 
-    MenuBar {
         Menu {
-
+            id: menu
             title: qsTr("File")
 
             MenuItem {
@@ -26,11 +25,15 @@ ApplicationWindow {
             }
 
             MenuItem {
-                text: qsTr("Save")
+                text: qsTr("Save as ...")
                 onTriggered: saveDialog.open()
             }
+
+            MenuItem {
+                text: qsTr("Save")
+                onTriggered: document.saveAs(document.fileUrl)
+            }
         }
-    }
 
     FileDialog {
         id: openDialog
@@ -57,26 +60,21 @@ ApplicationWindow {
             id: fileRow
 
             ToolButton {
-                id: typeButton
-                text: "File type"
-                onClicked: popup.open()
+                id: fileButton
+                text: "File"
+                onClicked: menu.open()
             }
 
             ToolButton {
-                id: openButton
-                text: "Open"
-                onClicked: openDialog.open()
+                id: runButton
+                text: "Run"
+ /*
+Should run the right interpreter, according to the language we are coding in, and show the result on screen.
+Should be able to return quickly to the ItemDelegate
+*/
+                //onClicked: interpreter.start()
             }
-            ToolButton {
-                id: saveAsButton
-                text: "Save as ..."
-                onClicked: saveDialog.open()
-            }
-            ToolButton {
-                id: saveButton
-                text: "Save"
-                onClicked: document.saveAs(document.fileUrl)
-            }
+
         }
 
     }
@@ -125,6 +123,7 @@ ApplicationWindow {
 
         modal: true
         focus: true
+        visible: true
 
         Column {
 
