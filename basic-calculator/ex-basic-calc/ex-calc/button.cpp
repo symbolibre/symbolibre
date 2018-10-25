@@ -1,6 +1,6 @@
 #include <QtWidgets>
 
-#include "button.h"
+#include "button.hpp"
 
 Button::Button(const QString &text, QWidget *parent)
     : QToolButton(parent)

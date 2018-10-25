@@ -2,7 +2,7 @@
 #define FRACRENDERER_H
 
 #include <QWidget>
-#include "flow.h"
+#include "Flow.hpp"
 
 /* From an ideomatic point of view, the main app communicate inputs to
  * this renderer, and the renderer transmits them to the edition tree that
@@ -28,9 +28,7 @@ public:
 
     void recvArrow(arrowkey dir);
     void recvDigit(int digit);
-    void recvPlus(void);
-    void recvMinus(void);
-    void recvTimes(void);
+    void recvChar(char c);
     void recvLParen(void);
     void recvRParen(void);
     void recvFrac(void);

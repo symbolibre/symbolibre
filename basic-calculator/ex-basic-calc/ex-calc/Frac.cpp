@@ -1,5 +1,5 @@
-#include "frac.h"
-#include "flow.h"
+#include "Frac.hpp"
+#include "Flow.hpp"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -30,13 +30,13 @@ void Frac::ascii(int shift, bool cc)
     return;
 }
 
-std::string Frac::get_text(void)
+std::string Frac::getText(void)
 /* FIXME : awfull complexity */
 {
     std::string str = " (";
-    str.insert(str.size(), numerator->get_text());
+    str.insert(str.size(), numerator->getText());
     str.insert(str.size(), ")/(");
-    str.insert(str.size(), denominator->get_text());
+    str.insert(str.size(), denominator->getText());
     str.insert(str.size(), ") ");
     return str;
 }
@@ -46,11 +46,11 @@ void Frac::append(std::string &)
     return;
 }
 
-bool Frac::drop_cursor(movedir dir)
+bool Frac::dropCursor(movedir dir)
 {
     /* Convention: the cursor is ALWAYS dropped on top of the fraction */
     cursor_on_top = true;
-    return numerator->drop_cursor(dir);
+    return numerator->dropCursor(dir);
 }
 
 void Frac::cutAtCursor(std::string &)
@@ -102,7 +102,7 @@ bool Frac::editMoveUp(void)
     /* On bot, if child do not go up, go to numerator-> */
     else if (!denominator->editMoveUp()) {
         cursor_on_top = true;
-        numerator->drop_cursor(MLEFT); /* FIXME: smart drop */
+        numerator->dropCursor(MLEFT); /* FIXME: smart drop */
         return true;
     } else
         return true; /* child succeed */
@@ -115,7 +115,7 @@ bool Frac::editMoveDown(void)
     /* On top, if child do not go down, go to denominator-> */
     else if (!numerator->editMoveDown()) {
         cursor_on_top = false;
-        denominator->drop_cursor(MLEFT); /* FIXME: smart drop */
+        denominator->dropCursor(MLEFT); /* FIXME: smart drop */
         return true;
     } else
         return true; /* child succeed */
@@ -134,6 +134,7 @@ bool Frac::editClear(void)
 {
     numerator->editClear();
     denominator->editClear();
+    return true;
 }
 
 bool Frac::editChar(char symbol)
@@ -160,10 +161,10 @@ bool Frac::editFrac(void)
         return denominator->editFrac();
 }
 
-void Frac::compute_dimensions(QPainter &painter)
+void Frac::computeDimensions(QPainter &painter)
 {
-    numerator->compute_dimensions(painter);
-    denominator->compute_dimensions(painter);
+    numerator->computeDimensions(painter);
+    denominator->computeDimensions(painter);
 
     width  = std::max(numerator->width, denominator->width);
     if (width == 0) {
@@ -179,12 +180,11 @@ void Frac::compute_dimensions(QPainter &painter)
 
 void Frac::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    QRect brect = QRect(x, y, width, height);
+    //QRect brect = QRect(x, y, width, height);
 
-    painter.setPen(Qt::blue);
-    //painter.drawRect(brect);
-
-    painter.setPen(Qt::black);
+    /*painter.setPen(Qt::red);
+    painter.drawRect(brect);
+    painter.setPen(Qt::black);*/
 
     /* numerator */
     int x_numerator = x + (width - numerator->width) / 2;

@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "button.h"
-#include "calculator.h"
+#include "button.hpp"
+#include "calculator.hpp"
 
 Calculator::Calculator(QWidget *parent)
     : QWidget(parent)
@@ -11,26 +11,26 @@ Calculator::Calculator(QWidget *parent)
     display = new FracRenderer(); /* TODO : entry */
 
     for (int i = 0; i < NumDigitButtons; i++)
-        digitButtons[i] = createButton(QString::number(i), SLOT(digitON()));
+        digitButtons[i] = createButton(QString::number(i), SLOT(digitPushed()));
 
-    Button *backspaceButton = createButton(tr("⌫"), SLOT(backspaceON()));
-    Button *clearButton     = createButton(tr("Clear"), SLOT(clearON()));
+    Button *backspaceButton = createButton(tr("⌫"), SLOT(backspacePushed()));
+    Button *clearButton     = createButton(tr("Clear"), SLOT(clearPushed()));
 
     /* Buttons : parenthesis */
-    Button *lparenButton    = createButton(tr("("), SLOT(lparON()));
-    Button *rparenButton    = createButton(tr(")"), SLOT(rparON()));
+    Button *lparenButton    = createButton(tr("("), SLOT(lparPushed()));
+    Button *rparenButton    = createButton(tr(")"), SLOT(rparPushed()));
 
     /* Buttons : operators */
-    Button *fracButton    = createButton(tr("―"), SLOT(fracopON()));
-    Button *timesButton   = createButton(tr("\303\227"), SLOT(mulopON()));
-    Button *minusButton   = createButton(tr("-"), SLOT(subopON()));
-    Button *plusButton    = createButton(tr("+"), SLOT(addopON()));
+    Button *fracButton    = createButton(tr("―"), SLOT(fracopPushed()));
+    Button *timesButton   = createButton(tr("*"), SLOT(charPushed()));
+    Button *minusButton   = createButton(tr("-"), SLOT(charPushed()));
+    Button *plusButton    = createButton(tr("+"), SLOT(charPushed()));
 
     /* Buttons : arrows */
-    Button *leftButton    = createButton(tr("←"), SLOT(leftON()));
-    Button *rightButton   = createButton(tr("→"), SLOT(rightON()));
-    Button *upButton      = createButton(tr("↑"), SLOT(upON()));
-    Button *downButton    = createButton(tr("↓"), SLOT(downON()));
+    Button *leftButton    = createButton(tr("←"), SLOT(leftPushed()));
+    Button *rightButton   = createButton(tr("→"), SLOT(rightPushed()));
+    Button *upButton      = createButton(tr("↑"), SLOT(upPushed()));
+    Button *downButton    = createButton(tr("↓"), SLOT(downPushed()));
 
     /* -------- Grid -------- */
     QGridLayout *keyboardLayout = new QGridLayout;
@@ -67,68 +67,64 @@ Calculator::Calculator(QWidget *parent)
     connect(action_quit, &QAction::triggered, this, &Calculator::close);
     addAction(action_quit);
 
-    setWindowTitle(tr("Demo"));
+    setWindowTitle(tr("Calculator"));
 }
 
-void Calculator::digitON()
+void Calculator::digitPushed()
 {
     Button *cbutton = qobject_cast<Button *>(sender());
     int value = cbutton->text().toInt();
     display->recvDigit(value);
 }
 
-void Calculator::lparON()
+void Calculator::lparPushed()
 {
     display->recvLParen();
 }
-void Calculator::rparON()
+
+void Calculator::rparPushed()
 {
     display->recvRParen();
 }
 
-void Calculator::addopON()
+void Calculator::charPushed()
 {
-    display->recvPlus();
+    Button *cbutton = qobject_cast<Button *>(sender());
+    char c = cbutton->text().at(0).toLatin1();
+    display->recvChar(c);
 }
 
-void Calculator::subopON()
-{
-    display->recvMinus();
-}
-
-void Calculator::mulopON()
-{
-    display->recvTimes();
-}
-
-void Calculator::fracopON()
+void Calculator::fracopPushed()
 {
     display->recvFrac();
 }
 
-void Calculator::backspaceON()
+void Calculator::backspacePushed()
 {
     display->recvDelete();
 }
 
-void Calculator::clearON()
+void Calculator::clearPushed()
 {
     display->recvClear();
 }
 
-void Calculator::upON()
+void Calculator::upPushed()
 {
     display->recvArrow(UP);
 }
-void Calculator::downON()
+
+void Calculator::downPushed()
 {
     display->recvArrow(DOWN);
 }
-void Calculator::rightON()
+
+void Calculator::rightPushed()
 {
     display->recvArrow(RIGHT);
 }
-void Calculator::leftON()
+
+void Calculator::leftPushed()
 {
     display->recvArrow(LEFT);
 }

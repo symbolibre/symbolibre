@@ -1,4 +1,4 @@
-#include "editionarea.h"
+#include "EditionArea.hpp"
 #include <QString>
 #include <algorithm>
 #include <Qt>
@@ -18,7 +18,7 @@ EditionArea::EditionArea()
     text          =   "";
 }
 
-std::string EditionArea::get_text(void)
+std::string EditionArea::getText(void)
 {
     return text;
 }
@@ -66,7 +66,7 @@ void EditionArea::ascii(int shift, bool cc)
     return;
 }
 
-bool EditionArea::drop_cursor(movedir dir)
+bool EditionArea::dropCursor(movedir dir)
 {
     /* I could do a switch, but the syntax is ugly on my text editor. */
     if (dir == MRIGHT || dir == MDOWN)
@@ -157,7 +157,7 @@ bool EditionArea::editFrac(void)
     return false;
 }
 
-void EditionArea::compute_dimensions(QPainter &painter)
+void EditionArea::computeDimensions(QPainter &painter)
 {
     QFontMetrics metrics = painter.fontMetrics();
     QRect br = metrics.boundingRect(QString::fromStdString(text));

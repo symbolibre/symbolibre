@@ -1,5 +1,5 @@
-#include "fracrenderer.h"
-#include "flow.h"
+#include "fracrenderer.hpp"
+#include "Flow.hpp"
 
 #include <QPainter>
 
@@ -21,7 +21,7 @@ QSize FracRenderer::minimumSizeHint() const
 
 QSize FracRenderer::sizeHint() const
 {
-    return QSize(400, 300);
+    return QSize(320, 240);
 }
 
 void FracRenderer::recvArrow(arrowkey dir)
@@ -52,21 +52,9 @@ void FracRenderer::recvDigit(int digit)
     update();
 }
 
-void FracRenderer::recvPlus()
+void FracRenderer::recvChar(char c)
 {
-    expr.editChar('+');
-    update();
-}
-
-void FracRenderer::recvMinus()
-{
-    expr.editChar('-');
-    update();
-}
-
-void FracRenderer::recvTimes()
-{
-    expr.editChar('*');
+    expr.editChar(c);
     update();
 }
 
@@ -102,18 +90,16 @@ void FracRenderer::recvClear()
 
 void FracRenderer::paintEvent(QPaintEvent * /* */)
 {
-    /* Doing nothing ! */
-    std::cout << '[' << expr.get_text() << ']' << std::endl;
-    expr.ascii(0, true);
+    std::cout << expr.getText() << std::endl;
 
-    QFont font = QFont("dejavu");
+    QFont font = QFont("dejavu sans mono");
     font.setStyleHint(QFont::Monospace);
     font.setHintingPreference(QFont::PreferFullHinting);
-    font.setPixelSize(20);
+    font.setPixelSize(MIN_SIZE);
     QPainter painter(this);
     painter.setFont(font);
 
-    expr.compute_dimensions(painter);
+    expr.computeDimensions(painter);
     expr.draw(0, 0, painter, true);
 }
 

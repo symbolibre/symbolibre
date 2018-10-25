@@ -1,18 +1,18 @@
 QT += widgets
 
-HEADERS       = button.h \
-								editiontree.h \ 
-								paren.h \
-								frac.h \
-								editionarea.h \
-								flow.h \
-                fracrenderer.h \
-                calculator.h 
+HEADERS       = button.hpp \
+								EditionTree.hpp \ 
+								Paren.hpp \
+								Frac.hpp \
+								EditionArea.hpp \
+								Flow.hpp \
+                fracrenderer.hpp \
+                calculator.hpp 
 SOURCES       = button.cpp \
-								editionarea.cpp \
-								paren.cpp \
-								frac.cpp \
-								flow.cpp \
+								EditionArea.cpp \
+								Paren.cpp \
+								Frac.cpp \
+								Flow.cpp \
 								fracrenderer.cpp \
                 calculator.cpp \
                 main.cpp

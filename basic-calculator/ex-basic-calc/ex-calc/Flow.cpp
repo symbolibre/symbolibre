@@ -1,7 +1,7 @@
-#include "flow.h"
-#include "editionarea.h"
-#include "frac.h"
-#include "paren.h"
+#include "Flow.hpp"
+#include "EditionArea.hpp"
+#include "Frac.hpp"
+#include "Paren.hpp"
 
 #include <algorithm>
 
@@ -33,12 +33,12 @@ void Flow::ascii(int shift, bool cc)
     return;
 }
 
-std::string Flow::get_text(void)
+std::string Flow::getText(void)
 /* FIXME : Bad complexity */
 {
     std::string str;
     for (auto it = flow.begin(); it != flow.end(); it++)
-        str.insert(str.size(), (*it)->get_text());
+        str.insert(str.size(), (*it)->getText());
     return str;
 }
 
@@ -47,7 +47,7 @@ void Flow::append(std::string &)
     return;
 }
 
-bool Flow::drop_cursor(movedir dir)
+bool Flow::dropCursor(movedir dir)
 {
     if (dir == MLEFT || dir == MDOWN)
         edited_node = flow.begin();
@@ -57,7 +57,7 @@ bool Flow::drop_cursor(movedir dir)
         return false;
 
     /* the extreme nodes of a flow are edition areas, so we can drop into them */
-    return (*edited_node)->drop_cursor(dir);
+    return (*edited_node)->dropCursor(dir);
 }
 
 void Flow::cutAtCursor(std::string &)
@@ -92,7 +92,7 @@ bool Flow::reachedLeft(void)
     return edited_node == flow.begin();
 }
 
-/* ********************** EDITION METHODS ********************** */
+/* ********************** EDITIPushed METHODS ********************** */
 
 bool Flow::editChar(char symbol)
 {
@@ -108,8 +108,8 @@ bool Flow::editMoveRight(void)
         return true;
     /* children are a FAILURE ! >:-( */
     else if (!reachedRight()) {
-        if (!(*(++edited_node))->drop_cursor(MLEFT))
-            (*(++edited_node))->drop_cursor(MLEFT);
+        if (!(*(++edited_node))->dropCursor(MLEFT))
+            (*(++edited_node))->dropCursor(MLEFT);
         return true;
     } else
         return false;
@@ -121,8 +121,8 @@ bool Flow::editMoveLeft(void)
         return true;
     /* children are a FAILURE again ! :-) */
     else if (!reachedLeft()) {
-        if (!(*(--edited_node))->drop_cursor(MRIGHT))
-            (*(--edited_node))->drop_cursor(MRIGHT);
+        if (!(*(--edited_node))->dropCursor(MRIGHT))
+            (*(--edited_node))->dropCursor(MRIGHT);
         return true;
     } else
         return false;
@@ -157,7 +157,7 @@ bool Flow::editDelete(void)
             return false;
 
         edited_node = flow.erase(--edited_node);
-        std::string right_str = (*edited_node)->get_text();
+        std::string right_str = (*edited_node)->getText();
         edited_node = --flow.erase(edited_node);
         (*edited_node)->append(right_str);
         return true;
@@ -193,7 +193,7 @@ bool Flow::editParen(nodetype paren_type)
 
     edited_node = ++flow.insert(edited_node, std::move(new_paren));
     edited_node = flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->drop_cursor(MLEFT);
+    (*edited_node)->dropCursor(MLEFT);
 
     return true;
 }
@@ -217,12 +217,15 @@ bool Flow::editFrac(void)
 
     edited_node = ++flow.insert(edited_node, std::move(new_frac));
     edited_node = --flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->drop_cursor(MLEFT);
+    (*edited_node)->dropCursor(MLEFT);
 
     return true;
 }
 
-void Flow::compute_dimensions(QPainter &painter)
+void Flow::computeDimensions(QPainter &painter)
+/* This function could seems complicated but it is not.
+ * It is just taking care of those poor parenthesis that cannot compute
+ * their dimensions without knowing of their surroundings. */
 {
     width         = 0;
     height        = 0;
@@ -242,7 +245,7 @@ void Flow::compute_dimensions(QPainter &painter)
                 it ++;
 
             /* Compute parenthesis' sizes: only 'width' is important */
-            (*it)->compute_dimensions(painter);
+            (*it)->computeDimensions(painter);
             (*it)->height        = left_height;
             (*it)->center_height = left_center_height;
             int it_width  = (*it)->width;
@@ -255,7 +258,6 @@ void Flow::compute_dimensions(QPainter &painter)
                      + std::max(height - center_height, it_height - it_center);
             center_height = std::max(center_height, it_center);
 
-            /* Reset font size */
             it ++; /* pass the parenthesis */
         } else if ((*it)->ntype == LPAREN) {
             /* The annoying case: rec call */
@@ -263,11 +265,11 @@ void Flow::compute_dimensions(QPainter &painter)
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes: we keep 'width' only */
-            (*it)->compute_dimensions(painter);
+            (*it)->computeDimensions(painter);
             (*it)->height        = sub_box.height;
             (*it)->center_height = sub_box.center_height;
             if (new_it != flow.end()) { /* RPAREN (if exists) */
-                (*new_it)->compute_dimensions(painter);
+                (*new_it)->computeDimensions(painter);
                 (*new_it)->height        = sub_box.height;
                 (*new_it)->center_height = sub_box.center_height;
             }
@@ -292,7 +294,7 @@ void Flow::compute_dimensions(QPainter &painter)
                 it = new_it;
         } else {
             /* general case: Easy */
-            (*it)->compute_dimensions(painter); // FIXME : parenthesis
+            (*it)->computeDimensions(painter); // FIXME : parenthesis
             int it_width  = (*it)->width;
             int it_height = (*it)->height;
             int it_center = (*it)->center_height;
@@ -310,12 +312,12 @@ void Flow::compute_dimensions(QPainter &painter)
 
 void Flow::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    QRect brect = QRect(x, y, width, height);
+    //QRect brect = QRect(x, y, width, height);
 
-    painter.setPen(Qt::red);
+    //painter.setPen(Qt::red);
     //painter.drawRect(brect);
 
-    painter.setPen(Qt::black);
+    //painter.setPen(Qt::black);
     for (auto it = flow.begin(); it != flow.end(); it++) {
         int it_y = y + height - (*it)->height
                    - center_height + (*it)->center_height;
@@ -344,12 +346,12 @@ Flow::parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes */
-            (*current_node)->compute_dimensions(painter); /* only 'width' is OK */
+            (*current_node)->computeDimensions(painter); /* only 'width' is OK */
             /* Dirty there : adjusting size of the parenthesis 'at hands' */
             (*current_node)->height        = sub_box.height;
             (*current_node)->center_height = sub_box.center_height;
             if (new_it != flow.end()) {
-                (*new_it)->compute_dimensions(painter);
+                (*new_it)->computeDimensions(painter);
                 (*new_it)->height        = sub_box.height;
                 (*new_it)->center_height = sub_box.center_height;
             }
@@ -376,8 +378,8 @@ Flow::parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &
                 current_node = ++new_it;
             else
                 current_node = new_it;
-        } else { /* Default case */
-            (*current_node)->compute_dimensions(painter);
+        } else { /* Default case: copy past from computeDimensions*/
+            (*current_node)->computeDimensions(painter);
             int it_width  = (*current_node)->width;
             int it_height = (*current_node)->height;
             int it_center = (*current_node)->center_height;
