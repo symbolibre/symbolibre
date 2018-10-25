@@ -89,9 +89,35 @@ def get_key(path):
     return value
 
 def main():
-    set_key(["test", "test", "test"], 1, create_nodes=True)
-    set_key(["test", "test", "another_test"], 2, create_nodes=True)
-    print(get_key(["test", "test", "test"]))
+    import argparse
+    parser = argparse.ArgumentParser(prog='gcm')
+    subparsers = parser.add_subparsers()
+
+    subparser_set = subparsers.add_parser("set", help='set a variable to a value. Don\'t delete subtrees, and create nodes if the key doesn\'t exists.', dest="action")
+    subparser_set.add_argument('key', nargs=1, help="position to modify the node.")
+    subparser_set.add_argument('value', nargs=1, help="set key to value")
+
+    subparser_set.add_argument("--overwrite", action='store_false',
+                               help="overwrite existing configration")
+    subparser_set.add_argument("--new_nodes", action="store_true",
+                               help="create intermediate nodes.")
+
+    subparser_get = subparsers.add_parser("get")
+    subparser_get.add_argument('key', nargs=1, help="position of the value to return")
+
+    args = parser.parse_args()
+
+    if args.action == "set":
+        pass
+    elif args.action == "get":
+        pass
+
+
+    # python config.py set test:test:test:test 1
+
+    # set_key(["test", "test", "test"], 1)
+    # set_key(["test", "test", "another_test"], 2)
+    # print(get_key(["test", "test", "test"]))
 
 if __name__ == '__main__':
     main()
