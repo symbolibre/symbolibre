@@ -1,5 +1,5 @@
-#ifndef EDITIPushedTREE_H
-#define EDITIPushedTREE_H
+#ifndef EDITIONTREE_H
+#define EDITIONTREE_H
 
 #include <iostream>
 #include <memory>
@@ -12,7 +12,7 @@
 
 #define MIN_SIZE 10
 
-/* A brief introduction to EDITIPushed TREES
+/* A brief introduction to EDITION TREES
  *
  *
  * Edition Trees are a structure thought to handle the interactive edition of a
@@ -140,4 +140,4 @@ public:
 #include "Paren.hpp"
 #include "EditionArea.hpp"
 
-#endif // EDITIPushedTREE_H
+#endif // EDITIONTREE_H

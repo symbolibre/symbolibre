@@ -2,7 +2,7 @@
 #define FRACRENDERER_H
 
 #include <QWidget>
-#include "Flow.hpp"
+#include <EditionTree.hpp>
 
 /* From an ideomatic point of view, the main app communicate inputs to
  * this renderer, and the renderer transmits them to the edition tree that
