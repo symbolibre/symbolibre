@@ -1,5 +1,5 @@
 # Object files
 *.o
 # Qt project files and meta-object compiler files
-*.pro
+# *.pro
 moc_*
