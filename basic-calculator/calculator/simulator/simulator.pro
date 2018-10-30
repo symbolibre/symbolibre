@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += widgets
 INCLUDEPATH += ../editiontree/
-LIBS += -L../editiontree -lEditionTree
+LIBS += -L../editiontree -leditiontree
 
 HEADERS       = button.hpp \
                 fracrenderer.hpp \
