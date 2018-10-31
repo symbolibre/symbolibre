@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 INCLUDEPATH += ../editiontree
-LIBS += -L../editiontree -lEditionTree
+LIBS += -L../editiontree -leditiontree
 
 SOURCES += main.cpp \
     mathrenderer.cpp \
@@ -40,3 +40,4 @@ HEADERS += \
     keycode.hpp
 
 DISTFILES +=
+
