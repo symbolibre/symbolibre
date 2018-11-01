@@ -4,6 +4,6 @@
 *.a
 # Qt project files and meta-object compiler files
 # *.pro
-*.qrc # not sure about this one
+# *.qrc not sure about this one
 *.pro.user
 moc_*
