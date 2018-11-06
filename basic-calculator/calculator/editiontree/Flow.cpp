@@ -2,6 +2,7 @@
 #include "EditionArea.hpp"
 #include "Frac.hpp"
 #include "Paren.hpp"
+#include "Root.hpp"
 
 #include <algorithm>
 
@@ -204,7 +205,7 @@ bool Flow::editFrac(void)
         return true;
 
     /* else : the edited node is obsviously an edition area, so we have to
-     * split into two an insert a fraction between the two edition areas. */
+     * split into two and insert a fraction between the two edition areas. */
 
     /* This code could be reduced, but would be harder to understand */
     std::string right_str;
@@ -212,6 +213,30 @@ bool Flow::editFrac(void)
     ++edited_node;
 
     auto new_frac = std::make_unique<Frac>();
+    auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(right_str);
+
+    edited_node = ++flow.insert(edited_node, std::move(new_frac));
+    edited_node = --flow.insert(edited_node, std::move(new_text));
+    (*edited_node)->dropCursor(MLEFT);
+
+    return true;
+}
+
+bool Flow::editRoot(void)
+{
+    if ((*edited_node)->editRoot())
+        return true;
+
+    /* else : the edited node is obsviously an edition area, so we have
+     * to split it into two and to insert a root between the
+     * two edition areas. */
+
+    std::string right_str;
+    (*edited_node)->cutAtCursor(right_str);
+    ++edited_node;
+
+    auto new_frac = std::make_unique<Root>();
     auto new_text = std::make_unique<EditionArea>();
     new_text->set_to(right_str);
 

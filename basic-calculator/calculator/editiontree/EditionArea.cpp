@@ -152,7 +152,13 @@ bool EditionArea::editParen(nodetype)
 {
     return false;
 }
+
 bool EditionArea::editFrac(void)
+{
+    return false;
+}
+
+bool EditionArea::editRoot(void)
 {
     return false;
 }

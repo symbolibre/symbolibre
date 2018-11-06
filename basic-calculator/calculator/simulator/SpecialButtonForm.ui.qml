@@ -4,6 +4,7 @@ Item {
     id: root
     width: 30
     height: 30
+    property alias mouseArea: mouseArea
     property alias mainTextText: mainText.text
     property color standardColor: "#ffff00"
     property color pressedColor: "#bbbb00"
@@ -19,10 +20,10 @@ Item {
         anchors.fill: parent
 
         MouseArea {
+            id: mouseArea
             anchors.fill: parent
             onPressed: button.color = pressedColor
             onReleased: button.color = standardColor
-            onClicked: root.activated()
         }
 
         Text {

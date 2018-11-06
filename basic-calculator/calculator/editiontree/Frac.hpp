@@ -32,7 +32,6 @@ private:
     std::unique_ptr<Flow> numerator;
     std::unique_ptr<Flow> denominator;
     bool cursor_on_top;
-
 public:
     Frac(void);
 
@@ -71,32 +70,44 @@ public:
     bool editMoveDown(void) override;  /* Move the cursor down.  */
 
     /* About some delete actions */
-    bool editDelete(void) override;
-    /* Deletes the node or character left to the cursor.
+    /* editDelete():
+     * Deletes the node or character left to the cursor.
      * Always returns 'true'. A fraction does not propagate the error up if
      * the it cannot erase something. */
+    bool editDelete(void) override;
+    /* editClear():
+     * Clears the numerator and the denominator. */
     bool editClear(void) override;
-    /* Clears the numerator and the denominator. */
 
+    /* editChar(symbol);
+     * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
-    /* Adds the specified character to the cursor's position. */
-    bool editParen(nodetype paren_type = LPAREN) override;
-    /* Adds a paren to the cursor's position. You should specify if this is
+    /* editParen(paren_type):
+     * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
+    bool editParen(nodetype paren_type = LPAREN) override;
+    /* editFrac():
+     * Adds a fraction at the cursor's position. */
     bool editFrac(void) override;
-    /* Adds a fraction to the cursor's position. */
+    /* editRoot():
+     * Adds a root at the cursor's position. */
+    bool editRoot(void) override;
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
-    /* Computes the informations necessary to draw the expression:
+    /* computeDimensions(painter):
+     * Computes the informations necessary to draw the expression:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
      * used to call 'draw' method then. */
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
-    /* Draw the fraction with (x,y) being the top left corner of the
+    void computeDimensions(QPainter &painter) override;
+
+    /* draw(x, y, painter, cursor):
+     * Draw the fraction with (x,y) being the top left corner of the
      * drawn expression. The fraction bar is always considered at
      * the center. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
+
 };
 
 #endif // FRAC_H

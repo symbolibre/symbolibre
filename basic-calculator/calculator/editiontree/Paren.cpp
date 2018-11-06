@@ -97,6 +97,10 @@ bool Paren::editFrac(void)
 {
     return false;
 }
+bool Paren::editRoot(void)
+{
+    return false;
+}
 
 /* Dimensions */
 void Paren::computeDimensions(QPainter &painter)

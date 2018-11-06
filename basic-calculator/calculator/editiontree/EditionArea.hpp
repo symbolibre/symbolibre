@@ -60,35 +60,48 @@ public:
      * 'false' and does nothing. */
 
     /* About deleting */
-    bool editDelete(void) override;
-    /* Deletes the node or character left to the cursor. Returns 'false'
+    /* editDelete():
+     * Deletes the node or character left to the cursor. Returns 'false'
      * if nothing has been deleted. */
+    bool editDelete(void) override;
+    /* editClear():
+     * Clears the content of the current node. */
     bool editClear(void) override;
-    /* Clears the content of the current node. */
 
+    /* editChar(symbol):
+     * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
-    /* Adds the specified character to the cursor's position. */
-    bool editParen(nodetype paren_type = LPAREN) override;
-    /* Adds a paren to the cursor's position. You should specify if this is
+    /* editParen(paren_type):
+     * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). Cannot be done by edition
      * area, so returns 'false' and the above flow will cut the edition area
      * in two and will place a parenthesis between. */
-    bool editFrac(void) override;
-    /* Adds a fraction to the cursor's position. Cannot be done by edition
+    bool editParen(nodetype paren_type = LPAREN) override;
+
+    /* editFrac():
+     * Adds a fraction at the cursor's position. Cannot be done by edition
      * area, so returns 'false' and the above flow will cut the edition area
      * in two and will place a fraction between. */
+    bool editFrac(void) override;
+    /* editRoot(void):
+     * Adds a square at the cursor's position. */
+    bool editRoot(void) override;
 
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
-    /* Computes the informations necessary to draw the expression:
+    /* computeDimensions(painter):
+     * Computes the informations necessary to draw the expression:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
      * used to call 'draw' method then. */
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
-    /* Draw the text with (x,y) being the top left corner of the
+    void computeDimensions(QPainter &painter) override;
+
+    /* draw(x, y, painter, cursor):
+     * Draw the text with (x,y) being the top left corner of the
      * drawn expression. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
+
 };
 
 #endif // EDITIONAREA_H

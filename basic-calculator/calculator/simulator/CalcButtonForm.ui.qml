@@ -1,9 +1,10 @@
-import QtQuick 2.9
+import QtQuick 2.8
 
 Item {
     id: root
     width: 30
     height: 30
+    property alias clickableArea: clickableArea
     property alias alphaTextText: alphaText.text
     property alias sndTextText: sndText.text
     property alias mainTextText: mainText.text
@@ -71,7 +72,6 @@ Item {
             anchors.fill: parent
             onPressed: button.color = pressedColor
             onReleased: button.color = standardColor
-            onClicked: root.activated()
         }
     }
 }

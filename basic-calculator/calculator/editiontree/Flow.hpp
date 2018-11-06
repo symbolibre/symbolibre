@@ -61,30 +61,41 @@ public:
     /* Clears the content of the current node. */
 
     /* The usual edition part */
+    /* editChar(symbol):
+     * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
-    /* Adds the specified character to the cursor's position. */
-    bool editParen(nodetype paren_type = LPAREN) override;
-    /* Adds a paren to the cursor's position. You should specify if this is
+    /* editParen(paren_type):
+     * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
+    bool editParen(nodetype paren_type = LPAREN) override;
+    /* editFrac():
+     * Adds a fraction at the cursor's position. */
     bool editFrac(void) override;
-    /* Adds a fraction to the cursor's position. */
+    /* editRoot():
+     * Adds a root at the cursor's position. */
+    bool editRoot(void) override;
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
-    /* Computes the informations necessary to draw the expression:
+    /* computeDimensions(painter):
+     * Computes the informations necessary to draw the expression:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
      * used to call 'draw' method then.
      * Flow nodes also make calls to 'parenArea' to compute the size of
      * parenthesis. */
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
-    /* Draw the formula with (x,y) being the top left corner of the
+    void computeDimensions(QPainter &painter) override;
+
+    /* draw(x, y, painter, cursor):
+     * Draw the formula with (x,y) being the top left corner of the
      * drawn expression. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
+    /* parenArea(...):
+     * Returns the box size that the paren at cur_node-- grap. */
     struct centeredBox
     parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &cur_node,
               QPainter &painter);
-    /* Returns the box size that the paren at cur_node-- grap. */
+
 };
 
 #endif // FLOW_H

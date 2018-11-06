@@ -161,6 +161,14 @@ bool Frac::editFrac(void)
         return denominator->editFrac();
 }
 
+bool Frac::editRoot(void)
+{
+    if (cursor_on_top)
+        return numerator->editRoot();
+    else
+        return denominator->editRoot();
+}
+
 void Frac::computeDimensions(QPainter &painter)
 {
     numerator->computeDimensions(painter);

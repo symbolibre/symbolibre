@@ -86,6 +86,9 @@ void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
     case KeyCode::SLK_RPAREN:
         expression.editParen(RPAREN);
         break;
+    case KeyCode::SLK_SQUAREROOT:
+        expression.editRoot();
+        break;
 
     /* Arrows */
     case KeyCode::SLK_UP:

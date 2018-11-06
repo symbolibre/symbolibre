@@ -180,7 +180,7 @@ Item {
                 CalcButton {
                     id: buttonI
                     alphaTextText: "I"
-                    mainTextText: ""
+                    mainTextText: "√"
                     sndTextText: ""
                 }
 

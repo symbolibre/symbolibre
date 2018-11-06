@@ -49,8 +49,8 @@
  *
  */
 
-enum movedir { MNPushedE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
-enum nodetype { NPushedE, ROOT, FLOW, TEXT, LPAREN, RPAREN, FRAC };
+enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
+enum nodetype { NONE, ROOT, FLOW, TEXT, LPAREN, RPAREN, FRAC, SQUAREROOT };
 
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -72,29 +72,40 @@ public:
     int cursor_pos;
 
 public:
-    virtual void ascii(int shift, bool contains_cursor) = 0;
-    /* Print the tree structure of the node. 'shift' should be set to 0,
+    /* ascii(shift, contains_cursor):
+     * Print the tree structure of the node. 'shift' should be set to 0,
      * contains_cursor to true if you want to track the cursor's position. */
-    virtual std::string getText(void) = 0;
-    /* Returns a std::string that is python-parsable. Beware that this
+    virtual void ascii(int shift, bool contains_cursor) = 0;
+
+    /* getText():
+     * Returns a std::string that is python-parsable. Beware that this
      * function is sub-optimal. */
+    virtual std::string getText(void) = 0;
+
+    /* append(str): Exclusive to some nodes - don't use this function. */
     virtual void append(std::string &str) = 0;
-    /* Exclusive to some nodes - don't use this function. */
 
-    virtual bool dropCursor(movedir dir) = 0;
-    /* A function to replace the cursor according the the direction 'dir'
+    /* dropCursor(dir):
+     * A function to replace the cursor according the the direction 'dir'
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */
+    virtual bool dropCursor(movedir dir) = 0;
 
+    /* cutAtCursor(cut):
+     * Specific to cursor repositioning. Don't use this function. */
     virtual void cutAtCursor(std::string &cut) = 0;
-    /* Specific to cursor repositioning. Don't use this function. */
 
+    /* empty()!
+     * Returns 'true' if the current node is empty.
+     * By convention, a root node is empty iff its content is empty. */
     virtual bool empty(void) = 0;
-    /* Returns 'true' if the current node is empty (see each particular
-     * node to check convention. */
+
+    /* reachedRight():
+     * Tells whether or not the cursor has place to move right. */
     virtual bool reachedRight(void) = 0;
-    /* Tells whether or not the cursor has place to move right. */
+
+    /* reachedLeft():
+     * Tells whether or not the cursor has place to move left. */
     virtual bool reachedLeft(void) = 0;
-    /* Tells whether or not the cursor has place to move left. */
 
     /* All edition methods return 'true' if they were able to do the edition
      * locally, and return 'false' if it has to be done above in the e.t.
@@ -106,30 +117,40 @@ public:
     virtual bool editMoveDown(void) = 0;  /* Move the cursor down.  */
 
     /* About some delete actions */
-    virtual bool editDelete(void) = 0;
-    /* Deletes the node or character left to the cursor. Returns 'false'
+    /* editDelete():
+     * Deletes the node or character left to the cursor. Returns 'false'
      * if nothing has been deleted. */
+    virtual bool editDelete(void) = 0;
+    /* editClear():
+     * Clears the content of the current node. */
     virtual bool editClear(void)  = 0;
-    /* Clears the content of the current node. */
 
+    /* editChar(symbol):
+     * Adds the specified character at the cursor's position. */
     virtual bool editChar(char symbol) = 0;
-    /* Adds the specified character to the cursor's position. */
-    virtual bool editParen(nodetype paren_type = LPAREN) = 0;
-    /* Adds a paren to the cursor's position. You should specify if this is
+    /* editParen(paren_type):
+     * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
+    virtual bool editParen(nodetype paren_type = LPAREN) = 0;
+    /* editFrac():
+     * Adds a fraction at the cursor's position. */
     virtual bool editFrac(void) = 0;
-    /* Adds a fraction to the cursor's position. */
+    /* editRoot():
+     * Adds a root at the cursor's position. */
+    virtual bool editRoot(void) = 0;
 
     /* About computing dimension to print */
-    virtual void computeDimensions(QPainter &painter) = 0;
-    /* Computes the informations necessary to draw the expression:
+    /* computeDimensions(painter):
+     * Computes the informations necessary to draw the expression:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
      * used to call 'draw' method then. */
-    virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
-    /* Draw the formula with (x,y) being the top left corner of the
+    virtual void computeDimensions(QPainter &painter) = 0;
+    /* draw(x, y, painter, cursor):
+     * Draw the formula with (x,y) being the top left corner of the
      * drawn expression. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
+    virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
 };
 
 /* END : to ensure general use: you will just have to do a

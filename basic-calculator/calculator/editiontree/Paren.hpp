@@ -61,6 +61,9 @@ public: /* methods */
     /* Parens does not accept this operation. (Does nothing) */
     bool editFrac(void) override;
     /* Parens does not accept this operation. (Does nothing) */
+    /* editRoot():
+     * Parens does not accept this operation. (Does nothing) */
+    bool editRoot(void) override;
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter) override;
