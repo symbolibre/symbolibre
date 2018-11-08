@@ -146,6 +146,7 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
     painter.drawLine(x, y + 2 * height / 3, x + rootWidth / 3, y + height);
     painter.setRenderHint(QPainter::Antialiasing, false);
 
+
     /* Then, draw the 'expression' */
     expression->draw(x + rootWidth, y + ROOT_HSPACE, painter, cursor);
 
