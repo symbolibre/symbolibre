@@ -41,13 +41,13 @@ void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
         switch (input) {
         /* Mathematical Operands */
         case KeyCode::SLK_PLUS:
-            expression.editChar('+');
+            expression.editOperator('+', QString("+"));
             break;
         case KeyCode::SLK_MINUS:
-            expression.editChar('-');
+            expression.editOperator('-', QString("-"));
             break;
         case KeyCode::SLK_TIMES:
-            expression.editChar('*');
+            expression.editOperator('*', QString("×"));
             break;
         case KeyCode::SLK_DIVIDE:
             expression.editFrac();
@@ -89,6 +89,7 @@ void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
             break;
         }
 
+    expression.ascii(0, true);
     emit expressionChanged();
     update();
 }

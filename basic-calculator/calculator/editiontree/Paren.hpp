@@ -7,26 +7,35 @@
 /* Parens are semantic nodes, yet a bit special because
  * they are leaf ones. */
 
-#define PAREN_SPACE 4;
+#define PAREN_SPACE 1 //4
 
 class Paren : public EditionTree
 {
 
 public: /* methods */
     Paren(nodetype paren_type = LPAREN);
-    void ascii(int shift, bool contains_cursor) override;
-    /* Print the tree structure of the node. 'shift' should be set to 0,
-     * contains_cursor to true if you want to track the cursor's position. */
-    std::string getText(void) override;
-    /* Returns a std::string that is python-parsable. Beware that this
-     * function is sub-optimal. */
-    void append(std::string &) override;
-    /* Parens does not accept this operation. (Does nothing) */
 
+    /* ascii(shift, contains_cursor):
+     * Print the tree structure of the node. 'shift' should be set to 0,
+     * contains_cursor to true if you want to track the cursor's position. */
+    void ascii(int shift, bool contains_cursor) override;
+
+    /* getText():
+     * Returns a std::string that is python-parsable. Beware that this
+     * function is sub-optimal. */
+    std::string getText(void) override;
+
+    /* append(...):
+     * Parens does not accept this operation. (Does nothing) */
+    void append(std::string &) override;
+
+    /* dropCursor(dir):
+     * Parens does not accept this operation. (Does nothing) */
     bool dropCursor(movedir dir) override;
-    /* Parens does not accept this operation. (Does nothing) */
+
+    /* cutAtCursor(cut):
+     * Parens does not accept this operation. (Does nothing) */
     void cutAtCursor(std::string &cut) override;
-    /* Parens does not accept this operation. (Does nothing) */
 
     /* Administrative : two methods that tells if the cursor has space
      * to move right/left. */
@@ -57,6 +66,11 @@ public: /* methods */
 
     bool editChar(char symbol) override;
     /* Parens does not accept this operation. (Does nothing) */
+
+    /* editOperator(achar, qchar):
+     * Parens does not accept this operation. (Does nothing) */
+    bool editOperator(char achar, QString qstring) override;
+
     bool editParen(nodetype paren_type = LPAREN) override;
     /* Parens does not accept this operation. (Does nothing) */
     bool editFrac(void) override;
@@ -66,13 +80,16 @@ public: /* methods */
     bool editRoot(void) override;
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
-    /* A paren cannot know its dimensions by itself. The true computation
+    /* computeDimensions(painter):
+     * A paren cannot know its dimensions by itself. The true computation
      * is done by the flow above. */
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
-    /* Draw the parenthesis with (x,y) being the top left corner of the
+    void computeDimensions(QPainter &painter) override;
+
+    /* draw(x, y, painter, cursor):
+     * Draw the parenthesis with (x,y) being the top left corner of the
      * drawn expression. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 
 #endif // PAREN_H

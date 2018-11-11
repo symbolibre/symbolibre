@@ -101,6 +101,10 @@ bool Paren::editRoot(void)
 {
     return false;
 }
+bool Paren::editOperator(char, QString)
+{
+    return false;
+}
 
 /* Dimensions */
 void Paren::computeDimensions(QPainter &painter)

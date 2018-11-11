@@ -105,6 +105,11 @@ bool Root::editChar(char symbol)
     return expression->editChar(symbol);
 }
 
+bool Root::editOperator(char achar, QString qstring)
+{
+    return expression->editOperator(achar, qstring);
+}
+
 bool Root::editParen(nodetype paren_type)
 {
     return expression->editParen(paren_type);

@@ -11,6 +11,7 @@
 #include <QRect>
 
 #define MIN_SIZE 10
+#define INTERSPACE MIN_SIZE/2
 
 /* A brief introduction to EDITION TREES
  *
@@ -50,7 +51,7 @@
  */
 
 enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
-enum nodetype { NONE, ROOT, FLOW, TEXT, LPAREN, RPAREN, FRAC, SQUAREROOT };
+enum nodetype { NONE, ROOT, FLOW, TEXT, OPERATOR, LPAREN, RPAREN, FRAC, SQUAREROOT };
 
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -128,13 +129,22 @@ public:
     /* editChar(symbol):
      * Adds the specified character at the cursor's position. */
     virtual bool editChar(char symbol) = 0;
+
+    /* editOperator(achar, qchar):
+     * Adds the specified operator at the cursor's position, cutting flows if
+     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
+     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D. */
+    virtual bool editOperator(char achar, QString qstring) = 0;
+
     /* editParen(paren_type):
      * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
     virtual bool editParen(nodetype paren_type = LPAREN) = 0;
+
     /* editFrac():
      * Adds a fraction at the cursor's position. */
     virtual bool editFrac(void) = 0;
+
     /* editRoot():
      * Adds a root at the cursor's position. */
     virtual bool editRoot(void) = 0;
@@ -145,6 +155,7 @@ public:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
      * used to call 'draw' method then. */
+
     virtual void computeDimensions(QPainter &painter) = 0;
     /* draw(x, y, painter, cursor):
      * Draw the formula with (x,y) being the top left corner of the
@@ -160,5 +171,6 @@ public:
 #include "Frac.hpp"
 #include "Paren.hpp"
 #include "EditionArea.hpp"
+#include "Operator.hpp"
 
 #endif // EDITIONTREE_H

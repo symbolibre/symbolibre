@@ -20,6 +20,21 @@ Frac::Frac(void)
     denominator = std::make_unique<Flow>(FLOW);
 }
 
+Frac::Frac(std::string &strnum)
+{
+    ntype         = FRAC;
+    width         =    0;
+    height        =    0;
+    center_height =    0;
+    cursor_pos    =    0;
+
+    cursor_on_top = true;
+
+    /* For now, numerator and denominator are set to empty flows */
+    numerator   = std::make_unique<Flow>(FLOW, strnum);
+    denominator = std::make_unique<Flow>(FLOW);
+}
+
 void Frac::ascii(int shift, bool cc)
 {
     for (int i = 0; i < shift; i++)
@@ -60,7 +75,8 @@ void Frac::cutAtCursor(std::string &)
 
 bool Frac::empty(void)
 {
-    return numerator->empty() && denominator->empty();
+    return false;
+    //return numerator->empty() && denominator->empty();
 }
 
 bool Frac::reachedRight(void)
@@ -169,6 +185,14 @@ bool Frac::editRoot(void)
         return denominator->editRoot();
 }
 
+bool Frac::editOperator(char achar, QString qstring)
+{
+    if (cursor_on_top)
+        return numerator->editOperator(achar, qstring);
+    else
+        return denominator->editOperator(achar, qstring);
+}
+
 void Frac::computeDimensions(QPainter &painter)
 {
     numerator->computeDimensions(painter);
@@ -188,9 +212,9 @@ void Frac::computeDimensions(QPainter &painter)
 
 void Frac::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    //QRect brect = QRect(x, y, width, height);
+    /*QRect brect = QRect(x, y, width, height);
 
-    /*painter.setPen(Qt::red);
+    painter.setPen(Qt::red);
     painter.drawRect(brect);
     painter.setPen(Qt::black);*/
 

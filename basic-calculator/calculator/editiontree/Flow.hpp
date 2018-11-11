@@ -22,21 +22,30 @@ private:
 
 public:
     Flow(nodetype arg_ntype = FLOW);
-    void ascii(int shift, bool contains_cursor) override;
-    /* Print the tree structure of the node. 'shift' should be set to 0,
+    Flow(nodetype arg_ntype, std::string &strinit);
+    /* ascii(shift, contains_cursor):
+     * Print the tree structure of the node. 'shift' should be set to 0,
      * contains_cursor to true if you want to track the cursor's position. */
-    std::string getText(void)  override;
-    /* Returns a std::string that is python-parsable. Beware that this
+    void ascii(int shift, bool contains_cursor) override;
+
+    /* getText():
+     * Returns a std::string that is python-parsable. Beware that this
      * function is sub-optimal. */
+    std::string getText(void)  override;
+    /* append(...):
+     * Exclusive to some nodes - don't use this function. */
     void append(std::string &) override;
-    /* Exclusive to some nodes - don't use this function. */
-    bool dropCursor(movedir dir) override;
-    /* A function to replace the cursor according the the direction 'dir'
+
+    /* dropCursor(dir):
+     * A function to replace the cursor according the the direction 'dir'
      * Returns 'true' if cursor can be dropped, 'false' otherwise. If the
      * flow is ROOT, catch all 'false' and try to replace the cursor
      * without returning 'false' ever. */
+    bool dropCursor(movedir dir) override;
+
+    /* cutAtCursor(&cut):
+     * Specific to cursor repositioning. Don't use this function. */
     void cutAtCursor(std::string &cut) override;
-    /* Specific to cursor repositioning. Don't use this function. */
 
     /* Administrative : */
     bool empty(void) override;
@@ -54,23 +63,37 @@ public:
     bool editMoveDown(void) override;  /* Move the cursor down.  */
 
     /* About deleting */
-    bool editDelete(void) override;
-    /* Deletes the node or character left to the cursor. Returns 'false'
+    /* editDelete():
+     * Deletes the node or character left to the cursor. Returns 'false'
      * if nothing has been deleted. */
+    bool editDelete(void) override;
+
+    /* editClear():
+     * Clears the content of the current node. */
     bool editClear(void) override;
-    /* Clears the content of the current node. */
 
     /* The usual edition part */
     /* editChar(symbol):
      * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
+
+    /* editOperator(achar, qchar):
+     * Adds the specified operator at the cursor's position, cutting flows if
+     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
+     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
+     * Flows ARE the nodes that handle the creation of the operator semantic node. */
+    bool editOperator(char achar, QString qstring) override;
+
+
     /* editParen(paren_type):
      * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
     bool editParen(nodetype paren_type = LPAREN) override;
+
     /* editFrac():
      * Adds a fraction at the cursor's position. */
     bool editFrac(void) override;
+
     /* editRoot():
      * Adds a root at the cursor's position. */
     bool editRoot(void) override;
@@ -90,11 +113,16 @@ public:
      * drawn expression. If 'cursor' is set to 'true', also draw a red
      * cursor at the right place. */
     void draw(int x, int y, QPainter &painter, bool cursor) override;
+
     /* parenArea(...):
      * Returns the box size that the paren at cur_node-- grap. */
     struct centeredBox
     parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &cur_node,
               QPainter &painter);
+
+    /* numberNonEmpty(void):
+     * return the number of the nodes which are non-empty within the flow. */
+    int numberNonEmpty(void);
 
 };
 

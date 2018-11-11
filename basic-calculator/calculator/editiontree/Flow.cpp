@@ -2,6 +2,7 @@
 #include "EditionArea.hpp"
 #include "Frac.hpp"
 #include "Paren.hpp"
+#include "Operator.hpp"
 #include "Root.hpp"
 
 #include <algorithm>
@@ -23,12 +24,29 @@ Flow::Flow(nodetype arg_ntype)
     return;
 }
 
+Flow::Flow(nodetype arg_ntype, std::string &strinit)
+{
+    width = height = center_height = 0;
+    cursor_pos = 0; /* not used */
+
+    ntype = arg_ntype;
+
+    /* The flow is initialized with an edition area. */
+    auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(strinit);
+    edited_node = flow.insert(flow.begin(), std::move(new_text));
+    return;
+}
+
 void Flow::ascii(int shift, bool cc)
 {
     /* Flow nodes have only one child, so quite east too */
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
-    std::cout << " └" << (cc ? '*' : ' ') << "FLOW\n";
+    if (ntype != ROOT)
+        std::cout << " └" << (cc ? '*' : ' ') << "FLOW\n";
+    else
+        std::cout << " └" << (cc ? '*' : ' ') << "ROOT\n";
     for (auto it = flow.begin(); it != flow.end(); it++)
         (*it)->ascii(shift + 1, cc && it == edited_node);
     return;
@@ -174,6 +192,29 @@ bool Flow::editClear(void)
     return true;
 }
 
+bool Flow::editOperator(char achar, QString qstring)
+{
+    if ((*edited_node)->editOperator(achar, qstring))
+        return true;
+
+    /* else : the edited node is obsiously an edition area so we have to
+     * split it into two an insert the operator between the two fresh
+     * edition areas. */
+
+    std::string right_str;
+    (*edited_node)->cutAtCursor(right_str);
+    ++edited_node;
+
+    auto new_op   = std::make_unique<Operator>(achar, qstring);
+    auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(right_str);
+
+    edited_node = ++flow.insert(edited_node, std::move(new_op));
+    edited_node = flow.insert(edited_node, std::move(new_text));
+    (*edited_node)->dropCursor(MLEFT);
+
+    return true;
+}
 
 bool Flow::editParen(nodetype paren_type)
 {
@@ -204,21 +245,40 @@ bool Flow::editFrac(void)
     if ((*edited_node)->editFrac())
         return true;
 
-    /* else : the edited node is obsviously an edition area, so we have to
-     * split into two and insert a fraction between the two edition areas. */
+    /* else : the edited node is obsviously an edition area, so we have two
+     *        cases:
+     *        - either the cursor is at the end of the edition area, so
+     *          the fraction absorbs it.
+     *        - in the other case, we split into two and insert a fraction
+     *          between the two edition areas. */
 
     /* This code could be reduced, but would be harder to understand */
-    std::string right_str;
-    (*edited_node)->cutAtCursor(right_str);
-    ++edited_node;
+    if (!(*edited_node)->empty() && (*edited_node)->reachedRight()) { // absorbing case.
+        std::string   numerator = (*edited_node)->getText();
+        (*edited_node)->editClear();
+        ++edited_node;
 
-    auto new_frac = std::make_unique<Frac>();
-    auto new_text = std::make_unique<EditionArea>();
-    new_text->set_to(right_str);
+        auto new_text = std::make_unique<EditionArea>();
+        auto new_frac = std::make_unique<Frac>(numerator);
 
-    edited_node = ++flow.insert(edited_node, std::move(new_frac));
-    edited_node = --flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->dropCursor(MLEFT);
+        edited_node = ++flow.insert(edited_node, std::move(new_frac));
+        edited_node = --flow.insert(edited_node, std::move(new_text));
+
+        (*edited_node)->dropCursor(MDOWN);
+        editMoveDown();
+    } else { // cutting case
+        std::string right_str;
+        (*edited_node)->cutAtCursor(right_str);
+        ++edited_node;
+
+        auto new_frac = std::make_unique<Frac>();
+        auto new_text = std::make_unique<EditionArea>();
+        new_text->set_to(right_str);
+
+        edited_node = ++flow.insert(edited_node, std::move(new_frac));
+        edited_node = --flow.insert(edited_node, std::move(new_text));
+        (*edited_node)->dropCursor(MLEFT);
+    }
 
     return true;
 }
@@ -332,6 +392,11 @@ void Flow::computeDimensions(QPainter &painter)
             it++;
         }
     }
+
+    /* At the end the width corresponding to interspacement. */
+    int nonEmpty = numberNonEmpty();
+    if (nonEmpty > 0)
+        width += INTERSPACE * (nonEmpty - 1);
     return;
 }
 
@@ -348,6 +413,9 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
                    - center_height + (*it)->center_height;
         (*it)->draw(x, it_y, painter, it == edited_node && cursor);
         x += (*it)->width;
+
+        if (!(*it)->empty())
+            x += INTERSPACE;
     }
 
     return;
@@ -422,3 +490,12 @@ Flow::parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &
     return par_box;
 }
 
+
+int Flow::numberNonEmpty(void)
+{
+    int n = 0;
+    for (auto it = flow.begin(); it != flow.end(); it++)
+        if (!(*it)->empty())
+            n++;
+    return n;
+}

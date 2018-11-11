@@ -148,6 +148,11 @@ bool EditionArea::editChar(char symbol)
 
 /* An edition area cannot manage the insertion of a semantic alone, because
  * a split has to be done */
+bool EditionArea::editOperator(char, QString)
+{
+    return false;
+}
+
 bool EditionArea::editParen(nodetype)
 {
     return false;

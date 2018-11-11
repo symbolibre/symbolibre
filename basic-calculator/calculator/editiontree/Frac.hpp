@@ -11,7 +11,7 @@
 
 #define UP_SPACE   2
 #define DOWN_SPACE 2
-#define FRAC_SPACE MIN_SIZE/2
+#define FRAC_SPACE 0 //MIN_SIZE/2
 
 class Flow; /* forward declaration */
 
@@ -28,12 +28,14 @@ class Flow; /* forward declaration */
 
 class Frac : public EditionTree
 {
-private:
+public:
     std::unique_ptr<Flow> numerator;
     std::unique_ptr<Flow> denominator;
     bool cursor_on_top;
 public:
     Frac(void);
+    Frac(std::string &strnum);
+
 
     void ascii(int shift, bool contains_cursor) override;
     /* Print the tree structure of the node. 'shift' should be set to 0,
@@ -54,7 +56,7 @@ public:
     /* This functions does nothing on Frac nodes. */
 
     bool empty(void) override;
-    /* Returns 'true' if both numerator and denominator are empty. */
+    /* Convention: Fractions are not empty. */
     bool reachedRight(void) override;
     /* Tells whether or not the cursor has place to move right. */
     bool reachedLeft(void) override;
@@ -75,6 +77,7 @@ public:
      * Always returns 'true'. A fraction does not propagate the error up if
      * the it cannot erase something. */
     bool editDelete(void) override;
+
     /* editClear():
      * Clears the numerator and the denominator. */
     bool editClear(void) override;
@@ -82,13 +85,23 @@ public:
     /* editChar(symbol);
      * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
+
+    /* editOperator(achar, qchar):
+     * Adds the specified operator at the cursor's position, cutting flows if
+     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
+     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
+     * Inserts it at the current selected part. */
+    bool editOperator(char achar, QString qstring) override;
+
     /* editParen(paren_type):
      * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
     bool editParen(nodetype paren_type = LPAREN) override;
+
     /* editFrac():
      * Adds a fraction at the cursor's position. */
     bool editFrac(void) override;
+
     /* editRoot():
      * Adds a root at the cursor's position. */
     bool editRoot(void) override;
