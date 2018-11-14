@@ -24,12 +24,12 @@ Item {
 
         Text {
             id: mainText
-            x: 11
-            y: 16
             color: "#000000"
             text: "N"
             elide: Text.ElideNone
             wrapMode: Text.NoWrap
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
             horizontalAlignment: Text.AlignHCenter
             font.family: "Ubuntu Sans"
             smooth: false
@@ -39,11 +39,12 @@ Item {
 
         Text {
             id: sndText
-            x: 2
-            y: 3
-            width: 13
             color: "#ffac04"
             text: qsTr("2nd")
+            anchors.left: parent.left
+            anchors.leftMargin: 2
+            anchors.top: parent.top
+            anchors.topMargin: 3
             textFormat: Text.AutoText
             font.family: "ubuntu sans mono"
             wrapMode: Text.NoWrap
@@ -52,12 +53,12 @@ Item {
 
         Text {
             id: alphaText
-            x: 15
-            y: 3
-            width: 13
-            height: 10
             color: "#ff0000"
             text: qsTr("Alp")
+            anchors.top: parent.top
+            anchors.topMargin: 3
+            anchors.right: parent.right
+            anchors.rightMargin: 2
             elide: Text.ElideRight
             transformOrigin: Item.Center
             horizontalAlignment: Text.AlignRight
@@ -75,3 +76,9 @@ Item {
         }
     }
 }
+
+
+/*##^## Designer {
+    D{i:2;anchors_x:11;anchors_y:16}D{i:4;anchors_y:3}
+}
+ ##^##*/
