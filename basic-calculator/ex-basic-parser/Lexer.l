@@ -1,6 +1,8 @@
 %{
 #include "expression.h"
 #include "Parser.h"
+#include <stdio.h>
+#include <string.h>
 
 %}
 
@@ -28,10 +30,11 @@ fermer		\)
 {fermer}	{ return(RPAR); }
 
 %%
-
+// We modify the lexer so we lex by taking string input
 int lauch_lex(char *buff) {
-  YY_BUFFER_STATE b = yy_scan_bytes (buff, sizeof(buff));
+  YY_BUFFER_STATE b = yy_scan_bytes (buff, strlen(buff));
   int a = yyparse();
   yy_delete_buffer(b);
+  return(a);
 }
 
