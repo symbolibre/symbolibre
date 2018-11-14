@@ -1,6 +1,7 @@
 %{
 #include "expression.h"
 #include "Parser.h"
+
 %}
 
 %option noyywrap
@@ -25,4 +26,12 @@ fermer		\)
 {divise}	{ return(DIVIDED); }
 {ouvrir}	{ return(LPAR); }
 {fermer}	{ return(RPAR); }
+
+%%
+
+int lauch_lex(char *buff) {
+  YY_BUFFER_STATE b = yy_scan_bytes (buff, sizeof(buff));
+  int a = yyparse();
+  yy_delete_buffer(b);
+}
 

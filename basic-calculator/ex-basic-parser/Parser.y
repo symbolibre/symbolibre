@@ -71,21 +71,24 @@ Times : Calc TIMES Calc {$$ = new TimesNode(*$1,*$3); }
 Divided : Calc DIVIDED Calc {$$ = new FracNode(*$1,*$3); }
 %%
 
+/*
+int main(void) {
+  char buff[1024];
+  while (1) {
+    //fgets(buffer, 1024, stdin);
+    int a = yyparse();
+    if (a==0) { // If there was no error then we evaluate our AST.
+          float b = root->evaluate();
+	  printf("%f\n",b);
+	  free(root);
+    }
+  }
+  return 0;
+}*/
+
+
 // output "sytax error"
 int yyerror(char *s) {
         printf("%s\n",s);
 	return 1;
-}
-
-int main(void) {
-	int a = yyparse();
-	if (a==0) { // If there was no error then we evaluate our AST.
-	  float b = root->evaluate();
-	  printf("%f\n",b);
-	  free(root);
-	  return 0;
-	}
-	else {
-	  return 1;
-	}
 }

@@ -4,7 +4,7 @@ EXEC = calculatrice
 
 all: $(EXEC)
 
-$(EXEC): Parser.o Lexer.o expression.o
+$(EXEC): Parser.o Lexer.o expression.o main.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
 %.o: %.cpp
