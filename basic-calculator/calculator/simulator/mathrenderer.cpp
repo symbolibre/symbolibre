@@ -6,19 +6,10 @@
 MathRenderer::MathRenderer(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
     expression = Flow(ROOT);
-    expression.editChar('w');
-    expression.editChar('o');
-    expression.editChar('r');
-    expression.editChar('k');
-    expression.editChar('i');
-    expression.editChar('n');
-    expression.editChar('g');
 }
 
 void MathRenderer::paint(QPainter *painter)
 {
-    //expression.ascii(0, true);
-
     QFont font = QFont("dejavu sans mono");
     font.setStyleHint(QFont::Monospace);
     font.setHintingPreference(QFont::PreferFullHinting);
@@ -27,13 +18,11 @@ void MathRenderer::paint(QPainter *painter)
 
     expression.computeDimensions(*painter);
     expression.draw(0, 0, *painter, true);
-    //painter->drawRect(0,0, 50, 50);
     return;
 }
 
 void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
 {
-    // std::cerr << "Received INPUT code: " << input << std::endl;
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         expression.editChar('A' + input - KeyCode::SLK_A);
     else if (KeyCode::SLK_0 <= input && input <= KeyCode::SLK_9)
@@ -95,7 +84,6 @@ void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
             break;
         }
 
-    expression.ascii(0, true);
     emit expressionChanged();
     update();
 }
