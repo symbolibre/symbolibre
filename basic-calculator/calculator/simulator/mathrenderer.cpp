@@ -1,6 +1,7 @@
 #include "mathrenderer.hpp"
 #include <iostream>
 #include <QFont>
+#include <string>
 
 MathRenderer::MathRenderer(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
@@ -81,6 +82,11 @@ void MathRenderer::recvInput(int /* KeyCode::keycode */ input)
             expression.editDelete();
             break;
         case KeyCode::SLK_CLEAR:
+            expression.editClear();
+            break;
+
+        case KeyCode::SLK_EXE:
+            std::cout << expression.getText() << " = " << evaluate(expression.getText()) << std::endl; // TODO no copy
             expression.editClear();
             break;
 

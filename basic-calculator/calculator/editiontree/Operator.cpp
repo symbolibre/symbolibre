@@ -25,7 +25,9 @@ void Operator::ascii(int shift, bool cc)
 
 std::string Operator::getText(void) /* DO NOT USE IT */
 {
-    return std::string(qstring.toUtf8().data());
+    std::string op = "."; // help T^T
+    op[0] = achar;
+    return op;
 }
 
 void Operator::append(std::string &)

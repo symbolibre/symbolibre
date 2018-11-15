@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = editiontree \
+SUBDIRS = editiontree \ 
+		  parser \
 		  simulator 
 simulator.depends = editiontree

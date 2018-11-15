@@ -3,6 +3,7 @@
 
 #include <EditionTree.hpp>
 #include "keycode.hpp"
+#include "interface.hpp"
 
 /* Class MathRenderer
  *

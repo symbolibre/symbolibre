@@ -2,8 +2,11 @@ TEMPLATE = app
 
 QT += qml quick
 CONFIG += c++11
-INCLUDEPATH += ../editiontree
-LIBS += -L../editiontree -leditiontree
+INCLUDEPATH += ../editiontree \
+	../parser
+
+LIBS += -L../editiontree -leditiontree \
+	-L../parser -lparser
 
 SOURCES += main.cpp \
     mathrenderer.cpp \
