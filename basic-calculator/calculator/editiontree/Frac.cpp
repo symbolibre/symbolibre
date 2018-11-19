@@ -48,11 +48,11 @@ void Frac::ascii(int shift, bool cc)
 std::string Frac::getText(void)
 /* FIXME : awfull complexity */
 {
-    std::string str = " (";
+    std::string str = "(";
     str.insert(str.size(), numerator->getText());
     str.insert(str.size(), ")/(");
     str.insert(str.size(), denominator->getText());
-    str.insert(str.size(), ") ");
+    str.insert(str.size(), ")");
     return str;
 }
 
@@ -198,14 +198,20 @@ void Frac::computeDimensions(QPainter &painter)
     numerator->computeDimensions(painter);
     denominator->computeDimensions(painter);
 
+    QFontMetrics metrics = painter.fontMetrics();
+    QRect br = metrics.boundingRect(QString("0"));
+    int min_height = br.height();
+
     width  = std::max(numerator->width, denominator->width);
-    if (width == 0) {
-        QFontMetrics metrics = painter.fontMetrics();
-        width = metrics.width(QChar('a'));
-    }
+    if (width == 0)
+        width = metrics.width(QChar('0'));
+
     width += FRAC_SPACE;
-    height = UP_SPACE + DOWN_SPACE + numerator->height + denominator->height;
-    center_height = DOWN_SPACE + denominator->height;
+    height = FRAC_UP_SPACE + FRAC_DOWN_SPACE +
+             std::max(min_height, numerator->height) +
+             std::max(min_height, denominator->height);
+    center_height = FRAC_DOWN_SPACE +
+                    std::max(min_height, denominator->height);
 
     return;
 }
@@ -224,11 +230,11 @@ void Frac::draw(int x, int y, QPainter &painter, bool cursor)
 
     /* frac line */
     int y_line = y + height - center_height;
-    painter.drawLine(x + FRAC_SPACE / 2, y_line, x - FRAC_SPACE / 2 + width, y_line);
+    painter.drawLine(x + FRAC_SPACE / 2, y_line, x - FRAC_SPACE / 2 + width - 1, y_line);
 
     /* Denominator */
     int x_denominator = x + (width - denominator->width) / 2;
-    int y_denominator = y + height - center_height + UP_SPACE;
+    int y_denominator = y + height - center_height + FRAC_UP_SPACE;
 
     denominator->draw(x_denominator, y_denominator, painter,
                       cursor && !cursor_on_top);

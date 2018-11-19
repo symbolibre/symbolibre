@@ -10,8 +10,7 @@
 #include <QFontMetrics>
 #include <QRect>
 
-#define MIN_SIZE 10
-#define INTERSPACE MIN_SIZE/2
+#include "graphicalParameters.hpp"
 
 /* A brief introduction to EDITION TREES
  *

@@ -9,9 +9,7 @@
 #include "EditionTree.hpp"
 #include <memory>
 
-#define UP_SPACE   2
-#define DOWN_SPACE 2
-#define FRAC_SPACE 0 //MIN_SIZE/2
+//MIN_SIZE/2
 
 class Flow; /* forward declaration */
 

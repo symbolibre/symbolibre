@@ -132,7 +132,7 @@ void Root::computeDimensions(QPainter &painter)
     /* Computing width */
 
     rootWidth     = ROOT_WIDTH;
-    width         = expression->width  + rootWidth + ROOT_VSPACE;
+    width         = expression->width  + rootWidth + 2 * ROOT_VSPACE;
     height        = expression->height + ROOT_HSPACE;
     center_height = expression->center_height;
 
@@ -153,7 +153,8 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
 
 
     /* Then, draw the 'expression' */
-    expression->draw(x + rootWidth, y + ROOT_HSPACE, painter, cursor);
+    expression->draw(x + rootWidth + ROOT_VSPACE,
+                     y + ROOT_HSPACE, painter, cursor);
 
     return;
 }

@@ -7,8 +7,6 @@
 /* Parens are semantic nodes, yet a bit special because
  * they are leaf ones. */
 
-#define PAREN_SPACE 1 //4
-
 class Paren : public EditionTree
 {
 

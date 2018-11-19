@@ -11,7 +11,7 @@ std::string evaluate(std::string input)
     int a = lauch_lex(input.data());
     if (a == 0) { // If there was no error then we evaluate our AST.
         float b = root->evaluate();
-        return (std::to_string(b));
+        return std::to_string(b);
     }
-    return ("Erreur syntaxe");
+    return std::string("Erreur syntaxe");
 }

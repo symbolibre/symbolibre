@@ -4,10 +4,6 @@
 #include "EditionTree.hpp"
 #include <memory>
 
-#define ROOT_HSPACE 2 /* The space between the top bar and the expression below */
-#define ROOT_VSPACE 2 /* The space on the right */
-#define ROOT_WIDTH  6 /* The size of the root */
-
 class Flow; /* forward declaration */
 
 /* Root are semantical square root nodes (√).

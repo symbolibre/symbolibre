@@ -9,7 +9,7 @@ LIBS += -L../editiontree -leditiontree \
 	-L../parser -lparser
 
 SOURCES += main.cpp \
-    mathrenderer.cpp \
+    calcsheet.cpp \
     keycode.cpp
 
 RESOURCES += qml.qrc
@@ -39,7 +39,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    mathrenderer.hpp \
+    calcsheet.hpp \
     keycode.hpp
 
 DISTFILES +=

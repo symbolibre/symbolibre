@@ -174,7 +174,7 @@ void EditionArea::computeDimensions(QPainter &painter)
     QRect br = metrics.boundingRect(QString::fromStdString(text));
 
     width  = br.width();
-    height = std::max(MIN_SIZE, br.height());
+    height = std::max(FONT_SIZE, br.height());
     center_height = height / 2; // FIXME ?
 
     return;
