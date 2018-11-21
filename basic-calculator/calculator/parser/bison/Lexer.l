@@ -8,25 +8,27 @@
 %option noyywrap
 
 blanks          [ \t\n]+
-entier		[0-9]+
+integer		[0-9]+
 plus		\+
-moins		\-
-fois		\*
-divise		\/
-ouvrir		\(
-fermer		\)
+minus		\-
+times		\*
+divide		\/
+opar		\(
+cpar 		\)
+sqrt		sqrt
 
 %%
 
 {blanks}        { /* ignore */ }
 
-{entier}	{ yylval.value = atof(yytext); return NUMBER; }
+{integer}	{ yylval.value = atof(yytext); return NUMBER; }
 {plus}		{ return(PLUS); }
-{moins}		{ return(MINUS); }
-{fois}		{ return(TIMES); }
-{divise}	{ return(DIVIDED); }
-{ouvrir}	{ return(LPAR); }
-{fermer}	{ return(RPAR); }
+{minus}		{ return(MINUS); }
+{times}		{ return(TIMES); }
+{divide}	{ return(DIVIDED); }
+{opar}		{ return(LPAR); }
+{cpar}		{ return(RPAR); }
+{sqrt}		{ return(SQRT); }
 
 %%
 // We modify the lexer so we lex by taking string input

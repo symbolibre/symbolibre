@@ -111,4 +111,11 @@ public:
     virtual float evaluate() override;
 };
 
+class SqrtNode : public UnaryNode
+{
+public:
+    SqrtNode(ExpressionNode &C);
+    virtual float evaluate() override;
+};
+
 #endif // EXPRESSION_H

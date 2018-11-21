@@ -42,6 +42,7 @@ ExpressionNode *root;
 %type <exp>   Times
 %type <exp>   Divided
 %type <exp>   Paren
+%type <exp>   Sqrt
 
 
 // We delare our tokens, and if they have a field.
@@ -53,6 +54,7 @@ ExpressionNode *root;
 %left MINUS
 %left TIMES
 %left DIVIDED
+%token SQRT
 %token LPAR
 %token RPAR
 
@@ -67,6 +69,7 @@ Calc: NUMBER { $$ = new NumberNode($1); }
    | Times {$$ = $1; }
    | Divided {$$ = $1; }
    | Paren { $$ = $1; }
+   | Sqrt { $$ = $1; }
 
 Paren : LPAR Calc RPAR { $$ = $2; }
 
@@ -77,6 +80,8 @@ Minus : Calc MINUS Calc {$$ = new MinusNode(*$1,*$3); }
 Times : Calc TIMES Calc {$$ = new TimesNode(*$1,*$3); }
 
 Divided : Calc DIVIDED Calc {$$ = new FracNode(*$1,*$3); }
+
+Sqrt: SQRT LPAR Calc RPAR { $$ = new SqrtNode(*$3); }
 %%
 
 

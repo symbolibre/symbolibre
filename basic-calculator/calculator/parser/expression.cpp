@@ -1,6 +1,7 @@
 #include <map>
 #include <list>
 #include "expression.h"
+#include <cmath>
 
 // Here we implement the methods of the classes given in expression.h
 // If class A has a method f, we will use the syntax A::f to refer to the method.
@@ -79,6 +80,12 @@ UnaryMinusNode::UnaryMinusNode(ExpressionNode &C): UnaryNode(C) {}
 float UnaryMinusNode::evaluate()
 {
     return (-child->evaluate());
+}
+
+SqrtNode::SqrtNode(ExpressionNode &C): UnaryNode(C) {}
+float SqrtNode::evaluate()
+{
+    return (sqrt(child->evaluate()));
 }
 
 
