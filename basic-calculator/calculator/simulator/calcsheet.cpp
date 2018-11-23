@@ -135,19 +135,19 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
         /* Arrows */
         case KeyCode::SLK_UP:
             if (!editedExpression.editMoveUp())
-                std::cout << "Cannot move UP" << std::endl;
+                std::cerr << "Cannot move UP" << std::endl;
             break;
         case KeyCode::SLK_DOWN:
             if (!editedExpression.editMoveDown())
-                std::cout << "Cannot move DOWN" << std::endl;
+                std::cerr << "Cannot move DOWN" << std::endl;
             break;
         case KeyCode::SLK_RIGHT:
             if (!editedExpression.editMoveRight())
-                std::cout << "Cannot move RIGHT" << std::endl;
+                std::cerr << "Cannot move RIGHT" << std::endl;
             break;
         case KeyCode::SLK_LEFT:
             if (!editedExpression.editMoveLeft())
-                std::cout << "Cannot move LEFT" << std::endl;
+                std::cerr << "Cannot move LEFT" << std::endl;
             break;
 
         /* Special keys */

@@ -87,6 +87,6 @@ Sqrt: SQRT LPAR Calc RPAR { $$ = new SqrtNode(*$3); }
 
 // output "sytax error"
 int yyerror(char *s) {
-        printf("%s\n",s);
-	return 1;
+  std::cerr << s << std::endl;
+  return 1;
 }
