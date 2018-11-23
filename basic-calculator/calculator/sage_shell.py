@@ -1,7 +1,6 @@
 from __future__ import print_function
 import sys
 from sage.all import *
-from sage.misc.sage_eval import *
 from sage.misc.functional import *
 
 _SL_DEFAULT_APPROX = 10
@@ -23,7 +22,7 @@ while(1):
 	ask = raw_input()
 	if (ask == "quit"): exit(0)
 	try:
-		res = sage_eval(str(ask))
+		res = eval(preparse(str(ask)))
 		print(res, "=", my_approx(res), file=sys.stdout)
 	except ZeroDivisionError:
 		print("Division by zero")
