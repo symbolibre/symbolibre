@@ -94,17 +94,17 @@ public:
      * Specific to cursor repositioning. Don't use this function. */
     virtual void cutAtCursor(std::string &cut) = 0;
 
-    /* empty()!
+    /* empty():
      * Returns 'true' if the current node is empty.
      * By convention, a root node is empty iff its content is empty. */
     virtual bool empty(void) = 0;
 
     /* reachedRight():
-     * Tells whether or not the cursor has place to move right. */
+     * Tells whether or not the cursor has room to move right. */
     virtual bool reachedRight(void) = 0;
 
     /* reachedLeft():
-     * Tells whether or not the cursor has place to move left. */
+     * Tells whether or not the cursor has room to move left. */
     virtual bool reachedLeft(void) = 0;
 
     /* All edition methods return 'true' if they were able to do the edition
@@ -132,7 +132,8 @@ public:
     /* editOperator(achar, qchar):
      * Adds the specified operator at the cursor's position, cutting flows if
      * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
-     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D. */
+     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
+     * Flows ARE the nodes that handle the creation of the operator semantic node. */
     virtual bool editOperator(char achar, QString qstring) = 0;
 
     /* editParen(paren_type):
@@ -153,9 +154,11 @@ public:
      * Computes the informations necessary to draw the expression:
      * 'width', 'height', 'center_height' for all nodes in the tree.
      * linear complexity. You should give the painter that will be
-     * used to call 'draw' method then. */
-
+     * used to call 'draw' method then.
+    * Flow nodes also make calls to 'parenArea' to compute the size of
+     * parentheses. */
     virtual void computeDimensions(QPainter &painter) = 0;
+
     /* draw(x, y, painter, cursor):
      * Draw the formula with (x,y) being the top left corner of the
      * drawn expression. If 'cursor' is set to 'true', also draw a red
