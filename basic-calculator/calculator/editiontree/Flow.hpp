@@ -16,9 +16,11 @@ struct centeredBox {
 
 class Flow : public EditionTree
 {
+    using FlowIterator = std::list<std::unique_ptr<EditionTree>>::iterator;
+
 private:
     std::list<std::unique_ptr<EditionTree>> flow;
-    std::list<std::unique_ptr<EditionTree>>::iterator edited_node;
+    FlowIterator edited_node;
 
 public:
     Flow(nodetype arg_ntype = FLOW);
@@ -66,9 +68,7 @@ public:
 
     /* parenArea(...):
      * Returns the box size that the paren at cur_node-- grap. */
-    struct centeredBox
-    parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &cur_node,
-              QPainter &painter);
+    centeredBox parenArea(FlowIterator &cur_node, QPainter &painter);
 
     /* numberNonEmpty(void):
      * return the number of non-empty nodes within the flow. */

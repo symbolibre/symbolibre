@@ -346,7 +346,7 @@ void Flow::computeDimensions(QPainter &painter)
             it ++; /* pass the parenthesis */
         } else if ((*it)->ntype == LPAREN) {
             /* The annoying case: rec call */
-            std::list<std::unique_ptr<EditionTree>>::iterator new_it = it;
+            FlowIterator new_it = it;
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes: we keep 'width' only */
@@ -421,9 +421,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
     return;
 }
 
-struct centeredBox
-Flow::parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &
-                current_node, QPainter &painter)
+centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
 {
     /* It is kind of cheating, but par_rect.x stands for  the center_height */
     centeredBox par_box;
@@ -435,7 +433,7 @@ Flow::parenArea(std::list<std::unique_ptr<EditionTree>>::iterator &
             /* We open a new parenthesis: recursive call then adjusting the size
              * of the parenthesis */
         {
-            std::list<std::unique_ptr<EditionTree>>::iterator new_it = current_node;
+            FlowIterator new_it = current_node;
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes */
