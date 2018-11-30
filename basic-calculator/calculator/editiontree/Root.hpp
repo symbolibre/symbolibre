@@ -2,9 +2,7 @@
 #define ROOT_HPP
 
 #include "EditionTree.hpp"
-#include <memory>
-
-class Flow; /* forward declaration */
+#include "Flow.hpp"
 
 /* Root are semantical square root nodes (√).
  *
@@ -16,7 +14,7 @@ class Flow; /* forward declaration */
 class Root : public EditionTree
 {
 private:
-    std::unique_ptr<Flow> expression;
+    Flow expression;
     int rootWidth;
 
 public:

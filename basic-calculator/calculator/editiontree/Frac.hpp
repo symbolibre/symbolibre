@@ -7,11 +7,9 @@
  */
 
 #include "EditionTree.hpp"
-#include <memory>
+#include "Flow.hpp"
 
 //MIN_SIZE/2
-
-class Flow; /* forward declaration */
 
 /* Frac nodes are semantic nodes that represents fractions.
  *
@@ -27,12 +25,11 @@ class Flow; /* forward declaration */
 class Frac : public EditionTree
 {
 public:
-    std::unique_ptr<Flow> numerator;
-    std::unique_ptr<Flow> denominator;
+    Flow numerator;
+    Flow denominator;
     bool cursor_on_top;
 public:
-    Frac(void);
-    Frac(std::string &strnum);
+    Frac(std::string strnum = "");
 
 
     void ascii(int shift, bool contains_cursor) override;

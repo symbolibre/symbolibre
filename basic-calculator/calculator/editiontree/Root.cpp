@@ -1,6 +1,5 @@
 #include "Root.hpp"
 #include "Flow.hpp"
-#include <memory>
 #include <iostream>
 #include <string>
 
@@ -16,7 +15,6 @@ Root::Root(void) /* I'm Root */
     center_height =    0;
     cursor_pos    =    0;
 
-    expression = std::make_unique<Flow>(FLOW);
     rootWidth  = -1;
 }
 
@@ -25,14 +23,14 @@ void Root::ascii(int shift, bool cc)
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
     std::cout << " └" << (cc ? '*' : ' ') << "SQUAREROOT\n";
-    expression->ascii(shift + 1, cc);
+    expression.ascii(shift + 1, cc);
     return;
 }
 
 std::string Root::getText(void)
 {
     std::string str = "sqrt(";
-    str.insert(str.size(), expression->getText());
+    str.insert(str.size(), expression.getText());
     str.push_back(')');
     return str;
 }
@@ -44,7 +42,7 @@ void Root::append(std::string &)
 
 bool Root::dropCursor(movedir dir)
 {
-    return expression->dropCursor(dir);
+    return expression.dropCursor(dir);
 }
 
 void Root::cutAtCursor(std::string &)
@@ -54,87 +52,87 @@ void Root::cutAtCursor(std::string &)
 
 bool Root::empty(void)
 {
-    return expression->empty();
+    return expression.empty();
 }
 
 bool Root::reachedRight(void)
 {
-    return expression->reachedRight();
+    return expression.reachedRight();
 }
 
 bool Root::reachedLeft(void)
 {
-    return expression->reachedLeft();
+    return expression.reachedLeft();
 }
 
 bool Root::editMoveRight(void)
 {
-    return expression->editMoveRight();
+    return expression.editMoveRight();
 }
 
 bool Root::editMoveLeft(void)
 {
-    return expression->editMoveLeft();
+    return expression.editMoveLeft();
 }
 
 bool Root::editMoveUp(void)
 {
-    return expression->editMoveUp();
+    return expression.editMoveUp();
 }
 
 bool Root::editMoveDown(void)
 {
-    return expression->editMoveDown();
+    return expression.editMoveDown();
 }
 
 bool Root::editDelete(void)
 {
-    expression->editDelete();
+    expression.editDelete();
     return true; /* FIXME ? maybe should return child value */
     /* see edition experience */
 }
 
 bool Root::editClear(void)
 {
-    expression->editClear();
+    expression.editClear();
     return true;
 }
 
 bool Root::editChar(char symbol)
 {
-    return expression->editChar(symbol);
+    return expression.editChar(symbol);
 }
 
 bool Root::editOperator(char achar, QString qstring)
 {
-    return expression->editOperator(achar, qstring);
+    return expression.editOperator(achar, qstring);
 }
 
 bool Root::editParen(nodetype paren_type)
 {
-    return expression->editParen(paren_type);
+    return expression.editParen(paren_type);
 }
 
 bool Root::editFrac(void)
 {
-    return expression->editFrac();
+    return expression.editFrac();
 }
 
 bool Root::editRoot(void)
 {
-    return expression->editRoot();
+    return expression.editRoot();
 }
 
 void Root::computeDimensions(QPainter &painter)
 {
-    expression->computeDimensions(painter);
+    expression.computeDimensions(painter);
 
     /* Computing width */
 
     rootWidth     = ROOT_WIDTH;
-    width         = expression->width  + rootWidth + 2 * ROOT_VSPACE;
-    height        = expression->height + ROOT_HSPACE;
-    center_height = expression->center_height;
+    width         = expression.width  + rootWidth + 2 * ROOT_VSPACE;
+    height        = expression.height + ROOT_HSPACE;
+    center_height = expression.center_height;
 
     return;
 }
@@ -153,8 +151,8 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
 
 
     /* Then, draw the 'expression' */
-    expression->draw(x + rootWidth + ROOT_VSPACE,
-                     y + ROOT_HSPACE, painter, cursor);
+    expression.draw(x + rootWidth + ROOT_VSPACE,
+                    y + ROOT_HSPACE, painter, cursor);
 
     return;
 }
