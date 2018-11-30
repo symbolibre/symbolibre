@@ -72,6 +72,8 @@ public:
     int cursor_pos;
 
 public:
+    virtual ~EditionTree() = default;
+
     /* ascii(shift, contains_cursor):
      * Print the tree structure of the node. 'shift' should be set to 0,
      * contains_cursor to true if you want to track the cursor's position. */
