@@ -7,7 +7,8 @@ HEADERS  = EditionArea.hpp \
 		   Frac.hpp \
 		   Root.hpp \
 		   Flow.hpp \
-		   EditionTree.hpp
+		   EditionTree.hpp \
+		   editiontrees.hpp
 
 SOURCES  = EditionArea.cpp \
 		   Operator.cpp \

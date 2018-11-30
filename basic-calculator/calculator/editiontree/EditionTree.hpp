@@ -168,13 +168,4 @@ public:
     virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
 };
 
-/* END : to ensure general use: you will just have to do a
- * #include "editiontree.h" */
-
-#include "Flow.hpp"
-#include "Frac.hpp"
-#include "Paren.hpp"
-#include "EditionArea.hpp"
-#include "Operator.hpp"
-
 #endif // EDITIONTREE_H
