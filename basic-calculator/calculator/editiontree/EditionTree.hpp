@@ -1,5 +1,5 @@
-#ifndef EDITIONTREE_H
-#define EDITIONTREE_H
+#ifndef EDITIONTREE_HPP
+#define EDITIONTREE_HPP
 
 #include <iostream>
 #include <memory>
@@ -168,4 +168,4 @@ public:
     virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
 };
 
-#endif // EDITIONTREE_H
+#endif // EDITIONTREE_HPP

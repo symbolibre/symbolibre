@@ -1,4 +1,4 @@
-#ifndef FRAC_H
+#ifndef FRAC_HPP
 #define FRAC_H
 
 /* Frac for "fraction" are semantic nodes.

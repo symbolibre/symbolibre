@@ -1,5 +1,5 @@
-#ifndef PAREN_H
-#define PAREN_H
+#ifndef PAREN_HPP
+#define PAREN_HPP
 
 #include "EditionTree.hpp"
 #include <string>
@@ -90,4 +90,4 @@ public: /* methods */
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 
-#endif // PAREN_H
+#endif // PAREN_HPP
