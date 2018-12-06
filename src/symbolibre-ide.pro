@@ -1,6 +1,7 @@
 QT += quick
 QT += widgets
 QT += quickcontrols2
+QT += KTextEditor
 CONFIG += c++11
 cross_compile: DEFINES += QT_EXTRA_FILE_SELECTOR=\\\"touch\\\"
 TARGET = ide
