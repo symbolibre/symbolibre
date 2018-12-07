@@ -3,14 +3,15 @@
 #include <QSyntaxHighlighter>
 #include <QtQuickControls2>
 #include <QQmlFileSelector>
+#include <QApplication>
 
 #include "documenthandler.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app(argc, argv);
 
     qmlRegisterType<DocumentHandler>("SymbolibreTextEditor", 1, 0, "DocumentHandler");
 
@@ -24,7 +25,12 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     QQmlFileSelector::get(&engine)->setExtraSelectors(selectors);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+
+
+
     if (engine.rootObjects().isEmpty())
         return -1;
 

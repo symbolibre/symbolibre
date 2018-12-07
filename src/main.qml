@@ -4,7 +4,10 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 
+
 import SymbolibreTextEditor 1.0
+import org.kde.kquickcontrols 2.0
+import org.kde.private.kquickcontrols 2.0
 
 
 ApplicationWindow {
