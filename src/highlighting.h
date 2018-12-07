@@ -1,4 +1,0 @@
-#ifndef HIGHLIGHTING_H
-#define HIGHLIGHTING_H
-
-#endif // HIGHLIGHTING_H
