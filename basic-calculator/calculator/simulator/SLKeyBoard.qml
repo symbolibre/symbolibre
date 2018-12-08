@@ -26,10 +26,10 @@ SLKeyBoardForm {
 
 
     /* Arrows */
-    buttonUp.onClicked: activated(KeyCode.SLK_UP)
-    buttonDown.onClicked: activated(KeyCode.SLK_DOWN)
-    buttonLeft.onClicked: activated(KeyCode.SLK_LEFT)
-    buttonRight.onClicked: activated(KeyCode.SLK_RIGHT)
+    buttonUp.onActivated: activated(KeyCode.SLK_UP)
+    buttonDown.onActivated: activated(KeyCode.SLK_DOWN)
+    buttonLeft.onActivated: activated(KeyCode.SLK_LEFT)
+    buttonRight.onActivated: activated(KeyCode.SLK_RIGHT)
 
     /* Special Buttons */
     buttonSND.onActivated: { activated(KeyCode.SLK_SND); switchState("snd"); }

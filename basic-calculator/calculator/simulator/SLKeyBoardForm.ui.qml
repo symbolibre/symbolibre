@@ -41,40 +41,40 @@ Item {
     property alias buttonRight: buttonRight
     property alias buttonUp: buttonUp
 
-    RoundButton {
+    SpecialButton {
         id: buttonUp
         x: 268
         y: 0
         width: 30
         height: 20
-        text: "↑"
+        mainTextText: "↑"
     }
 
-    RoundButton {
+    SpecialButton {
         id: buttonRight
         x: 285
         y: 25
         width: 30
         height: 20
-        text: "\u2192"
+        mainTextText: "\u2192"
     }
 
-    RoundButton {
+    SpecialButton {
         id: buttonLeft
         x: 250
         y: 25
         width: 30
         height: 20
-        text: "\u2190"
+        mainTextText: "\u2190"
     }
 
-    RoundButton {
+    SpecialButton {
         id: buttonDown
         x: 268
         y: 50
         width: 30
         height: 20
-        text: "\u2193"
+        mainTextText: "\u2193"
     }
 
     Column {
