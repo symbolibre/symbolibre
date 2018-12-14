@@ -1,5 +1,5 @@
 #ifndef FRAC_HPP
-#define FRAC_H
+#define FRAC_HPP
 
 /* Frac for "fraction" are semantic nodes.
  * Frac has two specific attributes: numerator and denominator that are flows
@@ -120,4 +120,4 @@ public:
 
 };
 
-#endif // FRAC_H
+#endif // FRAC_HPP
