@@ -7,6 +7,8 @@ HEADERS  = EditionArea.hpp \
 		   Frac.hpp \
 		   Root.hpp \
 		   Flow.hpp \
+		   InternalEditionNode.hpp \
+		   ActiveEditionNodeVisitor.hpp \
 		   EditionTree.hpp \
 		   editiontrees.hpp
 
@@ -16,3 +18,4 @@ SOURCES  = EditionArea.cpp \
 		   Root.cpp \
 		   Frac.cpp \
 		   Flow.cpp \
+		   InternalEditionNode.cpp
