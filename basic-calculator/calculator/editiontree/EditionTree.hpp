@@ -11,6 +11,7 @@
 #include <QRect>
 
 #include "graphicalParameters.hpp"
+#include "ActiveEditionNodeVisitor.hpp"
 
 /* A brief introduction to EDITION TREES
  *
@@ -52,6 +53,8 @@
 enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
 enum parentype { LPAREN, RPAREN };
 
+class ActiveEditionNodeVisitor;
+
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
 {
@@ -67,6 +70,12 @@ public:
 public:
     EditionTree() : width(0), height(0), center_height(0) {}
     virtual ~EditionTree() = default;
+
+    /** Accepts a visitor. */
+    virtual bool accept(ActiveEditionNodeVisitor &v)
+    {
+        return v.visit(*this);
+    }
 
     /* ascii(shift, contains_cursor):
      * Print the tree structure of the node. 'shift' should be set to 0,

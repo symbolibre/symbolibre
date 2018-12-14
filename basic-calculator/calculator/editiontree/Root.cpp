@@ -7,7 +7,7 @@
 #include <QFont>
 #include <QRect>
 
-Root::Root(void) : EditionTree(), expression(), rootWidth(-1)
+Root::Root(void) : InternalEditionNode(), expression(), rootWidth(-1)
 {
 
 }
@@ -116,9 +116,9 @@ bool Root::editRoot(void)
     return expression.editRoot();
 }
 
-EditionTree *Root::getActiveNode(void)
+EditionTree *Root::getActiveChild(void)
 {
-    return expression.getActiveNode();
+    return &expression;
 }
 
 void Root::computeDimensions(QPainter &painter)

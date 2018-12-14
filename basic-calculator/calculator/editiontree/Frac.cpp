@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 
-Frac::Frac(std::string strnum) : EditionTree(),
+Frac::Frac(std::string strnum) : InternalEditionNode(),
     numerator(strnum), denominator(), cursor_on_top(true)
 {
 
@@ -167,11 +167,11 @@ bool Frac::editOperator(char achar, QString qstring)
         return denominator.editOperator(achar, qstring);
 }
 
-EditionTree *Frac::getActiveNode(void)
+EditionTree *Frac::getActiveChild(void)
 {
     if (cursor_on_top)
-        return numerator.getActiveNode();
-    return denominator.getActiveNode();
+        return numerator.getActiveChild();
+    return denominator.getActiveChild();
 }
 
 void Frac::computeDimensions(QPainter &painter)

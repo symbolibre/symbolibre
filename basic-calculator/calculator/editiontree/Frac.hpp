@@ -22,7 +22,7 @@
  * A Frac node also possesses a boolean cursor_on_top that is set to
  * 'true' if the cursor is in the numerator. */
 
-class Frac : public EditionTree
+class Frac : public InternalEditionNode
 {
 public:
     Flow numerator;
@@ -101,7 +101,7 @@ public:
      * Adds a root at the cursor's position. */
     bool editRoot(void) override;
 
-    EditionTree *getActiveNode(void) override;
+    EditionTree *getActiveChild(void) override;
 
     /* About computing dimensions */
     /* computeDimensions(painter):

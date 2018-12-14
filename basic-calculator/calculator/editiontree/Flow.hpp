@@ -1,7 +1,7 @@
 #ifndef FLOW_H
 #define FLOW_H
 
-#include "EditionTree.hpp"
+#include "InternalEditionNode.hpp"
 
 /* This structure is for convenience. */
 struct centeredBox {
@@ -14,7 +14,7 @@ struct centeredBox {
  * A Flow contains a list of nodes (typically non-flows). Their properties
  * are described in 'editiontree.h' */
 
-class Flow : public EditionTree
+class Flow : public InternalEditionNode
 {
     using FlowIterator = std::list<std::unique_ptr<EditionTree>>::iterator;
 
@@ -61,7 +61,7 @@ public:
     bool editFrac(void) override;
     bool editRoot(void) override;
 
-    EditionTree *getActiveNode(void) override;
+    EditionTree *getActiveChild(void) override;
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter) override;

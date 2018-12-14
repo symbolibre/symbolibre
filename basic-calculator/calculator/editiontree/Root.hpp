@@ -1,7 +1,7 @@
 #ifndef ROOT_HPP
 #define ROOT_HPP
 
-#include "EditionTree.hpp"
+#include "InternalEditionNode.hpp"
 #include "Flow.hpp"
 
 /* Root are semantical square root nodes (√).
@@ -11,7 +11,7 @@
  * As the size of the 'root' depends on the size of its 'expression', it holds
  * two int 'rootWidth' and 'rootHeight' that stores the size of the symbol. */
 
-class Root : public EditionTree
+class Root : public InternalEditionNode
 {
 private:
     Flow expression;
@@ -96,7 +96,7 @@ public:
      * Adds a square at the cursor's position. */
     bool editRoot(void) override;
 
-    EditionTree *getActiveNode(void) override;
+    EditionTree *getActiveChild(void) override;
 
     /* About computing dimension to print */
 

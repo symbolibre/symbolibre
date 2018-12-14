@@ -11,7 +11,7 @@
 /* **********************       FLOW NODE      ********************** */
 /* ****************************************************************** */
 
-Flow::Flow(std::string strinit) : EditionTree(),
+Flow::Flow(std::string strinit) : InternalEditionNode(),
     flow(), edited_node(flow.end())
 {
     /* The flow is initialized with an edition area. */
@@ -285,9 +285,9 @@ bool Flow::editRoot(void)
     return true;
 }
 
-EditionTree *Flow::getActiveNode(void)
+EditionTree *Flow::getActiveChild(void)
 {
-    return (*edited_node)->getActiveNode();
+    return edited_node->get();
 }
 
 void Flow::computeDimensions(QPainter &painter)
