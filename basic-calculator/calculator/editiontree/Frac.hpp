@@ -101,6 +101,8 @@ public:
      * Adds a root at the cursor's position. */
     bool editRoot(void) override;
 
+    EditionTree *getActiveNode(void) override;
+
     /* About computing dimensions */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:

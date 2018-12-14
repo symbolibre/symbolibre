@@ -123,6 +123,11 @@ bool Root::editRoot(void)
     return expression.editRoot();
 }
 
+EditionTree *Root::getActiveNode(void)
+{
+    return expression.getActiveNode();
+}
+
 void Root::computeDimensions(QPainter &painter)
 {
     expression.computeDimensions(painter);

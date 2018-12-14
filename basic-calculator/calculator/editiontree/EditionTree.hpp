@@ -151,6 +151,12 @@ public:
      * Adds a root at the cursor's position. */
     virtual bool editRoot(void) = 0;
 
+    /** Returns the leaf where the cursor is. */
+    virtual EditionTree *getActiveNode(void)
+    {
+        return this;
+    }
+
     /* About computing dimension to print */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:

@@ -96,6 +96,8 @@ public:
      * Adds a square at the cursor's position. */
     bool editRoot(void) override;
 
+    EditionTree *getActiveNode(void) override;
+
     /* About computing dimension to print */
 
     /* computeDimensions(painter):

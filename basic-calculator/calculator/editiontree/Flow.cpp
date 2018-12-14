@@ -307,6 +307,11 @@ bool Flow::editRoot(void)
     return true;
 }
 
+EditionTree *Flow::getActiveNode(void)
+{
+    return (*edited_node)->getActiveNode();
+}
+
 void Flow::computeDimensions(QPainter &painter)
 /* This function could seems complicated but it is not.
  * It is just taking care of those poor parenthesis that cannot compute

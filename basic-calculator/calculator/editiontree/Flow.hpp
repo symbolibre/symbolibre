@@ -62,6 +62,8 @@ public:
     bool editFrac(void) override;
     bool editRoot(void) override;
 
+    EditionTree *getActiveNode(void) override;
+
     /* About computing dimensions */
     void computeDimensions(QPainter &painter) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;

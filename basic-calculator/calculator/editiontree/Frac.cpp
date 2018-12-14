@@ -174,6 +174,13 @@ bool Frac::editOperator(char achar, QString qstring)
         return denominator.editOperator(achar, qstring);
 }
 
+EditionTree *Frac::getActiveNode(void)
+{
+    if (cursor_on_top)
+        return numerator.getActiveNode();
+    return denominator.getActiveNode();
+}
+
 void Frac::computeDimensions(QPainter &painter)
 {
     numerator.computeDimensions(painter);
