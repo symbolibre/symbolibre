@@ -23,8 +23,7 @@ private:
     FlowIterator edited_node;
 
 public:
-    Flow(nodetype arg_ntype = FLOW);
-    Flow(nodetype arg_ntype, std::string &strinit);
+    Flow(std::string strinit = "");
 
     void ascii(int shift, bool contains_cursor) override;
 
@@ -58,7 +57,7 @@ public:
     bool editChar(char symbol) override;
     bool editOperator(char achar, QString qstring) override;
 
-    bool editParen(nodetype paren_type = LPAREN) override;
+    bool editParen(parentype paren_type = LPAREN) override;
     bool editFrac(void) override;
     bool editRoot(void) override;
 

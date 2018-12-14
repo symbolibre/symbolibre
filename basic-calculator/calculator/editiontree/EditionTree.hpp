@@ -50,7 +50,7 @@
  */
 
 enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
-enum nodetype { NONE, ROOT, FLOW, TEXT, OPERATOR, LPAREN, RPAREN, FRAC, SQUAREROOT };
+enum parentype { LPAREN, RPAREN };
 
 class EditionTree /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -58,20 +58,14 @@ class EditionTree /* Edition tree represents a set of class, and should
 public:
     /* Edition trees have the following attributes:
      *
-     * - `ntype` that represents the type of the node
      * - `width, height, center_height` that are attributes to draw the
-          expression, that are quite explainatory.
-     * - `cursor_pos` that is the id of the sub-node containing the position
-     *    of the cursor. */
-    nodetype ntype;
-
+          expression, that are quite explainatory. */
     int width;
     int height;
     int center_height;
 
-    int cursor_pos;
-
 public:
+    EditionTree() : width(0), height(0), center_height(0) {}
     virtual ~EditionTree() = default;
 
     /* ascii(shift, contains_cursor):
@@ -141,7 +135,7 @@ public:
     /* editParen(paren_type):
      * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN). */
-    virtual bool editParen(nodetype paren_type = LPAREN) = 0;
+    virtual bool editParen(parentype paren_type = LPAREN) = 0;
 
     /* editFrac():
      * Adds a fraction at the cursor's position. */

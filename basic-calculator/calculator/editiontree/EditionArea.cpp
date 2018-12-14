@@ -8,14 +8,10 @@
 /* ****************************************************************** */
 
 
-EditionArea::EditionArea()
+EditionArea::EditionArea() : EditionTree(),
+    text(), cursor_pos(0)
 {
-    ntype         = TEXT;
-    width         =    0;
-    height        =    0;
-    center_height =    0;
-    cursor_pos    =    0;
-    text          =   "";
+
 }
 
 std::string EditionArea::getText(void)
@@ -27,9 +23,9 @@ void EditionArea::set_to(const char *str)
 {
     text = str;
 }
-void EditionArea::set_to(std::string &str)
+void EditionArea::set_to(std::string str)
 {
-    text = str;
+    text = std::move(str);
 }
 void EditionArea::append(const char *str)
 {
@@ -44,7 +40,6 @@ void EditionArea::cutAtCursor(std::string &cut)
 {
     cut = text.substr(cursor_pos, text.size() - cursor_pos);
     text.erase(cursor_pos, text.size() - cursor_pos);
-    return;
 }
 
 void EditionArea::ascii(int shift, bool cc)
@@ -62,8 +57,6 @@ void EditionArea::ascii(int shift, bool cc)
         std::cout << "\"\n";
     } else
         std::cout << " └ \"" << text << "\"\n";
-
-    return;
 }
 
 bool EditionArea::dropCursor(movedir dir)
@@ -153,7 +146,7 @@ bool EditionArea::editOperator(char, QString)
     return false;
 }
 
-bool EditionArea::editParen(nodetype)
+bool EditionArea::editParen(parentype)
 {
     return false;
 }
@@ -176,8 +169,6 @@ void EditionArea::computeDimensions(QPainter &painter)
     width  = br.width();
     height = std::max(FONT_SIZE, br.height());
     center_height = height / 2; // FIXME ?
-
-    return;
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
@@ -206,6 +197,4 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
         painter.setPen(Qt::black);
         //painter.drawRect(crect);
     }
-
-    return;
 }

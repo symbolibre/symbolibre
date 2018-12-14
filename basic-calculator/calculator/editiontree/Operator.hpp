@@ -94,7 +94,7 @@ public:
      * Adds a paren at the cursor's position. You should specify if this is
      * a left paren (LPAREN) or right one (RPAREN).
      * Should not be used. */
-    bool editParen(nodetype paren_type = LPAREN) override;
+    bool editParen(parentype paren_type = LPAREN) override;
 
     /* editFrac():
      * Adds a fraction at the cursor's position.

@@ -13,7 +13,7 @@ QColor _SL_DARK_GRAY(96, 96, 96);
 
 CalcSheet::CalcSheet(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
-    editedExpression = Flow(ROOT);
+    editedExpression = Flow();
     cursorPos = -1;
 }
 
@@ -160,10 +160,10 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 
         case KeyCode::SLK_EXE:
             lol = evaluate(editedExpression.getText());
-            results.push_back(Flow(ROOT, lol));
+            results.push_back(Flow(lol));
             expressions.push_back(std::move(editedExpression));
             //results.push_back(editedExpression);
-            editedExpression = Flow(ROOT);
+            editedExpression = Flow();
             break;
 
         default:

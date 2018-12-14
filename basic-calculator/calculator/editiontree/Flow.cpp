@@ -11,31 +11,13 @@
 /* **********************       FLOW NODE      ********************** */
 /* ****************************************************************** */
 
-Flow::Flow(nodetype arg_ntype)
+Flow::Flow(std::string strinit) : EditionTree(),
+    flow(), edited_node(flow.end())
 {
-    width = height = center_height = 0;
-    cursor_pos = 0; /* not used */
-
-    ntype = arg_ntype;
-
     /* The flow is initialized with an edition area. */
     auto new_text = std::make_unique<EditionArea>();
+    new_text->set_to(std::move(strinit));
     edited_node = flow.insert(flow.begin(), std::move(new_text));
-    return;
-}
-
-Flow::Flow(nodetype arg_ntype, std::string &strinit)
-{
-    width = height = center_height = 0;
-    cursor_pos = 0; /* not used */
-
-    ntype = arg_ntype;
-
-    /* The flow is initialized with an edition area. */
-    auto new_text = std::make_unique<EditionArea>();
-    new_text->set_to(strinit);
-    edited_node = flow.insert(flow.begin(), std::move(new_text));
-    return;
 }
 
 void Flow::ascii(int shift, bool cc)
@@ -43,13 +25,9 @@ void Flow::ascii(int shift, bool cc)
     /* Flow nodes have only one child, so quite east too */
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
-    if (ntype != ROOT)
-        std::cout << " └" << (cc ? '*' : ' ') << "FLOW\n";
-    else
-        std::cout << " └" << (cc ? '*' : ' ') << "ROOT\n";
+    std::cout << " └" << (cc ? '*' : ' ') << "FLOW\n";
     for (auto it = flow.begin(); it != flow.end(); it++)
         (*it)->ascii(shift + 1, cc && it == edited_node);
-    return;
 }
 
 std::string Flow::getText(void)
@@ -216,7 +194,7 @@ bool Flow::editOperator(char achar, QString qstring)
     return true;
 }
 
-bool Flow::editParen(nodetype paren_type)
+bool Flow::editParen(parentype paren_type)
 {
     if ((*edited_node)->editParen(paren_type))
         return true;
@@ -323,7 +301,8 @@ void Flow::computeDimensions(QPainter &painter)
 
     auto it = flow.begin();
     while (it != flow.end()) {
-        if ((*it)->ntype == RPAREN) {
+        auto paren = dynamic_cast<Paren *>(it->get());
+        if (paren && paren->getParenType() == RPAREN) {
             it--; /* go back before the parenthesis: get the dimensions of the block */
             if (it != flow.begin() && (*it)->empty())
                 it --;
@@ -349,7 +328,7 @@ void Flow::computeDimensions(QPainter &painter)
             center_height = std::max(center_height, it_center);
 
             it ++; /* pass the parenthesis */
-        } else if ((*it)->ntype == LPAREN) {
+        } else if (paren && paren->getParenType() == LPAREN) {
             /* The annoying case: rec call */
             FlowIterator new_it = it;
             struct centeredBox sub_box = parenArea(++new_it, painter);
@@ -402,7 +381,6 @@ void Flow::computeDimensions(QPainter &painter)
     int nonEmpty = numberNonEmpty();
     if (nonEmpty > 0)
         width += INTERSPACE * (nonEmpty - 1);
-    return;
 }
 
 void Flow::draw(int x, int y, QPainter &painter, bool cursor)
@@ -422,8 +400,6 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
         if (!(*it)->empty())
             x += INTERSPACE;
     }
-
-    return;
 }
 
 centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
@@ -432,9 +408,10 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
     centeredBox par_box;
     par_box.height = par_box.width = par_box.center_height = 0;
     while (current_node != flow.end()) {
-        if ((*current_node)->ntype == RPAREN)
+        auto paren = dynamic_cast<Paren *>(current_node->get());
+        if (paren && paren->getParenType() == RPAREN)
             break;
-        else if ((*current_node)->ntype == LPAREN)
+        else if (paren && paren->getParenType() == LPAREN)
             /* We open a new parenthesis: recursive call then adjusting the size
              * of the parenthesis */
         {

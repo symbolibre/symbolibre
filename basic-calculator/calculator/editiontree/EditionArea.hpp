@@ -12,6 +12,7 @@ class EditionArea : public EditionTree
 {
 protected:
     std::string text;
+    int cursor_pos;
 
 public:
     /* getText():
@@ -21,7 +22,7 @@ public:
     /* set_to(str):
      * Sets the text contained by the node to 'str'. */
     void set_to(const char *str);
-    void set_to(std::string &str);
+    void set_to(std::string str);
 
     /* append(str):
      * Appends 'str' to the text contained by the node. */
@@ -100,7 +101,7 @@ public:
      * a left paren (LPAREN) or right one (RPAREN). Cannot be done by edition
      * areas, so returns 'false' and the above flow will cut the edition area
      * in two and will place a parenthesis between. */
-    bool editParen(nodetype paren_type = LPAREN) override;
+    bool editParen(parentype paren_type = LPAREN) override;
 
     /* editFrac():
      * Adds a fraction at the cursor's position. Cannot be done by edition

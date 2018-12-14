@@ -5,15 +5,9 @@
 #include <algorithm>
 
 Frac::Frac(std::string strnum) : EditionTree(),
-    numerator(FLOW, strnum), denominator()
+    numerator(strnum), denominator(), cursor_on_top(true)
 {
-    ntype         = FRAC;
-    width         =    0;
-    height        =    0;
-    center_height =    0;
-    cursor_pos    =    0;
 
-    cursor_on_top = true;
 }
 
 void Frac::ascii(int shift, bool cc)
@@ -23,7 +17,6 @@ void Frac::ascii(int shift, bool cc)
     std::cout << " └" << (cc ? '*' : ' ') << "FRACTION\n";
     numerator.ascii(shift + 1, cc && cursor_on_top);
     denominator.ascii(shift + 1, cc && !cursor_on_top);
-    return;
 }
 
 std::string Frac::getText(void)
@@ -39,7 +32,7 @@ std::string Frac::getText(void)
 
 void Frac::append(std::string &)
 {
-    return;
+
 }
 
 bool Frac::dropCursor(movedir dir)
@@ -51,7 +44,7 @@ bool Frac::dropCursor(movedir dir)
 
 void Frac::cutAtCursor(std::string &)
 {
-    return;
+
 }
 
 bool Frac::empty(void)
@@ -142,7 +135,7 @@ bool Frac::editChar(char symbol)
         return denominator.editChar(symbol);
 }
 
-bool Frac::editParen(nodetype paren_type)
+bool Frac::editParen(parentype paren_type)
 {
     if (cursor_on_top)
         return numerator.editParen(paren_type);
@@ -200,8 +193,6 @@ void Frac::computeDimensions(QPainter &painter)
              std::max(min_height, denominator.height);
     center_height = FRAC_DOWN_SPACE +
                     std::max(min_height, denominator.height);
-
-    return;
 }
 
 void Frac::draw(int x, int y, QPainter &painter, bool cursor)
@@ -226,6 +217,4 @@ void Frac::draw(int x, int y, QPainter &painter, bool cursor)
 
     denominator.draw(x_denominator, y_denominator, painter,
                      cursor && !cursor_on_top);
-
-    return;
 }

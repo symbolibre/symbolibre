@@ -7,15 +7,9 @@
 #include <QFont>
 #include <QRect>
 
-Root::Root(void) /* I'm Root */
+Root::Root(void) : EditionTree(), expression(), rootWidth(-1)
 {
-    ntype         = SQUAREROOT;
-    width         =    0;
-    height        =    0;
-    center_height =    0;
-    cursor_pos    =    0;
 
-    rootWidth  = -1;
 }
 
 void Root::ascii(int shift, bool cc)
@@ -24,7 +18,6 @@ void Root::ascii(int shift, bool cc)
         std::cout << "  ";
     std::cout << " └" << (cc ? '*' : ' ') << "SQUAREROOT\n";
     expression.ascii(shift + 1, cc);
-    return;
 }
 
 std::string Root::getText(void)
@@ -37,7 +30,7 @@ std::string Root::getText(void)
 
 void Root::append(std::string &)
 {
-    return;
+
 }
 
 bool Root::dropCursor(movedir dir)
@@ -47,7 +40,7 @@ bool Root::dropCursor(movedir dir)
 
 void Root::cutAtCursor(std::string &)
 {
-    return;
+
 }
 
 bool Root::empty(void)
@@ -108,7 +101,7 @@ bool Root::editOperator(char achar, QString qstring)
     return expression.editOperator(achar, qstring);
 }
 
-bool Root::editParen(nodetype paren_type)
+bool Root::editParen(parentype paren_type)
 {
     return expression.editParen(paren_type);
 }
@@ -138,8 +131,6 @@ void Root::computeDimensions(QPainter &painter)
     width         = expression.width  + rootWidth + 2 * ROOT_VSPACE;
     height        = expression.height + ROOT_HSPACE;
     center_height = expression.center_height;
-
-    return;
 }
 
 void Root::draw(int x, int y, QPainter &painter, bool cursor)
@@ -158,6 +149,4 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
     /* Then, draw the 'expression' */
     expression.draw(x + rootWidth + ROOT_VSPACE,
                     y + ROOT_HSPACE, painter, cursor);
-
-    return;
 }

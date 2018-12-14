@@ -9,9 +9,16 @@
 
 class Paren : public EditionTree
 {
+private:
+    parentype ptype;
 
 public: /* methods */
-    Paren(nodetype paren_type = LPAREN);
+    Paren(parentype paren_type);
+
+    parentype getParenType() const
+    {
+        return ptype;
+    }
 
     /* ascii(shift, contains_cursor):
      * Print the tree structure of the node. 'shift' should be set to 0,
@@ -69,7 +76,7 @@ public: /* methods */
      * Parens does not accept this operation. (Does nothing) */
     bool editOperator(char achar, QString qstring) override;
 
-    bool editParen(nodetype paren_type = LPAREN) override;
+    bool editParen(parentype paren_type = LPAREN) override;
     /* Parens does not accept this operation. (Does nothing) */
     bool editFrac(void) override;
     /* Parens does not accept this operation. (Does nothing) */

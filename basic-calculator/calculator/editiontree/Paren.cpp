@@ -2,13 +2,10 @@
 #include <QString>
 #include <algorithm>
 
-Paren::Paren(nodetype paren_type)
+Paren::Paren(parentype paren_type) : EditionTree(),
+    ptype(paren_type)
 {
-    ntype         = paren_type;
-    width         = 0;
-    height        = 0;
-    center_height = 0;
-    cursor_pos    = 0;
+
 }
 
 void Paren::ascii(int shift, bool)
@@ -16,17 +13,16 @@ void Paren::ascii(int shift, bool)
 {
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
-    if (ntype == LPAREN)
+    if (ptype == LPAREN)
         std::cout << " └ PAREN (\n";
     else
         std::cout << " └ PAREN )\n";
-    return;
 }
 
 std::string Paren::getText(void)
 {
     std::string str;
-    if (ntype == LPAREN)
+    if (ptype == LPAREN)
         str = "(";
     else
         str = ")";
@@ -35,7 +31,7 @@ std::string Paren::getText(void)
 
 void Paren::append(std::string &)
 {
-    return;
+
 }
 
 bool Paren::dropCursor(movedir)
@@ -45,7 +41,7 @@ bool Paren::dropCursor(movedir)
 
 void Paren::cutAtCursor(std::string &)
 {
-    return;
+
 }
 
 /* The following methods should not be called */
@@ -89,7 +85,7 @@ bool Paren::editChar(char)
 {
     return false;
 }
-bool Paren::editParen(nodetype)
+bool Paren::editParen(parentype)
 {
     return false;
 }
@@ -112,7 +108,7 @@ void Paren::computeDimensions(QPainter &painter)
     // FIXME : adjust size
     QFontMetrics metrics = painter.fontMetrics();
     QRect br;
-    if (ntype == LPAREN)
+    if (ptype == LPAREN)
         br = metrics.boundingRect(QString("("));
     else
         br = metrics.boundingRect(QString(")"));
@@ -139,8 +135,8 @@ void Paren::draw(int x, int y, QPainter &painter, bool)
 
     if (height <= (int)(2 * font_size))
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter,
-                         ((ntype == LPAREN ? "(" : ")")));
-    else if (ntype == LPAREN)
+                         ((ptype == LPAREN ? "(" : ")")));
+    else if (ptype == LPAREN)
         /* Assume that font is at FONT_SIZE px size */
     {
         int par_height = std::min(font_size, y + height - font_size / 2);
@@ -155,7 +151,7 @@ void Paren::draw(int x, int y, QPainter &painter, bool)
             brect = QRect(x, y0, width, std::min(font_size, y1 - y0));
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
         }
-    } else if (ntype == RPAREN)
+    } else if (ptype == RPAREN)
         /* Assume that font is at FONT_SIZE px size */
     {
         int par_height = std::min(font_size, y + height - font_size / 2);
@@ -171,6 +167,4 @@ void Paren::draw(int x, int y, QPainter &painter, bool)
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎟");
         }
     }
-
-    return;
 }

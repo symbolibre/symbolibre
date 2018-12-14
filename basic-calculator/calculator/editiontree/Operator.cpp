@@ -1,18 +1,10 @@
 #include "Operator.hpp"
 #include <iostream>
 
-Operator::Operator(char ac, QString qs)
+Operator::Operator(char ac, QString qs) : EditionTree(),
+    qstring(qs), achar(ac)
 {
-    width  = 0;
-    height = 0;
-    center_height = 0;
-    cursor_pos    = 0;
 
-    ntype = OPERATOR;
-
-    qstring = qs;
-    achar   = ac;
-    return;
 }
 
 void Operator::ascii(int shift, bool cc)
@@ -20,7 +12,6 @@ void Operator::ascii(int shift, bool cc)
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
     std::cout << " └" << (cc ? '*' : ' ') << "OPERATOR " << achar << '\n';
-    return ;
 }
 
 std::string Operator::getText(void) /* DO NOT USE IT */
@@ -32,7 +23,7 @@ std::string Operator::getText(void) /* DO NOT USE IT */
 
 void Operator::append(std::string &)
 {
-    return;
+
 }
 
 bool Operator::dropCursor(movedir)
@@ -42,7 +33,7 @@ bool Operator::dropCursor(movedir)
 
 void Operator::cutAtCursor(std::string &)
 {
-    return;
+
 }
 
 bool Operator::empty(void)
@@ -100,7 +91,7 @@ bool Operator::editOperator(char, QString)
     return false;
 }
 
-bool Operator::editParen(nodetype)
+bool Operator::editParen(parentype)
 {
     return false;
 }
@@ -123,8 +114,6 @@ void Operator::computeDimensions(QPainter &painter)
     width  = br.width();
     height = std::max(FONT_SIZE, br.height());
     center_height = height / 2; // FIXME ?
-
-    return;
 }
 
 void Operator::draw(int x, int y, QPainter &painter, bool)
@@ -132,5 +121,4 @@ void Operator::draw(int x, int y, QPainter &painter, bool)
     QRect brect = QRect(x, y, width, height);
 
     painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, qstring);
-    return;
 }
