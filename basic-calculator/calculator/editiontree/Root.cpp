@@ -58,26 +58,6 @@ bool Root::reachedLeft(void)
     return expression.reachedLeft();
 }
 
-bool Root::editMoveRight(void)
-{
-    return expression.editMoveRight();
-}
-
-bool Root::editMoveLeft(void)
-{
-    return expression.editMoveLeft();
-}
-
-bool Root::editMoveUp(void)
-{
-    return expression.editMoveUp();
-}
-
-bool Root::editMoveDown(void)
-{
-    return expression.editMoveDown();
-}
-
 bool Root::editDelete(void)
 {
     expression.editDelete();
@@ -116,7 +96,7 @@ bool Root::editRoot(void)
     return expression.editRoot();
 }
 
-EditionTree *Root::getActiveChild(void)
+EditionNode *Root::getActiveChild(void)
 {
     return &expression;
 }

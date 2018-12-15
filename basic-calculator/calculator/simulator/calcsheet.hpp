@@ -69,9 +69,9 @@ public slots:
     Q_INVOKABLE void recvInput(int /* KeyCode::keycode */  input);
 
 private:
-    std::list<Flow> expressions;
-    std::list<Flow> results;
-    Flow editedExpression;
+    std::list<EditionTree> expressions;
+    std::list<EditionTree> results;
+    EditionTree editedExpression;
 
     int cursorPos;
 };

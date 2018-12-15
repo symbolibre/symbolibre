@@ -1,7 +1,7 @@
 #include "Operator.hpp"
 #include <iostream>
 
-Operator::Operator(char ac, QString qs) : EditionTree(),
+Operator::Operator(char ac, QString qs) : EditionNode(),
     qstring(qs), achar(ac)
 {
 
@@ -49,26 +49,6 @@ bool Operator::reachedRight(void)
 bool Operator::reachedLeft(void)
 {
     return true;
-}
-
-bool Operator::editMoveRight(void)
-{
-    return false;
-}
-
-bool Operator::editMoveLeft(void)
-{
-    return false;
-}
-
-bool Operator::editMoveUp(void)
-{
-    return false;
-}
-
-bool Operator::editMoveDown(void)
-{
-    return false;
 }
 
 bool Operator::editDelete(void)

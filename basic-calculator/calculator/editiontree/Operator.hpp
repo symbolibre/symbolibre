@@ -1,7 +1,7 @@
 #ifndef OPERATOR_HPP
 #define OPERATOR_HPP
 
-#include "EditionTree.hpp"
+#include "EditionNode.hpp"
 #include <QString>
 
 /* Operator are the simplier semantics nodes possible.
@@ -13,7 +13,7 @@
  * Operator nodes do not possess any flow, so they are terminal nodes.
  */
 
-class Operator : public EditionTree
+class Operator : public EditionNode
 {
 protected:
     QString qstring;
@@ -59,16 +59,6 @@ public:
      * Tells whether or not the cursor has place to move left.
      * Should not be used. */
     bool reachedLeft(void) override;
-
-    /* All edition methods return 'true' if they were able to do the edition
-     * locally, and return 'false' if it has to be done above in the e.t.
-     * The cursor is always either on a text node or between two non-text
-     * nodes.
-     * Should not be used. */
-    bool editMoveRight(void) override; /* Move the cursor right. */
-    bool editMoveLeft(void) override;  /* Move the cursor left.  */
-    bool editMoveUp(void) override;    /* Move the cursor up.    */
-    bool editMoveDown(void) override;  /* Move the cursor down.  */
 
     /* About some delete actions */
     /* editDelete():

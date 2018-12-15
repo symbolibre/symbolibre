@@ -73,6 +73,7 @@ bool Flow::empty(void)
 
 bool Flow::reachedRight(void)
 {
+    // FIXME why no symmetry between reachedLeft and reachedRight?
     if (edited_node == flow.end())
         return true;
     else if (++edited_node == flow.end()) {
@@ -101,10 +102,8 @@ bool Flow::editChar(char symbol)
 
 bool Flow::editMoveRight(void)
 {
-    if ((*edited_node)->editMoveRight())
-        return true;
     /* children are a FAILURE ! >:-( */
-    else if (!reachedRight()) {
+    if (!reachedRight()) {
         if (!(*(++edited_node))->dropCursor(MLEFT))
             (*(++edited_node))->dropCursor(MLEFT);
         return true;
@@ -114,33 +113,13 @@ bool Flow::editMoveRight(void)
 
 bool Flow::editMoveLeft(void)
 {
-    if ((*edited_node)->editMoveLeft())
-        return true;
     /* children are a FAILURE again ! :-) */
-    else if (!reachedLeft()) {
+    if (!reachedLeft()) {
         if (!(*(--edited_node))->dropCursor(MRIGHT))
             (*(--edited_node))->dropCursor(MRIGHT);
         return true;
     } else
         return false;
-}
-
-/* UP and DOWN are way easier for Flow nodes */
-
-bool Flow::editMoveUp(void)
-{
-    if (empty())
-        return false;
-    else
-        return (*edited_node)->editMoveUp();
-}
-
-bool Flow::editMoveDown(void)
-{
-    if (empty())
-        return false;
-    else
-        return (*edited_node)->editMoveDown();
 }
 
 bool Flow::editDelete(void)
@@ -238,12 +217,12 @@ bool Flow::editFrac(void)
 
         auto new_text = std::make_unique<EditionArea>();
         auto new_frac = std::make_unique<Frac>(numerator);
+        new_frac->editMoveDown();
 
         edited_node = ++flow.insert(edited_node, std::move(new_frac));
         edited_node = --flow.insert(edited_node, std::move(new_text));
 
         (*edited_node)->dropCursor(MDOWN);
-        editMoveDown();
     } else { // cutting case
         std::string right_str;
         (*edited_node)->cutAtCursor(right_str);
@@ -285,7 +264,7 @@ bool Flow::editRoot(void)
     return true;
 }
 
-EditionTree *Flow::getActiveChild(void)
+EditionNode *Flow::getActiveChild(void)
 {
     return edited_node->get();
 }

@@ -1,14 +1,14 @@
 #ifndef EDITIONAREA_H
 #define EDITIONAREA_H
 
-#include "EditionTree.hpp"
+#include "EditionNode.hpp"
 #include <string>
 #include <memory>
 
 /* Edition areas are the only node where text can be written.
  * It is a leaf node that contains a mere string. */
 
-class EditionArea : public EditionTree
+class EditionArea : public EditionNode
 {
 protected:
     std::string text;

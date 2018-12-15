@@ -7,8 +7,10 @@ HEADERS  = EditionArea.hpp \
 		   Frac.hpp \
 		   Root.hpp \
 		   Flow.hpp \
+		   EditionNode.hpp \
 		   InternalEditionNode.hpp \
 		   ActiveEditionNodeVisitor.hpp \
+		   visitors.hpp \
 		   EditionTree.hpp \
 		   editiontrees.hpp
 

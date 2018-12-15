@@ -6,7 +6,7 @@
  * in practice.
  */
 
-#include "EditionTree.hpp"
+#include "EditionNode.hpp"
 #include "Flow.hpp"
 
 //MIN_SIZE/2
@@ -57,12 +57,6 @@ public:
     bool reachedLeft(void) override;
     /* Tells whether or not the cursor has place to move left. */
 
-    /* All edition methods return 'true' if they were able to do the edition
-     * locally, and return 'false' if it has to be done above in the e.t.
-     * The cursor is always either on a text node or between two non-text
-     * nodes. */
-    bool editMoveRight(void) override; /* Move the cursor right. */
-    bool editMoveLeft(void) override;  /* Move the cursor left.  */
     bool editMoveUp(void) override;    /* Move the cursor up.    */
     bool editMoveDown(void) override;  /* Move the cursor down.  */
 
@@ -101,7 +95,7 @@ public:
      * Adds a root at the cursor's position. */
     bool editRoot(void) override;
 
-    EditionTree *getActiveChild(void) override;
+    EditionNode *getActiveChild(void) override;
 
     /* About computing dimensions */
     /* computeDimensions(painter):

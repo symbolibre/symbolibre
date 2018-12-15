@@ -1,7 +1,7 @@
 #ifndef ACTIVEEDITIONNODEVISITOR_HPP
 #define ACTIVEEDITIONNODEVISITOR_HPP
 
-class EditionTree;
+class EditionNode;
 
 /**
  * A visitor for edition trees.
@@ -12,7 +12,7 @@ class ActiveEditionNodeVisitor
 {
 public:
     ActiveEditionNodeVisitor() = default;
-    virtual bool visit(EditionTree &node) = 0;
+    virtual bool visit(EditionNode &node) = 0;
 };
 
 #endif // ACTIVEEDITIONNODEVISITOR_HPP

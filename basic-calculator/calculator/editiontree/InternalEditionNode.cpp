@@ -3,12 +3,12 @@
 
 bool InternalEditionNode::accept(ActiveEditionNodeVisitor &v)
 {
-    if (!getActiveChild()->accept(v))
+    if (getActiveChild()->accept(v))
         return true;
     return v.visit(*this);
 }
 
-EditionTree *InternalEditionNode::getActiveNode(void)
+EditionNode *InternalEditionNode::getActiveNode(void)
 {
     return getActiveChild()->getActiveNode();
 }

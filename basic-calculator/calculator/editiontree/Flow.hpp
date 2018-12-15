@@ -16,10 +16,10 @@ struct centeredBox {
 
 class Flow : public InternalEditionNode
 {
-    using FlowIterator = std::list<std::unique_ptr<EditionTree>>::iterator;
+    using FlowIterator = std::list<std::unique_ptr<EditionNode>>::iterator;
 
 private:
-    std::list<std::unique_ptr<EditionTree>> flow;
+    std::list<std::unique_ptr<EditionNode>> flow;
     FlowIterator edited_node;
 
 public:
@@ -46,8 +46,6 @@ public:
     /* About moving the cursor */
     bool editMoveRight(void) override; /* Move the cursor right. */
     bool editMoveLeft(void) override;  /* Move the cursor left.  */
-    bool editMoveUp(void) override;    /* Move the cursor up.    */
-    bool editMoveDown(void) override;  /* Move the cursor down.  */
 
     /* About deleting */
     bool editDelete(void) override;
@@ -61,7 +59,7 @@ public:
     bool editFrac(void) override;
     bool editRoot(void) override;
 
-    EditionTree *getActiveChild(void) override;
+    EditionNode *getActiveChild(void) override;
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter) override;

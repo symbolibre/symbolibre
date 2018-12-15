@@ -13,7 +13,7 @@ QColor _SL_DARK_GRAY(96, 96, 96);
 
 CalcSheet::CalcSheet(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
-    editedExpression = Flow();
+    editedExpression = EditionTree();
     cursorPos = -1;
 }
 
@@ -34,7 +34,7 @@ void CalcSheet::paint(QPainter *painter)
 
 qreal CalcSheet::editedAreaHeight(void)
 {
-    return std::max(2 * BORDERSPACE + editedExpression.height, DEFAULT_EDITED_AREA_SIZE);
+    return std::max(2 * BORDERSPACE + editedExpression.getHeight(), DEFAULT_EDITED_AREA_SIZE);
 }
 
 void CalcSheet::paintEditedArea(QPainter *painter)
@@ -60,13 +60,13 @@ void CalcSheet::paintList(QPainter *painter)
     painter->setBrush(QBrush(_SL_LIGHT_GRAY));
     int y = height() - editedAreaHeight() + BACKSPACE - BORDERSPACE - 1;
     do {
-        y -=  BACKSPACE + resIt->height;
+        y -=  BACKSPACE + resIt->getHeight();
         painter->setPen(_SL_LIGHT_GRAY);
-        painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->height);
+        painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
         painter->setPen(Qt::black);
-        resIt->draw(width() - resIt->width - BORDERSPACE, y, *painter, false);
+        resIt->draw(width() - resIt->getWidth() - BORDERSPACE, y, *painter, false);
 
-        y -=  BACKSPACE + exprIt->height;
+        y -=  BACKSPACE + exprIt->getHeight();
         exprIt->draw(BORDERSPACE, y, *painter, false);
         if (exprIt == expressions.begin())
             break;
@@ -160,10 +160,10 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 
         case KeyCode::SLK_EXE:
             lol = evaluate(editedExpression.getText());
-            results.push_back(Flow(lol));
+            results.push_back(EditionTree(lol));
             expressions.push_back(std::move(editedExpression));
             //results.push_back(editedExpression);
-            editedExpression = Flow();
+            editedExpression = EditionTree();
             break;
 
         default:

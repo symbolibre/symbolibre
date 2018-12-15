@@ -69,46 +69,24 @@ bool Frac::reachedLeft(void)
         return denominator.reachedLeft();
 }
 
-bool Frac::editMoveRight(void)
-{
-    if (cursor_on_top)
-        return numerator.editMoveRight();
-    else
-        return denominator.editMoveRight();
-}
-
-bool Frac::editMoveLeft(void)
-{
-    if (cursor_on_top)
-        return numerator.editMoveLeft();
-    else
-        return denominator.editMoveLeft();
-}
-
 bool Frac::editMoveUp(void)
 {
     if (cursor_on_top)
-        return numerator.editMoveUp();
-    /* On bot, if child do not go up, go to numerator. */
-    else if (!denominator.editMoveUp()) {
-        cursor_on_top = true;
-        numerator.dropCursor(MLEFT); /* FIXME: smart drop */
-        return true;
-    } else
-        return true; /* child succeed */
+        return false;
+
+    cursor_on_top = true;
+    numerator.dropCursor(MLEFT); /* FIXME: smart drop */
+    return true;
 }
 
 bool Frac::editMoveDown(void)
 {
     if (!cursor_on_top)
-        return denominator.editMoveDown();
-    /* On top, if child do not go down, go to denominator. */
-    else if (!numerator.editMoveDown()) {
-        cursor_on_top = false;
-        denominator.dropCursor(MLEFT); /* FIXME: smart drop */
-        return true;
-    } else
-        return true; /* child succeed */
+        return false;
+
+    cursor_on_top = false;
+    denominator.dropCursor(MLEFT); /* FIXME: smart drop */
+    return true;
 }
 
 bool Frac::editDelete(void)
@@ -167,11 +145,11 @@ bool Frac::editOperator(char achar, QString qstring)
         return denominator.editOperator(achar, qstring);
 }
 
-EditionTree *Frac::getActiveChild(void)
+EditionNode *Frac::getActiveChild(void)
 {
     if (cursor_on_top)
-        return numerator.getActiveChild();
-    return denominator.getActiveChild();
+        return &numerator;
+    return &denominator;
 }
 
 void Frac::computeDimensions(QPainter &painter)

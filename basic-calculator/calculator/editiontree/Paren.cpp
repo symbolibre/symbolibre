@@ -2,7 +2,7 @@
 #include <QString>
 #include <algorithm>
 
-Paren::Paren(parentype paren_type) : EditionTree(),
+Paren::Paren(parentype paren_type) : EditionNode(),
     ptype(paren_type)
 {
 
@@ -56,22 +56,6 @@ bool Paren::reachedRight(void)
 bool Paren::reachedLeft(void)
 {
     return true;
-}
-bool Paren::editMoveRight(void)
-{
-    return false;
-}
-bool Paren::editMoveLeft(void)
-{
-    return false;
-}
-bool Paren::editMoveUp(void)
-{
-    return false;
-}
-bool Paren::editMoveDown(void)
-{
-    return false;
 }
 bool Paren::editDelete(void)
 {

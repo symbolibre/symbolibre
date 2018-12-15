@@ -8,7 +8,7 @@
 /* ****************************************************************** */
 
 
-EditionArea::EditionArea() : EditionTree(),
+EditionArea::EditionArea() : EditionNode(),
     text(), cursor_pos(0)
 {
 
@@ -104,6 +104,7 @@ bool EditionArea::editMoveLeft(void)
 
 bool EditionArea::editMoveUp(void)
 {
+    // FIXME why?
     cursor_pos = text.size();
     return false;
 }

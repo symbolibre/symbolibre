@@ -55,15 +55,6 @@ public:
      * Tells whether or not the cursor has place to move left. */
     bool reachedLeft(void) override;
 
-    /* All edition methods return 'true' if they were able to do the edition
-     * locally, and return 'false' if it has to be done above in the e.t.
-     * The cursor is always either on a text node or between two non-text
-     * nodes. */
-    bool editMoveRight(void) override; /* Move the cursor right. */
-    bool editMoveLeft(void) override;  /* Move the cursor left.  */
-    bool editMoveUp(void) override;    /* Move the cursor up.    */
-    bool editMoveDown(void) override;  /* Move the cursor down.  */
-
     /* About some delete actions */
     /* editDelete():
      * Deletes the node or character left to the cursor. Returns 'false'
@@ -96,7 +87,7 @@ public:
      * Adds a square at the cursor's position. */
     bool editRoot(void) override;
 
-    EditionTree *getActiveChild(void) override;
+    EditionNode *getActiveChild(void) override;
 
     /* About computing dimension to print */
 

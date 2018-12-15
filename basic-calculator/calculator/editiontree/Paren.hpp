@@ -1,13 +1,13 @@
 #ifndef PAREN_HPP
 #define PAREN_HPP
 
-#include "EditionTree.hpp"
+#include "EditionNode.hpp"
 #include <string>
 
 /* Parens are semantic nodes, yet a bit special because
  * they are leaf ones. */
 
-class Paren : public EditionTree
+class Paren : public EditionNode
 {
 private:
     parentype ptype;
@@ -48,19 +48,6 @@ public: /* methods */
     bool reachedRight(void) override;
     /* Parens does not accept this operation. (Does nothing) */
     bool reachedLeft(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-
-    /* All edition methods return 'true' if they were able to do the edition
-     * locally, and return 'false' if it has to be done above in the e.t.
-     * The cursor is always either on a text node or between two non-text
-     * nodes. */
-    bool editMoveRight(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    bool editMoveLeft(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    bool editMoveUp(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    bool editMoveDown(void) override;
     /* Parens does not accept this operation. (Does nothing) */
 
     /* About some delete actions */
