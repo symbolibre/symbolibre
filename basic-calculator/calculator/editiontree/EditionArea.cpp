@@ -140,28 +140,6 @@ bool EditionArea::editChar(char symbol)
     return true;
 }
 
-/* An edition area cannot manage the insertion of a semantic alone, because
- * a split has to be done */
-bool EditionArea::editOperator(char, QString)
-{
-    return false;
-}
-
-bool EditionArea::editParen(parentype)
-{
-    return false;
-}
-
-bool EditionArea::editFrac(void)
-{
-    return false;
-}
-
-bool EditionArea::editRoot(void)
-{
-    return false;
-}
-
 void EditionArea::computeDimensions(QPainter &painter)
 {
     QFontMetrics metrics = painter.fontMetrics();

@@ -69,22 +69,6 @@ bool Paren::editChar(char)
 {
     return false;
 }
-bool Paren::editParen(parentype)
-{
-    return false;
-}
-bool Paren::editFrac(void)
-{
-    return false;
-}
-bool Paren::editRoot(void)
-{
-    return false;
-}
-bool Paren::editOperator(char, QString)
-{
-    return false;
-}
 
 /* Dimensions */
 void Paren::computeDimensions(QPainter &painter)

@@ -149,117 +149,47 @@ bool Flow::editClear(void)
     return true;
 }
 
-bool Flow::editOperator(char achar, QString qstring)
+bool Flow::insert(EditionNode *newnode)
 {
-    if ((*edited_node)->editOperator(achar, qstring))
-        return true;
-
-    /* else : the edited node is obsiously an edition area so we have to
-     * split it into two an insert the operator between the two fresh
+    /* since no child succeeded to insert the node, the edited node is obsviously
+     * an edition area, so we have to split it into two and insert between the two
      * edition areas. */
 
-    std::string right_str;
-    (*edited_node)->cutAtCursor(right_str);
-    ++edited_node;
-
-    auto new_op   = std::make_unique<Operator>(achar, qstring);
-    auto new_text = std::make_unique<EditionArea>();
-    new_text->set_to(right_str);
-
-    edited_node = ++flow.insert(edited_node, std::move(new_op));
-    edited_node = flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->dropCursor(MLEFT);
-
-    return true;
-}
-
-bool Flow::editParen(parentype paren_type)
-{
-    if ((*edited_node)->editParen(paren_type))
-        return true;
-
-    /* else : the edited node is obsviously an edition area, so we have to
-     * split into two an insert a parenthesis between the two edition areas. */
-
-    /* This code could be reduced, but would be harder to understand */
-    std::string right_str;
-    (*edited_node)->cutAtCursor(right_str);
-    ++edited_node;
-
-    auto new_paren = std::make_unique<Paren>(paren_type);
-    auto new_text  = std::make_unique<EditionArea>();
-    new_text->set_to(right_str);
-
-    edited_node = ++flow.insert(edited_node, std::move(new_paren));
-    edited_node = flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->dropCursor(MLEFT);
-
-    return true;
-}
-
-bool Flow::editFrac(void)
-{
-    if ((*edited_node)->editFrac())
-        return true;
-
-    /* else : the edited node is obsviously an edition area, so we have two
-     *        cases:
-     *        - either the cursor is at the end of the edition area, so
-     *          the fraction absorbs it.
-     *        - in the other case, we split into two and insert a fraction
-     *          between the two edition areas. */
-
-    /* This code could be reduced, but would be harder to understand */
-    if (!(*edited_node)->empty() && (*edited_node)->reachedRight()) { // absorbing case.
-        std::string   numerator = (*edited_node)->getText();
+    // Special absorbing case of fractions
+    auto frac = dynamic_cast<Frac *>(newnode);
+    if (frac && !(*edited_node)->empty() && (*edited_node)->reachedRight()) {
+        std::string numerator = (*edited_node)->getText();
         (*edited_node)->editClear();
         ++edited_node;
 
         auto new_text = std::make_unique<EditionArea>();
+        delete frac; // FIXME FIXME FIXME
         auto new_frac = std::make_unique<Frac>(numerator);
         new_frac->editMoveDown();
 
         edited_node = ++flow.insert(edited_node, std::move(new_frac));
         edited_node = --flow.insert(edited_node, std::move(new_text));
 
-        (*edited_node)->dropCursor(MDOWN);
-    } else { // cutting case
-        std::string right_str;
-        (*edited_node)->cutAtCursor(right_str);
-        ++edited_node;
-
-        auto new_frac = std::make_unique<Frac>();
-        auto new_text = std::make_unique<EditionArea>();
-        new_text->set_to(right_str);
-
-        edited_node = ++flow.insert(edited_node, std::move(new_frac));
-        edited_node = --flow.insert(edited_node, std::move(new_text));
-        (*edited_node)->dropCursor(MLEFT);
+        return true;
     }
 
-    return true;
-}
-
-bool Flow::editRoot(void)
-{
-    if ((*edited_node)->editRoot())
-        return true;
-
-    /* else : the edited node is obsviously an edition area, so we have
-     * to split it into two and to insert a root between the
-     * two edition areas. */
-
+    /* This code could be reduced, but would be harder to understand */
     std::string right_str;
     (*edited_node)->cutAtCursor(right_str);
     ++edited_node;
 
-    auto new_frac = std::make_unique<Root>();
-    auto new_text = std::make_unique<EditionArea>();
+    auto new_text  = std::make_unique<EditionArea>();
     new_text->set_to(right_str);
 
-    edited_node = ++flow.insert(edited_node, std::move(new_frac));
+    edited_node = ++flow.insert(edited_node,
+                                std::unique_ptr<EditionNode>(newnode));
     edited_node = --flow.insert(edited_node, std::move(new_text));
-    (*edited_node)->dropCursor(MLEFT);
+    // First we try to drop the cursor into the new node.
+    // If it is not possible (Paren...), we try the next child (an EditionArea).
+    if (!(*edited_node)->dropCursor(MLEFT)) {
+        ++edited_node;
+        (*edited_node)->dropCursor(MLEFT);
+    }
 
     return true;
 }

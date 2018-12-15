@@ -66,26 +66,6 @@ bool Operator::editChar(char)
     return false;
 }
 
-bool Operator::editOperator(char, QString)
-{
-    return false;
-}
-
-bool Operator::editParen(parentype)
-{
-    return false;
-}
-
-bool Operator::editFrac(void)
-{
-    return false;
-}
-
-bool Operator::editRoot(void)
-{
-    return false;
-}
-
 void Operator::computeDimensions(QPainter &painter)
 {
     QFontMetrics metrics = painter.fontMetrics();

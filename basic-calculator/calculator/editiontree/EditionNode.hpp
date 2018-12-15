@@ -143,25 +143,12 @@ public:
      * Adds the specified character at the cursor's position. */
     virtual bool editChar(char symbol) = 0;
 
-    /* editOperator(achar, qchar):
-     * Adds the specified operator at the cursor's position, cutting flows if
-     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
-     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
-     * Flows ARE the nodes that handle the creation of the operator semantic node. */
-    virtual bool editOperator(char achar, QString qstring) = 0;
-
-    /* editParen(paren_type):
-     * Adds a paren at the cursor's position. You should specify if this is
-     * a left paren (LPAREN) or right one (RPAREN). */
-    virtual bool editParen(parentype paren_type = LPAREN) = 0;
-
-    /* editFrac():
-     * Adds a fraction at the cursor's position. */
-    virtual bool editFrac(void) = 0;
-
-    /* editRoot():
-     * Adds a root at the cursor's position. */
-    virtual bool editRoot(void) = 0;
+    /** Inserts a new node into the tree. Takes ownership if succeeds. */
+    // FIXME leak in case it fails
+    virtual bool insert(EditionNode *)
+    {
+        return false;
+    }
 
     /** Returns the leaf where the cursor is. */
     virtual EditionNode *getActiveNode(void)

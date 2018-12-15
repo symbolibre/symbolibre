@@ -38,4 +38,22 @@ public:
         return node.editMoveDown();
     }
 };
+
+class InsertVisitor : public ActiveEditionNodeVisitor
+{
+public:
+    InsertVisitor(EditionNode *n) : newnode(n)
+    {
+        assert(n);
+    }
+    InsertVisitor(const InsertVisitor *) = delete;
+    virtual bool visit(EditionNode &node)
+    {
+        return node.insert(newnode);
+    }
+
+private:
+    EditionNode *newnode;
+};
+
 #endif // VISITORS_HPP

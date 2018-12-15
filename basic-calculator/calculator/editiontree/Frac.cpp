@@ -113,38 +113,6 @@ bool Frac::editChar(char symbol)
         return denominator.editChar(symbol);
 }
 
-bool Frac::editParen(parentype paren_type)
-{
-    if (cursor_on_top)
-        return numerator.editParen(paren_type);
-    else
-        return denominator.editParen(paren_type);
-}
-
-bool Frac::editFrac(void)
-{
-    if (cursor_on_top)
-        return numerator.editFrac();
-    else
-        return denominator.editFrac();
-}
-
-bool Frac::editRoot(void)
-{
-    if (cursor_on_top)
-        return numerator.editRoot();
-    else
-        return denominator.editRoot();
-}
-
-bool Frac::editOperator(char achar, QString qstring)
-{
-    if (cursor_on_top)
-        return numerator.editOperator(achar, qstring);
-    else
-        return denominator.editOperator(achar, qstring);
-}
-
 EditionNode *Frac::getActiveChild(void)
 {
     if (cursor_on_top)

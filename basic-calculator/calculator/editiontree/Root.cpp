@@ -76,26 +76,6 @@ bool Root::editChar(char symbol)
     return expression.editChar(symbol);
 }
 
-bool Root::editOperator(char achar, QString qstring)
-{
-    return expression.editOperator(achar, qstring);
-}
-
-bool Root::editParen(parentype paren_type)
-{
-    return expression.editParen(paren_type);
-}
-
-bool Root::editFrac(void)
-{
-    return expression.editFrac();
-}
-
-bool Root::editRoot(void)
-{
-    return expression.editRoot();
-}
-
 EditionNode *Root::getActiveChild(void)
 {
     return &expression;

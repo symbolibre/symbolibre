@@ -88,34 +88,6 @@ public:
      * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
 
-    /* editOperator(achar, qchar):
-     * Adds the specified operator at the cursor's position, cutting flows if
-     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
-     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
-     * Cannot be done by edition areas, so retursn 'false' and the abovue flow will
-     * cut the edition area into two and will place the operator between. */
-    bool editOperator(char achar, QString qstring) override;
-
-    /* editParen(paren_type):
-     * Adds a paren at the cursor's position. You should specify if this is
-     * a left paren (LPAREN) or right one (RPAREN). Cannot be done by edition
-     * areas, so returns 'false' and the above flow will cut the edition area
-     * in two and will place a parenthesis between. */
-    bool editParen(parentype paren_type = LPAREN) override;
-
-    /* editFrac():
-     * Adds a fraction at the cursor's position. Cannot be done by edition
-     * areas, so returns 'false' and the above flow will cut the edition area
-     * in two and will place a fraction between. */
-    bool editFrac(void) override;
-
-    /* editRoot(void):
-     * Adds a square at the cursor's position. Cannot be done by edition
-     * areas, so returns 'false' and the above flow will cut the edition area
-     * in two and will place a root between. */
-    bool editRoot(void) override;
-
-
     /* About computing dimensions */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:

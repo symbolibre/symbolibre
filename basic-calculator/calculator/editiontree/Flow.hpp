@@ -53,11 +53,8 @@ public:
 
     /* The usual edition part */
     bool editChar(char symbol) override;
-    bool editOperator(char achar, QString qstring) override;
 
-    bool editParen(parentype paren_type = LPAREN) override;
-    bool editFrac(void) override;
-    bool editRoot(void) override;
+    bool insert(EditionNode *newnode) override;
 
     EditionNode *getActiveChild(void) override;
 

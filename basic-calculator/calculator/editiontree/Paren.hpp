@@ -59,18 +59,6 @@ public: /* methods */
     bool editChar(char symbol) override;
     /* Parens does not accept this operation. (Does nothing) */
 
-    /* editOperator(achar, qchar):
-     * Parens does not accept this operation. (Does nothing) */
-    bool editOperator(char achar, QString qstring) override;
-
-    bool editParen(parentype paren_type = LPAREN) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    bool editFrac(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    /* editRoot():
-     * Parens does not accept this operation. (Does nothing) */
-    bool editRoot(void) override;
-
     /* About computing dimensions */
     /* computeDimensions(painter):
      * A paren cannot know its dimensions by itself. The true computation

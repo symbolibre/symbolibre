@@ -3,6 +3,11 @@
 
 #include "Flow.hpp"
 #include "visitors.hpp"
+// for edit*
+#include "Frac.hpp"
+#include "Operator.hpp"
+#include "Paren.hpp"
+#include "Root.hpp"
 
 /* Method calls are forwarded to the Flow member.
  * See the documentation of EditionTree for API information. */
@@ -106,24 +111,28 @@ public:
         return root.editChar(symbol);
     }
 
-    bool editOperator(char achar, QString qstring)
+    bool editOperator(char achar, QString qs)
     {
-        return root.editOperator(achar, qstring);
+        InsertVisitor v(new Operator(achar, qs));
+        return root.accept(v);
     }
 
     bool editParen(parentype paren_type = LPAREN)
     {
-        return root.editParen(paren_type);
+        InsertVisitor v(new Paren(paren_type));
+        return root.accept(v);
     }
 
     bool editFrac(void)
     {
-        return root.editFrac();
+        InsertVisitor v(new Frac);
+        return root.accept(v);
     }
 
     bool editRoot(void)
     {
-        return root.editRoot();
+        InsertVisitor v(new Root);
+        return root.accept(v);
     }
 
     EditionNode *getActiveNode(void)

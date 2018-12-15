@@ -73,29 +73,6 @@ public:
      * Adds the specified character at the cursor's position. */
     bool editChar(char symbol) override;
 
-    /* editOperator(achar, qchar):
-     * Adds the specified operator at the cursor's position, cutting flows if
-     * necessary. 'achar' will be the ascii char that will be printed by 'ascii'
-     * and 'getText' like methods, and 'qstring' is the pretty string rendered in 2D.
-     * Should not be used. */
-    bool editOperator(char achar, QString qstring) override;
-
-    /* editParen(paren_type):
-     * Adds a paren at the cursor's position. You should specify if this is
-     * a left paren (LPAREN) or right one (RPAREN).
-     * Should not be used. */
-    bool editParen(parentype paren_type = LPAREN) override;
-
-    /* editFrac():
-     * Adds a fraction at the cursor's position.
-     * Should not be used. */
-    bool editFrac(void) override;
-
-    /* editRoot():
-     * Adds a root at the cursor's position.
-     * Should not be used. */
-    bool editRoot(void) override;
-
     /* About computing dimension to print */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:
