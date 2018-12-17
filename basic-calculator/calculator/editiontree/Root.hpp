@@ -40,10 +40,6 @@ public:
      * node to check convention. */
     bool empty(void) override;
 
-    /* editClear():
-     * Clears the content of the current node. */
-    bool editClear(void)  override;
-
     EditionNode *getActiveChild(void) override;
 
     /* About computing dimension to print */

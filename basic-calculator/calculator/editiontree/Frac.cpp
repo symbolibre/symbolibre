@@ -63,13 +63,6 @@ bool Frac::editMoveDown(void)
     return true;
 }
 
-bool Frac::editClear(void)
-{
-    numerator.editClear();
-    denominator.editClear();
-    return true;
-}
-
 EditionNode *Frac::getActiveChild(void)
 {
     if (cursor_on_top)

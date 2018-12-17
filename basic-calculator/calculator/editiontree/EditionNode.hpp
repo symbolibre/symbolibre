@@ -125,8 +125,11 @@ public:
         return false;
     }
     /* editClear():
-     * Clears the content of the current node. */
-    virtual bool editClear(void)  = 0;
+     * Clears the content of the innermost non-empty selected flow. */
+    virtual bool editClear(void)
+    {
+        return false;
+    }
 
     /** Inserts a new node into the tree. Takes ownership if succeeds. */
     // FIXME leak in case it fails

@@ -55,6 +55,8 @@ public:
      * node to check convention. */
     bool empty(void) override;
 
+    void clear(void);
+
     /* reachedRight():
      * Tells whether or not the cursor has place to move right. */
     bool reachedRight(void);
@@ -78,10 +80,6 @@ public:
      * Deletes the node or character left to the cursor. Returns 'false'
      * if nothing has been deleted. */
     bool editDelete(void) override;
-
-    /* editClear():
-     * Clears the content of the current node. */
-    bool editClear(void) override;
 
     /* editChar(symbol):
      * Adds the specified character at the cursor's position. */

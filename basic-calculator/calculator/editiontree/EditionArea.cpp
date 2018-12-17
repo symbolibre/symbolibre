@@ -70,6 +70,11 @@ bool EditionArea::empty(void)
 {
     return text.size() == 0;
 }
+void EditionArea::clear(void)
+{
+    cursor_pos = 0;
+    text.clear();
+}
 
 bool EditionArea::reachedRight(void)
 {
@@ -119,13 +124,6 @@ bool EditionArea::editDelete(void)
         return true;
     } else
         return false; /* nothing deleted */
-}
-
-bool EditionArea::editClear(void)
-{
-    text.clear();
-    cursor_pos = 0;
-    return true;
 }
 
 void EditionArea::editChar(char symbol)

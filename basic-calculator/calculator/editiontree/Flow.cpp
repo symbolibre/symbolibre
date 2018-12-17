@@ -128,6 +128,8 @@ bool Flow::editDelete(void)
 
 bool Flow::editClear(void)
 {
+    if (empty())
+        return false;
     flow.clear();
     auto new_text = std::make_unique<EditionArea>();
     edited_node = flow.insert(flow.begin(), std::move(new_text));
@@ -146,8 +148,8 @@ bool Flow::insert(EditionNode *newnode)
     // Special absorbing case of fractions
     auto frac = dynamic_cast<Frac *>(newnode);
     if (frac && !ed_area->empty() && ed_area->reachedRight()) {
-        std::string numerator = (*edited_node)->getText();
-        (*edited_node)->editClear();
+        std::string numerator = ed_area->getText();
+        ed_area->clear();
         ++edited_node;
 
         auto new_text = std::make_unique<EditionArea>();

@@ -39,10 +39,6 @@ bool Paren::empty(void)
 {
     return false;    /* Contains a parenthesis by defn */
 }
-bool Paren::editClear(void)
-{
-    return false;
-}
 
 /* Dimensions */
 void Paren::computeDimensions(QPainter &painter)

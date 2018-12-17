@@ -42,10 +42,6 @@ public:
      * By convention, an operator is never empty. */
     bool empty(void) override;
 
-    /* editClear():
-     * Clears the content of the current node. Does nothing on operator nodes. */
-    bool editClear(void)  override;
-
     /* About computing dimension to print */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:

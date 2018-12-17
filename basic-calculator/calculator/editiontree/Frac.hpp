@@ -51,10 +51,6 @@ public:
     bool editMoveUp(void) override;    /* Move the cursor up.    */
     bool editMoveDown(void) override;  /* Move the cursor down.  */
 
-    /* editClear():
-     * Clears the numerator and the denominator. */
-    bool editClear(void) override;
-
     EditionNode *getActiveChild(void) override;
 
     /* About computing dimensions */

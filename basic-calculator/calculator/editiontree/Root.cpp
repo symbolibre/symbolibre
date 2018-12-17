@@ -38,12 +38,6 @@ bool Root::empty(void)
     return expression.empty();
 }
 
-bool Root::editClear(void)
-{
-    expression.editClear();
-    return true;
-}
-
 EditionNode *Root::getActiveChild(void)
 {
     return &expression;

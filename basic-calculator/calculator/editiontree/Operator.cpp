@@ -31,11 +31,6 @@ bool Operator::empty(void)
     return false;
 }
 
-bool Operator::editClear(void)
-{
-    return false;
-}
-
 void Operator::computeDimensions(QPainter &painter)
 {
     QFontMetrics metrics = painter.fontMetrics();

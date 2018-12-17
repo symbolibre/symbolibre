@@ -38,9 +38,6 @@ public: /* methods */
      * to move right/left. */
     bool empty(void) override;
 
-    /* Parens does not accept this operation. (Does nothing) */
-    bool editClear(void) override;
-
     /* About computing dimensions */
     /* computeDimensions(painter):
      * A paren cannot know its dimensions by itself. The true computation
