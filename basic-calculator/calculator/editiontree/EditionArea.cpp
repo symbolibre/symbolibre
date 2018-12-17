@@ -19,10 +19,6 @@ std::string EditionArea::getText(void)
     return text;
 }
 
-void EditionArea::set_to(const char *str)
-{
-    text = str;
-}
 void EditionArea::set_to(std::string str)
 {
     text = std::move(str);
