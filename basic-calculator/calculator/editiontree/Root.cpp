@@ -48,16 +48,6 @@ bool Root::empty(void)
     return expression.empty();
 }
 
-bool Root::reachedRight(void)
-{
-    return expression.reachedRight();
-}
-
-bool Root::reachedLeft(void)
-{
-    return expression.reachedLeft();
-}
-
 bool Root::editDelete(void)
 {
     expression.editDelete();

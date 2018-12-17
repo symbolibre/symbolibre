@@ -45,10 +45,6 @@ public: /* methods */
     /* Administrative : two methods that tells if the cursor has space
      * to move right/left. */
     bool empty(void) override;
-    bool reachedRight(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
-    bool reachedLeft(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
 
     /* About some delete actions */
     bool editDelete(void) override;

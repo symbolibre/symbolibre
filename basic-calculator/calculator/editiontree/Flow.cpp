@@ -6,6 +6,7 @@
 #include "Root.hpp"
 
 #include <algorithm>
+#include <cassert>
 
 /* ****************************************************************** */
 /* **********************       FLOW NODE      ********************** */
@@ -157,7 +158,9 @@ bool Flow::insert(EditionNode *newnode)
 
     // Special absorbing case of fractions
     auto frac = dynamic_cast<Frac *>(newnode);
-    if (frac && !(*edited_node)->empty() && (*edited_node)->reachedRight()) {
+    auto ed_area = dynamic_cast<EditionArea *>(edited_node->get());
+    assert(ed_area);
+    if (frac && !ed_area->empty() && ed_area->reachedRight()) {
         std::string numerator = (*edited_node)->getText();
         (*edited_node)->editClear();
         ++edited_node;

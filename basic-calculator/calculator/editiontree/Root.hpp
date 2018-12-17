@@ -47,14 +47,6 @@ public:
      * node to check convention. */
     bool empty(void) override;
 
-    /* reachedRight():
-     * Tells whether or not the cursor has place to move right. */
-    bool reachedRight(void) override;
-
-    /* reachedLeft():
-     * Tells whether or not the cursor has place to move left. */
-    bool reachedLeft(void) override;
-
     /* About some delete actions */
     /* editDelete():
      * Deletes the node or character left to the cursor. Returns 'false'

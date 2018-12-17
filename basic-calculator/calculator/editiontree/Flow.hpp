@@ -40,8 +40,8 @@ public:
 
     /* Administrative: */
     bool empty(void) override;
-    bool reachedRight(void) override;
-    bool reachedLeft(void) override;
+    bool reachedRight(void);
+    bool reachedLeft(void);
 
     /* About moving the cursor */
     bool editMoveRight(void) override; /* Move the cursor right. */

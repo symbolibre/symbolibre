@@ -58,11 +58,11 @@ public:
 
     /* reachedRight():
      * Tells whether or not the cursor has place to move right. */
-    bool reachedRight(void) override;
+    bool reachedRight(void);
 
     /* reachedLeft():
      * Tells whether or not the cursor has place to move left. */
-    bool reachedLeft(void) override;
+    bool reachedLeft(void);
 
     /* About moving the cursor */
     bool editMoveRight(void) override; /* Move the cursor right. */

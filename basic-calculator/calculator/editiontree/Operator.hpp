@@ -50,16 +50,6 @@ public:
      * By convention, an operator is never empty. */
     bool empty(void) override;
 
-    /* reachedRight():
-     * Tells whether or not the cursor has place to move right.
-     * Should not be used. */
-    bool reachedRight(void) override;
-
-    /* reachedLeft():
-     * Tells whether or not the cursor has place to move left.
-     * Should not be used. */
-    bool reachedLeft(void) override;
-
     /* About some delete actions */
     /* editDelete():
      * Deletes the node or character left to the cursor.

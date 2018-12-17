@@ -41,16 +41,6 @@ bool Operator::empty(void)
     return false;
 }
 
-bool Operator::reachedRight(void)
-{
-    return true;
-}
-
-bool Operator::reachedLeft(void)
-{
-    return true;
-}
-
 bool Operator::editDelete(void)
 {
     return false;

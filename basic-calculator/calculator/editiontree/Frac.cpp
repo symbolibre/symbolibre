@@ -53,22 +53,6 @@ bool Frac::empty(void)
     //return numerator.empty() && denominator.empty();
 }
 
-bool Frac::reachedRight(void)
-{
-    if (cursor_on_top)
-        return numerator.reachedRight();
-    else
-        return denominator.reachedRight();
-}
-
-bool Frac::reachedLeft(void)
-{
-    if (cursor_on_top)
-        return numerator.reachedLeft();
-    else
-        return denominator.reachedLeft();
-}
-
 bool Frac::editMoveUp(void)
 {
     if (cursor_on_top)

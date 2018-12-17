@@ -52,10 +52,6 @@ public:
 
     bool empty(void) override;
     /* Convention: Fractions are not empty. */
-    bool reachedRight(void) override;
-    /* Tells whether or not the cursor has place to move right. */
-    bool reachedLeft(void) override;
-    /* Tells whether or not the cursor has place to move left. */
 
     bool editMoveUp(void) override;    /* Move the cursor up.    */
     bool editMoveDown(void) override;  /* Move the cursor down.  */

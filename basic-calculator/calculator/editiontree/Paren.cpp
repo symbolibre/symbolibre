@@ -49,14 +49,6 @@ bool Paren::empty(void)
 {
     return false;    /* Contains a parenthesis by defn */
 }
-bool Paren::reachedRight(void)
-{
-    return true;
-}
-bool Paren::reachedLeft(void)
-{
-    return true;
-}
 bool Paren::editDelete(void)
 {
     return false;

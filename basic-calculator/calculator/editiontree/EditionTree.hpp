@@ -62,16 +62,6 @@ public:
         return root.empty();
     }
 
-    bool reachedRight(void)
-    {
-        return root.reachedRight();
-    }
-
-    bool reachedLeft(void)
-    {
-        return root.reachedLeft();
-    }
-
     bool editMoveRight(void)
     {
         MoveRightVisitor v;

@@ -101,14 +101,6 @@ public:
      * By convention, a root node is empty iff its content is empty. */
     virtual bool empty(void) = 0;
 
-    /* reachedRight():
-     * Tells whether or not the cursor has room to move right. */
-    virtual bool reachedRight(void) = 0;
-
-    /* reachedLeft():
-     * Tells whether or not the cursor has room to move left. */
-    virtual bool reachedLeft(void) = 0;
-
     /* All edition methods return 'true' if they were able to do the edition
      * locally, and return 'false' if it has to be done above in the e.t.
      * The cursor is always either on a text node or between two non-text
