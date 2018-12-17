@@ -26,8 +26,7 @@ public:
 
     /* append(str):
      * Appends 'str' to the text contained by the node. */
-    void append(const char *str);
-    void append(std::string &str) override;
+    void append(std::string str);
 
     /* cutAtCursor(cut):
      * Cuts the whole portion of text that is contained after

@@ -32,10 +32,6 @@ public:
      * function is sub-optimal. */
     std::string getText(void) override;
 
-    /* append(str):
-     * Exclusive to some nodes - don't use this function. */
-    void append(std::string &str) override;
-
     /* dropCursor(dir):
      * A function to replace the cursor according the the direction 'dir'
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */

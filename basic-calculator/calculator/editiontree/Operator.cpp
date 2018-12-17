@@ -21,11 +21,6 @@ std::string Operator::getText(void) /* DO NOT USE IT */
     return op;
 }
 
-void Operator::append(std::string &)
-{
-
-}
-
 bool Operator::dropCursor(movedir)
 {
     return false;

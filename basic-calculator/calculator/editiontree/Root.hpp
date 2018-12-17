@@ -30,9 +30,6 @@ public:
      * function is sub-optimal. */
     std::string getText(void) override;
 
-    /* append(str): this function does nothing on Root nodes. */
-    void append(std::string &str) override;
-
     /* dropCursor(dir):
      * A function to replace the cursor according the the direction 'dir'
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */

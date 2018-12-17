@@ -30,11 +30,6 @@ std::string Frac::getText(void)
     return str;
 }
 
-void Frac::append(std::string &)
-{
-
-}
-
 bool Frac::dropCursor(movedir dir)
 {
     /* Convention: the cursor is ALWAYS dropped on top of the fraction */

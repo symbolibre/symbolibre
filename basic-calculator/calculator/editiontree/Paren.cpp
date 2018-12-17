@@ -29,11 +29,6 @@ std::string Paren::getText(void)
     return str;
 }
 
-void Paren::append(std::string &)
-{
-
-}
-
 bool Paren::dropCursor(movedir)
 {
     return false;

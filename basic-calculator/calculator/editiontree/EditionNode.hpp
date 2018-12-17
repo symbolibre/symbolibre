@@ -85,9 +85,6 @@ public:
      * function is sub-optimal. */
     virtual std::string getText(void) = 0;
 
-    /* append(str): Exclusive to some nodes - don't use this function. */
-    virtual void append(std::string &str) = 0;
-
     /* dropCursor(dir):
      * A function to replace the cursor according the the direction 'dir'
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */

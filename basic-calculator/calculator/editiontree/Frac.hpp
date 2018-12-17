@@ -38,8 +38,6 @@ public:
     std::string getText(void) override;
     /* Returns a std::string that is python-parsable. Beware that this
      * function is sub-optimal. */
-    void append(std::string &str) override;
-    /* This function does nothing on Frac nodes. */
 
     bool dropCursor(movedir dir) override;
     /* A function to replace the cursor according the the direction 'dir'

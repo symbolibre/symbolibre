@@ -28,11 +28,6 @@ std::string Root::getText(void)
     return str;
 }
 
-void Root::append(std::string &)
-{
-
-}
-
 bool Root::dropCursor(movedir dir)
 {
     return expression.dropCursor(dir);

@@ -43,9 +43,9 @@ public:
         return root.getText();
     }
 
-    void append(std::string &str)
+    void append(std::string str)
     {
-        return root.append(str);
+        return root.getActiveNode()->append(std::move(str));
     }
 
     bool dropCursor(movedir dir)

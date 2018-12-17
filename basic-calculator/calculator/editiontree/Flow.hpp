@@ -29,8 +29,6 @@ public:
 
     std::string getText(void)  override;
 
-    void append(std::string &) override;
-
     /* dropCursor(dir):
      * If the flow is ROOT, catch all 'false' and try to replace the cursor
      * without returning 'false' ever. */

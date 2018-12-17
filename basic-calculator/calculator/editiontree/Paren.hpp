@@ -30,10 +30,6 @@ public: /* methods */
      * function is sub-optimal. */
     std::string getText(void) override;
 
-    /* append(...):
-     * Parens does not accept this operation. (Does nothing) */
-    void append(std::string &) override;
-
     /* dropCursor(dir):
      * Parens does not accept this operation. (Does nothing) */
     bool dropCursor(movedir dir) override;

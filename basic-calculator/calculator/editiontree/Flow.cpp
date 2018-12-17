@@ -40,11 +40,6 @@ std::string Flow::getText(void)
     return str;
 }
 
-void Flow::append(std::string &)
-{
-    return;
-}
-
 bool Flow::dropCursor(movedir dir)
 {
     if (dir == MLEFT || dir == MDOWN)
@@ -123,10 +118,11 @@ bool Flow::editDelete(void)
     if (reachedLeft())
         return true;
 
+    // we merge the edition areas at the left and at the right of the removed node
     edited_node = flow.erase(--edited_node);
     std::string right_str = (*edited_node)->getText();
     edited_node = --flow.erase(edited_node);
-    (*edited_node)->append(right_str);
+    static_cast<EditionArea *>(edited_node->get())->append(right_str);
     return true;
 }
 

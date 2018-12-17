@@ -27,11 +27,7 @@ void EditionArea::set_to(std::string str)
 {
     text = std::move(str);
 }
-void EditionArea::append(const char *str)
-{
-    text.insert(text.size(), str);
-}
-void EditionArea::append(std::string &str)
+void EditionArea::append(std::string str)
 {
     text.insert(text.size(), str);
 }
