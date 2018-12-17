@@ -8,7 +8,7 @@ bool InternalEditionNode::accept(ActiveEditionNodeVisitor &v)
     return v.visit(*this);
 }
 
-EditionNode *InternalEditionNode::getActiveNode(void)
+EditionArea *InternalEditionNode::getActiveNode(void)
 {
     return getActiveChild()->getActiveNode();
 }

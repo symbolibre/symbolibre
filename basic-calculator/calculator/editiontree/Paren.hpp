@@ -45,9 +45,6 @@ public: /* methods */
     /* Parens does not accept this operation. (Does nothing) */
     bool editClear(void) override;
 
-    bool editChar(char symbol) override;
-    /* Parens does not accept this operation. (Does nothing) */
-
     /* About computing dimensions */
     /* computeDimensions(painter):
      * A paren cannot know its dimensions by itself. The true computation

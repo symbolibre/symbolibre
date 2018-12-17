@@ -8,9 +8,9 @@ class InternalEditionNode : public EditionNode
 public:
     bool accept(ActiveEditionNodeVisitor &v) override;
 
-    /** Returns the leaf where the cursor is. */
-    EditionNode *getActiveNode(void) override;
+    EditionArea *getActiveNode(void) override;
 
+    /** Returns the child where the cursor is. */
     virtual EditionNode *getActiveChild(void) = 0;
 };
 

@@ -49,9 +49,6 @@ public:
     bool editDelete(void) override;
     bool editClear(void) override;
 
-    /* The usual edition part */
-    bool editChar(char symbol) override;
-
     bool insert(EditionNode *newnode) override;
 
     EditionNode *getActiveChild(void) override;

@@ -48,10 +48,6 @@ bool Paren::editClear(void)
 {
     return false;
 }
-bool Paren::editChar(char)
-{
-    return false;
-}
 
 /* Dimensions */
 void Paren::computeDimensions(QPainter &painter)

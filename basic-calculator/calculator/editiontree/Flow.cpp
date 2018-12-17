@@ -87,12 +87,6 @@ bool Flow::reachedLeft(void)
 
 /* ********************** EDITIPushed METHODS ********************** */
 
-bool Flow::editChar(char symbol)
-{
-    (*edited_node)->editChar(symbol);
-    return true;
-}
-
 /* About moving the cursor */
 
 bool Flow::editMoveRight(void)

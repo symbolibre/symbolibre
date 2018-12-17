@@ -50,10 +50,6 @@ public:
      * Clears the content of the current node. Does nothing on operator nodes. */
     bool editClear(void)  override;
 
-    /* editChar(symbol):
-     * Adds the specified character at the cursor's position. */
-    bool editChar(char symbol) override;
-
     /* About computing dimension to print */
     /* computeDimensions(painter):
      * Computes the informations necessary to draw the expression:

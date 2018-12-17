@@ -75,14 +75,6 @@ bool Frac::editClear(void)
     return true;
 }
 
-bool Frac::editChar(char symbol)
-{
-    if (cursor_on_top)
-        return numerator.editChar(symbol);
-    else
-        return denominator.editChar(symbol);
-}
-
 EditionNode *Frac::getActiveChild(void)
 {
     if (cursor_on_top)

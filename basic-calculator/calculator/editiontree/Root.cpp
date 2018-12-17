@@ -49,11 +49,6 @@ bool Root::editClear(void)
     return true;
 }
 
-bool Root::editChar(char symbol)
-{
-    return expression.editChar(symbol);
-}
-
 EditionNode *Root::getActiveChild(void)
 {
     return &expression;

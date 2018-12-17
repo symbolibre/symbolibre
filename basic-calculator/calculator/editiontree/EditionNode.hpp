@@ -51,6 +51,7 @@ enum movedir { MNONE, MRESET, MLEFT, MRIGHT, MUP, MDOWN };
 enum parentype { LPAREN, RPAREN };
 
 class ActiveEditionNodeVisitor;
+class EditionArea;
 
 class EditionNode /* Edition tree represents a set of class, and should
                    * not be used alone. */
@@ -130,10 +131,6 @@ public:
      * Clears the content of the current node. */
     virtual bool editClear(void)  = 0;
 
-    /* editChar(symbol):
-     * Adds the specified character at the cursor's position. */
-    virtual bool editChar(char symbol) = 0;
-
     /** Inserts a new node into the tree. Takes ownership if succeeds. */
     // FIXME leak in case it fails
     virtual bool insert(EditionNode *)
@@ -142,9 +139,9 @@ public:
     }
 
     /** Returns the leaf where the cursor is. */
-    virtual EditionNode *getActiveNode(void)
+    virtual EditionArea *getActiveNode(void)
     {
-        return this;
+        return nullptr;
     }
 
     /* About computing dimension to print */

@@ -3,7 +3,8 @@
 
 #include "Flow.hpp"
 #include "visitors.hpp"
-// for edit*
+
+#include "EditionArea.hpp"
 #include "Frac.hpp"
 #include "Operator.hpp"
 #include "Paren.hpp"
@@ -92,9 +93,9 @@ public:
         return root.editClear();
     }
 
-    bool editChar(char symbol)
+    void editChar(char symbol)
     {
-        return root.editChar(symbol);
+        root.getActiveNode()->editChar(symbol);
     }
 
     bool editOperator(char achar, QString qs)
@@ -121,7 +122,7 @@ public:
         return root.accept(v);
     }
 
-    EditionNode *getActiveNode(void)
+    EditionArea *getActiveNode(void)
     {
         return root.getActiveNode();
     }

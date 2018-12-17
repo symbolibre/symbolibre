@@ -132,12 +132,10 @@ bool EditionArea::editClear(void)
     return true;
 }
 
-bool EditionArea::editChar(char symbol)
+void EditionArea::editChar(char symbol)
 {
-    /* Easy node */
     text.insert(text.begin() + cursor_pos, symbol);
     cursor_pos++;
-    return true;
 }
 
 void EditionArea::computeDimensions(QPainter &painter)

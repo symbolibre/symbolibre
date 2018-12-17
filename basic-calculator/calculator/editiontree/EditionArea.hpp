@@ -86,7 +86,12 @@ public:
 
     /* editChar(symbol):
      * Adds the specified character at the cursor's position. */
-    bool editChar(char symbol) override;
+    void editChar(char symbol);
+
+    EditionArea *getActiveNode(void)
+    {
+        return this;
+    }
 
     /* About computing dimensions */
     /* computeDimensions(painter):
