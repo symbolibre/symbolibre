@@ -52,11 +52,6 @@ public:
         return root.dropCursor(dir);
     }
 
-    void cutAtCursor(std::string &cut)
-    {
-        return root.cutAtCursor(cut);
-    }
-
     bool empty(void)
     {
         return root.empty();
@@ -88,7 +83,8 @@ public:
 
     bool editDelete(void)
     {
-        return root.editDelete();
+        DeleteVisitor v;
+        return root.accept(v);
     }
 
     bool editClear(void)

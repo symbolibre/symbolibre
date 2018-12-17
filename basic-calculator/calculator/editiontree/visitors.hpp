@@ -39,6 +39,15 @@ public:
     }
 };
 
+class DeleteVisitor : public ActiveEditionNodeVisitor
+{
+public:
+    virtual bool visit(EditionNode &node)
+    {
+        return node.editDelete();
+    }
+};
+
 class InsertVisitor : public ActiveEditionNodeVisitor
 {
 public:

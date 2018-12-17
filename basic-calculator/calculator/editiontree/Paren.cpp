@@ -39,19 +39,10 @@ bool Paren::dropCursor(movedir)
     return false;
 }
 
-void Paren::cutAtCursor(std::string &)
-{
-
-}
-
 /* The following methods should not be called */
 bool Paren::empty(void)
 {
     return false;    /* Contains a parenthesis by defn */
-}
-bool Paren::editDelete(void)
-{
-    return false;
 }
 bool Paren::editClear(void)
 {

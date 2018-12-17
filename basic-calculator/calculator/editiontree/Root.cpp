@@ -38,21 +38,9 @@ bool Root::dropCursor(movedir dir)
     return expression.dropCursor(dir);
 }
 
-void Root::cutAtCursor(std::string &)
-{
-
-}
-
 bool Root::empty(void)
 {
     return expression.empty();
-}
-
-bool Root::editDelete(void)
-{
-    expression.editDelete();
-    return true; /* FIXME ? maybe should return child value */
-    /* see edition experience */
 }
 
 bool Root::editClear(void)

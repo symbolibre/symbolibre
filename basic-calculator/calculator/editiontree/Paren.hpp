@@ -38,19 +38,12 @@ public: /* methods */
      * Parens does not accept this operation. (Does nothing) */
     bool dropCursor(movedir dir) override;
 
-    /* cutAtCursor(cut):
-     * Parens does not accept this operation. (Does nothing) */
-    void cutAtCursor(std::string &cut) override;
-
     /* Administrative : two methods that tells if the cursor has space
      * to move right/left. */
     bool empty(void) override;
 
-    /* About some delete actions */
-    bool editDelete(void) override;
     /* Parens does not accept this operation. (Does nothing) */
     bool editClear(void) override;
-    /* Parens does not accept this operation. (Does nothing) */
 
     bool editChar(char symbol) override;
     /* Parens does not accept this operation. (Does nothing) */

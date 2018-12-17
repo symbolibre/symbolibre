@@ -58,18 +58,12 @@ bool Flow::dropCursor(movedir dir)
     return (*edited_node)->dropCursor(dir);
 }
 
-void Flow::cutAtCursor(std::string &)
-{
-    return;
-}
-
 bool Flow::empty(void)
 {
     /* A flow has always an edition area, thus we want to know if there is
      * only one edition area, and if it is empty. */
-    if (flow.begin() == flow.end())
-        return true;
-    return ++flow.begin() == flow.end() && (*(flow.begin()))->empty();
+    assert(flow.begin() != flow.end());
+    return ++flow.begin() == flow.end() && flow.front()->empty();
 }
 
 bool Flow::reachedRight(void)
@@ -125,21 +119,21 @@ bool Flow::editMoveLeft(void)
 
 bool Flow::editDelete(void)
 {
-    if (empty())
-        return false;
-    if (!(*edited_node)->editDelete())
-        /* child deleted nothing and a node have to be deleted*/
-    {
-        if (reachedLeft())
-            return false;
+    // this assertion is verified because the edited node is always an edition
+    // area in a flow and Flow::editDelete always returns true
+    assert(dynamic_cast<EditionArea *>(edited_node->get()));
 
-        edited_node = flow.erase(--edited_node);
-        std::string right_str = (*edited_node)->getText();
-        edited_node = --flow.erase(edited_node);
-        (*edited_node)->append(right_str);
+    // we don't delete anything if there is nothing at the left of the cursor
+    if (empty())
         return true;
-    } else
-        return true; /* nothing deleted */
+    if (reachedLeft())
+        return true;
+
+    edited_node = flow.erase(--edited_node);
+    std::string right_str = (*edited_node)->getText();
+    edited_node = --flow.erase(edited_node);
+    (*edited_node)->append(right_str);
+    return true;
 }
 
 bool Flow::editClear(void)
@@ -156,10 +150,11 @@ bool Flow::insert(EditionNode *newnode)
      * an edition area, so we have to split it into two and insert between the two
      * edition areas. */
 
-    // Special absorbing case of fractions
-    auto frac = dynamic_cast<Frac *>(newnode);
     auto ed_area = dynamic_cast<EditionArea *>(edited_node->get());
     assert(ed_area);
+
+    // Special absorbing case of fractions
+    auto frac = dynamic_cast<Frac *>(newnode);
     if (frac && !ed_area->empty() && ed_area->reachedRight()) {
         std::string numerator = (*edited_node)->getText();
         (*edited_node)->editClear();
@@ -178,7 +173,7 @@ bool Flow::insert(EditionNode *newnode)
 
     /* This code could be reduced, but would be harder to understand */
     std::string right_str;
-    (*edited_node)->cutAtCursor(right_str);
+    ed_area->cutAtCursor(right_str);
     ++edited_node;
 
     auto new_text  = std::make_unique<EditionArea>();

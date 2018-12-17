@@ -36,8 +36,6 @@ public:
      * without returning 'false' ever. */
     bool dropCursor(movedir dir) override;
 
-    void cutAtCursor(std::string &cut) override;
-
     /* Administrative: */
     bool empty(void) override;
     bool reachedRight(void);

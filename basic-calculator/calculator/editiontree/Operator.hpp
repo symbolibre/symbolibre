@@ -41,20 +41,11 @@ public:
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */
     bool dropCursor(movedir dir) override;
 
-    /* cutAtCursor(cut):
-     * Specific to cursor repositioning. Don't use this function. */
-    void cutAtCursor(std::string &cut) override;
-
     /* empty():
      * Returns 'true' if the current node is empty.
      * By convention, an operator is never empty. */
     bool empty(void) override;
 
-    /* About some delete actions */
-    /* editDelete():
-     * Deletes the node or character left to the cursor.
-     * Does nothing and returns false*/
-    bool editDelete(void) override;
     /* editClear():
      * Clears the content of the current node. Does nothing on operator nodes. */
     bool editClear(void)  override;

@@ -92,10 +92,6 @@ public:
      * Returns 'true' if cursor can be dropped, 'false' otherwise. */
     virtual bool dropCursor(movedir dir) = 0;
 
-    /* cutAtCursor(cut):
-     * Specific to cursor repositioning. Don't use this function. */
-    virtual void cutAtCursor(std::string &cut) = 0;
-
     /* empty():
      * Returns 'true' if the current node is empty.
      * By convention, a root node is empty iff its content is empty. */
@@ -126,7 +122,10 @@ public:
     /* editDelete():
      * Deletes the node or character left to the cursor. Returns 'false'
      * if nothing has been deleted. */
-    virtual bool editDelete(void) = 0;
+    virtual bool editDelete(void)
+    {
+        return false;
+    }
     /* editClear():
      * Clears the content of the current node. */
     virtual bool editClear(void)  = 0;

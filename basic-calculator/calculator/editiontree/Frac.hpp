@@ -47,21 +47,11 @@ public:
      * Dropping to the top puts the cursor on the numerator, whereas dropping
      * on the bottom puts the cursor on the denominator (most left part). */
 
-    void cutAtCursor(std::string &cut) override;
-    /* This functions does nothing on Frac nodes. */
-
     bool empty(void) override;
     /* Convention: Fractions are not empty. */
 
     bool editMoveUp(void) override;    /* Move the cursor up.    */
     bool editMoveDown(void) override;  /* Move the cursor down.  */
-
-    /* About some delete actions */
-    /* editDelete():
-     * Deletes the node or character left to the cursor.
-     * Always returns 'true'. A fraction does not propagate the error up if
-     * the it cannot erase something. */
-    bool editDelete(void) override;
 
     /* editClear():
      * Clears the numerator and the denominator. */

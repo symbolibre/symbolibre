@@ -31,17 +31,7 @@ bool Operator::dropCursor(movedir)
     return false;
 }
 
-void Operator::cutAtCursor(std::string &)
-{
-
-}
-
 bool Operator::empty(void)
-{
-    return false;
-}
-
-bool Operator::editDelete(void)
 {
     return false;
 }

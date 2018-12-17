@@ -42,11 +42,6 @@ bool Frac::dropCursor(movedir dir)
     return numerator.dropCursor(dir);
 }
 
-void Frac::cutAtCursor(std::string &)
-{
-
-}
-
 bool Frac::empty(void)
 {
     return false;
@@ -70,15 +65,6 @@ bool Frac::editMoveDown(void)
 
     cursor_on_top = false;
     denominator.dropCursor(MLEFT); /* FIXME: smart drop */
-    return true;
-}
-
-bool Frac::editDelete(void)
-{
-    if (cursor_on_top)
-        numerator.editDelete();
-    else
-        denominator.editDelete();
     return true;
 }
 
