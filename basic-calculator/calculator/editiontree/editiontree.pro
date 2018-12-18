@@ -11,8 +11,7 @@ HEADERS  = EditionArea.hpp \
 		   InternalEditionNode.hpp \
 		   ActiveEditionNodeVisitor.hpp \
 		   visitors.hpp \
-		   EditionTree.hpp \
-		   editiontrees.hpp
+		   EditionTree.hpp
 
 SOURCES  = EditionArea.cpp \
 		   Operator.cpp \

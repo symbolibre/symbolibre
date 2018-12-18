@@ -1,7 +1,7 @@
 #ifndef CALCSHEET_HPP
 #define CALCSHEET_HPP
 
-#include <editiontrees.hpp>
+#include <EditionTree.hpp>
 #include <memory>
 #include <list>
 #include "keycode.hpp"
