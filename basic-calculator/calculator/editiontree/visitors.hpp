@@ -1,6 +1,7 @@
 #ifndef VISITORS_HPP
 #define VISITORS_HPP
 
+#include <cassert>
 #include "EditionNode.hpp"
 
 class MoveLeftVisitor : public ActiveEditionNodeVisitor
