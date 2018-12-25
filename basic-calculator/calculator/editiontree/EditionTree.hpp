@@ -33,9 +33,9 @@ public:
         return root.center_height;
     }
 
-    void ascii(int shift, bool contains_cursor)
+    void ascii(bool draw_cursor)
     {
-        return root.ascii(shift, contains_cursor);
+        return root.ascii(0, draw_cursor);
     }
 
     std::string getText(void)

@@ -71,8 +71,10 @@ public:
         return v.visit(*this);
     }
 
-    /** Print the tree structure of the node. 'shift' should be set to 0,
-     * contains_cursor to true if you want to track the cursor's position.
+    /** Print the tree structure of the node.
+     * \param shift Depth, initially 0.
+     * \param contains_cursor true if the node or one of its children
+     * contains the cursor.
      */
     virtual void ascii(int shift, bool contains_cursor) = 0;
 
