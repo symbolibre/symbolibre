@@ -3,6 +3,9 @@
 
 #include "EditionNode.hpp"
 
+/**
+ * An EditionNode that contains a fixed number of Flow children.
+ */
 class InternalEditionNode : public EditionNode
 {
 public:
@@ -10,7 +13,10 @@ public:
 
     EditionArea *getActiveNode(void) override;
 
-    /** Returns the child where the cursor is. */
+    /**
+    * Returns the child where the cursor is.
+     * \return the non-null active child
+     */
     virtual EditionNode *getActiveChild(void) = 0;
 };
 
