@@ -1,5 +1,5 @@
-#ifndef FLOW_H
-#define FLOW_H
+#ifndef FLOW_HPP
+#define FLOW_HPP
 
 #include "InternalEditionNode.hpp"
 
@@ -10,10 +10,11 @@ struct centeredBox {
     int center_height;
 };
 
-/* Flows are a key part of edidion trees.
- * A Flow contains a list of nodes (typically non-flows). Their properties
- * are described in 'editiontree.h' */
-
+/**
+ * Flows are a key part of edidion trees.
+ * A Flow contains a list of non-Flow nodes.
+ * \see EditionNode
+ */
 class Flow : public InternalEditionNode
 {
     using FlowIterator = std::list<std::unique_ptr<EditionNode>>::iterator;
@@ -29,9 +30,6 @@ public:
 
     std::string getText(void)  override;
 
-    /* dropCursor(dir):
-     * If the flow is ROOT, catch all 'false' and try to replace the cursor
-     * without returning 'false' ever. */
     bool dropCursor(movedir dir) override;
 
     /* Administrative: */
@@ -55,14 +53,12 @@ public:
     void computeDimensions(QPainter &painter) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 
-    /* parenArea(...):
-     * Returns the box size that the paren at cur_node-- grap. */
+    /** Returns the box size that the paren at cur_node-- grap. */
     centeredBox parenArea(FlowIterator &cur_node, QPainter &painter);
 
-    /* numberNonEmpty(void):
-     * return the number of non-empty nodes within the flow. */
+    /** return the number of non-empty nodes within the flow. */
     int numberNonEmpty(void);
 
 };
 
-#endif // FLOW_H
+#endif // FLOW_HPP

@@ -4,15 +4,15 @@
 #include "EditionNode.hpp"
 #include <QString>
 
-/* Operator are the simplier semantics nodes possible.
+/**
+ * Operator are the simplest semantic nodes possible.
  *
  * They have a single operator, that is described using two attributes:
- * - 'qchar' that represents an ascii character corresponding to the operator
+ * - 'achar' that represents an ascii character corresponding to the operator
  * - 'qstring' that is the 'pretty' string used when rendering the expression in 2D.
  *
  * Operator nodes do not possess any flow, so they are terminal nodes.
  */
-
 class Operator : public EditionNode
 {
 protected:

@@ -1,27 +1,19 @@
 #ifndef FRAC_HPP
 #define FRAC_HPP
 
-/* Frac for "fraction" are semantic nodes.
- * Frac has two specific attributes: numerator and denominator that are flows
- * in practice.
- */
-
 #include "EditionNode.hpp"
 #include "Flow.hpp"
 
-//MIN_SIZE/2
-
-/* Frac nodes are semantic nodes that represents fractions.
+/** Frac nodes are semantic nodes that represents fractions.
  *
  * A Frac possesses:
- *
  * - a numerator
  * - a denominator
  *
  * Numerator/Denominator are Flow nodes.
  * A Frac node also possesses a boolean cursor_on_top that is set to
- * 'true' if the cursor is in the numerator. */
-
+ * 'true' if the cursor is in the numerator.
+ */
 class Frac : public InternalEditionNode
 {
 public:

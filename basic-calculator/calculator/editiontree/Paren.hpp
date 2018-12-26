@@ -4,9 +4,8 @@
 #include "EditionNode.hpp"
 #include <string>
 
-/* Parens are semantic nodes, yet a bit special because
+/** Parens are semantic nodes, yet a bit special because
  * they are leaf ones. */
-
 class Paren : public EditionNode
 {
 private:
