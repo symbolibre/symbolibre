@@ -31,10 +31,10 @@ Window {
                 Column {
                     anchors.fill: parent
                     Image {
-                        source: image
+                        source: icon
                         anchors.horizontalCenter: parent.horizontalCenter
-                        width: 48
-                        height: 48
+                        width:  48
+                        height: width
                     }
                     Text {
                         text: caption
@@ -53,12 +53,23 @@ Window {
             anchors.leftMargin: 0
             anchors.topMargin: 0
             anchors.fill: parent
-            cellWidth: 80; cellHeight: 72
+            cellWidth: parent.width / 4 - 3; cellHeight: parent.height/3
 
             model: listmodel.model
             delegate: contactDelegate
             highlight: Rectangle { color: "lightblue"; radius: 5 }
             focus: true
+
+            ScrollBar.vertical: ScrollBar {
+                id: vbar
+                active: true
+                orientation: Qt.Vertical
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                policy: ScrollBar.AlwaysOn
+            }
         }
     }
+
 }

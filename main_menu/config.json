@@ -2,31 +2,91 @@
 {
     "caption": "gedit",
     "command": "gedit",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
 },
 {
     "caption": "firefox",
     "command": "firefox",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
 },
 {
     "caption": "thunar",
     "command": "thunar",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
 },
 {
     "caption": "nautilus",
     "command": "nautilus",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
 },
 {
     "caption": "okular",
     "command": "okular",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
 },
 {
     "caption": "evince",
     "command": "evince",
-    "image": "simplelogo.png"
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "gedit",
+    "command": "gedit",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "firefox",
+    "command": "firefox",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "thunar",
+    "command": "thunar",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "nautilus",
+    "command": "nautilus",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "okular",
+    "command": "okular",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "evince",
+    "command": "evince",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "gedit",
+    "command": "gedit",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "firefox",
+    "command": "firefox",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "thunar",
+    "command": "thunar",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "nautilus",
+    "command": "nautilus",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "okular",
+    "command": "okular",
+    "icon": "simplelogo.png"
+},
+{
+    "caption": "evince",
+    "command": "evince",
+    "icon": "simplelogo.png"
 }
 ]
