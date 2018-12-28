@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>AppButton.qml</file>
+        <file>simplelogo.png</file>
+        <file>JSONListModel.qml</file>
+        <file>jsonpath.js</file>
     </qresource>
 </RCC>

@@ -1,0 +1,32 @@
+[
+{
+    "caption": "gedit",
+    "command": "gedit",
+    "image": "simplelogo.png"
+},
+{
+    "caption": "firefox",
+    "command": "firefox",
+    "image": "simplelogo.png"
+},
+{
+    "caption": "thunar",
+    "command": "thunar",
+    "image": "simplelogo.png"
+},
+{
+    "caption": "nautilus",
+    "command": "nautilus",
+    "image": "simplelogo.png"
+},
+{
+    "caption": "okular",
+    "command": "okular",
+    "image": "simplelogo.png"
+},
+{
+    "caption": "evince",
+    "command": "evince",
+    "image": "simplelogo.png"
+}
+]
