@@ -2,6 +2,8 @@
 #define EXPRESSION_H
 
 #include <memory>
+#include <vector>
+#include <string>
 
 /* Resources
 Tutorial here http://web.eecs.utk.edu/~bvz/teaching/cs461Sp11/notes/parse_tree/
@@ -115,6 +117,18 @@ class SqrtNode : public UnaryNode
 {
 public:
     SqrtNode(ExpressionNode &C);
+    virtual float evaluate() override;
+};
+
+// Function application
+
+class FunAppNode : public ExpressionNode
+{
+protected:
+    std::vector<ExpressionNode *> arglist;
+    std::string name;
+public:
+    FunAppNode(std::vector<ExpressionNode *> arglist, std::string funname);
     virtual float evaluate() override;
 };
 

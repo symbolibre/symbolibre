@@ -1,5 +1,5 @@
 %{
-#include "expression.h"
+#include "expression.hpp"
 #include "Parser.h"
 #include <string.h>
 
@@ -16,6 +16,9 @@ divide		\/
 opar		\(
 cpar 		\)
 sqrt		sqrt
+comma		,
+
+fun		[a-z]+
 
 %%
 
@@ -29,6 +32,8 @@ sqrt		sqrt
 {opar}		{ return(LPAR); }
 {cpar}		{ return(RPAR); }
 {sqrt}		{ return(SQRT); }
+{fun}		{ yylval.str = yytext; return(FUN); }
+{comma}		{ return(COMMA); }
 
 %%
 // We modify the lexer so we lex by taking string input

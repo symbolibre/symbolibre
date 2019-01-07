@@ -5,7 +5,9 @@
 %{
 
 #include <iostream>
-#include "expression.h"
+#include <vector>
+#include <string>
+#include "expression.hpp"
 /* Here we declare the prototype of our parsing, lexing and error functions */
 
 
@@ -29,6 +31,9 @@ ExpressionNode *root;
 %union {
   ExpressionNode *exp;  /* For the expressions. Since it is a pointer, no problem. */
   float       value;  /* For the lexical analyser. NUMBER tokens */
+  std::vector<ExpressionNode *> *vect;
+  char *str;
+  
 }
 
 // This destructor will empty all the stack when bison meet a syntax error, so there are no memory leakage
@@ -43,12 +48,15 @@ ExpressionNode *root;
 %type <exp>   Divided
 %type <exp>   Paren
 %type <exp>   Sqrt
+%type <exp>	Fun
+%type <vect> Arglist
 
 
 // We delare our tokens, and if they have a field.
 // We also set priorities on rules, and if they are associative (%left means that 3+4+5 will be parsed as plus(plus(3,4),5)), we do the left operation first )
 %token NUMBER
 %type <value> NUMBER // NUMBER now have a field value that is used in the lexer
+%token <str> FUN
 
 %left PLUS
 %left MINUS
@@ -57,6 +65,7 @@ ExpressionNode *root;
 %token SQRT
 %token LPAR
 %token RPAR
+%token COMMA
 
 %%
 
@@ -70,6 +79,7 @@ Calc: NUMBER { $$ = new NumberNode($1); }
    | Divided {$$ = $1; }
    | Paren { $$ = $1; }
    | Sqrt { $$ = $1; }
+   | Fun { $$ = $1; }
 
 Paren : LPAR Calc RPAR { $$ = $2; }
 
@@ -82,6 +92,12 @@ Times : Calc TIMES Calc {$$ = new TimesNode(*$1,*$3); }
 Divided : Calc DIVIDED Calc {$$ = new FracNode(*$1,*$3); }
 
 Sqrt: SQRT LPAR Calc RPAR { $$ = new SqrtNode(*$3); }
+
+Fun: FUN LPAR Arglist RPAR {std::string funname($1); $$ = new FunAppNode(*$3, funname); }
+
+Arglist: Calc { std::vector<ExpressionNode *> *args; args->push_back($1); $$ = args; }
+  | Calc COMMA Arglist {std::vector<ExpressionNode *> *args = $3; args->push_back($1); $$ = args; }
+  
 %%
 
 

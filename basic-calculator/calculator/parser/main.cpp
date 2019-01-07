@@ -1,23 +1,14 @@
-#include "Parser.h"
-#include "expression.h"
-#include "Lexer.h"
+#include "interface.hpp"
 #include <iostream>
-
-extern ExpressionNode *root;
-
-//YY_BUFFER_STATE yy_scan_buffer(char *base, yy_size_t size)
+#include <string>
 
 
 int main(void)
 {
     while (1) {
-        char buff[1024];
-        fgets(buff, 1024, stdin);
-        int a = lauch_lex(buff);
-        if (a == 0) { // If there was no error then we evaluate our AST.
-            float b = root->evaluate();
-            printf("%f\n", b);
-        }
+        std::string input;
+        std::cin >> input;
+        std::cout << evaluate(input) << std::endl;
     }
     return 0;
 }

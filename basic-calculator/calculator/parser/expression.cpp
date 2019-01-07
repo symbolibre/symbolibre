@@ -1,6 +1,6 @@
 #include <map>
 #include <list>
-#include "expression.h"
+#include "expression.hpp"
 #include <cmath>
 
 // Here we implement the methods of the classes given in expression.h
@@ -87,5 +87,14 @@ float SqrtNode::evaluate()
 {
     return (sqrt(child->evaluate()));
 }
+
+FunAppNode::FunAppNode(std::vector<ExpressionNode *> args, std::string s) : name(s), arglist(args) {}
+float FunAppNode::evaluate()
+{
+    return (0);
+}
+
+
+// Function Application
 
 

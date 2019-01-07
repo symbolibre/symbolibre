@@ -11,7 +11,7 @@ SOURCES += Parser.cpp \
 HEADERS += \
     Parser.h \
     Lexer.h \
-    expression.h \
+    expression.hpp \
     interface.hpp
     
 
