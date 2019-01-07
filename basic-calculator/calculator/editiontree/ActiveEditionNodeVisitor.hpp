@@ -12,6 +12,10 @@ class ActiveEditionNodeVisitor
 {
 public:
     ActiveEditionNodeVisitor() = default;
+    /**
+    * Visit an EditionNode, starting from the active leaf.
+     * \return whether the visitor needs to go up in the tree
+     */
     virtual bool visit(EditionNode &node) = 0;
 };
 

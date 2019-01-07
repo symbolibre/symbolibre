@@ -4,13 +4,14 @@
 #include "InternalEditionNode.hpp"
 #include "Flow.hpp"
 
-/* Root are semantical square root nodes (√).
+/**
+ * Root are semantical square root nodes (√).
  *
  * They contains a single flow 'expression'.
  * The √ is centered according to 'expression' and has the same height.
  * As the size of the 'root' depends on the size of its 'expression', it holds
- * two int 'rootWidth' and 'rootHeight' that stores the size of the symbol. */
-
+ * two int 'rootWidth' and 'rootHeight' that stores the size of the symbol.
+ */
 class Root : public InternalEditionNode
 {
 private:
