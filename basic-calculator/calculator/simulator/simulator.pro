@@ -1,15 +1,13 @@
 TEMPLATE = app
 
-LIBS += -lgiac
-LIBS += -lgmp
-
 QT += qml quick
 CONFIG += c++11
 INCLUDEPATH += ../editiontree \
 	../parser
 
 LIBS += -L../editiontree -leditiontree \
-	-L../parser -lparser
+	-L../parser -lparser \
+        -lgiac -lgmp
 
 SOURCES += main.cpp \
     calcsheet.cpp \

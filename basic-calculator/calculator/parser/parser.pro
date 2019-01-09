@@ -1,7 +1,5 @@
 TEMPLATE = lib
 CONFIG  += staticlib
-LIBS += -lgiac
-LIBS += -lgmp
 CONFIG += c++11
 
 SOURCES += Parser.cpp \
