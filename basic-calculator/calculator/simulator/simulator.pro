@@ -1,5 +1,8 @@
 TEMPLATE = app
 
+LIBS += -lgiac
+LIBS += -lgmp
+
 QT += qml quick
 CONFIG += c++11
 INCLUDEPATH += ../editiontree \

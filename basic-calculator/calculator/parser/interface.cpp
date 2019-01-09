@@ -1,10 +1,17 @@
-#include "expression.hpp"
+#include "interface.hpp"
 #include "Parser.h"
 #include "Lexer.h"
 #include <iostream>
 #include <cstring>
 
 extern ExpressionNode *root;
+
+ExpressionNode *get_ast(std::string input)
+{
+    int a = lauch_lex(input.data());
+    return root;
+}
+
 
 std::string evaluate(std::string input)
 {

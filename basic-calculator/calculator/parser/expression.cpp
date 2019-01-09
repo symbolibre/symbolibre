@@ -9,15 +9,15 @@
 
 // Atomic elements
 
-NumberNode::NumberNode(float value) : num(value) {}
+NumberNode::NumberNode(giac::gen value) : num(value) {}
 
-float NumberNode::evaluate()
+giac::gen NumberNode::evaluate()
 {
     return num;
 }
 
-EmptyNode::EmptyNode(float value) : num(value) {}
-float EmptyNode::evaluate()
+EmptyNode::EmptyNode(giac::gen value) : num(value) {}
+giac::gen EmptyNode::evaluate()
 {
     printf("Oh an empty node\n");
     return num;
@@ -35,36 +35,36 @@ OperatorNode::OperatorNode(ExpressionNode &L, ExpressionNode &R) : left(&L), rig
 // Evaluation of each operator node
 // We need to redefine the constructor, but this is done in a generic way so this is modular
 PlusNode::PlusNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
-float PlusNode::evaluate()
+giac::gen PlusNode::evaluate()
 {
-    float left_num, right_num;
+    giac::gen left_num, right_num;
     left_num  = left->evaluate();
     right_num = right->evaluate();
     return (left_num + right_num);
 }
 
 TimesNode::TimesNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
-float TimesNode::evaluate()
+giac::gen TimesNode::evaluate()
 {
-    float left_num, right_num;
+    giac::gen left_num, right_num;
     left_num  = left->evaluate();
     right_num = right->evaluate();
     return (left_num * right_num);
 }
 
 MinusNode::MinusNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
-float MinusNode::evaluate()
+giac::gen MinusNode::evaluate()
 {
-    float left_num, right_num;
+    giac::gen left_num, right_num;
     left_num  = left->evaluate();
     right_num = right->evaluate();
     return (left_num - right_num);
 }
 
 FracNode::FracNode(ExpressionNode &L, ExpressionNode &R) : OperatorNode(L, R) {}
-float FracNode::evaluate()
+giac::gen FracNode::evaluate()
 {
-    float left_num, right_num;
+    giac::gen left_num, right_num;
     left_num  = left->evaluate();
     right_num = right->evaluate();
     return (left_num / right_num);
@@ -77,21 +77,23 @@ float FracNode::evaluate()
 UnaryNode::UnaryNode(ExpressionNode &C) : child(&C) {}
 
 UnaryMinusNode::UnaryMinusNode(ExpressionNode &C): UnaryNode(C) {}
-float UnaryMinusNode::evaluate()
+giac::gen UnaryMinusNode::evaluate()
 {
     return (-child->evaluate());
 }
 
 SqrtNode::SqrtNode(ExpressionNode &C): UnaryNode(C) {}
-float SqrtNode::evaluate()
+giac::gen SqrtNode::evaluate()
 {
-    return (sqrt(child->evaluate()));
+    giac::context ct; // TODO
+    return (giac::sqrt(child->evaluate(), &ct));
 }
 
-FunAppNode::FunAppNode(std::vector<ExpressionNode *> args, std::string s) : name(s), arglist(args) {}
-float FunAppNode::evaluate()
+FunAppNode::FunAppNode(std::vector<ExpressionNode *> args, std::string s) : arglist(args), name(s) {}
+giac::gen FunAppNode::evaluate()
 {
-    return (0);
+    giac::context ct;
+    return (giac::gen("0", &ct)); // TODO
 }
 
 

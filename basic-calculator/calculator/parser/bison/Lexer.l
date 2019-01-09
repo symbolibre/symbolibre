@@ -24,7 +24,7 @@ fun		[a-z]+
 
 {blanks}        { /* ignore */ }
 
-{integer}	{ yylval.value = atof(yytext); return NUMBER; }
+{integer}	{ yylval.str = yytext; return NUMBER; }
 {plus}		{ return(PLUS); }
 {minus}		{ return(MINUS); }
 {times}		{ return(TIMES); }

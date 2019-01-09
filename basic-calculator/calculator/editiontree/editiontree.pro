@@ -1,6 +1,9 @@
 TEMPLATE = lib
 CONFIG  += staticlib
 
+LIBS += -lgiac
+LIBS += -lgmp
+
 HEADERS  = EditionArea.hpp \
        Operator.hpp \
 		   Paren.hpp \ 
