@@ -6,8 +6,6 @@ import Qt.labs.platform 1.0
 
 
 import SymbolibreTextEditor 1.0
-import org.kde.kquickcontrols 2.0
-import org.kde.private.kquickcontrols 2.0
 
 
 ApplicationWindow {
@@ -72,7 +70,7 @@ ApplicationWindow {
                 id: runButton
                 text: "Run"
  /*
-Should run the right interpreter, according to the language we are coding in, and show the result on screen.
+Should run the right interpreter/compiler, according to the language we are coding in, and show the result on screen, in an easy-to-manipulate window.
 Should be able to return quickly to the ItemDelegate
 */
                 //onClicked: interpreter.start()

@@ -213,7 +213,7 @@ QString DocumentHandler::fileName() const
     const QString filePath = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     const QString fileName = QFileInfo(filePath).fileName();
     if (fileName.isEmpty())
-        return QStringLiteral("Sans titre.txt");
+        return QStringLiteral("Sans titre");
     return fileName;
 }
 
@@ -237,6 +237,7 @@ void DocumentHandler::setDocLanguage(int lang)
 {
     /*TODO :
      * change the extension name (.py, .ml ... ) PROPERLY
+     * May be change the fileType() function ?
     */
     m_docLanguage = (doc_language) lang;
     return;
@@ -279,8 +280,14 @@ void DocumentHandler::saveAs(const QUrl &fileUrl)
     if (!doc)
         return;
 
+    if (fileUrl.isEmpty()){
+        printf("HERE");
+        return;
+    }
+
     const QString filePath = fileUrl.toLocalFile();
     QFile file(filePath);
+
     if (!file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         emit error(tr("Cannot save: ") + file.errorString());
         return;
