@@ -280,11 +280,6 @@ void DocumentHandler::saveAs(const QUrl &fileUrl)
     if (!doc)
         return;
 
-    if (fileUrl.isEmpty()){
-        printf("HERE");
-        return;
-    }
-
     const QString filePath = fileUrl.toLocalFile();
     QFile file(filePath);
 

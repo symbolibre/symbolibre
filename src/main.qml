@@ -32,7 +32,7 @@ ApplicationWindow {
 
             MenuItem {
                 text: qsTr("Save")
-                onTriggered: document.saveAs(document.fileUrl)
+                onTriggered: (document.fileUrl.isEmpty ? saveDialog.open() : document.saveAs(document.fileUrl))
             }
         }
 
@@ -48,7 +48,7 @@ ApplicationWindow {
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        defaultSuffix: document.fileType
+        defaultSuffix: document.fileType //Might need to use docLanguage !
         nameFilters: openDialog.nameFilters
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.saveAs(file)
