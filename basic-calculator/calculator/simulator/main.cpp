@@ -11,8 +11,6 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-
     int in[2];
     int out[2];
     if (pipe(in))  {
@@ -25,6 +23,8 @@ int main(int argc, char *argv[])
     };
 
     if (fork()) {
+        QGuiApplication app(argc, argv);
+
         close(in[0]);
         close(out[1]);
         dup2(in[1], STDOUT_FILENO);

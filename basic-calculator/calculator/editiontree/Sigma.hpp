@@ -1,0 +1,48 @@
+#ifndef SIGMA_HPP
+#define SIGMA_HPP
+
+#include "EditionNode.hpp"
+#include "Flow.hpp"
+
+/** Sigma nodes are semantic nodes that represents finite sums.
+ *
+ * A Sigma possesses:
+ * - a body
+ * - a lower bound
+ * - an upper bound
+ *
+ * These are all flow nodes. Anything can be written in these.
+ *
+ */
+
+class Sigma : public InternalEditionNode
+{
+public:
+    Flow body;
+    Flow lbound;
+    Flow rbound;
+    int cursor_location;
+    int head_width;
+    int half_sigma_height;
+public:
+    Sigma(void);
+
+    void ascii(int shift, bool contains_cursor) override;
+    std::string getText(void) override;
+
+    bool dropCursor(movedir dir) override;
+
+    bool empty(void) override;
+
+    bool editMoveUp(void) override;
+    bool editMoveDown(void) override;
+
+    EditionNode *getActiveChild(void) override;
+
+    /* About computing dimensions */
+    void computeDimensions(QPainter &painter) override;
+    void draw(int x, int y, QPainter &painter, bool cursor) override;
+
+};
+
+#endif // SIGMA_HPP

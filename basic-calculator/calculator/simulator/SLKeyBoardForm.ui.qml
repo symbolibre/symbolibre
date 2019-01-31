@@ -281,7 +281,7 @@ Item {
                     id: buttonQ
                     alphaTextText: "Q"
                     mainTextText: "*"
-                    sndTextText: ""
+                    sndTextText: "^"
                 }
 
                 CalcButton {

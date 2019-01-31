@@ -9,6 +9,7 @@
 #include "Operator.hpp"
 #include "Paren.hpp"
 #include "Root.hpp"
+#include "Power.hpp"
 
 /* Method calls are forwarded to the Flow member.
  * See the documentation of EditionTree for API information. */
@@ -119,6 +120,12 @@ public:
     bool editRoot(void)
     {
         InsertVisitor v(new Root);
+        return root.accept(v);
+    }
+
+    bool editPower(void)
+    {
+        InsertVisitor v(new Power);
         return root.accept(v);
     }
 

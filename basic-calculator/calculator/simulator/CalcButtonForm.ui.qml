@@ -26,6 +26,7 @@ Item {
             id: mainText
             color: "#000000"
             text: "N"
+            textFormat: Text.PlainText
             elide: Text.ElideNone
             wrapMode: Text.NoWrap
             anchors.horizontalCenter: parent.horizontalCenter
@@ -39,7 +40,7 @@ Item {
 
         Text {
             id: sndText
-            color: "#ffac04"
+            color: "#0000ff"
             text: qsTr("2nd")
             anchors.left: parent.left
             anchors.leftMargin: 2
@@ -76,9 +77,8 @@ Item {
         }
     }
 }
-
-
 /*##^## Designer {
     D{i:2;anchors_x:11;anchors_y:16}D{i:4;anchors_y:3}
 }
  ##^##*/
+

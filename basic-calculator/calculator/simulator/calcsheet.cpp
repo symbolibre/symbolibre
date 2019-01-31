@@ -131,6 +131,9 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
         case KeyCode::SLK_SQUAREROOT:
             editedExpression.editRoot();
             break;
+        case KeyCode::SLK_POWER:
+            editedExpression.editPower();
+            break;
 
         /* Arrows */
         case KeyCode::SLK_UP:
