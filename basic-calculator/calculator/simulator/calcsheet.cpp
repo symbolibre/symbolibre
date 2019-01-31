@@ -162,7 +162,7 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
 
         case KeyCode::SLK_EXE:
-            lol = evaluate(editedExpression.getText());
+            //lol = evaluate(editedExpression.getText());
             results.push_back(EditionTree(lol));
             expressions.push_back(std::move(editedExpression));
             //results.push_back(editedExpression);
