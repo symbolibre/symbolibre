@@ -51,17 +51,26 @@
 #ifndef DOCUMENTHANDLER_H
 #define DOCUMENTHANDLER_H
 
+#define ALL_FILES 0
+#define TEXT_FILES 1
+#define OCAML_FILES 2
+#define PYTHON_FILES 3
+#define TI_BASIC_FILES 4
+#define CASIO_BASIC_FILES 5
+#define OTHER_FILES 0
+
 #include <QFont>
 #include <QObject>
 #include <QTextCursor>
 #include <QUrl>
+#include <syntax-highlighting/src/lib/syntaxhighlighter.h>
+
 
 QT_BEGIN_NAMESPACE
 class QTextDocument;
 class QQuickTextDocument;
 QT_END_NAMESPACE
 
-typedef enum {Textfile, OCaml, Python, TI_Basic, Casio_Basic} doc_language;
 
 class DocumentHandler : public QObject
 {
@@ -82,7 +91,7 @@ class DocumentHandler : public QObject
     Q_PROPERTY(QString fileType READ fileType NOTIFY fileUrlChanged)
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
 
-    Q_PROPERTY(doc_language docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
+    Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
 
 public:
     explicit DocumentHandler(QObject *parent = nullptr);
@@ -118,12 +127,13 @@ public:
     QString fileType() const;
     QUrl fileUrl() const;
 
-    doc_language docLanguage() const;
+    int docLanguage() const;
 
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
     void saveAs(const QUrl &fileUrl);
     void setDocLanguage(int language);
+    void setDocLanguageFromExtension(QString fileExt);
 
 Q_SIGNALS:
     void documentChanged();
@@ -158,7 +168,9 @@ private:
     int m_selectionEnd;
     int m_fontSize;
     QUrl m_fileUrl;
-    doc_language m_docLanguage;
+    int m_docLanguage;
+
+    KSyntaxHighlighting::SyntaxHighlighter *highlighter;
 };
 
 #endif // DOCUMENTHANDLER_H

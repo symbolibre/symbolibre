@@ -62,15 +62,17 @@
 #include <QDebug>
 #include <QUrl>
 
+
 DocumentHandler::DocumentHandler(QObject *parent)
     : QObject(parent)
     , m_document(nullptr)
     , m_cursorPosition(-1)
     , m_selectionStart(0)
     , m_selectionEnd(0)
-    , m_docLanguage(Textfile)
+    , m_docLanguage(TEXT_FILES)
 {
 }
+
 
 QQuickTextDocument *DocumentHandler::document() const
 {
@@ -228,19 +230,38 @@ QUrl DocumentHandler::fileUrl() const
 }
 
 
-doc_language DocumentHandler::docLanguage() const
+int DocumentHandler::docLanguage() const
 {
     return m_docLanguage;
 }
 
 void DocumentHandler::setDocLanguage(int lang)
 {
-    /*TODO :
-     * change the extension name (.py, .ml ... ) PROPERLY
-     * May be change the fileType() function ?
-    */
-    m_docLanguage = (doc_language) lang;
+    m_docLanguage = lang;
+    emit docLanguageChanged();
+
     return;
+}
+
+void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
+{
+    int newDocLanguage = 0;
+
+    // Switch on fileExt to determine newDocLanguage
+    if (fileExt.compare("txt") ==  0)
+        newDocLanguage = TEXT_FILES;
+    else if (fileExt.compare("py") ==  0)
+        newDocLanguage = PYTHON_FILES;
+    else if (fileExt.compare("ml") == 0)
+        newDocLanguage = OCAML_FILES;
+    else if (fileExt.compare("tibs") == 0)
+        newDocLanguage = TI_BASIC_FILES;
+    else if (fileExt.compare("csbs") == 0)
+        newDocLanguage = CASIO_BASIC_FILES;
+    else
+        newDocLanguage = OTHER_FILES;
+
+    setDocLanguage(newDocLanguage);
 }
 
 
@@ -272,6 +293,11 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
     m_fileUrl = fileUrl;
     emit fileUrlChanged();
+
+    setDocLanguageFromExtension(fileType());
+
+    highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document());
+    printf("Starting highlighting ...");
 }
 
 void DocumentHandler::saveAs(const QUrl &fileUrl)

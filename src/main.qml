@@ -16,30 +16,30 @@ ApplicationWindow {
     title: document.fileName + qsTr(" - Symbolibre IDE")
 
 
-        Menu {
-            id: menu
-            title: qsTr("File")
+    Menu {
+        id: menu
+        title: qsTr("File")
 
-            MenuItem {
-                text: qsTr("Open")
-                onTriggered: openDialog.open()
-            }
-
-            MenuItem {
-                text: qsTr("Save as ...")
-                onTriggered: saveDialog.open()
-            }
-
-            MenuItem {
-                text: qsTr("Save")
-                onTriggered: (document.fileUrl.isEmpty ? saveDialog.open() : document.saveAs(document.fileUrl))
-            }
+        MenuItem {
+            text: qsTr("Open")
+            onTriggered: openDialog.open()
         }
+
+        MenuItem {
+            text: qsTr("Save as ...")
+            onTriggered: saveDialog.open()
+        }
+
+        MenuItem {
+            text: qsTr("Save")
+            onTriggered: (document.fileUrl.isEmpty ? saveDialog.open() : document.saveAs(document.fileUrl))
+        }
+    }
 
     FileDialog {
         id: openDialog
         fileMode: FileDialog.OpenFile
-        selectedNameFilter.index: 1
+        selectedNameFilter.index: document.docLanguage
         nameFilters: ["All files (*)", "Text files (*.txt)", "OCaml files (*ml)", "Python files (*.py)", "TI-Basic Files (*.bsti)", "Casio-Basic files (*.bscs)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.load(file)
@@ -132,31 +132,31 @@ Should be able to return quickly to the ItemDelegate
                 checked: true
                 height: 30
                 text: qsTr("Text file")
-                onClicked: document.setDocLanguage(0)
-            }
-
-            RadioButton {
-                height: 30
-                text: qsTr("Ocaml file")
                 onClicked: document.setDocLanguage(1)
             }
 
             RadioButton {
                 height: 30
-                text: qsTr("Python file")
+                text: qsTr("Ocaml file")
                 onClicked: document.setDocLanguage(2)
             }
 
             RadioButton {
                 height: 30
-                text: qsTr("TI-Basic file")
+                text: qsTr("Python file")
                 onClicked: document.setDocLanguage(3)
             }
 
             RadioButton {
                 height: 30
-                text: qsTr("Casio-Basic file")
+                text: qsTr("TI-Basic file")
                 onClicked: document.setDocLanguage(4)
+            }
+
+            RadioButton {
+                height: 30
+                text: qsTr("Casio-Basic file")
+                onClicked: document.setDocLanguage(5)
             }
 
             Button {
