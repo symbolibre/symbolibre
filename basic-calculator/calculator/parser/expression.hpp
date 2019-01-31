@@ -4,6 +4,10 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <giac/config.h>
+#include <giac/giac.h>
+#include <giac/unary.h>
+
 
 /* Resources
 Tutorial here http://web.eecs.utk.edu/~bvz/teaching/cs461Sp11/notes/parse_tree/
@@ -21,7 +25,7 @@ class ExpressionNode
 public :
     /* Here we declare the method evaluate. This method is virtual since any subclass will have its own version (one version for plus
     , one for minus, one for a number, etc) */
-    virtual float evaluate() = 0;
+    virtual giac::gen evaluate() = 0;
 };
 
 
@@ -31,22 +35,22 @@ public :
 class NumberNode : public ExpressionNode
 {
 protected:
-    float num;
+    giac::gen num;
 
 public:
-    NumberNode(float value); // This is the class constructor: given a float value it creates a NumberNode element
-    virtual float evaluate() override; // Look at expression.cpp for the implementation
+    NumberNode(giac::gen value); // This is the class constructor: given a gen value it creates a NumberNode element
+    virtual giac::gen evaluate() override; // Look at expression.cpp for the implementation
 };
 
 // For empty tokens (we parse incomplete expressions)
 class EmptyNode : public ExpressionNode
 {
 protected:
-    float num;
+    giac::gen num;
 
 public:
-    EmptyNode(float value); // This is the class constructor: given a float value it creates a NumberNode element
-    virtual float evaluate() override; // Look at expression.cpp for the implementation
+    EmptyNode(giac::gen value); // This is the class constructor: given a gen value it creates a NumberNode element
+    virtual giac::gen evaluate() override; // Look at expression.cpp for the implementation
 };
 
 
@@ -70,28 +74,28 @@ class PlusNode : public OperatorNode
 {
 public:
     PlusNode(ExpressionNode &L, ExpressionNode &R);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 class TimesNode : public OperatorNode
 {
 public:
     TimesNode(ExpressionNode &L, ExpressionNode &R);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 class MinusNode : public OperatorNode
 {
 public:
     MinusNode(ExpressionNode &L, ExpressionNode &R);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 class FracNode : public OperatorNode
 {
 public:
     FracNode(ExpressionNode &L, ExpressionNode &R);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 
@@ -110,14 +114,14 @@ class UnaryMinusNode : public UnaryNode
 {
 public:
     UnaryMinusNode(ExpressionNode &C);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 class SqrtNode : public UnaryNode
 {
 public:
     SqrtNode(ExpressionNode &C);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 // Function application
@@ -129,7 +133,7 @@ protected:
     std::string name;
 public:
     FunAppNode(std::vector<ExpressionNode *> arglist, std::string funname);
-    virtual float evaluate() override;
+    virtual giac::gen evaluate() override;
 };
 
 #endif // EXPRESSION_H

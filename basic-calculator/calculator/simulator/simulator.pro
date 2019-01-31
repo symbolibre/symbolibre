@@ -3,10 +3,13 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 INCLUDEPATH += ../editiontree \
+	../SLL_interface \
 	../parser
 
 LIBS += -L../editiontree -leditiontree \
-	-L../parser -lparser
+	-L../SLL_interface -lSLL_interface \
+	-L../parser -lparser \
+        -lgiac -lgmp
 
 SOURCES += main.cpp \
     calcsheet.cpp \

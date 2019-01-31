@@ -3,8 +3,9 @@
 # libs
 *.a
 *.so
+# binaries
+a.out
 # Qt project files and meta-object compiler files
-# *.pro
 *.pro.user
 moc_*
 .qmake.stash

@@ -3,7 +3,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
-#include <stdio.h> /* TODO : cpp way */
+#include <iostream>
 #include <unistd.h>
 
 #include "calcsheet.hpp"
@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
     int in[2];
     int out[2];
     if (pipe(in))  {
-        fprintf(stderr, "Pipe failed\n");
-        exit(1);
+        std::cerr << "Pipe failed\n";
+        return 1;
     }
     if (pipe(out)) {
-        fprintf(stderr, "Pipe failed\n");
-        exit(1);
-    };
+        std::cerr << "Pipe failed\n";
+        return 1;
+    }
 
     if (fork()) {
         QGuiApplication app(argc, argv);
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         dup2(in[1], STDOUT_FILENO);
         dup2(out[0], STDIN_FILENO);
 
-        qmlRegisterType<CalcSheet>("io.qt.symbolibre.mathrenderer", 1, 0, "MathRenderer");
+        qmlRegisterType<CalcSheet>("org.symbolibre.mathrenderer", 1, 0, "MathRenderer");
         KeyCode::declareQML();
 
         QQmlApplicationEngine engine;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
             return -1;
 
         int ret_value = app.exec();
-        printf("quit\n");
+        std::cout << "quit\n";
         return ret_value;
     }
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         close(in[1]);
         close(out[0]);
         if (dup2(in[0], STDIN_FILENO))
-            fprintf(stderr, "Error when trying move stdin\n");
+            std::cerr << "Error when trying move stdin\n";
         dup2(out[1], STDOUT_FILENO);
 
         execlp("sage", "-python", "sage_shell.py", (char *) NULL);
