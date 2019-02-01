@@ -323,6 +323,10 @@ void DocumentHandler::saveAs(const QUrl &fileUrl)
     emit fileUrlChanged();
 }
 
+bool DocumentHandler::wasAlreadySaved(void){
+    return !fileUrl().isEmpty();
+}
+
 void DocumentHandler::reset()
 {
     emit boldChanged();

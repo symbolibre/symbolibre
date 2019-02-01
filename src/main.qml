@@ -32,7 +32,7 @@ ApplicationWindow {
 
         MenuItem {
             text: qsTr("Save")
-            onTriggered: (document.fileUrl.isEmpty ? saveDialog.open() : document.saveAs(document.fileUrl))
+            onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
         }
     }
 

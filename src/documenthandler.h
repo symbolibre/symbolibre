@@ -134,6 +134,7 @@ public Q_SLOTS:
     void saveAs(const QUrl &fileUrl);
     void setDocLanguage(int language);
     void setDocLanguageFromExtension(QString fileExt);
+    bool wasAlreadySaved(void);
 
 Q_SIGNALS:
     void documentChanged();
