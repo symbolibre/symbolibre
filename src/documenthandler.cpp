@@ -215,7 +215,7 @@ QString DocumentHandler::fileName() const
     const QString filePath = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     const QString fileName = QFileInfo(filePath).fileName();
     if (fileName.isEmpty())
-        return QStringLiteral("Sans titre");
+        return QStringLiteral("Sans titre.txt");
     return fileName;
 }
 
@@ -280,13 +280,13 @@ void DocumentHandler::load(const QUrl &fileUrl)
     const QString fileName = QQmlFile::urlToLocalFileOrQrc(path);
     if (QFile::exists(fileName)) {
         QFile file(fileName);
-        if (file.open(QFile::ReadOnly)) {
-            QByteArray data = file.readAll();
-            QTextCodec *codec = QTextCodec::codecForHtml(data);
+        if (file.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            QTextStream in(&file);
+            QString data = in.readAll();
             if (QTextDocument *doc = textDocument())
                 doc->setModified(false);
 
-            emit loaded(codec->toUnicode(data));
+            emit loaded(data.toUtf8());
             reset();
         }
     }

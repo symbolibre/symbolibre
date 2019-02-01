@@ -95,11 +95,12 @@ Should be able to return quickly to the ItemDelegate
     Flickable {
         id: flickable
         flickableDirection: Flickable.VerticalFlick
+        boundsBehavior: Flickable.StopAtBounds
         anchors.fill: parent
 
         TextArea.flickable: TextArea {
             id: textArea
-            textFormat: Qt.RichText
+            textFormat: TextEdit.PlainText
             wrapMode: TextArea.Wrap
             focus: true
             selectByMouse: true
@@ -108,8 +109,6 @@ Should be able to return quickly to the ItemDelegate
             // decorations, but since this editor is almost taking up the
             // entire window, we don't need them.
             background: null
-
-            onLinkActivated: Qt.openUrlExternally(link)
         }
 
         ScrollBar.vertical: ScrollBar {}
