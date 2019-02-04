@@ -48,7 +48,7 @@ ApplicationWindow {
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        defaultSuffix: document.fileType //Might need to use docLanguage !
+        defaultSuffix: document.fileExtension
         nameFilters: openDialog.nameFilters
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.saveAs(file)
@@ -86,11 +86,9 @@ Should be able to return quickly to the ItemDelegate
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
-
-        onLoaded: {
-            textArea.text = text
-        }
+        onLoaded: textArea.text = text
     }
+
 
     Flickable {
         id: flickable
@@ -105,9 +103,6 @@ Should be able to return quickly to the ItemDelegate
             focus: true
             selectByMouse: true
             persistentSelection: true
-            // Different styles have different padding and background
-            // decorations, but since this editor is almost taking up the
-            // entire window, we don't need them.
             background: null
         }
 
@@ -162,7 +157,10 @@ Should be able to return quickly to the ItemDelegate
                 height: 20
                 id: validateType
                 text: qsTr("OK")
-                onClicked: popup.close()
+                onClicked: {
+                    document.startHighlighter()
+                    popup.close()
+                }
             }
         }
 

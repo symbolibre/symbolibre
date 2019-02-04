@@ -64,6 +64,9 @@
 #include <QTextCursor>
 #include <QUrl>
 #include <syntax-highlighting/src/lib/syntaxhighlighter.h>
+#include<syntax-highlighting/src/lib/repository.h>
+#include<syntax-highlighting/src/lib/definition.h>
+#include<syntax-highlighting/src/lib/theme.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -88,7 +91,7 @@ class DocumentHandler : public QObject
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 
     Q_PROPERTY(QString fileName READ fileName NOTIFY fileUrlChanged)
-    Q_PROPERTY(QString fileType READ fileType NOTIFY fileUrlChanged)
+    Q_PROPERTY(QString fileExtension READ fileExtension NOTIFY fileUrlChanged NOTIFY docLanguageChanged)
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
 
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
@@ -124,7 +127,7 @@ public:
     void setFontSize(int size);
 
     QString fileName() const;
-    QString fileType() const;
+    QString fileExtension() const;
     QUrl fileUrl() const;
 
     int docLanguage() const;
@@ -135,9 +138,11 @@ public Q_SLOTS:
     void setDocLanguage(int language);
     void setDocLanguageFromExtension(QString fileExt);
     bool wasAlreadySaved(void);
+    void startHighlighter(void);
 
 Q_SIGNALS:
     void documentChanged();
+
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();
@@ -171,7 +176,8 @@ private:
     QUrl m_fileUrl;
     int m_docLanguage;
 
-    KSyntaxHighlighting::SyntaxHighlighter *highlighter;
+    KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
+    KSyntaxHighlighting::Repository m_repository;
 };
 
 #endif // DOCUMENTHANDLER_H

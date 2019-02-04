@@ -57,7 +57,6 @@
 #include <QQmlFileSelector>
 #include <QQuickTextDocument>
 #include <QTextCharFormat>
-#include <QTextCodec>
 #include <QTextDocument>
 #include <QDebug>
 #include <QUrl>
@@ -219,9 +218,41 @@ QString DocumentHandler::fileName() const
     return fileName;
 }
 
-QString DocumentHandler::fileType() const
+/*
+ * This function does NOT return the current extension of the file.
+ *  It returns what should be the its extension according to the
+ * type of the document that we are currently writing
+ * This type is determined by :
+ * - user selection
+ * - file opening
+ * and is stored in the m_docLanguage attribute.
+*/
+QString DocumentHandler::fileExtension() const
 {
-    return QFileInfo(fileName()).suffix();
+    switch (docLanguage()){
+        case TEXT_FILES:
+            return QString("txt");
+            break;
+
+        case PYTHON_FILES:
+            return QString("py");
+            break;
+
+        case OCAML_FILES:
+            return QString("ml");
+            break;
+
+        case TI_BASIC_FILES:
+            return QString("tibs");
+            break;
+
+        case CASIO_BASIC_FILES:
+            return QString("csbs");
+            break;
+
+        default:
+            return QString("txt"); //Might want to return nothing ?
+    }
 }
 
 QUrl DocumentHandler::fileUrl() const
@@ -294,10 +325,23 @@ void DocumentHandler::load(const QUrl &fileUrl)
     m_fileUrl = fileUrl;
     emit fileUrlChanged();
 
-    setDocLanguageFromExtension(fileType());
+    setDocLanguageFromExtension(QFileInfo(fileName).suffix());
 
-    highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document());
-    printf("Starting highlighting ...");
+    //TODO : change with m_highlighter->setDefinition() the file type that we're highlighting
+
+}
+
+void DocumentHandler::startHighlighter(void){
+
+    m_repository.addCustomSearchPath("syntax-highlighting/data/");
+    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
+    const QString defName = QString("Objective Caml"); //TO CHANGE : do a function to get the right xml definition file name from the language type !
+    const auto def = m_repository.definitionForName(defName);
+    qInfo() << def.isValid() << "\n";
+    m_highlighter->setDefinition(def);
+    m_highlighter->rehighlight();
+
+    printf("Starting highlighting ...\n");
 }
 
 void DocumentHandler::saveAs(const QUrl &fileUrl)
