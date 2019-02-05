@@ -214,7 +214,7 @@ QString DocumentHandler::fileName() const
     const QString filePath = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     const QString fileName = QFileInfo(filePath).fileName();
     if (fileName.isEmpty())
-        return QStringLiteral("Sans titre.txt");
+        return QString("Sans titre").append(fileExtension()); //fileExtension is NOT the current extension.
     return fileName;
 }
 
@@ -231,27 +231,27 @@ QString DocumentHandler::fileExtension() const
 {
     switch (docLanguage()){
         case TEXT_FILES:
-            return QString("txt");
+            return QString(".txt");
             break;
 
         case PYTHON_FILES:
-            return QString("py");
+            return QString(".py");
             break;
 
         case OCAML_FILES:
-            return QString("ml");
+            return QString(".ml");
             break;
 
         case TI_BASIC_FILES:
-            return QString("tibs");
+            return QString(".tibs");
             break;
 
         case CASIO_BASIC_FILES:
-            return QString("csbs");
+            return QString(".csbs");
             break;
 
         default:
-            return QString("txt"); //Might want to return nothing ?
+            return QString(".txt"); //Might want to return nothing ?
     }
 }
 
@@ -266,10 +266,42 @@ int DocumentHandler::docLanguage() const
     return m_docLanguage;
 }
 
+
+/*
+ * This function returns the name required by the KSyntaxHighlighter
+ * to correctly identify our file type, and to use the right syntax
+ * KSyntaxHighlighting::Definition to highlight it.
+*/
+QString DocumentHandler::syntaxDefinitionName(void) const
+{
+    switch(docLanguage()){
+        case TEXT_FILES:
+            return QString("");
+            break;
+        case PYTHON_FILES:
+            return QString("Python");
+            break;
+        case OCAML_FILES:
+            return QString("Objective Caml");
+            break;
+        case TI_BASIC_FILES:
+            return QString("TI Basic");
+            break;
+        case CASIO_BASIC_FILES:
+            return QString("Casio Basic");
+            break;
+        default:
+            return QString("");
+            break;
+    }
+}
+
+
 void DocumentHandler::setDocLanguage(int lang)
 {
     m_docLanguage = lang;
     emit docLanguageChanged();
+    emit fileUrlChanged();
 
     return;
 }
@@ -333,15 +365,22 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
 void DocumentHandler::startHighlighter(void){
 
-    m_repository.addCustomSearchPath("syntax-highlighting/data/");
+    m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
-    const QString defName = QString("Objective Caml"); //TO CHANGE : do a function to get the right xml definition file name from the language type !
-    const auto def = m_repository.definitionForName(defName);
-    qInfo() << def.isValid() << "\n";
-    m_highlighter->setDefinition(def);
-    m_highlighter->rehighlight();
+    const QString defName = syntaxDefinitionName();// = QString("Objective Caml"); //TO CHANGE : do a function to get the right xml definition file name from the language type !
 
-    printf("Starting highlighting ...\n");
+    const auto def = m_repository.definitionForName(defName);
+
+    if (!def.isValid()){
+        qInfo() << "Definition for syntax highlighting is not valid\n";
+        return;
+    }
+
+    const auto theme = m_repository.theme("Solarized Light");
+    qInfo() << "Valid theme : " << theme.isValid() << "\n";
+    m_highlighter->setDefinition(def);
+    m_highlighter->setTheme(theme);
+    m_highlighter->rehighlight();
 }
 
 void DocumentHandler::saveAs(const QUrl &fileUrl)

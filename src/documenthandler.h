@@ -132,6 +132,8 @@ public:
 
     int docLanguage() const;
 
+    QString syntaxDefinitionName(void) const;
+
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
     void saveAs(const QUrl &fileUrl);

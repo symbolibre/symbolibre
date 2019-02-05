@@ -131,7 +131,7 @@ Should be able to return quickly to the ItemDelegate
 
             RadioButton {
                 height: 30
-                text: qsTr("Ocaml file")
+                text: qsTr("OCaml file")
                 onClicked: document.setDocLanguage(2)
             }
 
@@ -143,13 +143,13 @@ Should be able to return quickly to the ItemDelegate
 
             RadioButton {
                 height: 30
-                text: qsTr("TI-Basic file")
+                text: qsTr("TI Basic file")
                 onClicked: document.setDocLanguage(4)
             }
 
             RadioButton {
                 height: 30
-                text: qsTr("Casio-Basic file")
+                text: qsTr("Casio Basic file")
                 onClicked: document.setDocLanguage(5)
             }
 
