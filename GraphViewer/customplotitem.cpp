@@ -71,21 +71,24 @@ void CustomPlotItem::plotGraph(int numGraph)
      * compute the new points
      * plot the updated graph
      */
-    QColor listColor[3] = {Qt::red, Qt::blue, Qt::green};
+    QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
     if (m_CustomPlot) {
-        QVector<double> x(161), y(161);
-        x[0] = Xmin;
-        y[0] = listGraph[numGraph].getValue(x[0]);
-        for (int i = 0; x[i] < Xmax; ++i) {
-            x[i + 1] = x[i] + Xsca;
-            y[i + 1] = listGraph[numGraph].getValue(x[i + 1]);
-
+        if (numGraph >= nbCurves) {
             m_CustomPlot->addGraph();
-            m_CustomPlot->graph(numGraph)->setPen(QPen(listColor[numGraph % 3]));
-            m_CustomPlot->graph(numGraph)->setData(x, y, true);
-
-            m_CustomPlot->replot();
+            nbCurves++;
+        } else {
+            m_CustomPlot->graph(numGraph)->data()->clear();
         }
+        m_CustomPlot->graph(numGraph)->setPen(QPen(listColor[numGraph % 4]));
+
+        double x = Xmin;
+        m_CustomPlot->graph(numGraph)->addData(x, listGraph[numGraph].getValue(x));
+        while (x < Xmax) {
+            x += Xsca;
+            m_CustomPlot->graph(numGraph)->addData(x, listGraph[numGraph].getValue(x));
+        }
+
+        m_CustomPlot->replot();
     }
 }
 
@@ -208,7 +211,6 @@ void CustomPlotItem::addGraph(QString formula)
     listGraph.append(CurveItem(formula.toStdString()));
     plotGraph(nbCurves);
     nbCurves++;
-    std::cout << formula.toStdString() << std::endl;
 }
 
 void CustomPlotItem::onCustomReplot()
