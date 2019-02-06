@@ -14,6 +14,5 @@ double approximate(std::string fun_body, std::string antecedent)
     giac::gen f("f(" + antecedent + ")", &ct);
     f = evalf(f, 1, &ct);
     result = f._DOUBLE_val;
-    std::cout << f << " " << result << std::endl;
     return result;
 }
