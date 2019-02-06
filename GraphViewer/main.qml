@@ -17,6 +17,7 @@ Window {
         }
         entree.onAccepted: {
             plot.addGraph(entree.text);
+            entree.remove(0, entree.cursorPosition)
         }
     }
 }
