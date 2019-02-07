@@ -59,7 +59,6 @@
 #include <QTextCharFormat>
 #include <QTextDocument>
 #include <QDebug>
-#include <QUrl>
 
 
 DocumentHandler::DocumentHandler(QObject *parent)
@@ -365,19 +364,22 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
 void DocumentHandler::startHighlighter(void){
 
-    m_repository.addCustomSearchPath("syntax-highlighting/data");
+    //m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
     const QString defName = syntaxDefinitionName();// = QString("Objective Caml"); //TO CHANGE : do a function to get the right xml definition file name from the language type !
 
     const auto def = m_repository.definitionForName(defName);
-
     if (!def.isValid()){
         qInfo() << "Definition for syntax highlighting is not valid\n";
         return;
     }
 
     const auto theme = m_repository.theme("Solarized Light");
-    qInfo() << "Valid theme : " << theme.isValid() << "\n";
+    if (!theme.isValid()){
+        qInfo() << "Theme for syntax highlighting is not valid\n";
+        return;
+    }
+
     m_highlighter->setDefinition(def);
     m_highlighter->setTheme(theme);
     m_highlighter->rehighlight();

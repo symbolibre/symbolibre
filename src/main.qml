@@ -107,6 +107,7 @@ Should be able to return quickly to the ItemDelegate
         }
 
         ScrollBar.vertical: ScrollBar {}
+
     }
 
     Popup {
@@ -124,44 +125,87 @@ Should be able to return quickly to the ItemDelegate
 
             RadioButton {
                 checked: true
+                focus: true
                 height: 30
-                text: qsTr("Text file")
-                onClicked: document.setDocLanguage(1)
+                text: qsTr("Text")
+                //onClicked: document.setDocLanguage(1)
+                onFocusChanged: checked = focus
+                Keys.onEnterPressed: {
+                    document.setDocLanguage(1)
+                    document.startHighlighter()
+                    popup.close()
+                }
+                KeyNavigation.down: ocamlButton
+
             }
 
             RadioButton {
+                id: ocamlButton
                 height: 30
-                text: qsTr("OCaml file")
-                onClicked: document.setDocLanguage(2)
+                text: qsTr("OCaml")
+                //onClicked: document.setDocLanguage(2)
+                onFocusChanged: checked = focus
+                Keys.onEnterPressed: {
+                    document.setDocLanguage(2)
+                    document.startHighlighter()
+                    popup.close()
+                }
+                KeyNavigation.down: pythonButton
             }
 
             RadioButton {
+                id: pythonButton
                 height: 30
-                text: qsTr("Python file")
-                onClicked: document.setDocLanguage(3)
+                text: qsTr("Python")
+                //onClicked: document.setDocLanguage(3)
+                onFocusChanged: checked = focus
+                Keys.onEnterPressed: {
+                    document.setDocLanguage(3)
+                    document.startHighlighter()
+                    popup.close()
+                }
+                KeyNavigation.down: tiBasicButton
             }
 
             RadioButton {
+                id: tiBasicButton
                 height: 30
-                text: qsTr("TI Basic file")
-                onClicked: document.setDocLanguage(4)
+                text: qsTr("TI Basic")
+                //onClicked: document.setDocLanguage(4)
+                onFocusChanged: checked = focus
+                Keys.onEnterPressed: {
+                    document.setDocLanguage(4)
+                    document.startHighlighter()
+                    popup.close()
+                }
+                KeyNavigation.down: casioBasicButton
+
             }
 
             RadioButton {
+                id: casioBasicButton
                 height: 30
-                text: qsTr("Casio Basic file")
-                onClicked: document.setDocLanguage(5)
+                text: qsTr("Casio Basic")
+                //onClicked: document.setDocLanguage(5)
+                onFocusChanged: checked = focus
+                Keys.onEnterPressed: {
+                        document.setDocLanguage(5)
+                        document.startHighlighter()
+                        popup.close()
+                }
             }
 
+            /*
             Button {
                 height: 20
-                id: validateType
+                id: validateLanguage
                 text: qsTr("OK")
                 onClicked: {
                     document.startHighlighter()
                     popup.close()
                 }
             }
+            */
         }
 
     }
