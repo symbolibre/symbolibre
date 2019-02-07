@@ -210,7 +210,6 @@ void CustomPlotItem::addGraph(QString formula)
 {
     listGraph.append(CurveItem(formula.toStdString()));
     plotGraph(nbCurves);
-    nbCurves++;
 }
 
 void CustomPlotItem::onCustomReplot()
