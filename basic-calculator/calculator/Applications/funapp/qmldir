@@ -1,0 +1,6 @@
+SLKeyBoard ../keyboard/SLKeyBoard.qml
+SLKeyBoardForm ../keyboard/SLKeyBoardForm.ui.qml
+CalcButton ../keyboard/CalcButton.qml
+CalcButtonForm ../keyboard/CalcButtonForm.ui.qml
+SpecialButton ../keyboard/SpecialButton.qml
+SpecialButtonForm ../keyboard/SpecialButtonForm.ui.qml

@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>Printer.qml</file>
+    </qresource>
+    <qresource prefix="../keyboard/">
+        <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
+        <file alias = "SLKeyBoardForm.ui.qml">../keyboard/SLKeyBoardForm.ui.qml</file>
+        <file alias = "CalcButton.qml">../keyboard/CalcButton.qml</file>
+        <file alias = "CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
+        <file alias = "SpecialButton.qml">../keyboard/SpecialButton.qml</file>
+        <file alias = "SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
+    </qresource>
+    
+</RCC>
