@@ -24,7 +24,8 @@ public:
     bool dropCursor(movedir dir) override;
     bool empty(void) override;
 
-    void computeDimensions(QPainter &painter) override;
+    void computeDimensions(QPainter &painter,
+                           int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 

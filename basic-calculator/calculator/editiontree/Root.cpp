@@ -43,9 +43,9 @@ EditionNode *Root::getActiveChild(void)
     return &expression;
 }
 
-void Root::computeDimensions(QPainter &painter)
+void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    expression.computeDimensions(painter);
+    expression.computeDimensions(painter, 0, 0);
 
     /* Computing width */
 

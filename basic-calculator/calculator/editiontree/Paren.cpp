@@ -41,7 +41,7 @@ bool Paren::empty(void)
 }
 
 /* Dimensions */
-void Paren::computeDimensions(QPainter &painter)
+void Paren::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     // FIXME : adjust size
     QFontMetrics metrics = painter.fontMetrics();

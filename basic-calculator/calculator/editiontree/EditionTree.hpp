@@ -10,6 +10,7 @@
 #include "Paren.hpp"
 #include "Root.hpp"
 #include "Power.hpp"
+#include "Sigma.hpp"
 
 /* Method calls are forwarded to the Flow member.
  * See the documentation of EditionTree for API information. */
@@ -129,17 +130,33 @@ public:
         return root.accept(v);
     }
 
+    bool editSigma(void)
+    {
+        InsertVisitor v(new Sigma);
+        return root.accept(v);
+    }
+
     EditionArea *getActiveNode(void)
     {
         return root.getActiveNode();
     }
 
+    void computeDimensions(QPainter &painter, int lheight, int lcenterheight)
+    {
+        return root.computeDimensions(painter, lheight, lcenterheight);
+    }
+
     void computeDimensions(QPainter &painter)
     {
-        return root.computeDimensions(painter);
+        return root.computeDimensions(painter, 0, 0);
     }
 
     void draw(int x, int y, QPainter &painter, bool cursor)
+    {
+        return root.draw(x, y, painter, cursor);
+    }
+
+    void draw(int x, int y, QPainter &painter, bool cursor, int)
     {
         return root.draw(x, y, painter, cursor);
     }

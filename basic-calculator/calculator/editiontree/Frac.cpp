@@ -70,10 +70,10 @@ EditionNode *Frac::getActiveChild(void)
     return &denominator;
 }
 
-void Frac::computeDimensions(QPainter &painter)
+void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    numerator.computeDimensions(painter);
-    denominator.computeDimensions(painter);
+    numerator.computeDimensions(painter, 0, 0);
+    denominator.computeDimensions(painter, 0, 0);
 
     QFontMetrics metrics = painter.fontMetrics();
     QRect br = metrics.boundingRect(QString("0"));

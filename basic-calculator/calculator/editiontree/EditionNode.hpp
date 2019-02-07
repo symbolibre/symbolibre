@@ -171,7 +171,7 @@ public:
      * \param painter the painter that will be used
      * to call 'draw' method then.
      */
-    virtual void computeDimensions(QPainter &painter) = 0;
+    virtual void computeDimensions(QPainter &painter, int, int) = 0;
 
     /**
      * Draw the formula.
@@ -180,6 +180,10 @@ public:
      * \param cursor true to draw the cursor
      */
     virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
+    virtual void draw(int x, int y, QPainter &painter, bool cursor, int)
+    {
+        return draw(x, y, painter, cursor);
+    }
 };
 
 #endif // EDITIONNODE_HPP

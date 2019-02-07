@@ -43,14 +43,16 @@ EditionNode *Power::getActiveChild(void)
     return &expression;
 }
 
-void Power::computeDimensions(QPainter &painter)
+void Power::computeDimensions(QPainter &painter, int prev_height, int prev_cheight)
 {
-    expression.computeDimensions(painter);
+    expression.computeDimensions(painter, 0, 0);
 
     /* Right now, there is no adjustment */
     width         = expression.width  ;
-    height        = expression.height ;
-    center_height = 0; // Here is the trick - FIXME because it is not robust.
+    height        = expression.height
+                    + std::max(0, prev_height - expression.center_height - prev_cheight);
+    center_height = 0;
+    // Here is the trick - FIXME because it is not robust.
 }
 
 void Power::draw(int x, int y, QPainter &painter, bool cursor)

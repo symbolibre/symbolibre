@@ -31,7 +31,7 @@ bool Operator::empty(void)
     return false;
 }
 
-void Operator::computeDimensions(QPainter &painter)
+void Operator::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     QFontMetrics metrics = painter.fontMetrics();
     QRect br = metrics.boundingRect(qstring);

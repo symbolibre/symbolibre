@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#define EDITIONAREA_FORCE_PLACEHOLDER -1
+
 /**
  * Edition areas are the only node where text can be written.
  * It is a leaf node that contains a mere string.
@@ -57,8 +59,10 @@ public:
         return this;
     }
 
-    void computeDimensions(QPainter &painter) override;
+    void computeDimensions(QPainter &painter,
+                           int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
+    void draw(int x, int y, QPainter &painter, bool cursor, int mod) override;
 
 };
 

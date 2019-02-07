@@ -37,7 +37,8 @@ public:
     EditionNode *getActiveChild(void) override;
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
+    void computeDimensions(QPainter &painter,
+                           int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 
 };

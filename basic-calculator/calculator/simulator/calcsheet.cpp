@@ -134,6 +134,9 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
         case KeyCode::SLK_POWER:
             editedExpression.editPower();
             break;
+        case KeyCode::SLK_SIGMA:
+            editedExpression.editSigma();
+            break;
 
         /* Arrows */
         case KeyCode::SLK_UP:
@@ -173,7 +176,7 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             std::cerr << "Unsupported key " << input << std::endl;
             break;
         }
-
+    editedExpression.ascii(true);
     emit expressionChanged();
     update();
 }

@@ -18,12 +18,12 @@
 class Sigma : public InternalEditionNode
 {
 public:
-    Flow body;
     Flow lbound;
     Flow rbound;
     int cursor_location;
     int head_width;
     int half_sigma_height;
+    int sigma_width;
 public:
     Sigma(void);
 
@@ -40,7 +40,8 @@ public:
     EditionNode *getActiveChild(void) override;
 
     /* About computing dimensions */
-    void computeDimensions(QPainter &painter) override;
+    void computeDimensions(QPainter &painter,
+                           int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 
 };
