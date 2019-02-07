@@ -2,12 +2,12 @@
 {
     "caption": "gedit",
     "command": "gedit",
-    "icon": "simplelogo.png"
+    "icon": "file:/usr/share/icons/hicolor/48x48/apps/gedit.png"
 },
 {
     "caption": "firefox",
     "command": "firefox",
-    "icon": "simplelogo.png"
+    "icon":"file:/usr/share/icons/hicolor/48x48/apps/firefox.png"
 },
 {
     "caption": "thunar",
@@ -27,7 +27,7 @@
 {
     "caption": "evince",
     "command": "evince",
-    "icon": "simplelogo.png"
+    "icon": "file:/usr/share/icons/hicolor/48x48/apps/evince.png"
 },
 {
     "caption": "gedit",

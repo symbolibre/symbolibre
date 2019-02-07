@@ -1,0 +1,5 @@
+{
+    "command": "evince",
+    "caption": "Evince",
+    "icon": "/usr/share/icons/hicolor/48x48/apps/evince.png"
+}

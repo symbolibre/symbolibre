@@ -1,0 +1,5 @@
+{
+    "command": "gedit",
+    "caption": "Gedit",
+    "icon": "/usr/share/icons/hicolor/48x48/apps/gedit.png"
+}

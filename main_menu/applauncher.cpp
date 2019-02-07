@@ -1,5 +1,6 @@
 #include "applauncher.h"
 #include <QProcess>
+#include <QDebug>
 
 AppLauncher::AppLauncher(QObject *parent) : QObject(parent)
 {

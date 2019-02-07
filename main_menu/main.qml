@@ -16,7 +16,7 @@ Window {
     title: qsTr("Main Menu")
 
     JSONListModel {
-        id: listmodel
+        id: testmodel
         source: "file:config.json"
     }
 
@@ -25,24 +25,24 @@ Window {
         height: Window.height
 
         Component {
-            id: contactDelegate
+            id: buttonDelegate
             Item {
                 width: grid.cellWidth; height: grid.cellHeight
                 Column {
                     anchors.fill: parent
                     Image {
-                        source: icon
+                        source: model.icon
                         anchors.horizontalCenter: parent.horizontalCenter
                         width:  48
                         height: width
                     }
                     Text {
-                        text: caption
+                        text: model.caption
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 16
                     }
                 }
-                Keys.onPressed: if (event.key === Qt.Key_Return) { launcher.launch(command) }
+                Keys.onPressed: if (event.key === Qt.Key_Return) { launcher.launch(model.command) }
             }
         }
 
@@ -56,7 +56,7 @@ Window {
             cellWidth: parent.width / 4 - 3; cellHeight: parent.height/3
 
             model: listmodel.model
-            delegate: contactDelegate
+            delegate: buttonDelegate
             highlight: Rectangle { color: "lightblue"; radius: 5 }
             focus: true
 
