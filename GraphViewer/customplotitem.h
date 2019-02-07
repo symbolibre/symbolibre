@@ -55,6 +55,7 @@ public slots:
 private slots:
     void updateCustomPlotSize();
     void onCustomReplot();
+    void clearGraph();
 };
 
 #endif // CUSTOMPLOTITEM_H
