@@ -17,22 +17,29 @@ ApplicationWindow {
 
 
     Menu {
-        id: menu
-        title: qsTr("File")
+        id: fileMenu
 
         MenuItem {
-            text: qsTr("Open")
+            text: qsTr("Ouvrir")
             onTriggered: openDialog.open()
         }
 
         MenuItem {
-            text: qsTr("Save as ...")
+            text: qsTr("Enregister sous")
             onTriggered: saveDialog.open()
         }
 
         MenuItem {
-            text: qsTr("Save")
+            text: qsTr("Enregister")
             onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
+        }
+    }
+
+    Menu {
+        id: languageMenu
+
+        MenuItem {
+            text: "Langage"
         }
     }
 
@@ -62,18 +69,23 @@ ApplicationWindow {
 
             ToolButton {
                 id: fileButton
-                text: "File"
-                onClicked: menu.open()
+                text: "Fichier"
+                onClicked: fileMenu.open()
             }
 
             ToolButton {
                 id: runButton
-                text: "Run"
+                text: "Exécuter"
  /*
 Should run the right interpreter/compiler, according to the language we are coding in, and show the result on screen, in an easy-to-manipulate window.
 Should be able to return quickly to the ItemDelegate
 */
                 //onClicked: interpreter.start()
+            }
+
+            ToolButton {
+                id: configButton
+                text: "Configuration"
             }
 
         }
@@ -124,11 +136,12 @@ Should be able to return quickly to the ItemDelegate
         Column {
 
             RadioButton {
+                id: textButton
                 checked: true
                 focus: true
                 height: 30
                 text: qsTr("Text")
-                //onClicked: document.setDocLanguage(1)
+                onClicked: document.setDocLanguage(1)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
                     document.setDocLanguage(1)
@@ -143,7 +156,7 @@ Should be able to return quickly to the ItemDelegate
                 id: ocamlButton
                 height: 30
                 text: qsTr("OCaml")
-                //onClicked: document.setDocLanguage(2)
+                onClicked: document.setDocLanguage(2)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
                     document.setDocLanguage(2)
@@ -157,7 +170,7 @@ Should be able to return quickly to the ItemDelegate
                 id: pythonButton
                 height: 30
                 text: qsTr("Python")
-                //onClicked: document.setDocLanguage(3)
+                onClicked: document.setDocLanguage(3)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
                     document.setDocLanguage(3)
@@ -171,7 +184,7 @@ Should be able to return quickly to the ItemDelegate
                 id: tiBasicButton
                 height: 30
                 text: qsTr("TI Basic")
-                //onClicked: document.setDocLanguage(4)
+                onClicked: document.setDocLanguage(4)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
                     document.setDocLanguage(4)
@@ -186,13 +199,14 @@ Should be able to return quickly to the ItemDelegate
                 id: casioBasicButton
                 height: 30
                 text: qsTr("Casio Basic")
-                //onClicked: document.setDocLanguage(5)
+                onClicked: document.setDocLanguage(5)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
                         document.setDocLanguage(5)
                         document.startHighlighter()
                         popup.close()
                 }
+                KeyNavigation.down: textButton
             }
 
             /*
