@@ -56,6 +56,7 @@ private slots:
     void updateCustomPlotSize();
     void onCustomReplot();
     void clearGraph();
+    void removeGraph(int numGraph);
 };
 
 #endif // CUSTOMPLOTITEM_H

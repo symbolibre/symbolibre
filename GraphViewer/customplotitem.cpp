@@ -201,9 +201,8 @@ void CustomPlotItem::recvInput(int input)
         modifyZoom(2);
         break;
     case KeyCode::SLK_CLEAR:
-        for (int i = 0 ; i < nbCurves ; i++) {
-            clearGraph();
-        }
+        clearGraph();
+        setRange(-10, 10, -10, 10);
         break;
     default:
         std::cerr << "Unsupported key " << input << std::endl;
@@ -225,6 +224,13 @@ void CustomPlotItem::clearGraph()
         }
         listGraph.clear();
         nbCurves = 0;
+    }
+}
+
+void CustomPlotItem::removeGraph(int numGraph)
+{
+    if (m_CustomPlot) {
+
     }
 }
 
