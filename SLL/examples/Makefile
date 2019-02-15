@@ -1,12 +1,15 @@
 #! /usr/bin/make -f
 
-src = $(wildcard *.cpp)
-exe = $(src:.cpp=)
+src := $(wildcard *.cpp)
+exe := $(src:.cpp=)
+
+cflags := -I..
+lflags := -L.. -lsll -lgiac -lgmp
 
 all: $(exe)
 
 %: %.cpp
-	g++ $< -o $@ -I.. -L.. -lsll -lgiac -lgmp
+	g++ $< -o $@ $(cflags) $(lflags)
 
 clean:
 	rm -f $(exe)
