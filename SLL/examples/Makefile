@@ -8,7 +8,7 @@ lflags := -L.. -lsll -lgiac -lgmp
 
 all: $(exe)
 
-%: %.cpp
+%: %.cpp ../libsll.a
 	g++ $< -o $@ $(cflags) $(lflags)
 
 clean:

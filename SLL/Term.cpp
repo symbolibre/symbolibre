@@ -6,9 +6,14 @@ static giac::context ct;
 namespace SLL
 {
 
+/**
+ * Internal SLL parser
+ */
+int parse(const char *formula, giac::gen *gen);
+
 Term::Term(std::string formula)
 {
-    this->gen = giac::gen(formula.c_str(), &ct);
+    parse(formula.c_str(), &this->gen);
 }
 
 std::string Term::str(void)

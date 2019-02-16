@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    SLL::Term term("x -> 2 * x + 1");
+    SLL::Term term("2 * 8 + 1");
     std::cout << term.str() << std::endl;
     return 0;
 }

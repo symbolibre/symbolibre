@@ -25,23 +25,26 @@ id		[A-Za-z_]+
 ")"        { return ')'; }
 {id}       { yylval.ID = yytext; return ID; }
 ","        { return ','; }
-.          { std::cerr << "unknown token near '" << yytext << "'\n";return 0; }
+.          { std::cerr << "unknown token near '" << yytext << "' " << strlen(yytext) << "\n";return 0; }
 
 %%
+
+extern int yydebug;
 
 namespace SLL {
 
 // We modify the lexer so we lex by taking string input
-giac::gen *parse(const char *input)
+int parse(const char *input, giac::gen *gen)
 {
-	giac::gen *result;
+	#ifdef NDEBUG
+	yydebug = 1;
+	#endif
 
 	YY_BUFFER_STATE buf = yy_scan_bytes(input, strlen(input));
-	int x = yyparse(&result);
+	int x = yyparse(gen);
 	yy_delete_buffer(buf);
 
-	if(x && result) delete result;
-	return (x) ? NULL : result;
+	return x;
 }
 
 }

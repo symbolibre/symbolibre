@@ -14,7 +14,7 @@ static giac::context ct;
 int yyparse(void);
 int yylex(void);
 
-int yyerror(giac::gen **, const char *s)
+int yyerror(giac::gen *, const char *s)
 {
 	std::cerr << s << std::endl;
 	return 1;
@@ -25,8 +25,9 @@ int yyerror(giac::gen **, const char *s)
 %start main
 
 %define api.value.type union
+%define parse.trace
 
-%parse-param {giac::gen **ret_gen}
+%parse-param {giac::gen *ret_gen}
 
 %token <const char *> INTEGER
 %token <const char *> ID
@@ -41,7 +42,7 @@ int yyerror(giac::gen **, const char *s)
 
 %%
 
-main: expr { *ret_gen = $1; }
+main: expr { *ret_gen = *$1; delete $1; }
 
 expr:
     INTEGER           { $$ = new giac::gen($1, &ct); }

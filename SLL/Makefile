@@ -9,6 +9,10 @@ cflags := -Wall -Wextra -std=c++17 -I. -D_GNU_SOURCE -O2
 dflags  = -MMD -MT $@ -MF $(@:.o=.d) -MP
 bflags  = -W -f --defines=$(@:.tab.cpp=.h) --verbose
 
+ifdef NDEBUG
+  cflags += -DNDEBUG
+endif
+
 src-l  := $(lexer:%.l=build/%.yy.cpp)
 src-p  := $(parser:%.y=build/%.tab.cpp)
 obj    := $(src:%=build/%.o) $(src-l).o $(src-p).o
