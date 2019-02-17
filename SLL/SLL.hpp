@@ -17,26 +17,37 @@ struct Exception: public std::exception {
 
 /**
  * Opaque, structured mathematical object
- * Essentially a giac::gen when using Giac, for instance.
+ * Essentially a giac::gen when using Giac.
  */
-class Object: private giac::gen
+class Term
 {
 public:
     /**
-     * @param precision: Number of digits of precision
-     * @return Same object, with approximated numerical entries */
-    Object approx(unsigned precision);
+     * @param formula: SLL formula to be evaluated
+     */
+    Term(std::string formula);
 
     /**
-     * @return Giac's string representation of the object. */
+     * @param precision: Number of digits of precision
+     * @return Same object, with approximated numerical entries
+     */
+    Term approx(unsigned precision);
+
+    /**
+     * @return Giac's string representation of the object.
+     */
     std::string str(void);
+
+private:
+    /* Underlying CAS object */
+    giac::gen gen;
 };
 
 /**
  * Evaluation context where the value of variables is stored
- * This is essentially a map from std::string to SLL::Object.
+ * This is essentially a map from std::string to SLL::Term.
  */
-class Context: private std::map<std::string, Object>
+class Context
 {
 public:
     /* ******************* CREATE and SET VARIABLES ******************* */
@@ -46,22 +57,22 @@ public:
      * @param value:  Its value, as an object
      * The name of the variable has to be new. If you want to assign an
      * expression, evaluate it before with eval(). */
-    void newVar(std::string name, Object value);
+    void newVar(std::string name, Term value);
 
     /**
      * @param name: Name of an existing variable
      * @param value:  Its value, as an object
      * The variable has to exist. If you want to assign an expression,
      * evaluate it before with eval(). */
-    void setVar(std::string name, Object value);
+    void setVar(std::string name, Term value);
 
     /* *********************** ACCESS VARIABLES *********************** */
 
-    Object operator[](std::string name);
+    Term operator[](std::string name);
 
 private:
-    /* Provides thread-safe calls to giac */
-    giac::context ctx;
+    /* Mapping from variable names to actual SLL terms */
+    std::map<std::string, Term> vars;
 };
 
 /**
@@ -69,7 +80,7 @@ private:
  * @param formula: Text formula following the SLL grammar
  * @param context: Evaluation context
  */
-Object eval(std::string const &formula, Context const &context);
+Term eval(std::string const &formula, Context const &context);
 
 /**
  * Execute an SLL command that does not return a result
