@@ -189,3 +189,12 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor, int mod)
         //painter.drawRect(crect);
     }
 }
+
+QPoint EditionArea::getCursorCoordinates(void)
+{
+    /* Need the font to be monospace */
+    size_t len  = text.length();
+    size_t xPos = len ? width / len * cursor_pos : 0;
+    size_t yPos = 0;
+    return QPoint(xPos, yPos);
+}

@@ -160,6 +160,11 @@ public:
     {
         return root.draw(x, y, painter, cursor);
     }
+
+    QPoint getCursorCoordinates(void)
+    {
+        return root.getCursorCoordinates();
+    }
 };
 
 #endif // EDITIONTREE_HPP

@@ -60,3 +60,8 @@ void Power::draw(int x, int y, QPainter &painter, bool cursor)
     /* Draw the 'expression' */
     expression.draw(x, y, painter, cursor);
 }
+
+QPoint Power::getCursorCoordinates(void)
+{
+    return expression.getCursorCoordinates();
+}

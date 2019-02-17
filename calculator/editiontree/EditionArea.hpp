@@ -64,6 +64,7 @@ public:
     void draw(int x, int y, QPainter &painter, bool cursor) override;
     void draw(int x, int y, QPainter &painter, bool cursor, int mod) override;
 
+    QPoint getCursorCoordinates(void) override;
 };
 
 #endif // EDITIONAREA_HPP
