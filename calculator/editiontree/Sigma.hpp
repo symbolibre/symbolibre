@@ -21,8 +21,7 @@ public:
     Flow lbound;
     Flow rbound;
     int cursor_location;
-    int head_width;
-    int half_sigma_height;
+    int sigma_height;
     int sigma_width;
 public:
     Sigma(void);
@@ -43,6 +42,8 @@ public:
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
+
+    QPoint getCursorCoordinates(void) override;
 
 };
 

@@ -200,6 +200,10 @@ void CustomPlotItem::recvInput(int input)
     case KeyCode::SLK_MINUS:
         modifyZoom(2);
         break;
+    case KeyCode::SLK_CLEAR:
+        clearGraph();
+        setRange(-10, 10, -10, 10);
+        break;
     default:
         std::cerr << "Unsupported key " << input << std::endl;
         break;
@@ -210,6 +214,24 @@ void CustomPlotItem::addGraph(QString formula)
 {
     listGraph.append(CurveItem(formula.toStdString()));
     plotGraph(nbCurves);
+}
+
+void CustomPlotItem::clearGraph()
+{
+    if (m_CustomPlot) {
+        for (int i = 0 ; i < nbCurves ; i++) {
+            m_CustomPlot->graph(i)->data()->clear();
+        }
+        listGraph.clear();
+        nbCurves = 0;
+    }
+}
+
+void CustomPlotItem::removeGraph(int numGraph)
+{
+    if (m_CustomPlot) {
+
+    }
 }
 
 void CustomPlotItem::onCustomReplot()

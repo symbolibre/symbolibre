@@ -415,3 +415,25 @@ int Flow::numberNonEmpty(void)
             n++;
     return n;
 }
+
+QPoint Flow::getCursorCoordinates(void)
+{
+    size_t xPos = 0;
+
+    auto it = flow.begin();
+    while (it != flow.end()) {
+        if (it == edited_node)
+            break;
+        xPos += (*it)->width;
+        if (!(*it)->empty())
+            xPos += INTERSPACE;
+        it++;
+    }
+
+    QPoint posInChild = (*edited_node)->getCursorCoordinates();
+    size_t yPos = height - (*edited_node)->height
+                  - center_height + (*edited_node)->center_height;
+    xPos += posInChild.x();
+    yPos += posInChild.y();
+    return QPoint(xPos, yPos);
+}

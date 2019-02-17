@@ -184,6 +184,15 @@ public:
     {
         return draw(x, y, painter, cursor);
     }
+
+    /**
+     * Return the coordinates of the top of the cursor, (0, 0) corresponding
+     * to the top left corner of the formula.
+     */
+    virtual QPoint getCursorCoordinates(void)
+    {
+        return QPoint(0, 0);
+    }
 };
 
 #endif // EDITIONNODE_HPP

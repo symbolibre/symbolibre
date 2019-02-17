@@ -4,7 +4,9 @@
 #include <QtQuick>
 #include <string>
 #include <iostream>
-#include "interface.h"
+#include <giac/config.h>
+#include <giac/giac.h>
+//#include "interface.h"
 
 class CurveItem
 {
@@ -14,6 +16,7 @@ public:
 
 private:
     std::string formula;
+    giac::gen f;
 };
 
 #endif // CURVEITEM_H

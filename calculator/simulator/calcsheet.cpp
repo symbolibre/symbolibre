@@ -1,4 +1,5 @@
 #include "calcsheet.hpp"
+#include "SLL.hpp"
 #include <iostream>
 #include <QFont>
 #include <string>
@@ -24,6 +25,7 @@ void CalcSheet::paint(QPainter *painter)
     font.setHintingPreference(QFont::PreferFullHinting);
     font.setPixelSize(FONT_SIZE);
     painter->setFont(font);
+    //painter->rotate(5);
 
     recomputeDimensions(painter, false);
 
@@ -42,10 +44,16 @@ void CalcSheet::paintEditedArea(QPainter *painter)
     int eaheight = editedAreaHeight();
     painter->setPen(_SL_DARK_GRAY);
     painter->drawRect(0, height() - eaheight, width() - 1, eaheight);
-    painter->setPen(Qt::black);
 
+    painter->setPen(Qt::red);
+    QPoint cursor = editedExpression.getCursorCoordinates();
+    std::cout << cursor.x() << ' ' << cursor.y() << std::endl;
+    painter->drawEllipse(cursor.x() + BORDERSPACE,
+                         cursor.y() + (int) height() - eaheight + BORDERSPACE, 3, 3);
+    painter->setPen(Qt::black);
     editedExpression.draw(BORDERSPACE, (int) height() - eaheight + BORDERSPACE,
                           *painter, true);
+
     return;
 }
 
@@ -101,7 +109,8 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
 
 void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 {
-    std::string lol = "lolll";
+    std::string lol = "un deux trois lol !";
+    SLL::Context empty_context;
 
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         editedExpression.editChar('A' + input - KeyCode::SLK_A);
@@ -169,6 +178,7 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             results.push_back(EditionTree(lol));
             expressions.push_back(std::move(editedExpression));
             //results.push_back(editedExpression);
+            SLL::exec(lol, empty_context);
             editedExpression = EditionTree();
             break;
 

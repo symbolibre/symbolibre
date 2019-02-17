@@ -31,6 +31,7 @@ public:
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
+    QPoint getCursorCoordinates(void) override;
 
 };
 

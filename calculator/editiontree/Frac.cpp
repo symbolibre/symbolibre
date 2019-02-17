@@ -114,3 +114,18 @@ void Frac::draw(int x, int y, QPainter &painter, bool cursor)
     denominator.draw(x_denominator, y_denominator, painter,
                      cursor && !cursor_on_top);
 }
+
+QPoint Frac::getCursorCoordinates(void)
+{
+    if (cursor_on_top) {
+        QPoint posInChild = numerator.getCursorCoordinates();
+        size_t xPos = posInChild.x() + (width - numerator.width) / 2;
+        size_t yPos = posInChild.y();
+        return QPoint(xPos, yPos);
+    } else {
+        QPoint posInChild = denominator.getCursorCoordinates();
+        size_t xPos = posInChild.x() + (width - denominator.width) / 2;
+        size_t yPos = posInChild.y() + height - center_height + FRAC_UP_SPACE;
+        return QPoint(xPos, yPos);
+    }
+}
