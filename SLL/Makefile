@@ -10,25 +10,6 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-src    := $(wildcard *.cpp)
-lexer  := $(wildcard *.l)
-parser := $(wildcard *.y)
-lib    := libsll.a
-
-cflags := -Wall -Wextra -std=c++17 -I. -D_GNU_SOURCE -O2
-dflags  = -MMD -MT $@ -MF $(@:.o=.d) -MP
-bflags  = -W -f --defines=$(@:.tab.cpp=.h) --verbose
-
-ifdef NDEBUG
-  cflags += -DNDEBUG
-endif
-
-src-l  := $(lexer:%.l=build/%.yy.cpp)
-src-p  := $(parser:%.y=build/%.tab.cpp)
-obj    := $(src:%=build/%.o) $(src-l).o $(src-p).o
-
-# Building
-
 CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
@@ -63,25 +44,9 @@ STRIP         = strip
 ####### Output directory
 
 OBJECTS_DIR   = ./
-build/%.cpp.o: %.cpp | build/
-	g++ -c $< -o $@ $(cflags) $(dflags)
-
-# Lexer
-$(src-l).o: $(src-l) | build/
-	g++ -c $< -o $@ $(cflags) $(dflags)
-$(src-l): $(lexer) $(src-p)
-	flex -s -o $@ $<
-
-# Parser
-$(src-p).o: $(src-p) | build/
-	g++ -c $< -o $@ $(cflags) $(dflags)
-$(src-p): $(parser) | build/
-	bison $< -o $@ $(bflags)
->>>>>>> 38fc486952a7a90ce678d30985ce4f9e6a3c0f31
 
 ####### Files
 
-<<<<<<< HEAD
 SOURCES       = exec.cpp \
 		Object.cpp 
 OBJECTS       = exec.o \
@@ -406,7 +371,7 @@ compiler_clean: compiler_moc_predefs_clean
 exec.o: exec.cpp SLL.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exec.o exec.cpp
 
-Object.o: Object.cpp SLL.hpp
+Object.o: Object.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Object.o Object.cpp
 
 ####### Install
@@ -417,24 +382,3 @@ uninstall:  FORCE
 
 FORCE:
 
-# Dependency management
-
-.PRECIOUS: build/%.tab.cpp
-.PRECIOUS: build/%.yy.cpp
-
-.PRECIOUS: build/%.d
-
-build/%.d: ;
-
-include $(wildcard build/*.d)
-
-# Cleaning
-
-clean:
-	rm -rf build
-distclean: clean
-	rm -f $(lib)
-
-.PRECIOUS: %/
-.PHONY: all clean distclean
-.SUFFIXES:
