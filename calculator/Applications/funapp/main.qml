@@ -8,14 +8,10 @@ import "../keyboard"
 Window {
     visible: true
     width: 320
-    height: 240*2
+    height: 240
     title: qsTr("Quick Calculator")
 
     MainForm {
         anchors.fill: parent
-        keyboard.onActivated: {
-            formula.recvInput(key);
-            formula.update();
-        }
     }
 }

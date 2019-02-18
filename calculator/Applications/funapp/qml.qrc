@@ -3,9 +3,11 @@
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
         <file>Printer.qml</file>
-        <file>TabBar.ui.qml</file>
-        <file>ObjectDecider.qml</file>
-        <file>ObjectDeciderForm.ui.qml</file>
+        <file>SelectBar.qml</file>
+        <file>SelectBarForm.ui.qml</file>
+        <file>ColumnLayoutFocusDistributor.qml</file>
+        <file>StackLayoutFocusDistributor.qml</file>
+        <file>FocusEncapsulator.qml</file>
     </qresource>
     <qresource prefix="/../keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>

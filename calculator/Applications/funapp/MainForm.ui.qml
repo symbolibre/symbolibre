@@ -4,99 +4,82 @@ import QtQuick.Layouts 1.3
 import org.symbolibre.mathrenderer 1.0
 import SLKeyCode 1.0
 import "../keyboard"
+import QtQuick.Window 2.3
 
 Rectangle {
+    id: screen
     width: 320
-    height: 240 * 2
-    property alias keyboard: keyboard
+    height: 240
 
-    Rectangle {
-        id: pad
-        height: 240
-        width: 320
-        x: 0
-        y: 240
-        color: "black"
+    ColumnLayoutFocusDistributor {
+        id: columnLayoutFocusDistributor
+        anchors.fill: parent
 
-        SLKeyBoard {
-            id: keyboard
-        }
-    }
-
-
-    ColumnLayout {
-        id: columnLayout
-        x: 0
-        y: 0
-        width: 320
-        height: 240
-
-        TabBar {
-            id: tabBar
-            anchors.fill: parent
-
-            TabButton {
-                id: tabButton1
-                text: qsTr("Tab Button")
-            }
-
-            TabButton {
-                id: tabButton
-                x: 106
-                y: 0
-                text: qsTr("Tab Button")
-            }
-
-            TabButton {
-                id: tabButton2
-                text: qsTr("Tab Button")
-            }
+        SelectBar {
+            id: selectBar
+            x: 1
+            y: 1
+            width: parent.width
         }
 
-        StackLayout {
-            id: stackLayout
-            width: 320
-            height: 199
+        StackLayoutFocusDistributor {
+            id: stackLayoutFocusDistributor
+            x: 0
+            y: 45
+            currentIndex: selectBar.savedIndex
 
-            TextEdit {
-                id: textEdit
-                width: 80
-                height: 20
-                text: qsTr("Edit")
-                font.pixelSize: 12
+            ColumnLayoutFocusDistributor {
+                id: columnLayoutFocusDistributor1
+                width: 320
+                height: 146
 
-                RowLayout {
-                    id: rowLayout
-                    x: 0
-                    y: 42
-                    width: 320
-                    height: 47
+                TextField {
+                    id: textField
+                    text: qsTr("Text Field")
                 }
+
+                ColumnLayoutFocusDistributor {
+                    id: columnLayoutFocusDistributor2
+                    width: 320
+                    height: 146
+                    TextField {
+                        id: textField1
+                        text: qsTr("Text Field")
+                    }
+
+                    TextField {
+                        id: textField3
+                        text: qsTr("Text Field")
+                    }
+                }
+
+                TextField {
+                    id: textField2
+                    text: qsTr("Text Field")
+                }
+
             }
 
-            TextEdit {
-                id: textEdit1
-                width: 80
-                height: 20
-                text: qsTr("Graph")
+            Text {
+                id: text1
+                text: qsTr("Fun")
                 font.pixelSize: 12
             }
 
-            TextEdit {
-                id: textEdit2
-                width: 80
-                height: 20
+            Text {
+                id: text2
                 text: qsTr("Table")
                 font.pixelSize: 12
             }
         }
 
-
-
     }
+
+
+
 }
 
 /*##^## Designer {
-    D{i:86;anchors_height:0;anchors_width:320}
+    D{i:1;anchors_height:240;anchors_width:320;anchors_x:0;anchors_y:0}
 }
  ##^##*/
