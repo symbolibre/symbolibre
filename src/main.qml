@@ -101,6 +101,13 @@ Should be able to return quickly to the ItemDelegate
         onLoaded: textArea.text = text
     }
 
+    Rectangle {
+        id: lineNumberBackground
+        color: "light yellow"
+        width: 32 //Should not be manually fixed
+        height: parent.height
+    }
+
     Flickable {
         id: flickable
         flickableDirection: Flickable.VerticalFlick
