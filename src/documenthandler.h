@@ -63,10 +63,11 @@
 #include <QObject>
 #include <QTextCursor>
 #include <QUrl>
-#include <syntax-highlighting/src/lib/syntaxhighlighter.h>
-#include<syntax-highlighting/src/lib/repository.h>
-#include<syntax-highlighting/src/lib/definition.h>
-#include<syntax-highlighting/src/lib/theme.h>
+#include <QPlainTextEdit>
+#include <syntaxhighlighter.h>
+#include<repository.h>
+#include<definition.h>
+#include<theme.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -74,8 +75,7 @@ class QTextDocument;
 class QQuickTextDocument;
 QT_END_NAMESPACE
 
-
-class DocumentHandler : public QObject
+class DocumentHandler : public QPlainTextEdit
 {
     Q_OBJECT
 
@@ -97,7 +97,7 @@ class DocumentHandler : public QObject
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
 
 public:
-    explicit DocumentHandler(QObject *parent = nullptr);
+    explicit DocumentHandler(QWidget *parent = nullptr);
 
     QQuickTextDocument *document() const;
     void setDocument(QQuickTextDocument *document);
@@ -134,6 +134,8 @@ public:
 
     QString syntaxDefinitionName(void) const;
 
+    int startLine(void);
+
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
     void saveAs(const QUrl &fileUrl);
@@ -169,6 +171,11 @@ private:
     QTextDocument *textDocument() const;
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
+    int sidebarWidth() const;
+    void sidebarPaintEvent(QPaintEvent *event);
+    void updateSidebarGeometry();
+    void updateSidebarArea(const QRect& rect, int dy);
+
     QQuickTextDocument *m_document;
 
     int m_cursorPosition;
@@ -180,6 +187,7 @@ private:
 
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
+
 };
 
 #endif // DOCUMENTHANDLER_H

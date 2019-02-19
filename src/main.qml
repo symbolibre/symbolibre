@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 
 
-import SymbolibreTextEditor 1.0
+import DocumentHandler 1.0
 
 
 ApplicationWindow {
@@ -101,15 +101,35 @@ Should be able to return quickly to the ItemDelegate
         onLoaded: textArea.text = text
     }
 
-
     Flickable {
         id: flickable
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
         anchors.fill: parent
 
+        Column {
+            id: lineNumber
+            leftPadding: 0
+            spacing: 0
+            topPadding: 6 //Should not be manually handled ! Needs to be fixed later on
+            Repeater {
+                id: lineNumberRepeater
+                model: textArea.lineCount
+
+                Text {
+                    text: index + 1 + " :"
+                    font: textArea.font
+                    horizontalAlignment: Text.AlignLeft
+                    width: 25
+                    leftPadding: 5
+                    LayoutMirroring.enabled: true
+                }
+            }
+        }
+
         TextArea.flickable: TextArea {
             id: textArea
+            anchors.left: lineNumber.right
             textFormat: TextEdit.PlainText
             wrapMode: TextArea.Wrap
             focus: true
@@ -119,7 +139,6 @@ Should be able to return quickly to the ItemDelegate
         }
 
         ScrollBar.vertical: ScrollBar {}
-
     }
 
     Popup {
@@ -209,17 +228,6 @@ Should be able to return quickly to the ItemDelegate
                 KeyNavigation.down: textButton
             }
 
-            /*
-            Button {
-                height: 20
-                id: validateLanguage
-                text: qsTr("OK")
-                onClicked: {
-                    document.startHighlighter()
-                    popup.close()
-                }
-            }
-            */
         }
 
     }

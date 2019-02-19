@@ -4,7 +4,7 @@ QT += quickcontrols2
 #QT += KSyntaxHighlighting
 CONFIG += c++11
 cross_compile: DEFINES += QT_EXTRA_FILE_SELECTOR=\\\"touch\\\"
-TARGET = ide
+TARGET = ide.app
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -41,5 +41,5 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/syntax-highlighting/bin/re
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/syntax-highlighting/bin/debug/ -lKF5SyntaxHighlighting
 else:unix: LIBS += -L$$PWD/syntax-highlighting/bin/ -lKF5SyntaxHighlighting
 
-INCLUDEPATH += $$PWD/syntax-highlighting/bin
-DEPENDPATH += $$PWD/syntax-highlighting/bin
+INCLUDEPATH += $$PWD/syntax-highlighting/src/lib
+DEPENDPATH += $$PWD/syntax-highlighting/src/lib

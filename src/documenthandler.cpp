@@ -60,9 +60,8 @@
 #include <QTextDocument>
 #include <QDebug>
 
-
-DocumentHandler::DocumentHandler(QObject *parent)
-    : QObject(parent)
+DocumentHandler::DocumentHandler(QWidget *parent)
+    : QPlainTextEdit(parent)
     , m_document(nullptr)
     , m_cursorPosition(-1)
     , m_selectionStart(0)
@@ -359,6 +358,16 @@ void DocumentHandler::load(const QUrl &fileUrl)
     setDocLanguageFromExtension(QFileInfo(fileName).suffix());
 
     //TODO : change with m_highlighter->setDefinition() the file type that we're highlighting
+    const QString defName = syntaxDefinitionName();
+
+    const auto def = m_repository.definitionForName(defName);
+    if (!def.isValid()){
+        qInfo() << "Definition for syntax highlighting is not valid\n";
+        return;
+    }
+
+    m_highlighter->setDefinition(def);
+    m_highlighter->rehighlight();
 
 }
 
@@ -366,7 +375,7 @@ void DocumentHandler::startHighlighter(void){
 
     //m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
-    const QString defName = syntaxDefinitionName();// = QString("Objective Caml"); //TO CHANGE : do a function to get the right xml definition file name from the language type !
+    const QString defName = syntaxDefinitionName();
 
     const auto def = m_repository.definitionForName(defName);
     if (!def.isValid()){

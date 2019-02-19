@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-    qmlRegisterType<DocumentHandler>("SymbolibreTextEditor", 1, 0, "DocumentHandler");
+    qmlRegisterType<DocumentHandler>("DocumentHandler", 1, 0, "DocumentHandler");
 
     QStringList selectors;
 #ifdef QT_EXTRA_FILE_SELECTOR
