@@ -116,7 +116,6 @@ Should be able to return quickly to the ItemDelegate
 
         Column {
             id: lineNumber
-            leftPadding: 0
             spacing: 0
             topPadding: 6 //Should not be manually handled ! Needs to be fixed later on
             Repeater {
@@ -124,12 +123,11 @@ Should be able to return quickly to the ItemDelegate
                 model: textArea.lineCount
 
                 Text {
-                    text: index + 1 + " :"
+                    text: index + 1 + ":"
                     font: textArea.font
                     horizontalAlignment: Text.AlignLeft
-                    width: 25
-                    leftPadding: 5
                     LayoutMirroring.enabled: true
+                    width: lineNumberBackground.width
                 }
             }
         }
@@ -137,12 +135,15 @@ Should be able to return quickly to the ItemDelegate
         TextArea.flickable: TextArea {
             id: textArea
             anchors.left: lineNumber.right
+            rightPadding: 50*window.width/320 //Seems to be a known bug : https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
             textFormat: TextEdit.PlainText
             wrapMode: TextArea.Wrap
             focus: true
             selectByMouse: true
             persistentSelection: true
             background: null
+            font.family: "Fixedsys"
+            font.pointSize: 10
         }
 
         ScrollBar.vertical: ScrollBar {}
@@ -166,7 +167,7 @@ Should be able to return quickly to the ItemDelegate
                 checked: true
                 focus: true
                 height: 30
-                text: qsTr("Text")
+                text: qsTr("Texte")
                 onClicked: document.setDocLanguage(1)
                 onFocusChanged: checked = focus
                 Keys.onEnterPressed: {
