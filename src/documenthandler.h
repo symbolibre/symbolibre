@@ -75,7 +75,7 @@ class QTextDocument;
 class QQuickTextDocument;
 QT_END_NAMESPACE
 
-class DocumentHandler : public QPlainTextEdit
+class DocumentHandler : public QObject
 {
     Q_OBJECT
 

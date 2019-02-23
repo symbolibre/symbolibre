@@ -2,7 +2,7 @@ QT += quick
 QT += widgets
 QT += quickcontrols2
 #QT += KSyntaxHighlighting
-CONFIG += c++11
+CONFIG += c++17
 cross_compile: DEFINES += QT_EXTRA_FILE_SELECTOR=\\\"touch\\\"
 TARGET = ide.app
 
@@ -18,7 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp \
-    documenthandler.cpp
+    documenthandler.cpp \
+    languagesmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,7 +35,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    documenthandler.h
+    documenthandler.h \
+    languagesmodel.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/syntax-highlighting/bin/release/ -lKF5SyntaxHighlighting

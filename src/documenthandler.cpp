@@ -61,7 +61,7 @@
 #include <QDebug>
 
 DocumentHandler::DocumentHandler(QWidget *parent)
-    : QPlainTextEdit(parent)
+    : QObject(parent)
     , m_document(nullptr)
     , m_cursorPosition(-1)
     , m_selectionStart(0)

@@ -6,14 +6,15 @@
 #include <QApplication>
 
 #include "documenthandler.h"
+#include "languagesmodel.h"
 
 int main(int argc, char *argv[])
 {
-
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
     qmlRegisterType<DocumentHandler>("DocumentHandler", 1, 0, "DocumentHandler");
+    qmlRegisterType<LanguagesModel>("org.symbolibre.languagesModel", 1, 0, "LanguagesModel");
 
     QStringList selectors;
 #ifdef QT_EXTRA_FILE_SELECTOR
