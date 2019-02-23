@@ -2,6 +2,11 @@
 
 This repo. stored the IDE designed for the Symbolibre Project.
 
+#### Dependencies
+
+Syntax highlighter from KDE, the repo is declared as a submodule, so you need to clone the repo with `clone ... --recursive` it will automatically download the needed repos. You should run `cmake . -G "Unix Makefiles" ./` then `make` into the `src/syntax-highlighting/` folder.
+
+After that you'll be able to compile the Qt project using Qt Creator.
 
  TODO :
 * Fix the "language choice" when starting the IDE :
