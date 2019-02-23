@@ -1,0 +1,4 @@
+[submodule "src/syntax-highlighting"]
+	path = src/syntax-highlighting
+	url = https://github.com/KDE/syntax-highlighting.git
+	branch = master
