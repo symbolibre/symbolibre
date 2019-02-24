@@ -78,3 +78,19 @@ Qt::ItemFlags LanguagesModel::flags(const QModelIndex &) const
 {
     return Qt::ItemIsEditable;
 }
+
+LanguageItem *LanguagesModel::getLanguageFromExtension(const QString extension)
+{
+    for(auto &v : this->m_languageList)
+        if(v.languageExtension == extension)
+            return &v;
+    return nullptr;
+}
+
+LanguageItem *LanguagesModel::getLanguageFromName(const QString langname)
+{
+    for(auto &v : this->m_languageList)
+        if(v.languageName == langname)
+            return &v;
+    return nullptr;
+}

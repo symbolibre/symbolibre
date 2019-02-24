@@ -34,6 +34,10 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+    // Utilities for the text editor
+    Q_INVOKABLE LanguageItem* getLanguageFromExtension(const QString extension);
+    Q_INVOKABLE LanguageItem* getLanguageFromName(const QString langname);
+
 private:
     QVector<LanguageItem> m_languageList;
     int m_languageCount;
