@@ -2,6 +2,10 @@
 #define LANGUAGESMODEL_H
 
 #include <QAbstractListModel>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QFile>
 
 struct LanguageItem
 {
@@ -18,6 +22,7 @@ class LanguagesModel : public QAbstractListModel
 
 public:
     LanguagesModel();
+
 
     enum Roles {languageNameRole, languageExtensionRole, languageCmdRole, languageColorRole};
 

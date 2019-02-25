@@ -1,7 +1,42 @@
 #include "languagesmodel.h"
 
+#include <iostream>
+
 LanguagesModel::LanguagesModel()
 {
+    QJsonObject json;
+
+    QFile loadFile("ide.conf");
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+
+    else {
+
+        QByteArray saveData = loadFile.readAll();
+
+        QJsonDocument json(QJsonDocument::fromJson(saveData));
+
+        QJsonArray lang_list = json.object()["languages"].toArray();
+
+        for (int langIndex = 0; langIndex < lang_list.size(); ++langIndex) {
+            QJsonObject language = lang_list[langIndex].toObject();
+            LanguageItem lang;
+
+            lang.languageName = language["name"].toString();
+            lang.languageCmd = language["cmd"].toString();
+            lang.languageColor = language["color_file"].toString();
+            lang.languageExtension = language["extension"].toString();
+
+            m_languageList.push_back(lang);
+
+        }
+
+    }
+
+
+
 
 }
 

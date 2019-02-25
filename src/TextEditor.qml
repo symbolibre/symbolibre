@@ -6,11 +6,18 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 
 import DocumentHandler 1.0
+import org.symbolibre.languagesModel 1.0
 
 TextEditorForm {
+
     id: editor
 
     property int currLanguage: 1
+
+     LanguagesModel
+     {
+        id: langModel
+     }
 
     // Document handling
 
@@ -32,8 +39,6 @@ TextEditorForm {
 
     // Used to execute the code, will be impleted later on
     //runButton.onClicked: interpreter.start()
-
-    configButton.onClicked: configdialog.open()
 
     // -- Popup language choice
 
@@ -103,13 +108,5 @@ TextEditorForm {
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.saveAs(file)
     }
-
-    ConfigurationForm {
-        id: configdialog
-    }
-
-
-
-
 
 }
