@@ -93,7 +93,7 @@ Item {
 
         Flickable {
             id: flickable
-            flickableDirection: Flickable.VerticalFlick
+            flickableDirection: Flickable.HorizontalAndVerticalFlick
             boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
 
@@ -121,12 +121,12 @@ Item {
                 anchors.top: editorToolBar.bottom
                 rightPadding: 50 * window.width / 320 //Seems to be a known bug : https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
                 textFormat: TextEdit.PlainText
-                wrapMode: TextArea.Wrap
+                wrapMode: TextArea.NoWrap
                 focus: true
                 selectByMouse: true
                 persistentSelection: true
                 background: null
-                font.family: "Fixedsys"
+                font.family: "Deja Vu Sans Mono"
                 font.pointSize: 10
             }
 
@@ -191,11 +191,8 @@ Item {
         }
     }
 }
-
-
-
-
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
  ##^##*/
+
