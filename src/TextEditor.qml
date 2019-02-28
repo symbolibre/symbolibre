@@ -11,6 +11,7 @@ TextEditorForm {
     id: editor
 
     property int currLanguage: 1
+    property string fileName: document.fileName
 
     // Document handling
 
@@ -21,6 +22,9 @@ TextEditorForm {
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
+        Component.onCompleted:   { //setDocLanguage(1)
+            document.startHighlighter()
+        }
     }
 
     // Slots
@@ -75,7 +79,7 @@ TextEditorForm {
     casioBasicButton.onFocusChanged:
     {
         casioBasicButton.checked = casioBasicButton.focus
-        document.setDocLanguage(4)
+        document.setDocLanguage(5)
     }
 
     Keys.onPressed: {
