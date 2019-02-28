@@ -54,6 +54,7 @@ Item {
         id: editorToolBar
         width: 320
         height: 29
+        z: 1
         parent: window
 
         Row {
@@ -185,6 +186,8 @@ Item {
         }
     }
 }
+
+
 
 
 
