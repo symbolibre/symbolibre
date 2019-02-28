@@ -1,6 +1,7 @@
 QT += quick
 QT += widgets
 QT += quickcontrols2
+QT += core
 #QT += KSyntaxHighlighting
 CONFIG += c++17
 cross_compile: DEFINES += QT_EXTRA_FILE_SELECTOR=\\\"touch\\\"

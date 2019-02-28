@@ -17,7 +17,6 @@ Item {
     property alias saveMenu: saveMenu
     property alias fileButton: fileButton
     property alias runButton: runButton
-    property alias configButton: configButton
     property alias fileMenu: fileMenu
     property alias languageMenu: languageMenu
     property alias editorToolBar: editorToolBar
@@ -68,11 +67,6 @@ Item {
             ToolButton {
                 id: runButton
                 text: "Exécuter"
-            }
-
-            ToolButton {
-                id: configButton
-                text: "Configuration"
             }
         }
     }
@@ -191,8 +185,3 @@ Item {
         }
     }
 }
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/
-

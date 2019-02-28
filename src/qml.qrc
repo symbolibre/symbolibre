@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Configuration.qml</file>
-        <file>ConfigurationForm.ui.qml</file>
         <file>backend.qml</file>
         <file>TextEditor.qml</file>
         <file>TextEditorForm.ui.qml</file>

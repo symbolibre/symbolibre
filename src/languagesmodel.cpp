@@ -1,7 +1,42 @@
 #include "languagesmodel.h"
 
+#include <iostream>
+
 LanguagesModel::LanguagesModel()
 {
+    QJsonObject json;
+
+    QFile loadFile("ide.conf");
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+
+    else {
+
+        QByteArray saveData = loadFile.readAll();
+
+        QJsonDocument json(QJsonDocument::fromJson(saveData));
+
+        QJsonArray lang_list = json.object()["languages"].toArray();
+
+        for (int langIndex = 0; langIndex < lang_list.size(); ++langIndex) {
+            QJsonObject language = lang_list[langIndex].toObject();
+            LanguageItem lang;
+
+            lang.languageName = language["name"].toString();
+            lang.languageCmd = language["cmd"].toString();
+            lang.languageColor = language["color_file"].toString();
+            lang.languageExtension = language["extension"].toString();
+
+            m_languageList.push_back(lang);
+
+        }
+
+    }
+
+
+
 
 }
 
@@ -77,4 +112,20 @@ QString LanguagesModel::getLine(int k)
 Qt::ItemFlags LanguagesModel::flags(const QModelIndex &) const
 {
     return Qt::ItemIsEditable;
+}
+
+LanguageItem *LanguagesModel::getLanguageFromExtension(const QString extension)
+{
+    for(auto &v : this->m_languageList)
+        if(v.languageExtension == extension)
+            return &v;
+    return nullptr;
+}
+
+LanguageItem *LanguagesModel::getLanguageFromName(const QString langname)
+{
+    for(auto &v : this->m_languageList)
+        if(v.languageName == langname)
+            return &v;
+    return nullptr;
 }

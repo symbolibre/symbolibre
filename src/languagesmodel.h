@@ -2,6 +2,10 @@
 #define LANGUAGESMODEL_H
 
 #include <QAbstractListModel>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QFile>
 
 struct LanguageItem
 {
@@ -19,6 +23,7 @@ class LanguagesModel : public QAbstractListModel
 public:
     LanguagesModel();
 
+
     enum Roles {languageNameRole, languageExtensionRole, languageCmdRole, languageColorRole};
 
     QHash<int,QByteArray> roleNames() const override;
@@ -33,6 +38,10 @@ public:
     Q_INVOKABLE QString getLine(int k);
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+    // Utilities for the text editor
+    Q_INVOKABLE LanguageItem* getLanguageFromExtension(const QString extension);
+    Q_INVOKABLE LanguageItem* getLanguageFromName(const QString langname);
 
 private:
     QVector<LanguageItem> m_languageList;
