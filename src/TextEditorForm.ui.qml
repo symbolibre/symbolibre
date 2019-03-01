@@ -54,6 +54,7 @@ Item {
         id: editorToolBar
         width: 320
         height: 29
+        z: 1
         parent: window
 
         Row {
@@ -100,7 +101,7 @@ Item {
                     model: textArea.lineCount
 
                     Text {
-                        text:   index + 1 + ":"
+                        text: index + 1 + ":"
                         font: textArea.font
                         horizontalAlignment: Text.AlignLeft
                         LayoutMirroring.enabled: true
