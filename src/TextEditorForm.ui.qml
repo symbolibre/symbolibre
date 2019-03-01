@@ -87,20 +87,20 @@ Item {
 
         Flickable {
             id: flickable
-            flickableDirection: Flickable.HorizontalAndVerticalFlick
+            flickableDirection: Flickable.VerticalFlick
             boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
 
             Column {
                 id: lineNumber
                 spacing: 0
-                topPadding: 6 //Should not be manually handled ! Needs to be fixed later on
+                y: 6 //Should not be manually handled - risk of bad alignement on other devices ! Needs to be fixed later on
                 Repeater {
                     id: lineNumberRepeater
                     model: textArea.lineCount
 
                     Text {
-                        text: index + 1 + ":"
+                        text:   index + 1 + ":"
                         font: textArea.font
                         horizontalAlignment: Text.AlignLeft
                         LayoutMirroring.enabled: true
@@ -115,7 +115,7 @@ Item {
                 anchors.top: editorToolBar.bottom
                 rightPadding: 50 * window.width / 320 //Seems to be a known bug : https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
                 textFormat: TextEdit.PlainText
-                wrapMode: TextArea.NoWrap
+                wrapMode: TextArea.Wrap
                 focus: true
                 selectByMouse: true
                 persistentSelection: true

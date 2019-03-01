@@ -29,7 +29,7 @@ TextEditorForm {
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
-        Component.onCompleted:   { //setDocLanguage(1)
+        Component.onCompleted:   { setDocLanguage(3)
             document.startHighlighter()
         }
     }
@@ -99,7 +99,7 @@ TextEditorForm {
         id: openDialog
         fileMode: FileDialog.OpenFile
         selectedNameFilter.index: document.docLanguage
-        nameFilters: ["All files (*)", "Text files (*.txt)", "OCaml files (*ml)", "Python files (*.py)", "TI-Basic Files (*.bsti)", "Casio-Basic files (*.bscs)"]
+        nameFilters: ["All files (*)", "Text files (*.txt)", "OCaml files (*ml)", "Python files (*.py)", "TI-Basic Files (*.tibs)", "Casio-Basic files (*.csbs)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.load(file)
     }
