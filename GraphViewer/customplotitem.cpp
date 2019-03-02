@@ -64,28 +64,21 @@ void CustomPlotItem::paint(QPainter *painter)
     }
 }
 
-void CustomPlotItem::plotGraph(int numGraph)
+void CustomPlotItem::plotGraph(QString nomGraph)
 {
     /* take the numero of graph to plot
      * reset the display
      * compute the new points
      * plot the updated graph
      */
-    QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
     if (m_CustomPlot) {
-        if (numGraph >= nbCurves) {
-            m_CustomPlot->addGraph();
-            nbCurves++;
-        } else {
-            m_CustomPlot->graph(numGraph)->data()->clear();
-        }
-        m_CustomPlot->graph(numGraph)->setPen(QPen(listColor[numGraph % 4]));
+        auto g = listGraph[nomGraph];
 
         double x = Xmin;
-        m_CustomPlot->graph(numGraph)->addData(x, listGraph[numGraph].getValue(x));
+        g.graph->addData(x, g.getValue(x));
         while (x < Xmax) {
             x += Xsca;
-            m_CustomPlot->graph(numGraph)->addData(x, listGraph[numGraph].getValue(x));
+            g.graph->addData(x, g.getValue(x));
         }
 
         m_CustomPlot->replot();
@@ -109,8 +102,8 @@ void CustomPlotItem::setRange(double nXmin, double nXmax, double nYmin, double n
         Xsca = 4 * Xlen / 320;
         Ysca = 4 * Ylen / 240;
 
-        for (int j = 0 ; j < nbCurves ; j++) {
-            plotGraph(j);
+        for (auto name : listGraph.keys()) {
+            plotGraph(name);
         }
     }
 }
@@ -123,17 +116,17 @@ void CustomPlotItem::moveWindow(int horizontal, int vertical)
         Ycen += Ysca * vertical;
         double x;
 
-        for (int j = 0 ; j < nbCurves ; j++) {
+        foreach (CurveItem g, listGraph) {
             if (horizontal > 0) {
                 x = Xmax + Xsca;
                 for (int i = 0 ; i < horizontal ; i++) {
-                    m_CustomPlot->graph(j)->addData(x, listGraph[j].getValue(x));
+                    g.graph->addData(x, g.getValue(x));
                     x += Xsca;
                 }
             } else if (horizontal < 0) {
                 x = Xmin - Xsca;
                 for (int i = horizontal ; i < 0 ; i++) {
-                    m_CustomPlot->graph(j)->addData(x, listGraph[j].getValue(x));
+                    g.graph->addData(x, g.getValue(x));
                     x -= Xsca;
                 }
             }
@@ -165,8 +158,8 @@ void CustomPlotItem::modifyZoom(double value)
         Xsca *= value;
         Ysca *= value;
 
-        for (int j = 0 ; j < nbCurves ; j++) {
-            plotGraph(j);
+        for (auto name : listGraph.keys()) {
+            plotGraph(name);
         }
     }
 }
@@ -212,25 +205,39 @@ void CustomPlotItem::recvInput(int input)
 
 void CustomPlotItem::addGraph(QString formula)
 {
-    listGraph.append(CurveItem(formula.toStdString()));
-    plotGraph(nbCurves);
+    if (formula[0] == QChar('-')) {
+        removeGraph(formula.remove(0, 1));
+        return;
+    }
+
+    QStringList decomp = formula.split("(x)=");
+    if (listGraph.contains(decomp[0])) {
+        listGraph[decomp[0]].updateFormula(decomp[1].toStdString());
+    } else {
+        listGraph[decomp[0]] = CurveItem(decomp[1].toStdString(), m_CustomPlot->addGraph(), listColor[nbCurves % 4]);
+        nbCurves++;
+    }
+    plotGraph(decomp[0]);
 }
 
 void CustomPlotItem::clearGraph()
 {
     if (m_CustomPlot) {
-        for (int i = 0 ; i < nbCurves ; i++) {
-            m_CustomPlot->graph(i)->data()->clear();
+        for (auto name : listGraph.keys()) {
+            removeGraph(name);
         }
-        listGraph.clear();
         nbCurves = 0;
     }
 }
 
-void CustomPlotItem::removeGraph(int numGraph)
+void CustomPlotItem::removeGraph(QString nomGraph)
 {
     if (m_CustomPlot) {
-
+        if (listGraph.contains(nomGraph)) {
+            m_CustomPlot->removeGraph(listGraph[nomGraph].graph);
+            listGraph.remove(nomGraph);
+        }
+        nbCurves--;
     }
 }
 

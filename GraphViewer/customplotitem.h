@@ -16,7 +16,7 @@ public:
     virtual ~CustomPlotItem();
 
     void paint(QPainter *painter);
-    void plotGraph(int numGraph);
+    void plotGraph(QString nomGraph);
     void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
     void moveWindow(int horizontal, int vertical);
     void moveCursor(int amtX, int amtY);
@@ -45,7 +45,8 @@ private:
     double cursorY;
 
     /* curves on the graph */
-    QList<CurveItem> listGraph;
+    QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
+    QMap<QString, CurveItem> listGraph;
     int nbCurves;
 
 public slots:
@@ -56,7 +57,7 @@ private slots:
     void updateCustomPlotSize();
     void onCustomReplot();
     void clearGraph();
-    void removeGraph(int numGraph);
+    void removeGraph(QString nomGraph);
 };
 
 #endif // CUSTOMPLOTITEM_H
