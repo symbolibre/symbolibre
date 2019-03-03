@@ -66,13 +66,14 @@ void CustomPlotItem::paint(QPainter *painter)
 
 void CustomPlotItem::plotGraph(QString nomGraph)
 {
-    /* take the numero of graph to plot
+    /* take the name of graph to plot
      * reset the display
      * compute the new points
      * plot the updated graph
      */
     if (m_CustomPlot) {
         auto g = listGraph[nomGraph];
+        g.graph->data()->clear();
 
         double x = Xmin;
         g.graph->addData(x, g.getValue(x));
@@ -226,7 +227,6 @@ void CustomPlotItem::clearGraph()
         for (auto name : listGraph.keys()) {
             removeGraph(name);
         }
-        nbCurves = 0;
     }
 }
 
@@ -236,8 +236,8 @@ void CustomPlotItem::removeGraph(QString nomGraph)
         if (listGraph.contains(nomGraph)) {
             m_CustomPlot->removeGraph(listGraph[nomGraph].graph);
             listGraph.remove(nomGraph);
+            nbCurves--;
         }
-        nbCurves--;
     }
 }
 

@@ -36,7 +36,7 @@ private:
     double Ycen;
     double Xlen;
     double Ylen;
-    /* Scale of X Axis to ensure smooth plot */
+    /* Scale of the axis to ensure smooth plot */
     double Xsca;
     double Ysca;
 

@@ -39,3 +39,9 @@ void CurveItem::updateFormula(std::string form)
 
     graph->data()->clear();
 }
+
+void CurveItem::updateColor(QColor couleur)
+{
+    color = couleur;
+    graph->setPen(QPen(couleur));
+}

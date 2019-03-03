@@ -17,6 +17,7 @@ public:
 
     double getValue(double x);
     void updateFormula(std::string form);
+    void updateColor(QColor couleur);
     QCPGraph *graph;
 
 private:
