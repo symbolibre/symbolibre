@@ -1,16 +1,10 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 
 Item {
     property ApplicationWindow window: window
-
-    property alias casioBasicButton: casioBasicButton
-    property alias tiBasicButton: tiBasicButton
-    property alias pythonButton: pythonButton
-    property alias ocamlButton: ocamlButton
-    property alias textButton: textButton
 
     property alias openFileMenu: openFileMenu
     property alias saveAsMenu: saveAsMenu
@@ -22,6 +16,7 @@ Item {
     property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
+    property alias langselection: langselection
 
     Menu {
         id: fileMenu
@@ -141,55 +136,15 @@ Item {
             focus: true
             visible: true
 
-            Column {
-
-                RadioButton {
-                    id: textButton
-                    checked: true
-                    focus: true
-                    height: 30
-                    text: qsTr("Texte")
-                    KeyNavigation.down: ocamlButton
-                }
-
-                RadioButton {
-                    id: ocamlButton
-                    height: 30
-                    text: qsTr("OCaml")
-                    KeyNavigation.down: pythonButton
-                }
-
-                RadioButton {
-                    id: pythonButton
-                    height: 30
-                    text: qsTr("Python")
-
-                    KeyNavigation.down: tiBasicButton
-                }
-
-                RadioButton {
-                    id: tiBasicButton
-                    height: 30
-                    text: qsTr("TI Basic")
-
-                    KeyNavigation.down: casioBasicButton
-                }
-
-                RadioButton {
-                    id: casioBasicButton
-                    height: 30
-                    text: qsTr("Casio Basic")
-
-                    KeyNavigation.down: textButton
-                }
+            ComboBox {
+                id: langselection
+                editable: false
+                currentIndex: 0
+                textRole: qsTr("languageName")
             }
         }
     }
 }
-
-
-
-
 
 
 

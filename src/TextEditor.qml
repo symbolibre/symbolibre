@@ -40,53 +40,7 @@ TextEditorForm {
     // Used to execute the code, will be impleted later on
     //runButton.onClicked: interpreter.start()
 
-    // -- Popup language choice
-
-    textButton.onClicked:
-    {
-        document.setDocLanguage(1)
-
-    }
-    textButton.onFocusChanged: {
-        textButton.checked = textButton.focus
-        document.setDocLanguage(1)
-    }
-
-    ocamlButton.onClicked: document.setDocLanguage(2)
-    ocamlButton.onFocusChanged:
-    {
-        ocamlButton.checked = ocamlButton.focus
-        document.setDocLanguage(2)
-    }
-
-    pythonButton.onClicked: document.setDocLanguage(3)
-    pythonButton.onFocusChanged:
-    {
-
-        pythonButton.checked = pythonButton.focus
-        document.setDocLanguage(3)
-    }
-
-
-    tiBasicButton.onClicked: document.setDocLanguage(4)
-    tiBasicButton.onFocusChanged:
-    {
-        tiBasicButton.checked = tiBasicButton.focus
-        document.setDocLanguage(4)
-    }
-
-
-    casioBasicButton.onClicked: document.setDocLanguage(5)
-    casioBasicButton.onFocusChanged:
-    {
-        casioBasicButton.checked = casioBasicButton.focus
-        document.setDocLanguage(4)
-    }
-
-    Keys.onPressed: {
-        document.startHighlighter()
-        popup.close()
-    }
+    langselection.model: langModel
 
 
     // Dialogs
