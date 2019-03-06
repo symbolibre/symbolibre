@@ -4,3 +4,12 @@ CalcButton ../keyboard/CalcButton.qml
 CalcButtonForm ../keyboard/CalcButtonForm.ui.qml
 SpecialButton ../keyboard/SpecialButton.qml
 SpecialButtonForm ../keyboard/SpecialButtonForm.ui.qml
+SelectBar ../components/SelectBar.qml
+SelectBarForm ../components/SelectBarForm.ui.qml
+ColumnLayoutFocusDistributor ../components/ColumnLayoutFocusDistributor.qml
+StackLayoutFocusDistributor ../components/StackLayoutFocusDistributor.qml
+FocusEncapsulator ../components/FocusEncapsulator.qml
+FocusDistributor ../components/FocusDistributor.qml
+TextFieldCustom.qml ../components/TextFieldCustom.qml
+TextFieldCustomForm.ui.qml ../components/TextFieldCustomForm.ui.qml
+HorizontalFocusDistributor.qml ../components/HorizontalFocusDistributor.qml

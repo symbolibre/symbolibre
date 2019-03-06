@@ -4,82 +4,133 @@ import QtQuick.Layouts 1.3
 import org.symbolibre.mathrenderer 1.0
 import SLKeyCode 1.0
 import "../keyboard"
+import "../components"
 import QtQuick.Window 2.3
 
 Rectangle {
     id: screen
     width: 320
-    height: 240
+    height: 220
 
     ColumnLayoutFocusDistributor {
         id: columnLayoutFocusDistributor
+        spacing: 0
         anchors.fill: parent
 
         SelectBar {
             id: selectBar
-            x: 1
-            y: 1
+            x: 0
+            y: 0
             width: parent.width
+            Layout.fillWidth: true
+            transformOrigin: Item.Center
         }
 
         StackLayoutFocusDistributor {
             id: stackLayoutFocusDistributor
             x: 0
             y: 45
+            Layout.fillHeight: true
+            Layout.fillWidth: true
             currentIndex: selectBar.savedIndex
 
-            ColumnLayoutFocusDistributor {
-                id: columnLayoutFocusDistributor1
+            FocusDistributor {
+                id: focusDistributor1
                 width: 320
-                height: 146
+                height: 199
+                Layout.fillHeight: true
+                Layout.fillWidth: true
 
-                TextField {
-                    id: textField
-                    text: qsTr("Text Field")
+
+                HorizontalFocusDistributor {
+                    id: horizontalFocusDistributor
+                    x: 0
+                    y: 0
+
+                    TextFieldCustom {
+                        id: textFieldCustom
+                        x: 8
+                        y: 19
+                        width: 51
+                        height: 39
+                        initialText: "f(x)"
+                    }
+
+                    TextFieldCustom {
+                        id: textFieldCustom1
+                        x: 65
+                        y: 19
+                        width: 229
+                        height: 39
+                        initialText: ""
+                    }
+
                 }
 
-                ColumnLayoutFocusDistributor {
-                    id: columnLayoutFocusDistributor2
+                HorizontalFocusDistributor {
+                    id: horizontalFocusDistributor1
+                    x: 0
+                    y: 50
+                    TextFieldCustom {
+                        id: textFieldCustom2
+                        x: 8
+                        y: 19
+                        width: 51
+                        height: 39
+                        initialText: "g(x)"
+                    }
+
+                    TextFieldCustom {
+                        id: textFieldCustom3
+                        x: 65
+                        y: 19
+                        width: 229
+                        height: 39
+                        initialText: ""
+                    }
+                }
+
+                HorizontalFocusDistributor {
+                    id: horizontalFocusDistributor2
+                    x: 0
+                    y: 100
+                    TextFieldCustom {
+                        id: textFieldCustom4
+                        x: 8
+                        y: 19
+                        width: 51
+                        height: 39
+                        initialText: "h(x)"
+                    }
+
+                    TextFieldCustom {
+                        id: textFieldCustom5
+                        x: 65
+                        y: 19
+                        width: 229
+                        height: 39
+                        initialText: ""
+                    }
+                }
+            }
+
+            FocusDistributor {
+                id: focusDistributor
+                width: 320
+                height: 199
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                SelectBar {
+                    id: selectBar1
                     width: 320
-                    height: 146
-                    TextField {
-                        id: textField1
-                        text: qsTr("Text Field")
-                    }
-
-                    TextField {
-                        id: textField3
-                        text: qsTr("Text Field")
-                    }
+                    height: 16
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
                 }
-
-                TextField {
-                    id: textField2
-                    text: qsTr("Text Field")
-                }
-
             }
 
-            Text {
-                id: text1
-                text: qsTr("Fun")
-                font.pixelSize: 12
-            }
-
-            Text {
-                id: text2
-                text: qsTr("Table")
-                font.pixelSize: 12
-            }
         }
-
     }
-
-
-
 }
-
-/*##^## Designer {
-    D{i:1;anchors_height:240;anchors_width:320;anchors_x:0;anchors_y:0}
-}
- ##^##*/

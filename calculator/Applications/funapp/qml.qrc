@@ -2,12 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
-        <file>Printer.qml</file>
-        <file>SelectBar.qml</file>
-        <file>SelectBarForm.ui.qml</file>
-        <file>ColumnLayoutFocusDistributor.qml</file>
-        <file>StackLayoutFocusDistributor.qml</file>
-        <file>FocusEncapsulator.qml</file>
     </qresource>
     <qresource prefix="/../keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
@@ -16,5 +10,16 @@
         <file alias="CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
         <file alias="SpecialButton.qml">../keyboard/SpecialButton.qml</file>
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
+    </qresource>
+    <qresource prefix="/../components">
+        <file alias="SelectBar.qml">../components/SelectBar.qml</file>
+        <file alias="SelectBarForm.ui.qml">../components/SelectBarForm.ui.qml</file>
+        <file alias="ColumnLayoutFocusDistributor.qml">../components/ColumnLayoutFocusDistributor.qml</file>
+        <file alias="StackLayoutFocusDistributor.qml">../components/StackLayoutFocusDistributor.qml</file>
+        <file alias="FocusEncapsulator.qml">../components/FocusEncapsulator.qml</file>
+        <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
+        <file alias="TextFieldCustom.qml">../components/TextFieldCustom.qml</file>
+        <file alias="TextFieldCustomForm.ui.qml">../components/TextFieldCustomForm.ui.qml</file>
+        <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
     </qresource>
 </RCC>
