@@ -69,6 +69,7 @@
 #include<definition.h>
 #include<theme.h>
 
+#include <languagesmodel.h>
 
 QT_BEGIN_NAMESPACE
 class QTextDocument;
@@ -95,6 +96,8 @@ class DocumentHandler : public QObject
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
 
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
+
+    Q_PROPERTY(LanguagesModel languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
 
 public:
     explicit DocumentHandler(QWidget *parent = nullptr);
@@ -136,6 +139,10 @@ public:
 
     int startLine(void);
 
+    LanguagesModel* languageModel(void);
+    void setLanguageModel(LanguagesModel langModel);
+
+
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
     void saveAs(const QUrl &fileUrl);
@@ -165,6 +172,8 @@ Q_SIGNALS:
     void loaded(const QString &text);
     void error(const QString &message);
 
+    void languageModelChanged();
+
 private:
     void reset();
     QTextCursor textCursor() const;
@@ -184,6 +193,8 @@ private:
     int m_fontSize;
     QUrl m_fileUrl;
     int m_docLanguage;
+
+    LanguagesModel* m_languageModel;
 
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;

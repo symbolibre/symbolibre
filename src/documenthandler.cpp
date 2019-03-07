@@ -67,6 +67,7 @@ DocumentHandler::DocumentHandler(QWidget *parent)
     , m_selectionStart(0)
     , m_selectionEnd(0)
     , m_docLanguage(TEXT_FILES)
+    , m_languageModel(nullptr)
 {
 }
 
@@ -232,30 +233,7 @@ QString DocumentHandler::fileName() const
  */
 QString DocumentHandler::fileExtension() const
 {
-    switch (docLanguage()){
-        case TEXT_FILES:
-            return QString(".txt");
-            break;
-
-        case PYTHON_FILES:
-            return QString(".py");
-            break;
-
-        case OCAML_FILES:
-            return QString(".ml");
-            break;
-
-        case TI_BASIC_FILES:
-            return QString(".tibs");
-            break;
-
-        case CASIO_BASIC_FILES:
-            return QString(".csbs");
-            break;
-
-        default:
-            return QString(".txt"); //Might want to return nothing ?
-    }
+    return m_languageModel->getExtensionFromId(docLanguage());
 }
 
 QUrl DocumentHandler::fileUrl() const
@@ -277,28 +255,19 @@ int DocumentHandler::docLanguage() const
 */
 QString DocumentHandler::syntaxDefinitionName(void) const
 {
-    switch(docLanguage()){
-        case TEXT_FILES:
-            return QString("");
-            break;
-        case PYTHON_FILES:
-            return QString("Python");
-            break;
-        case OCAML_FILES:
-            return QString("Objective Caml");
-            break;
-        case TI_BASIC_FILES:
-            return QString("TI Basic");
-            break;
-        case CASIO_BASIC_FILES:
-            return QString("Casio Basic");
-            break;
-        default:
-            return QString("");
-            break;
-    }
+    return m_languageModel->getColorationFromId(docLanguage());
 }
 
+LanguagesModel *DocumentHandler::languageModel(void)
+{
+    return m_languageModel;
+}
+
+void DocumentHandler::setLanguageModel(LanguagesModel langModel)
+{
+    m_languageModel = &langModel;
+    emit languageModelChanged();
+}
 
 void DocumentHandler::setDocLanguage(int lang)
 {

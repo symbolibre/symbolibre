@@ -24,11 +24,12 @@ TextEditorForm {
     DocumentHandler {
         id: document
         document: textArea.textDocument
+        //languageModel: langModel
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
-        Component.onCompleted:   { setDocLanguage(3)
+        Component.onCompleted:   { setDocLanguage(0)
             document.startHighlighter()
         }
     }
