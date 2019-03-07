@@ -356,9 +356,6 @@ void DocumentHandler::startHighlighter(void){
         return;
     }
 
-    qInfo() << def.filePath();
-
-
     const auto theme = m_repository.theme("Solarized Light");
     if (!theme.isValid()){
         qInfo() << "Theme for syntax highlighting is not valid\n";
