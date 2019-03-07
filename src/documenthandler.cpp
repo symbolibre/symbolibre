@@ -62,13 +62,14 @@
 
 DocumentHandler::DocumentHandler(QWidget *parent)
     : QObject(parent)
-    , m_document(nullptr)
-    , m_cursorPosition(-1)
-    , m_selectionStart(0)
-    , m_selectionEnd(0)
-    , m_docLanguage(TEXT_FILES)
-    , m_languageModel(nullptr)
 {
+    setDocument(nullptr);
+    setCursorPosition(-1);
+    setSelectionStart(0);
+    setSelectionEnd(0);
+    setDocLanguage(0);
+    setLanguageModel(nullptr);
+    m_highlighter = nullptr;
 }
 
 
@@ -233,6 +234,9 @@ QString DocumentHandler::fileName() const
  */
 QString DocumentHandler::fileExtension() const
 {
+    if (m_languageModel == nullptr)
+        return QString(".txt");
+
     return m_languageModel->getExtensionFromId(docLanguage());
 }
 
@@ -247,30 +251,11 @@ int DocumentHandler::docLanguage() const
     return m_docLanguage;
 }
 
-
-/*
- * This function returns the name required by the KSyntaxHighlighter
- * to correctly identify our file type, and to use the right syntax
- * KSyntaxHighlighting::Definition to highlight it.
-*/
-QString DocumentHandler::syntaxDefinitionName(void) const
-{
-    return m_languageModel->getColorationFromId(docLanguage());
-}
-
-LanguagesModel *DocumentHandler::languageModel(void) const
-{
-    return m_languageModel;
-}
-
-void DocumentHandler::setLanguageModel(LanguagesModel langModel)
-{
-    m_languageModel = &langModel;
-    emit languageModelChanged();
-}
-
 void DocumentHandler::setDocLanguage(int lang)
 {
+    if (lang == docLanguage())
+        return;
+
     m_docLanguage = lang;
     emit docLanguageChanged();
     emit fileUrlChanged();
@@ -285,6 +270,31 @@ void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
     newDocLanguage = m_languageModel->getIdFromExtension(fileExt);
 
     setDocLanguage(newDocLanguage);
+}
+
+
+/*
+ * This function returns the name required by the KSyntaxHighlighter
+ * to correctly identify our file type, and to use the right syntax
+ * KSyntaxHighlighting::Definition to highlight it.
+*/
+QString DocumentHandler::syntaxDefinitionName(void) const
+{
+    return m_languageModel->getColorationFromId(docLanguage());
+}
+
+LanguagesModel *DocumentHandler::languageModel() const
+{
+    return m_languageModel;
+}
+
+void DocumentHandler::setLanguageModel(LanguagesModel *langModel)
+{
+    if (m_languageModel == langModel)
+        return;
+
+    m_languageModel = langModel;
+    emit languageModelChanged();
 }
 
 
@@ -319,12 +329,11 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
     setDocLanguageFromExtension(QFileInfo(fileName).suffix());
 
-    //TODO : change with m_highlighter->setDefinition() the file type that we're highlighting
     const QString defName = syntaxDefinitionName();
 
     const auto def = m_repository.definitionForName(defName);
     if (!def.isValid()){
-        qInfo() << "Definition for syntax highlighting is not valid\n";
+        qInfo() << "Definition for syntax highlighting is not valid : the name " << defName << " was not found\n";
         return;
     }
 
@@ -335,15 +344,17 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
 void DocumentHandler::startHighlighter(void){
 
-    //m_repository.addCustomSearchPath("syntax-highlighting/data");
+    m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
+
     const QString defName = syntaxDefinitionName();
 
     const auto def = m_repository.definitionForName(defName);
     if (!def.isValid()){
-        qInfo() << "Definition for syntax highlighting is not valid\n";
+        qInfo() << "Definition for syntax highlighting is not valid : the name " << defName << " was not found\n";
         return;
     }
+
 
     const auto theme = m_repository.theme("Solarized Light");
     if (!theme.isValid()){
@@ -352,6 +363,7 @@ void DocumentHandler::startHighlighter(void){
     }
 
     m_highlighter->setDefinition(def);
+
     m_highlighter->setTheme(theme);
     m_highlighter->rehighlight();
 }

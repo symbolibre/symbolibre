@@ -113,7 +113,6 @@ Item {
                 //https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
                 textFormat: TextEdit.PlainText
                 wrapMode: TextArea.Wrap
-                focus: true
                 selectByMouse: true
                 persistentSelection: true
                 background: null
@@ -140,7 +139,7 @@ Item {
             ComboBox {
                 id: langselection
                 editable: false
-                currentIndex: 0
+                currentIndex: 1
                 textRole: qsTr("languageName")
             }
         }

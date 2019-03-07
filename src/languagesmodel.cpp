@@ -1,6 +1,7 @@
 #include "languagesmodel.h"
 
 #include <iostream>
+#include <QDebug>
 
 LanguagesModel::LanguagesModel()
 {
@@ -132,19 +133,31 @@ LanguageItem *LanguagesModel::getLanguageFromName(const QString langname)
 
 QString LanguagesModel::getExtensionFromId(const int idx)
 {
+    if (idx < 0)
+        return m_languageList[0].languageExtension;
+
     return m_languageList[idx].languageExtension;
 }
 
 QString LanguagesModel::getColorationFromId(const int idx)
 {
+    if (idx < 0)
+        return m_languageList[0].languageColor;
     return m_languageList[idx].languageColor;
 }
 
 int LanguagesModel::getIdFromExtension(const QString extension)
 {
-    for(int i = 0; i<m_languageList.size(); i++)
-        if(m_languageList[i].languageExtension == extension)
+    QString extensionBis = extension;
+    if (extensionBis[0] == QChar('.'))
+            extensionBis.remove(0, 0); //extensionBis is the same extension with/without the starting dot
+    else
+        extensionBis.insert(0, QChar('.'));
+
+    for(int i = 0; i<m_languageList.size(); i++){
+        if(m_languageList[i].languageExtension == extension or m_languageList[i].languageExtension == extensionBis)
             return i;
+    }
 
     return -1;
 }

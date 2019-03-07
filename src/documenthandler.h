@@ -51,14 +51,6 @@
 #ifndef DOCUMENTHANDLER_H
 #define DOCUMENTHANDLER_H
 
-#define ALL_FILES 0
-#define TEXT_FILES 1
-#define OCAML_FILES 2
-#define PYTHON_FILES 3
-#define TI_BASIC_FILES 4
-#define CASIO_BASIC_FILES 5
-#define OTHER_FILES 0
-
 #include <QFont>
 #include <QObject>
 #include <QTextCursor>
@@ -97,7 +89,7 @@ class DocumentHandler : public QObject
 
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
 
-    Q_PROPERTY(LanguagesModel languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
+    Q_PROPERTY(LanguagesModel *languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
 
 public:
     explicit DocumentHandler(QWidget *parent = nullptr);
@@ -139,8 +131,8 @@ public:
 
     int startLine(void);
 
-    LanguagesModel* languageModel(void) const;
-    void setLanguageModel(LanguagesModel langModel);
+    LanguagesModel *languageModel() const;
+    void setLanguageModel(LanguagesModel *langModel);
 
 
 public Q_SLOTS:
@@ -194,7 +186,7 @@ private:
     QUrl m_fileUrl;
     int m_docLanguage;
 
-    LanguagesModel* m_languageModel;
+    LanguagesModel *m_languageModel;
 
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;

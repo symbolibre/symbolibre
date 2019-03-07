@@ -24,12 +24,13 @@ TextEditorForm {
     DocumentHandler {
         id: document
         document: textArea.textDocument
-        //languageModel: langModel
+        languageModel: langModel
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
-        Component.onCompleted:   { setDocLanguage(0)
+        Component.onCompleted:   {
+            setDocLanguage(langselection.currentIndex)
             document.startHighlighter()
         }
     }
@@ -52,8 +53,8 @@ TextEditorForm {
     FileDialog {
         id: openDialog
         fileMode: FileDialog.OpenFile
-        selectedNameFilter.index: document.docLanguage
-        nameFilters: ["All files (*)", "Text files (*.txt)", "OCaml files (*ml)", "Python files (*.py)", "TI-Basic Files (*.tibs)", "Casio-Basic files (*.csbs)"]
+        //selectedNameFilter.index: document.docLanguage
+        //nameFilters: ["All files (*)", "Text files (*.txt)", "OCaml files (*ml)", "Python files (*.py)", "TI-Basic Files (*.tibs)", "Casio-Basic files (*.csbs)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.load(file)
     }
@@ -62,9 +63,10 @@ TextEditorForm {
         id: saveDialog
         fileMode: FileDialog.SaveFile
         defaultSuffix: document.fileExtension
-        nameFilters: openDialog.nameFilters
+        //nameFilters: openDialog.nameFilters
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: document.saveAs(file)
     }
 
 }
+
