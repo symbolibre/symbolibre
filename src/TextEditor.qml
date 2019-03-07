@@ -13,6 +13,7 @@ TextEditorForm {
     id: editor
 
     property string fileName: document.fileName
+    property alias  document: document
 
      LanguagesModel
      {
@@ -29,10 +30,7 @@ TextEditorForm {
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
-        Component.onCompleted:   {
-            setDocLanguage(langselection.currentIndex)
-            document.startHighlighter()
-        }
+
     }
 
     // Slots
@@ -45,8 +43,16 @@ TextEditorForm {
     // Used to execute the code, will be impleted later on
     //runButton.onClicked: interpreter.start()
 
+    //Language Selection Popup
+
     langselection.model: langModel
-    langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
+    //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
+    Keys.onEnterPressed: {
+        editor.document.setDocLanguage(langselection.currentIndex)
+        editor.document.startHighlighter()
+        popup.close()
+        textArea.forceActiveFocus()
+    }
 
     // Dialogs
 

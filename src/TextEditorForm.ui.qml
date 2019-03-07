@@ -141,6 +141,7 @@ Item {
                 editable: false
                 currentIndex: 1
                 textRole: qsTr("languageName")
+                Keys.forwardTo: editor
             }
         }
     }
