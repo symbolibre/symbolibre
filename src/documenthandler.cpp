@@ -225,6 +225,11 @@ QString DocumentHandler::fileName() const
  * - file opening
  * and is stored in the m_docLanguage attribute.
 */
+
+//TODO
+/*
+ * Use a NOT hardcoded switch to determine the extension !
+ */
 QString DocumentHandler::fileExtension() const
 {
     switch (docLanguage()){

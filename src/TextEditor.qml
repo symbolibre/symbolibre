@@ -12,7 +12,6 @@ TextEditorForm {
 
     id: editor
 
-    property int currLanguage: 1
     property string fileName: document.fileName
 
      LanguagesModel
@@ -45,7 +44,7 @@ TextEditorForm {
     //runButton.onClicked: interpreter.start()
 
     langselection.model: langModel
-
+    langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
 
     // Dialogs
 

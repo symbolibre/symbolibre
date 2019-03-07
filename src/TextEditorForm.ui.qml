@@ -69,10 +69,10 @@ Item {
 
     Rectangle {
         x: 0
-        y: 28
+        y: 30
         visible: true
         width: 320
-        height: 212
+        height: window.height - 30
 
         Rectangle {
             id: lineNumberBackground
@@ -109,7 +109,8 @@ Item {
                 id: textArea
                 anchors.left: lineNumber.right
                 anchors.top: editorToolBar.bottom
-                rightPadding: 50 * window.width / 320 //Seems to be a known bug : https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
+                rightPadding: 50 * window.width / 320 //Seems to be a known bug :
+                //https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
                 textFormat: TextEdit.PlainText
                 wrapMode: TextArea.Wrap
                 focus: true
