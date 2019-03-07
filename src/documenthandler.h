@@ -89,6 +89,8 @@ class DocumentHandler : public QObject
 
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
 
+    Q_PROPERTY(int countLines READ countLines NOTIFY countLinesChanged)
+
     Q_PROPERTY(LanguagesModel *languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
 
 public:
@@ -131,6 +133,8 @@ public:
 
     int startLine(void);
 
+    int countLines(void) const;
+
     LanguagesModel *languageModel() const;
     void setLanguageModel(LanguagesModel *langModel);
 
@@ -165,6 +169,8 @@ Q_SIGNALS:
     void error(const QString &message);
 
     void languageModelChanged();
+
+    void countLinesChanged();
 
 private:
     void reset();

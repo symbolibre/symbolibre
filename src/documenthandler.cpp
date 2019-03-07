@@ -345,6 +345,7 @@ void DocumentHandler::load(const QUrl &fileUrl)
 void DocumentHandler::startHighlighter(void){
 
     m_repository.addCustomSearchPath("syntax-highlighting/data");
+    m_repository.addCustomSearchPath("syntax-files/");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
 
     const QString defName = syntaxDefinitionName();
@@ -354,6 +355,8 @@ void DocumentHandler::startHighlighter(void){
         qInfo() << "Definition for syntax highlighting is not valid : the name " << defName << " was not found\n";
         return;
     }
+
+    qInfo() << def.filePath();
 
 
     const auto theme = m_repository.theme("Solarized Light");
@@ -433,4 +436,9 @@ void DocumentHandler::mergeFormatOnWordOrSelection(const QTextCharFormat &format
     if (!cursor.hasSelection())
         cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
+}
+
+int DocumentHandler::countLines() const
+{
+    return document()->textDocument()->blockCount();
 }

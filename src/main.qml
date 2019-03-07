@@ -18,9 +18,7 @@ ApplicationWindow {
     id: editor
     window: mainwindow
     Component.onCompleted: langselection.forceActiveFocus()
-
     }
-
 
     title: editor.fileName + qsTr(" - Symbolibre IDE")
 }

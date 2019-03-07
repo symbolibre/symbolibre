@@ -30,7 +30,6 @@ TextEditorForm {
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
         onLoaded: textArea.text = text
-
     }
 
     // Slots
