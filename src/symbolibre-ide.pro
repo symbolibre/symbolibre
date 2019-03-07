@@ -20,7 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     documenthandler.cpp \
-    languagesmodel.cpp
+    languagesmodel.cpp \
+    process.cpp
 
 RESOURCES += qml.qrc
 
@@ -37,7 +38,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     documenthandler.h \
-    languagesmodel.h
+    languagesmodel.h \
+    process.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/syntax-highlighting/bin/release/ -lKF5SyntaxHighlighting

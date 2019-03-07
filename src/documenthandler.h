@@ -68,6 +68,22 @@ class QTextDocument;
 class QQuickTextDocument;
 QT_END_NAMESPACE
 
+/*
+ * This class allows to manage the Document of a text editor.
+ * It implements a certain number of functions that can be used
+ * to modify the visual style of the document (bold, italic, the
+ * font size ... ), but also provides an interface with the file
+ * manager (possibility to open and save files) and a syntax
+ * highlighter.
+ * It is designed to be as user friendly as possible, as the file
+ * extensions, and the configuration of the syntax highlighter,
+ * are performed automatically and do not require any advanced
+ * skills in programming.
+ *
+ * It also provides a QML interface, with several Q_PROPERTY which
+ * allow to manipulate the Document withing QML files.
+ */
+
 class DocumentHandler : public QObject
 {
     Q_OBJECT
