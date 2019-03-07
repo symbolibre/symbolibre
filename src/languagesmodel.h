@@ -43,6 +43,8 @@ public:
     Q_INVOKABLE LanguageItem* getLanguageFromExtension(const QString extension);
     Q_INVOKABLE LanguageItem* getLanguageFromName(const QString langname);
 
+    Q_INVOKABLE QString getExtensionFromId(const int idx);
+    Q_INVOKABLE QString getColorationFromId(const int idx);
 private:
     QVector<LanguageItem> m_languageList;
     int m_languageCount;

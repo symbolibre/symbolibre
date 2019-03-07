@@ -129,3 +129,13 @@ LanguageItem *LanguagesModel::getLanguageFromName(const QString langname)
             return &v;
     return nullptr;
 }
+
+QString LanguagesModel::getExtensionFromId(const int idx)
+{
+    return m_languageList[idx].languageExtension;
+}
+
+QString LanguagesModel::getColorationFromId(const int idx)
+{
+    return m_languageList[idx].languageColor;
+}
