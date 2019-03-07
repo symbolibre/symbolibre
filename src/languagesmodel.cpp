@@ -145,6 +145,6 @@ int LanguagesModel::getIdFromExtension(const QString extension)
     for(int i = 0; i<m_languageList.size(); i++)
         if(m_languageList[i].languageExtension == extension)
             return i;
-    else
-            return -1;
+
+    return -1;
 }

@@ -139,7 +139,7 @@ public:
 
     int startLine(void);
 
-    LanguagesModel* languageModel(void);
+    LanguagesModel* languageModel(void) const;
     void setLanguageModel(LanguagesModel langModel);
 
 

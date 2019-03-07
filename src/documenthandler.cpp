@@ -258,7 +258,7 @@ QString DocumentHandler::syntaxDefinitionName(void) const
     return m_languageModel->getColorationFromId(docLanguage());
 }
 
-LanguagesModel *DocumentHandler::languageModel(void)
+LanguagesModel *DocumentHandler::languageModel(void) const
 {
     return m_languageModel;
 }
@@ -282,19 +282,7 @@ void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
 {
     int newDocLanguage = 0;
 
-    // Switch on fileExt to determine newDocLanguage
-    if (fileExt.compare("txt") ==  0)
-        newDocLanguage = TEXT_FILES;
-    else if (fileExt.compare("py") ==  0)
-        newDocLanguage = PYTHON_FILES;
-    else if (fileExt.compare("ml") == 0)
-        newDocLanguage = OCAML_FILES;
-    else if (fileExt.compare("tibs") == 0)
-        newDocLanguage = TI_BASIC_FILES;
-    else if (fileExt.compare("csbs") == 0)
-        newDocLanguage = CASIO_BASIC_FILES;
-    else
-        newDocLanguage = OTHER_FILES;
+    newDocLanguage = m_languageModel->getIdFromExtension(fileExt);
 
     setDocLanguage(newDocLanguage);
 }
