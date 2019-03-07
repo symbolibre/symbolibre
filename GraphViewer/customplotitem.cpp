@@ -7,6 +7,7 @@
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
     m_CustomPlot = new QCustomPlot();
+    //cursor = new QCPItemTracer();
     listGraph = {};
 
     Xcen = 0;

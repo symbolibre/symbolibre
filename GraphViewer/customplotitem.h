@@ -41,6 +41,7 @@ private:
     double Ysca;
 
     /* Position of the cursor */
+    //QCPItemTracer cursor;
     double cursorX;
     double cursorY;
 
