@@ -45,9 +45,10 @@ public:
 
     Q_INVOKABLE QString getExtensionFromId(const int idx);
     Q_INVOKABLE QString getColorationFromId(const int idx);
-private:
+    Q_INVOKABLE int getIdFromExtension(const QString extension);
+
     QVector<LanguageItem> m_languageList;
-    int m_languageCount;
+private:
 };
 
 #endif // LANGUAGESMODEL_H
