@@ -29,7 +29,7 @@ TextEditorForm {
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
-        process: process
+        process: processExecute
         onLoaded: textArea.text = text
     }
 
