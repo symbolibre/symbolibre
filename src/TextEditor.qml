@@ -20,6 +20,12 @@ TextEditorForm {
         id: langModel
      }
 
+     ExecutionDialog
+     {
+         id: execDialog
+         execOutput: qsTr("Output!!!!!")
+     }
+
     // Document handling
 
     DocumentHandler {
@@ -39,7 +45,7 @@ TextEditorForm {
     saveAsMenu.onTriggered: saveDialog.open()
     saveMenu.onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
     fileButton.onClicked: fileMenu.open()
-    runButton.onClicked: document.execute()
+    runButton.onClicked: execDialog.open()
 
     // Used to execute the code, will be impleted later on
     //runButton.onClicked: interpreter.start()
