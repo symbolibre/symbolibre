@@ -326,8 +326,6 @@ void DocumentHandler::execute()
 
     m_process->start(cmd, args);
 
-    qInfo() << "Executing : " << cmd << args;
-
 }
 
 void DocumentHandler::load(const QUrl &fileUrl)
