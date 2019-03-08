@@ -319,10 +319,18 @@ QString DocumentHandler::execute()
     if (m_process == nullptr)
         return QString();
 
+    QFile tempfile("temp");
+       if (!tempfile.open(QIODevice::ReadWrite| QIODevice::Truncate | QIODevice::Text))
+           return QString();
+
+    QTextStream out(&tempfile);
+    out << document()->textDocument()->toPlainText();
+    tempfile.close();
+
     QString cmd = languageModel()->getCmdFromId(docLanguage());
     QString file = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     QStringList args;
-    args << file;
+    args << "temp";
 
     m_process->start(cmd, args);
 
@@ -333,7 +341,7 @@ QString DocumentHandler::execute()
 
     process()->waitForFinished();
 
-    output = process()->readAll();
+    output = process()->readAllStandardOutput() + "\n" + process()->readAllStandardError();
     QString strOutput = QString(output);
 
     return strOutput;
