@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE QString getExtensionFromId(const int idx);
     Q_INVOKABLE QString getColorationFromId(const int idx);
     Q_INVOKABLE int getIdFromExtension(const QString extension);
+    Q_INVOKABLE QString getCmdFromId(const int idx);
 
     QVector<LanguageItem> m_languageList;
 private:

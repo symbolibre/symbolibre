@@ -61,7 +61,8 @@
 #include<definition.h>
 #include<theme.h>
 
-#include <languagesmodel.h>
+#include "languagesmodel.h"
+#include "process.h"
 
 QT_BEGIN_NAMESPACE
 class QTextDocument;
@@ -106,6 +107,8 @@ class DocumentHandler : public QObject
     Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
 
     Q_PROPERTY(int countLines READ countLines NOTIFY countLinesChanged)
+
+    Q_PROPERTY(Process *process READ process WRITE setProcess NOTIFY processChanged)
 
     Q_PROPERTY(LanguagesModel *languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
 
@@ -154,6 +157,9 @@ public:
     LanguagesModel *languageModel() const;
     void setLanguageModel(LanguagesModel *langModel);
 
+    Process *process() const;
+    void setProcess(Process *newProcess);
+
 
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
@@ -162,6 +168,7 @@ public Q_SLOTS:
     void setDocLanguageFromExtension(QString fileExt);
     bool wasAlreadySaved(void);
     void startHighlighter(void);
+    void execute();
 
 Q_SIGNALS:
     void documentChanged();
@@ -188,6 +195,8 @@ Q_SIGNALS:
 
     void countLinesChanged();
 
+    void processChanged();
+
 private:
     void reset();
     QTextCursor textCursor() const;
@@ -212,6 +221,8 @@ private:
 
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
+
+    Process *m_process;
 
 };
 

@@ -1,5 +1,5 @@
 #include "process.h"
 
-Process::Process(QObject *parent) : QObject(parent)
+Process::Process(QObject *parent) : QProcess(parent)
 {
 }

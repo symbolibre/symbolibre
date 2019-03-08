@@ -2,6 +2,7 @@
 #define PROCESS_H
 
 #include <QObject>
+#include <QProcess>
 
 /*
  * This class represents an object able to interpret or compile
@@ -15,7 +16,7 @@
  * and in which the outputs and errors of this programm are printed.
  */
 
-class Process : public QObject
+class Process : public QProcess
 {
     Q_OBJECT
 public:

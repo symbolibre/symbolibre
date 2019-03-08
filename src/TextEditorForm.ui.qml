@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 
+import Process 1.0
+
 Item {
     property ApplicationWindow window: window
 
@@ -16,6 +18,7 @@ Item {
     property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
+    property alias process: process
     property alias langselection: langselection
 
     Menu {
@@ -65,6 +68,10 @@ Item {
                 text: "Exécuter"
             }
         }
+    }
+
+    Process {
+        id: process
     }
 
     Rectangle {

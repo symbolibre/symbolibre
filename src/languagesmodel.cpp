@@ -161,3 +161,10 @@ int LanguagesModel::getIdFromExtension(const QString extension)
 
     return -1;
 }
+
+QString LanguagesModel::getCmdFromId(const int idx)
+{
+    if (idx < 0)
+        return m_languageList[0].languageCmd;
+    return m_languageList[idx].languageCmd;
+}

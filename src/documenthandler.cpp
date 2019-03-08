@@ -70,6 +70,7 @@ DocumentHandler::DocumentHandler(QWidget *parent)
     setDocLanguage(0);
     setLanguageModel(nullptr);
     m_highlighter = nullptr;
+    m_process = nullptr;
 }
 
 
@@ -297,6 +298,37 @@ void DocumentHandler::setLanguageModel(LanguagesModel *langModel)
     emit languageModelChanged();
 }
 
+
+Process *DocumentHandler::process() const
+{
+    return m_process;
+}
+
+void DocumentHandler::setProcess(Process *newProcess)
+{
+    if (m_process == newProcess)
+        return;
+
+    m_process = newProcess;
+    emit processChanged();
+}
+
+
+void DocumentHandler::execute()
+{
+    if (process() == nullptr)
+        return;
+
+    QString cmd = languageModel()->getCmdFromId(docLanguage());
+    QString file = fileName();
+    QStringList args;
+    args << file;
+
+    m_process->start(cmd, args);
+
+    qInfo() << "Executing : " << cmd << args;
+
+}
 
 void DocumentHandler::load(const QUrl &fileUrl)
 {
