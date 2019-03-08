@@ -4,7 +4,7 @@ import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Dialogs 1.2
 
-MessageDialog {
+Dialog {
     width: 320
     height: 240
 
