@@ -12,6 +12,7 @@ Dialog {
     //property alias execOutput: execOutput
     TextArea {
         id: execOutput
+        wrapMode: Text.WrapAnywhere
         anchors.fill: parent
         font.pixelSize: 12
     }
