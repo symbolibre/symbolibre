@@ -18,7 +18,6 @@ Item {
     property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
-    property alias processExecute: processExecute
     property alias langselection: langselection
 
     Menu {
@@ -68,10 +67,6 @@ Item {
                 text: "Exécuter"
             }
         }
-    }
-
-    Process {
-        id: processExecute
     }
 
     Rectangle {

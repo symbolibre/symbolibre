@@ -168,7 +168,7 @@ public Q_SLOTS:
     void setDocLanguageFromExtension(QString fileExt);
     bool wasAlreadySaved(void);
     void startHighlighter(void);
-    void execute();
+    QString execute();
 
 Q_SIGNALS:
     void documentChanged();

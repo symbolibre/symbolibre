@@ -34,7 +34,6 @@ TextEditorForm {
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
-        process: process
         onLoaded: textArea.text = text
     }
 
@@ -45,7 +44,7 @@ TextEditorForm {
     saveMenu.onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
     fileButton.onClicked: fileMenu.open()
     runButton.onClicked: {
-        execDialog.setOutput(qsTr("Hey!"))
+        execDialog.setOutput(document.execute())
         execDialog.open()
     }
 

@@ -70,7 +70,7 @@ DocumentHandler::DocumentHandler(QWidget *parent)
     setDocLanguage(0);
     setLanguageModel(nullptr);
     m_highlighter = nullptr;
-    m_process = nullptr;
+    m_process = new Process(parent);
 }
 
 
@@ -314,17 +314,29 @@ void DocumentHandler::setProcess(Process *newProcess)
 }
 
 
-void DocumentHandler::execute()
+QString DocumentHandler::execute()
 {
-    if (process() == nullptr)
-        return;
+    if (m_process == nullptr)
+        return QString();
 
     QString cmd = languageModel()->getCmdFromId(docLanguage());
-    QString file = fileName();
+    QString file = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     QStringList args;
     args << file;
 
     m_process->start(cmd, args);
+
+    if (!process()->waitForStarted())
+        return QString();
+
+    QByteArray output;
+
+    process()->waitForFinished();
+
+    output = process()->readAll();
+    QString strOutput = QString(output);
+
+    return strOutput;
 
 }
 
