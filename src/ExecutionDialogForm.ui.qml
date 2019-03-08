@@ -7,9 +7,9 @@ import QtQuick.Dialogs 1.2
 Dialog {
     width: 320
     height: 240
+    property alias execOutput: execOutput
 
-    property alias execOutput: execOutput.text
-
+    //property alias execOutput: execOutput
     TextArea {
         id: execOutput
         anchors.fill: parent
