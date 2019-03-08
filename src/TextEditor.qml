@@ -23,7 +23,6 @@ TextEditorForm {
      ExecutionDialog
      {
          id: execDialog
-         execOutput: qsTr("Output!!!!!")
      }
 
     // Document handling
@@ -35,7 +34,7 @@ TextEditorForm {
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
-        process: processExecute
+        process: process
         onLoaded: textArea.text = text
     }
 
@@ -45,7 +44,10 @@ TextEditorForm {
     saveAsMenu.onTriggered: saveDialog.open()
     saveMenu.onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
     fileButton.onClicked: fileMenu.open()
-    runButton.onClicked: execDialog.open()
+    runButton.onClicked: {
+        execDialog.setOutput(qsTr("Hey!"))
+        execDialog.open()
+    }
 
     // Used to execute the code, will be impleted later on
     //runButton.onClicked: interpreter.start()
