@@ -10,6 +10,8 @@ ColumnLayoutFocusDistributor ../components/ColumnLayoutFocusDistributor.qml
 StackLayoutFocusDistributor ../components/StackLayoutFocusDistributor.qml
 FocusEncapsulator ../components/FocusEncapsulator.qml
 FocusDistributor ../components/FocusDistributor.qml
+FocusDistributorForm ../components/FocusDistributorForm.ui.qml
 TextFieldCustom.qml ../components/TextFieldCustom.qml
 TextFieldCustomForm.ui.qml ../components/TextFieldCustomForm.ui.qml
 HorizontalFocusDistributor.qml ../components/HorizontalFocusDistributor.qml
+GraphInterface.qml ../components/GraphInterface.qml

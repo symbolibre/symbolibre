@@ -1,20 +1,20 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick core gui printsupport widgets
 CONFIG += c++11
 INCLUDEPATH += ../../editiontree \
 	../../SLL_interface \
 	../../parser \
 	../keyboard \
 	../components \
-	../../../GraphViewer \
+	../../../GraphViewer 
 
-LIBS += -L../../editiontree -leditiontree \
+LIBS += -L../../../GraphViewer -lGraphViewer \
+	-L../../editiontree -leditiontree \
+	-L../keyboard -lkeyboard \
 	-L../../SLL_interface -lSLL_interface \
 	-L../../parser -lparser \
-	-L../keyboard -lkeyboard \
-	-L../../../GraphViewer \
-        -lgiac -lgmp
+	-lgiac -lgmp 
 
 SOURCES += main.cpp \
     calcsheet.cpp 

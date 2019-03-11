@@ -17,10 +17,12 @@ public:
 
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
-    void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
-    void moveWindow(int horizontal, int vertical);
-    void moveCursor(int amtX, int amtY);
-    void modifyZoom(double value);
+
+
+    static void declareQML()
+    {
+        qmlRegisterType<CustomPlotItem>("SLCustomPlotItem", 1, 0, "CustomPlotItem");
+    }
 
 private:
     QCustomPlot *m_CustomPlot;
@@ -53,6 +55,12 @@ private:
 public slots:
     Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula);
+    Q_INVOKABLE void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
+    Q_INVOKABLE void moveWindow(int horizontal, int vertical);
+    Q_INVOKABLE void moveCursor(int amtX, int amtY);
+    Q_INVOKABLE void modifyZoom(double value);
+
+
 
 private slots:
     void updateCustomPlotSize();

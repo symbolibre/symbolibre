@@ -17,9 +17,11 @@
         <file alias="ColumnLayoutFocusDistributor.qml">../components/ColumnLayoutFocusDistributor.qml</file>
         <file alias="StackLayoutFocusDistributor.qml">../components/StackLayoutFocusDistributor.qml</file>
         <file alias="FocusEncapsulator.qml">../components/FocusEncapsulator.qml</file>
+        <file alias="FocusDistributorForm.ui.qml">../components/FocusDistributorForm.ui.qml</file>
         <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
         <file alias="TextFieldCustom.qml">../components/TextFieldCustom.qml</file>
         <file alias="TextFieldCustomForm.ui.qml">../components/TextFieldCustomForm.ui.qml</file>
         <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
+        <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
     </qresource>
 </RCC>
