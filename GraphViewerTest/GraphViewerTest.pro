@@ -14,8 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ../GraphViewer
 
-LIBS += -lgiac -lgmp \
-        -L ../GraphViewer -lGraphViewer
+LIBS += -L ../GraphViewer -lGraphViewer \
+	-lgiac -lgmp \
 
 SOURCES += \
         main.cpp \

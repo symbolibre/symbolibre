@@ -6,107 +6,110 @@ import SLKeyCode 1.0
 import "../keyboard"
 import "../components"
 import QtQuick.Window 2.3
+import SLCustomPlotItem 1.0
 
 Rectangle {
     id: screen
     width: 320
     height: 220
 
-    ColumnLayoutFocusDistributor {
-        id: columnLayoutFocusDistributor
-        spacing: 0
+    FocusDistributor {
+        id: focusDistributor
+        x: 0
+        y: 0
+        clip: true
         anchors.fill: parent
-
         SelectBar {
-            id: selectBar
+            id: mainMenu
             x: 0
-            y: 0
             width: parent.width
+            height: 30
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.preferredHeight: 30
+            Layout.preferredWidth: -1
             Layout.fillWidth: true
             transformOrigin: Item.Center
+            text1: "Functions"
+            text3: "Table"
+            text2: "Graph"
         }
 
         StackLayoutFocusDistributor {
             id: stackLayoutFocusDistributor
-            x: 0
-            y: 45
-            Layout.fillHeight: true
+            clip: true
+            anchors.top: mainMenu.bottom
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 0
+            currentIndex: mainMenu.savedIndex
             Layout.fillWidth: true
-            currentIndex: selectBar.savedIndex
-
+            Layout.fillHeight: true
             FocusDistributor {
-                id: focusDistributor1
+                id: focusDistributor2
                 width: 320
-                height: 199
-                Layout.fillHeight: true
+                height: 200
+                clip: true
                 Layout.fillWidth: true
-
-
+                Layout.fillHeight: true
                 HorizontalFocusDistributor {
-                    id: horizontalFocusDistributor
-                    x: 0
-                    y: 0
-
+                    id: horizontalFocusDistributor1
+                    anchors.fill: parent
                     TextFieldCustom {
-                        id: textFieldCustom
-                        x: 8
-                        y: 19
+                        id: textFieldCustom6
+                        y: 20
                         width: 51
                         height: 39
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
+                        transformOrigin: Item.Center
                         initialText: "f(x)"
                     }
 
                     TextFieldCustom {
-                        id: textFieldCustom1
+                        id: textFieldCustom7
                         x: 65
-                        y: 19
+                        y: 20
                         width: 229
                         height: 39
                         initialText: ""
                     }
 
-                }
-
-                HorizontalFocusDistributor {
-                    id: horizontalFocusDistributor1
-                    x: 0
-                    y: 50
                     TextFieldCustom {
-                        id: textFieldCustom2
-                        x: 8
-                        y: 19
+                        id: textFieldCustom8
+                        y: 75
                         width: 51
                         height: 39
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
                         initialText: "g(x)"
                     }
 
                     TextFieldCustom {
-                        id: textFieldCustom3
+                        id: textFieldCustom9
                         x: 65
-                        y: 19
+                        y: 75
                         width: 229
                         height: 39
                         initialText: ""
                     }
-                }
 
-                HorizontalFocusDistributor {
-                    id: horizontalFocusDistributor2
-                    x: 0
-                    y: 100
                     TextFieldCustom {
-                        id: textFieldCustom4
-                        x: 8
-                        y: 19
+                        id: textFieldCustom10
+                        y: 126
                         width: 51
                         height: 39
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
                         initialText: "h(x)"
                     }
 
                     TextFieldCustom {
-                        id: textFieldCustom5
+                        id: textFieldCustom11
                         x: 65
-                        y: 19
+                        y: 126
                         width: 229
                         height: 39
                         initialText: ""
@@ -115,22 +118,55 @@ Rectangle {
             }
 
             FocusDistributor {
-                id: focusDistributor
-                width: 320
-                height: 199
-                Layout.fillHeight: true
+                id: focusDistributor3
+                clip: true
+                scale: 1
+                Layout.preferredHeight: -1
+                Layout.preferredWidth: -1
+                Layout.minimumHeight: 0
+                anchors.fill: parent
                 Layout.fillWidth: true
-
+                Layout.fillHeight: true
                 SelectBar {
-                    id: selectBar1
+                    id: mode
                     width: 320
-                    height: 16
+                    height: 20
+                    clip: true
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 0
+                    anchors.top: parent.top
+                    anchors.topMargin: 0
+                    text1: "Axis"
+                    text2: "Cursor"
+                    text3: "Zoom"
+                }
+                GraphInterface {
+                    id : graph
+                    width: 320
+                    clip: true
+                    mode_int: mode.savedIndex
+                    exprList: horizontalFocusDistributor1.exprList
+                    nameList: horizontalFocusDistributor1.nameList
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    anchors.top: mode.bottom
+                    anchors.topMargin: 0
+                    Connections {
+                        target: mainMenu
+                        onSavedIndexChanged: {
+                            if (mainMenu.savedIndex == 1) {
+                                graph.plot()
+                            }
+                        }
+                    }
                 }
             }
-
         }
     }
 }
+
+
+/*##^## Designer {
+    D{i:3;anchors_x:0}
+}
+ ##^##*/
