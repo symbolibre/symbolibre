@@ -2,6 +2,12 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
+        <file>FunctionMenu.qml</file>
+        <file>FunctionMenuForm.ui.qml</file>
+        <file>FunctionDefinition.qml</file>
+        <file>FunctionDefinitionForm.ui.qml</file>
+        <file>FunctionGraph.qml</file>
+        <file>FunctionGraphForm.ui.qml</file>
     </qresource>
     <qresource prefix="/../keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>

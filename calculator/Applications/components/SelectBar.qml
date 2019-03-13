@@ -17,4 +17,7 @@ SelectBarForm {
             savedIndex = currentIndex
         }
     }
+    onCurrentIndexChanged: { // Modify to change behaviour
+        savedIndex = currentIndex
+    }
 }
