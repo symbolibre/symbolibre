@@ -82,5 +82,31 @@ TextEditorForm {
         onAccepted: document.saveAs(file)
     }
 
+    Shortcut {
+        sequence: "Ctrl+o"
+        onActivated: openDialog.open()
+    }
+
+    Shortcut {
+        sequence: "Ctrl+s"
+        onActivated: saveDialog.open()
+    }
+
+    Shortcut {
+        sequence: "Ctrl+e"
+        onActivated: {
+            execDialog.setOutput(document.execute())
+            execDialog.open()
+        }
+    }
+
+        Shortcut {
+            sequence: "Ctrl+l"
+            onActivated: popup.open()
+
+        }
+
+
+
 }
 

@@ -65,6 +65,7 @@ Item {
             ToolButton {
                 id: runButton
                 text: "Exécuter"
+                spacing: -3
             }
         }
     }
@@ -148,3 +149,8 @@ Item {
         }
     }
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
