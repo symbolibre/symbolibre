@@ -13,6 +13,7 @@ LIBS += -L../editiontree -leditiontree \
 	-L../../SLL -lSLL \
         -lgiac -lgmp
 
+depends = ../editiontree
 SOURCES += main.cpp \
     calcsheet.cpp \
     keycode.cpp

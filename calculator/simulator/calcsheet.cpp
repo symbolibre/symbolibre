@@ -1,8 +1,10 @@
 #include "calcsheet.hpp"
-#include "SLL.hpp"
 #include <iostream>
 #include <QFont>
 #include <string>
+
+#include <giac/config.h>
+#include <giac/giac.h>
 
 QColor _SL_LIGHT_GRAY(230, 230, 230);
 QColor _SL_DARK_GRAY(96, 96, 96);
@@ -67,19 +69,28 @@ void CalcSheet::paintList(QPainter *painter)
 
     painter->setBrush(QBrush(_SL_LIGHT_GRAY));
     int y = height() - editedAreaHeight() + BACKSPACE - BORDERSPACE - 1;
+    int color_parity = 1;
     do {
         y -=  BACKSPACE + resIt->getHeight();
-        painter->setPen(_SL_LIGHT_GRAY);
-        painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
-        painter->setPen(Qt::black);
+        if (color_parity) {
+            painter->setPen(_SL_LIGHT_GRAY);
+            painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
+            painter->setPen(Qt::black);
+        }
         resIt->draw(width() - resIt->getWidth() - BORDERSPACE, y, *painter, false);
 
         y -=  BACKSPACE + exprIt->getHeight();
+        if (color_parity) {
+            painter->setPen(_SL_LIGHT_GRAY);
+            painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + exprIt->getHeight());
+            painter->setPen(Qt::black);
+        }
         exprIt->draw(BORDERSPACE, y, *painter, false);
         if (exprIt == expressions.begin())
             break;
         resIt --;
         exprIt --;
+        color_parity ^= 1;
     } while (y >= 0);
 
     painter->setBrush(QBrush(Qt::white));
@@ -107,10 +118,25 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
     return;
 }
 
+
+EditionTree pseudo_evaluation(EditionTree &etree)
+{
+    giac::context ctx;
+    giac::gen term(etree.getText(), &ctx);
+
+    EditionTree shell = EditionTree();
+    //copyExprAtCursor(term, shell); // convertion from giac version
+    std::string str = term.print(giac::context0);
+    shell.editStr(str);
+    std::cout << "--------- GOT: '";
+    std::cout << shell.getText() << "'" << std::endl;
+    return shell;
+}
+
 void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 {
     std::string lol = "un deux trois lol !";
-    SLL::Context empty_context;
+    //SLL::Context empty_context;
 
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         editedExpression.editChar('A' + input - KeyCode::SLK_A);
@@ -175,10 +201,10 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 
         case KeyCode::SLK_EXE:
             //lol = evaluate(editedExpression.getText());
-            results.push_back(EditionTree(lol));
+            results.push_back(pseudo_evaluation(editedExpression));
+            //results.push_back(EditionTree(lol));
             expressions.push_back(std::move(editedExpression));
             //results.push_back(editedExpression);
-            SLL::exec(lol, empty_context);
             editedExpression = EditionTree();
             break;
 

@@ -1,5 +1,6 @@
 TEMPLATE = lib
-CONFIG  += staticlib
+CONFIG  += staticlib		   
+LIBS += -lgiac
 
 HEADERS  = EditionArea.hpp \
 		   Operator.hpp \
@@ -23,4 +24,7 @@ SOURCES  = EditionArea.cpp \
 		   Power.cpp \
 		   Sigma.cpp \
 		   Flow.cpp \
+		   fromGiacGen.cpp \
 		   InternalEditionNode.cpp
+
+

@@ -38,7 +38,7 @@ public:
      */
     std::string str(void);
 
-private:
+public:
     /* Underlying CAS object */
     giac::gen gen;
 };

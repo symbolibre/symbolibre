@@ -2,6 +2,7 @@
 #define CALCSHEET_HPP
 
 #include <EditionTree.hpp>
+#include "SLL.hpp"
 #include <memory>
 #include <list>
 #include "keycode.hpp"

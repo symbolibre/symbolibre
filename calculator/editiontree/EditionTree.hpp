@@ -1,6 +1,8 @@
 #ifndef EDITIONTREE_HPP
 #define EDITIONTREE_HPP
 
+#include <giac/config.h>
+#include <giac/giac.h>
 #include "Flow.hpp"
 #include "visitors.hpp"
 
@@ -20,7 +22,7 @@ public:
     Flow root;
 
 public:
-    EditionTree(std::string text = "") : root(text) {}
+    EditionTree(std::string text = "") : root(text), lastEdition(0) {}
 
     int getWidth() const
     {
@@ -43,6 +45,11 @@ public:
     std::string getText(void)
     {
         return root.getText();
+    }
+
+    char getLastEdition(void)
+    {
+        return lastEdition;
     }
 
     void append(std::string str)
@@ -100,38 +107,65 @@ public:
         root.getActiveNode()->editChar(symbol);
     }
 
+    void editStr(std::string &str)
+    {
+        lastEdition = str[str.length() - 1];
+        for (int i = 0; (unsigned) i < str.length(); i++)
+            editChar(str[i]);
+    }
+
+    void editStr(const char *s)
+    {
+        std::string str = s;
+        editStr(str);
+    }
+
+
     bool editOperator(char achar, QString qs)
     {
+        lastEdition = achar;
         InsertVisitor v(new Operator(achar, qs));
+        return root.accept(v);
+    }
+
+    bool editOperator(char achar, const char *qs)
+    {
+        lastEdition = achar;
+        InsertVisitor v(new Operator(achar, QString(qs)));
         return root.accept(v);
     }
 
     bool editParen(parentype paren_type = LPAREN)
     {
+        lastEdition = (paren_type == LPAREN) ? '(' : ')';
         InsertVisitor v(new Paren(paren_type));
         return root.accept(v);
     }
 
     bool editFrac(void)
     {
+        lastEdition = 0;
         InsertVisitor v(new Frac);
         return root.accept(v);
     }
 
     bool editRoot(void)
     {
+        lastEdition = 0;
         InsertVisitor v(new Root);
         return root.accept(v);
     }
 
     bool editPower(void)
     {
+        lastEdition = '^';
         InsertVisitor v(new Power);
         return root.accept(v);
     }
 
     bool editSigma(void)
     {
+        lastEdition = 0;
         InsertVisitor v(new Sigma);
         return root.accept(v);
     }
@@ -165,6 +199,14 @@ public:
     {
         return root.getCursorCoordinates();
     }
+
+private:
+    char lastEdition;
 };
 
+
+void copyExprAtCursor(giac::gen &expr, EditionTree &shell);
+
+
 #endif // EDITIONTREE_HPP
+
