@@ -1,0 +1,52 @@
+import QtQuick 2.0
+import QtQuick.Controls 2.3
+
+Row {
+    focus: true
+    property var props
+
+    id: row
+    width: 320
+    height: 32
+    spacing: 10
+    ParamText {}
+
+    ComboBox {
+        id: combobox
+        height: 32
+        font.pointSize: 10
+        hoverEnabled: true
+        flat: false
+        width: 140
+        model: props.choices
+    }
+
+    Keys.onLeftPressed: {
+        if(combobox.currentIndex > 0) {
+            combobox.currentIndex--
+        }
+    }
+
+    Keys.onRightPressed: {
+        if(combobox.currentIndex < combobox.count-1) {
+            combobox.currentIndex++
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:0;height:24;width:320}D{i:2;anchors_height:16}
+}
+ ##^##*/

@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Choice.qml</file>
+        <file>Maths.qml</file>
+        <file>JSONListModel.qml</file>
+        <file>jsonpath.js</file>
+        <file>config.json</file>
+        <file>CustomSlider.qml</file>
+        <file>Boolean.qml</file>
+        <file>ColumnFocusDistributor.qml</file>
+        <file>Entry.qml</file>
+        <file>ParamText.qml</file>
+    </qresource>
+</RCC>

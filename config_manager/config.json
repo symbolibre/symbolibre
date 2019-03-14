@@ -1,0 +1,68 @@
+[
+     {
+          "label": "Système",
+          "params": [
+               {
+                    "label": "Langue",
+                    "type": "choice",
+                    "key": "sys/lang",
+                    "choices": [
+                         {
+                              "text":"Français"
+                         }, 
+                         {
+                              "text":"Anglais"
+                         }
+                    ] 
+               },
+               {
+                    "label": "Luminosité",
+                    "type": "slider",
+                    "key": "sys/light",
+                    "min": 0,
+                    "max": 1
+               },
+               {
+                    "label": "Extinction auto (min)",
+                    "type": "entry",
+                    "key": "sys/autoshutdown",
+                    "min": 1,
+                    "max": 60
+               }
+          ]
+     },
+     {
+        "label": "Maths",
+        "params": [
+             {
+                  "label": "Angles",
+                  "type": "choice",
+                  "key": "maths/angles",
+                  "choices": [
+                         {
+                              "text":"deg"
+                         }, 
+                         {
+                              "text":"rad"
+                         }
+                    ] 
+             },
+             {
+                  "label": "Valeurs arrondies",
+                  "type": "bool",
+                  "key": "maths/rounding"
+             },
+             {
+                  "label": "Notation scientifique",
+                  "type": "bool",
+                  "key": "maths/scientific-notation"
+             },
+             {
+                  "label": "Pretty-Print",
+                  "type": "bool",
+                  "key": "maths/prettyprint"
+             }
+        ]
+     }
+]
+
