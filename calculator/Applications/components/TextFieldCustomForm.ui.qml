@@ -10,10 +10,13 @@ Item {
     property string initialText : ""
     property color border : "#4E8FC1"
 
+    property int text_prop : 2
+
 
     TextField {
         id: textField
         text: qsTr(initialText)
+        font.pointSize: height/text_prop
         renderType: Text.QtRendering
         height: 395
         anchors.fill: parent

@@ -17,17 +17,20 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: "#0A67AF"
-        anchors.bottomMargin: 0
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        color: "#ffffff"
 
         TabButton {
             id: tabButton1
-            width: parent.width/3
+            width: parent.width/3 - 1
+            height: parent.height
             text: qsTr(text1)
-            anchors.verticalCenter: parent.verticalCenter
+            bottomPadding: 6
+            topPadding: 6
             anchors.top: parent.top
             anchors.topMargin: 0
+            anchors.left : parent.left
             property int index: 0
             x: 0
             down: selectBar.currentIndex == index
@@ -39,9 +42,10 @@ Item {
 
         TabButton {
             id: tabButton2
-            width: parent.width/3
+            width: parent.width/3 - 2
+            height: parent.height
             text: qsTr(text2)
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 0
             property int index: 1
@@ -55,10 +59,11 @@ Item {
 
         TabButton {
             id: tabButton3
-            width: parent.width/3
-            text: qsTr(text3)
+            width: parent.width/3 - 1
+            height: parent.height
             anchors.top: parent.top
             anchors.topMargin: 0
+            anchors.right : parent.right
             anchors.verticalCenter: parent.verticalCenter
             property int index: 2
             x: 2*parent.width/3
@@ -67,6 +72,14 @@ Item {
             background: Rectangle {
                 color: tabButton3.down ? coloration1 : coloration2
             }
+
+            contentItem: Text {
+                text: qsTr(text3)
+                color: "#ffffff"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                }
         }
     }
 

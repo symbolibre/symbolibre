@@ -25,14 +25,9 @@ Rectangle {
             id: mainMenu
             x: 0
             width: parent.width
-            height: 30
+            height: 40
             anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            Layout.preferredHeight: 30
-            Layout.preferredWidth: -1
-            Layout.fillWidth: true
-            transformOrigin: Item.Center
             text1: "Functions"
             text3: "Table"
             text2: "Graph"
