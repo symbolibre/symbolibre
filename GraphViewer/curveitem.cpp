@@ -1,10 +1,20 @@
 #include "curveitem.h"
 
-CurveItem::CurveItem(std::string form)
+CurveItem::CurveItem(std::string form, QCPGraph *graphustule, QColor couleur)
 {
     giac::context ct;
     formula = form;
     f = eval(giac::gen("x->" + form, &ct), &ct);
+
+    graph = graphustule;
+    color = couleur;
+    graph->setPen(QPen(couleur));
+}
+
+CurveItem::~CurveItem()
+{
+    //delete f;
+    //delete graph;
 }
 
 double CurveItem::getValue(double x)
@@ -19,4 +29,19 @@ double CurveItem::getValue(double x)
         result = (double) y.val;
     }
     return result;
+}
+
+void CurveItem::updateFormula(std::string form)
+{
+    giac::context ct;
+    formula = form;
+    f = eval(giac::gen("x->" + form, &ct), &ct);
+
+    graph->data()->clear();
+}
+
+void CurveItem::updateColor(QColor couleur)
+{
+    color = couleur;
+    graph->setPen(QPen(couleur));
 }

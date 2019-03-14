@@ -2,15 +2,32 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
-        <file>Printer.qml</file>
+        <file>FunctionMenu.qml</file>
+        <file>FunctionMenuForm.ui.qml</file>
+        <file>FunctionDefinition.qml</file>
+        <file>FunctionDefinitionForm.ui.qml</file>
+        <file>FunctionGraph.qml</file>
+        <file>FunctionGraphForm.ui.qml</file>
     </qresource>
-    <qresource prefix="../keyboard/">
+    <qresource prefix="/../keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
-        <file alias = "SLKeyBoardForm.ui.qml">../keyboard/SLKeyBoardForm.ui.qml</file>
-        <file alias = "CalcButton.qml">../keyboard/CalcButton.qml</file>
-        <file alias = "CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
-        <file alias = "SpecialButton.qml">../keyboard/SpecialButton.qml</file>
-        <file alias = "SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
+        <file alias="SLKeyBoardForm.ui.qml">../keyboard/SLKeyBoardForm.ui.qml</file>
+        <file alias="CalcButton.qml">../keyboard/CalcButton.qml</file>
+        <file alias="CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
+        <file alias="SpecialButton.qml">../keyboard/SpecialButton.qml</file>
+        <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
     </qresource>
-    
+    <qresource prefix="/../components">
+        <file alias="SelectBar.qml">../components/SelectBar.qml</file>
+        <file alias="SelectBarForm.ui.qml">../components/SelectBarForm.ui.qml</file>
+        <file alias="ColumnLayoutFocusDistributor.qml">../components/ColumnLayoutFocusDistributor.qml</file>
+        <file alias="StackLayoutFocusDistributor.qml">../components/StackLayoutFocusDistributor.qml</file>
+        <file alias="FocusEncapsulator.qml">../components/FocusEncapsulator.qml</file>
+        <file alias="FocusDistributorForm.ui.qml">../components/FocusDistributorForm.ui.qml</file>
+        <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
+        <file alias="TextFieldCustom.qml">../components/TextFieldCustom.qml</file>
+        <file alias="TextFieldCustomForm.ui.qml">../components/TextFieldCustomForm.ui.qml</file>
+        <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
+        <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
+    </qresource>
 </RCC>

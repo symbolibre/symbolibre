@@ -5,13 +5,4 @@ import org.symbolibre.mathrenderer 1.0
 import SLKeyCode 1.0
 import "../keyboard"
 
-Window {
-    visible: true
-    width: 320
-    height: 240
-    title: qsTr("Quick Calculator")
 
-    MainForm {
-        anchors.fill: parent
-    }
-}

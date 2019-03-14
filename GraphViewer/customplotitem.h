@@ -16,11 +16,13 @@ public:
     virtual ~CustomPlotItem();
 
     void paint(QPainter *painter);
-    void plotGraph(int numGraph);
-    void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
-    void moveWindow(int horizontal, int vertical);
-    void moveCursor(int amtX, int amtY);
-    void modifyZoom(double value);
+    void plotGraph(QString nomGraph);
+
+
+    static void declareQML()
+    {
+        qmlRegisterType<CustomPlotItem>("SLCustomPlotItem", 1, 0, "CustomPlotItem");
+    }
 
 private:
     QCustomPlot *m_CustomPlot;
@@ -36,27 +38,35 @@ private:
     double Ycen;
     double Xlen;
     double Ylen;
-    /* Scale of X Axis to ensure smooth plot */
+    /* Scale of the axis to ensure smooth plot */
     double Xsca;
     double Ysca;
 
     /* Position of the cursor */
+    //QCPItemTracer cursor;
     double cursorX;
     double cursorY;
 
     /* curves on the graph */
-    QList<CurveItem> listGraph;
+    QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
+    QMap<QString, CurveItem> listGraph;
     int nbCurves;
 
 public slots:
     Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula);
+    Q_INVOKABLE void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
+    Q_INVOKABLE void moveWindow(int horizontal, int vertical);
+    Q_INVOKABLE void moveCursor(int amtX, int amtY);
+    Q_INVOKABLE void modifyZoom(double value);
+
+
 
 private slots:
     void updateCustomPlotSize();
     void onCustomReplot();
     void clearGraph();
-    void removeGraph(int numGraph);
+    void removeGraph(QString nomGraph);
 };
 
 #endif // CUSTOMPLOTITEM_H
