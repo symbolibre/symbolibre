@@ -3,8 +3,6 @@ import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 
-import Process 1.0
-
 Item {
     property ApplicationWindow window: window
 

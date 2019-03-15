@@ -7,6 +7,7 @@ import QtQuick.Dialogs 1.2
 Dialog {
     width: 320
     height: 240
+    title: editor.fileName
     property alias execOutput: execOutput
 
     //property alias execOutput: execOutput
