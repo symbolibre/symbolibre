@@ -314,14 +314,14 @@ void DocumentHandler::setProcess(Process *newProcess)
 }
 
 
-QString DocumentHandler::execute()
+void DocumentHandler::execute()
 {
     if (m_process == nullptr)
-        return QString();
+        return;
 
     QFile tempfile("temp");
        if (!tempfile.open(QIODevice::ReadWrite| QIODevice::Truncate | QIODevice::Text))
-           return QString();
+           return;
 
     QTextStream out(&tempfile);
     out << document()->textDocument()->toPlainText();
@@ -330,22 +330,9 @@ QString DocumentHandler::execute()
     QString cmd = languageModel()->getCmdFromId(docLanguage());
     QString file = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
     QStringList args;
-    args << "temp";
+    args << cmd << "./temp";
 
-    m_process->start(cmd, args);
-
-    if (!process()->waitForStarted())
-        return QString();
-
-    QByteArray output;
-
-    process()->waitForFinished();
-
-    output = process()->readAllStandardOutput() + "\n" + process()->readAllStandardError();
-    QString strOutput = QString(output);
-
-    return strOutput;
-
+    m_process->start("./term/term", args);
 }
 
 void DocumentHandler::load(const QUrl &fileUrl)
