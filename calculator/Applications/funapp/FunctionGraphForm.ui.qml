@@ -20,7 +20,7 @@ FocusDistributor {
         anchors.leftMargin: 0
         clip: true
         anchors.top: parent.top
-        anchors.topMargin: 0
+        anchors.topMargin: 1
         text1: "Axis"
         text2: "Cursor"
         text3: "Zoom"

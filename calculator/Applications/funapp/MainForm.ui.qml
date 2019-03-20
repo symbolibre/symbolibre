@@ -25,7 +25,7 @@ Rectangle {
             id: mainMenu
             x: 0
             width: parent.width
-            height: 40
+            height: 35
             anchors.top: parent.top
             anchors.topMargin: 0
             text1: "Functions"

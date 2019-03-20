@@ -38,6 +38,14 @@ Item {
             background: Rectangle {
                 color: tabButton1.down ? coloration1 : coloration2
             }
+
+            contentItem: Text {
+                text: qsTr(text1)
+                color: "#ffffff"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
         }
 
         TabButton {
@@ -55,6 +63,14 @@ Item {
             background: Rectangle {
                 color: tabButton2.down ? coloration1 : coloration2
             }
+
+            contentItem: Text {
+                text: qsTr(text2)
+                color: "#ffffff"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
         }
 
         TabButton {
@@ -64,7 +80,6 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right : parent.right
-            anchors.verticalCenter: parent.verticalCenter
             property int index: 2
             x: 2*parent.width/3
             down: selectBar.currentIndex == index
@@ -79,7 +94,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
-                }
+            }
         }
     }
 

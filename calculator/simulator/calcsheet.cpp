@@ -1,4 +1,5 @@
 #include "calcsheet.hpp"
+#include "SLL.hpp"
 #include <iostream>
 #include <QFont>
 #include <string>
@@ -122,11 +123,11 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
 EditionTree pseudo_evaluation(EditionTree &etree)
 {
     giac::context ctx;
-    giac::gen term(etree.getText(), &ctx);
+    SLL::Term term(etree.getText());
 
     EditionTree shell = EditionTree();
     //copyExprAtCursor(term, shell); // convertion from giac version
-    std::string str = term.print(giac::context0);
+    std::string str = term.str();
     shell.editStr(str);
     std::cout << "--------- GOT: '";
     std::cout << shell.getText() << "'" << std::endl;

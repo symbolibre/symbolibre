@@ -10,7 +10,7 @@ INCLUDEPATH += ../editiontree \
 LIBS += -L../editiontree -leditiontree \
 	-L../SLL_interface -lSLL_interface \
 	-L../parser -lparser \
-	-L../../SLL -lSLL \
+	-L../../SLL -lsll \
         -lgiac -lgmp
 
 depends = ../editiontree
