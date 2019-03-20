@@ -9,11 +9,11 @@ Item {
     property alias openFileMenu: openFileMenu
     property alias saveAsMenu: saveAsMenu
     property alias saveMenu: saveMenu
-    property alias fileButton: fileButton
-    property alias runButton: runButton
+    //property alias fileButton: fileButton
+    //property alias runButton: runButton
     property alias fileMenu: fileMenu
     property alias languageMenu: languageMenu
-    property alias editorToolBar: editorToolBar
+    //property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
     property alias langselection: langselection
@@ -44,7 +44,7 @@ Item {
             text: "Langage"
         }
     }
-
+/*
     ToolBar {
         id: editorToolBar
         width: 320
@@ -67,26 +67,25 @@ Item {
             }
         }
     }
-
+*/
     Rectangle {
-        x: 0
-        y: 30
         visible: true
-        width: 320
-        height: window.height - 30
+        width: window.width
+        height: window.height
 
         Rectangle {
             id: lineNumberBackground
             color: "light yellow"
-            width: 32 //Should not be manually fixed
+            width: textArea.lineCount == 1 ? 26 : 20 + 6 * Math.ceil(Math.log(textArea.lineCount)/Math.log(10))
             height: parent.height
         }
 
         Flickable {
-            id: flickable
+            id: lineNumberFlickable
             flickableDirection: Flickable.VerticalFlick
             boundsBehavior: Flickable.StopAtBounds
-            anchors.fill: parent
+            anchors.fill: lineNumberBackground
+            contentHeight: textArea.height
 
             Column {
                 id: lineNumber
@@ -106,14 +105,26 @@ Item {
                 }
             }
 
+            ScrollBar.vertical: vertScrollBar
+        }
+
+        Flickable {
+            id: textFlickable
+            flickableDirection: Flickable.HorizontalAndVerticalFlick
+            boundsBehavior: Flickable.StopAtBounds
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.left: lineNumberBackground.right
+
             TextArea.flickable: TextArea {
                 id: textArea
-                anchors.left: lineNumber.right
-                anchors.top: editorToolBar.bottom
-                rightPadding: 50 * window.width / 320 //Seems to be a known bug :
+                anchors.left: parent.left
+                anchors.top: parent.top
+                rightPadding: 20 * window.width / 320 //Seems to be a known bug :
                 //https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
                 textFormat: TextEdit.PlainText
-                wrapMode: TextArea.Wrap
+                wrapMode: TextArea.NoWrap
                 selectByMouse: true
                 persistentSelection: true
                 background: null
@@ -121,8 +132,18 @@ Item {
                 font.pointSize: 10
             }
 
-            ScrollBar.vertical: ScrollBar {
-            }
+            ScrollBar.vertical: lineNumberFlickable.ScrollBar.vertical
+            ScrollBar.horizontal: horizScrollBar
+        }
+
+        ScrollBar {
+            id: vertScrollBar
+            orientation: Qt.Vertical
+        }
+
+        ScrollBar {
+            id: horizScrollBar
+            orientation: Qt.Horizontal
         }
 
         Popup {
