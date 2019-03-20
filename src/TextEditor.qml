@@ -20,11 +20,6 @@ TextEditorForm {
         id: langModel
      }
 
-     ExecutionDialog
-     {
-         id: execDialog
-     }
-
     // Document handling
 
     DocumentHandler {
@@ -44,8 +39,7 @@ TextEditorForm {
     saveMenu.onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
     fileButton.onClicked: fileMenu.open()
     runButton.onClicked: {
-        execDialog.setOutput(document.execute())
-        execDialog.open()
+        document.execute()
     }
 
     // Used to execute the code, will be impleted later on
@@ -55,7 +49,7 @@ TextEditorForm {
 
     langselection.model: langModel
     //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
-    Keys.onEnterPressed: {
+    Keys.onSpacePressed: {
         editor.document.setDocLanguage(langselection.currentIndex)
         editor.document.startHighlighter()
         popup.close()
@@ -95,8 +89,7 @@ TextEditorForm {
     Shortcut {
         sequence: "Ctrl+e"
         onActivated: {
-            execDialog.setOutput(document.execute())
-            execDialog.open()
+            document.execute()
         }
     }
 

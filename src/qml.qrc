@@ -3,7 +3,5 @@
         <file>main.qml</file>
         <file>TextEditor.qml</file>
         <file>TextEditorForm.ui.qml</file>
-        <file>ExecutionDialog.qml</file>
-        <file>ExecutionDialogForm.ui.qml</file>
     </qresource>
 </RCC>
