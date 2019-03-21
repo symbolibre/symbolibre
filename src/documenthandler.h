@@ -160,6 +160,8 @@ public:
     Process *process() const;
     void setProcess(Process *newProcess);
 
+    Q_INVOKABLE void insertSnippet(QString key);
+
 
 public Q_SLOTS:
     void load(const QUrl &fileUrl);

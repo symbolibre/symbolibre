@@ -313,6 +313,11 @@ void DocumentHandler::setProcess(Process *newProcess)
     emit processChanged();
 }
 
+void DocumentHandler::insertSnippet(QString key)
+{
+    textCursor().insertText(this->m_languageModel->getSnippetsFromId(docLanguage())[key]);
+}
+
 
 void DocumentHandler::execute()
 {
