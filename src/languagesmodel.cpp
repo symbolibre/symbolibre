@@ -30,15 +30,15 @@ LanguagesModel::LanguagesModel()
             lang.languageColor = language["color_file"].toString();
             lang.languageExtension = language["extension"].toString();
 
+            auto snippets_dics = language["snippet"].toObject();
+
+            for (auto snipp : snippets_dics.keys())
+                lang.snippets[snipp] = snippets_dics[snipp].toString();
+
+
             m_languageList.push_back(lang);
-
         }
-
     }
-
-
-
-
 }
 
 QHash<int, QByteArray> LanguagesModel::roleNames() const {
@@ -167,4 +167,9 @@ QString LanguagesModel::getCmdFromId(const int idx)
     if (idx < 0)
         return m_languageList[0].languageCmd;
     return m_languageList[idx].languageCmd;
+}
+
+QMap<QString, QString> LanguagesModel::getSnippetsFromId(const int idx)
+{
+    return m_languageList[idx].snippets;
 }

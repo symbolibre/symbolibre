@@ -97,5 +97,11 @@ TextEditorForm {
             onActivated: popup.open()
 
         }
+        Shortcut {
+            sequence: "Ctrl+i"
+            onActivated: document.insertSnippet(qsTr("Gloire à satan!\n"))
+
+        }
+
 }
 
