@@ -46,7 +46,8 @@ Item {
             text: "Langage"
         }
     }
-/*
+
+    /*
     ToolBar {
         id: editorToolBar
         width: 320
@@ -78,7 +79,10 @@ Item {
         Rectangle {
             id: lineNumberBackground
             color: "light yellow"
-            width: textArea.lineCount == 1 ? 26 : 20 + 6 * Math.ceil(Math.log(textArea.lineCount)/Math.log(10))
+            width: textArea.lineCount == 1 ? 26 : 20 + 6 * Math.ceil(
+                                                 Math.log(
+                                                     textArea.lineCount) / Math.log(
+                                                     10))
             height: parent.height
         }
 
@@ -171,7 +175,6 @@ Item {
             }
         }
 
-        /*
         Popup {
 
             id: popupSnippets
@@ -190,13 +193,15 @@ Item {
                 width: parent.width
                 editable: false
                 currentIndex: 1
-                textRole: qsTr("languageName")
+                textRole: qsTr("snippetKey")
                 Keys.forwardTo: editor
             }
         }
-        */
     }
 }
+
+
+
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}

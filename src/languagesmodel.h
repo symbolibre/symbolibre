@@ -8,6 +8,8 @@
 #include <QFile>
 #include <QMap>
 
+
+typedef QMap<QString, QString> snippetMap_t;
 struct LanguageItem
 {
     QString languageName;
@@ -25,7 +27,6 @@ class LanguagesModel : public QAbstractListModel
 
 public:
     LanguagesModel();
-
 
     enum Roles {languageNameRole, languageExtensionRole, languageCmdRole, languageColorRole};
 
@@ -50,10 +51,38 @@ public:
     Q_INVOKABLE QString getColorationFromId(const int idx);
     Q_INVOKABLE int getIdFromExtension(const QString extension);
     Q_INVOKABLE QString getCmdFromId(const int idx);
-    Q_INVOKABLE QMap<QString, QString> getSnippetsFromId(const int idx);
+    Q_INVOKABLE snippetMap_t* getSnippetsFromId(const int idx);
 
     QVector<LanguageItem> m_languageList;
 private:
 };
+
+class SnippetsModel : public QAbstractListModel
+{
+    Q_OBJECT
+    Q_ENUMS(Roles)
+
+    Q_PROPERTY(snippetMap_t* snippets READ snippets WRITE setSnippets NOTIFY snippetsChanged)
+public:
+    SnippetsModel();
+    enum Roles {snippetKeyRole, snippetTextRole};
+
+    QHash<int,QByteArray> roleNames() const override;
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
+    snippetMap_t* snippets();
+    void setSnippets(snippetMap_t* map);
+
+
+    QMap<QString, QString>* m_snippets;
+
+Q_SIGNALS:
+    void snippetsChanged();
+private:
+};
+
 
 #endif // LANGUAGESMODEL_H

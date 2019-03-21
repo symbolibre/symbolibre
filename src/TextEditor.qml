@@ -7,6 +7,7 @@ import Qt.labs.platform 1.0
 
 import DocumentHandler 1.0
 import org.symbolibre.languagesModel 1.0
+import org.symbolibre.snippetsModel 1.0
 
 TextEditorForm {
 
@@ -20,6 +21,12 @@ TextEditorForm {
         id: langModel
      }
 
+     SnippetsModel
+     {
+         id: snippetModel
+     }
+
+
     // Document handling
 
     DocumentHandler {
@@ -32,17 +39,12 @@ TextEditorForm {
         onLoaded: textArea.text = text
     }
 
+
     // Slots
 
     openFileMenu.onTriggered: openDialog.open()
     saveAsMenu.onTriggered: saveDialog.open()
     saveMenu.onTriggered: (document.wasAlreadySaved() ? document.saveAs(document.fileUrl) : saveDialog.open())
-   /*
-    fileButton.onClicked: fileMenu.open()
-    runButton.onClicked: {
-        document.execute()
-    }
-    */
 
     //Language Selection Popup
 
@@ -53,7 +55,13 @@ TextEditorForm {
         editor.document.startHighlighter()
         popup.close()
         textArea.forceActiveFocus()
+
     }
+
+    // Snippet
+
+    snippselection.model= snippetModel
+
 
     // Dialogs
 
@@ -97,16 +105,12 @@ TextEditorForm {
         onActivated: popup.open()
     }
 
-    /*
     Shortcut {
         sequence: "Ctrl+i"
-        onActivated: textArea.cursorPosition = document.insertSnippet("while")
-    }
-    */
+        onActivated: {
+            snippetModel.snippets = document.snippets
+            popupSnippets.open()}
 
-    Shortcut {
-        sequence: "Ctrl + i"
-        onActivated: popupSnippets.open()
     }
 
 }
