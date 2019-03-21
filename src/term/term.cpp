@@ -17,6 +17,7 @@ int main (int argc, char **argv)
     term.startShellProgram();
 
     term.show();
+    
     QObject::connect(&term, &QTermWidget::finished, &term, &QTermWidget::close);
 
     return app.exec();
