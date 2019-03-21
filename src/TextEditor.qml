@@ -97,8 +97,5 @@ TextEditorForm {
             onActivated: popup.open()
 
         }
-
-
-
 }
 
