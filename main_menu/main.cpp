@@ -27,35 +27,44 @@ int main(int argc, char *argv[])
     rx.setPatternSyntax(QRegExp::Wildcard);
     QString config = "[";
     bool first = true;
+
+    std::vector<QString> apps;
     while (it.hasNext()) {
         QString path(it.next());
         if(rx.exactMatch(path)) {
-
-            if(!first) {
-                config += ",";
-            } else {
-                first = false;
-            }
-
-            QFile file(path);
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return 1;
-            QTextStream in(&file);
-            QJsonDocument doc = QJsonDocument::fromJson(in.readAll().toUtf8());
-            QJsonObject obj = doc.object();
-            QString command = obj["command"].toString().trimmed();
-            path.chop(17);
-            //obj["command"] = "cd " + path + " && " + command + "";
-            QString icon = obj["icon"].toString().trimmed();
-            if (icon[0] == '/') {
-                obj["icon"] = "file:" + icon;
-            } else {
-                obj["icon"] = "file:" + path + "/" + icon;
-            }
-            doc.setObject(obj);
-            config += QString::fromUtf8(doc.toJson());
-            file.close();
+            apps.push_back(path);
         }
     }
+
+    std::sort(apps.begin(), apps.end());
+
+    for(auto path : apps) {
+        if(!first) {
+            config += ",";
+        } else {
+            first = false;
+        }
+
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return 1;
+        QTextStream in(&file);
+        QJsonDocument doc = QJsonDocument::fromJson(in.readAll().toUtf8());
+        QJsonObject obj = doc.object();
+        QString command = obj["command"].toString().trimmed();
+        path.chop(17);
+        obj["command"] = "cd " + path + " && " + command + "";
+        QString icon = obj["icon"].toString().trimmed();
+        if (icon[0] == '/') {
+            obj["icon"] = "file:" + icon;
+        } else {
+            obj["icon"] = "file:" + path + "/" + icon;
+        }
+        doc.setObject(obj);
+        config += QString::fromUtf8(doc.toJson());
+        file.close();
+    }
+
+
     config += "]";
 
     jsonListModel->setProperty("json", config);

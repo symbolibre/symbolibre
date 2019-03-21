@@ -15,11 +15,6 @@ Window {
 
     title: qsTr("Main Menu")
 
-    JSONListModel {
-        id: testmodel
-        source: "file:config.json"
-    }
-
     Rectangle {
         width: Window.width
         height: Window.height
@@ -58,6 +53,8 @@ Window {
             model: listmodel.model
             delegate: buttonDelegate
             highlight: Rectangle { color: "lightblue"; radius: 5 }
+            highlightMoveDuration: 0
+
             focus: true
 
             ScrollBar.vertical: ScrollBar {
