@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<DocumentHandler>("DocumentHandler", 1, 0, "DocumentHandler");
     qmlRegisterType<LanguagesModel>("org.symbolibre.languagesModel", 1, 0, "LanguagesModel");
-    qmlRegisterType<Process>("Process", 1, 0, "Process");
 
     QStringList selectors;
 #ifdef QT_EXTRA_FILE_SELECTOR
