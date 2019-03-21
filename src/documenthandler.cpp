@@ -313,9 +313,18 @@ void DocumentHandler::setProcess(Process *newProcess)
     emit processChanged();
 }
 
-void DocumentHandler::insertSnippet(QString key)
+int DocumentHandler::insertSnippet(QString key)
 {
-    textCursor().insertText(this->m_languageModel->getSnippetsFromId(docLanguage())[key]);
+    QString snipp = m_languageModel->getSnippetsFromId(docLanguage())[key];
+    int old_position = cursorPosition();
+    int pos_in_snipp = snipp.indexOf("*");
+    snipp.remove("*");
+
+    textCursor().insertText(snipp);
+    if (pos_in_snipp > -1)
+        setCursorPosition(old_position + pos_in_snipp);
+
+    return cursorPosition();
 }
 
 

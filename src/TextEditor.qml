@@ -99,7 +99,7 @@ TextEditorForm {
         }
         Shortcut {
             sequence: "Ctrl+i"
-            onActivated: document.insertSnippet(qsTr("Gloire à satan!\n"))
+            onActivated: textArea.cursorPosition = document.insertSnippet("while")
 
         }
 

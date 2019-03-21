@@ -30,11 +30,10 @@ LanguagesModel::LanguagesModel()
             lang.languageColor = language["color_file"].toString();
             lang.languageExtension = language["extension"].toString();
 
-            auto snippets_dics = language["snippet"].toObject();
+            auto snippets_dics = language["snippets"].toObject();
 
             for (auto snipp : snippets_dics.keys())
                 lang.snippets[snipp] = snippets_dics[snipp].toString();
-
 
             m_languageList.push_back(lang);
         }

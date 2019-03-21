@@ -160,7 +160,7 @@ public:
     Process *process() const;
     void setProcess(Process *newProcess);
 
-    Q_INVOKABLE void insertSnippet(QString key);
+    Q_INVOKABLE int insertSnippet(QString key);
 
 
 public Q_SLOTS:
