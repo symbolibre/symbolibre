@@ -92,16 +92,22 @@ TextEditorForm {
         }
     }
 
-        Shortcut {
-            sequence: "Ctrl+l"
-            onActivated: popup.open()
+    Shortcut {
+        sequence: "Ctrl+l"
+        onActivated: popup.open()
+    }
 
-        }
-        Shortcut {
-            sequence: "Ctrl+i"
-            onActivated: textArea.cursorPosition = document.insertSnippet("while")
+    /*
+    Shortcut {
+        sequence: "Ctrl+i"
+        onActivated: textArea.cursorPosition = document.insertSnippet("while")
+    }
+    */
 
-        }
+    Shortcut {
+        sequence: "Ctrl + i"
+        onActivated: popupSnippets.open()
+    }
 
 }
 

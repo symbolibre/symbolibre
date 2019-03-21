@@ -16,7 +16,9 @@ Item {
     //property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
+    property alias popupSnippets: popupSnippets
     property alias langselection: langselection
+    property alias snippselection: snippselection
 
     Menu {
         id: fileMenu
@@ -168,6 +170,31 @@ Item {
                 Keys.forwardTo: editor
             }
         }
+
+        /*
+        Popup {
+
+            id: popupSnippets
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            width: 180
+
+            parent: ApplicationWindow.contentItem
+
+            modal: false
+            focus: false
+            visible: false
+
+            ComboBox {
+                id: snippselection
+                width: parent.width
+                editable: false
+                currentIndex: 1
+                textRole: qsTr("languageName")
+                Keys.forwardTo: editor
+            }
+        }
+        */
     }
 }
 
