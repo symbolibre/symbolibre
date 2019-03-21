@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QFile>
+#include <QMap>
 
 struct LanguageItem
 {
@@ -13,6 +14,8 @@ struct LanguageItem
     QString languageExtension;
     QString languageCmd;
     QString languageColor;
+
+    QMap<QString, QString> snippets;
 };
 
 class LanguagesModel : public QAbstractListModel
