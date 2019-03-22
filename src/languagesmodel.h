@@ -76,7 +76,6 @@ public:
     snippetMap_t* snippets();
     void setSnippets(snippetMap_t* map);
 
-
     QMap<QString, QString>* m_snippets;
 
 Q_SIGNALS:

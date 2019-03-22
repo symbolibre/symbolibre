@@ -47,6 +47,7 @@ Item {
         }
     }
 
+
     /*
     ToolBar {
         id: editorToolBar
@@ -185,7 +186,7 @@ Item {
             parent: ApplicationWindow.contentItem
 
             modal: false
-            focus: false
+            focus: true
             visible: false
 
             ComboBox {

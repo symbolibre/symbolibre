@@ -51,16 +51,27 @@ TextEditorForm {
     langselection.model: langModel
     //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
     Keys.onSpacePressed: {
-        editor.document.setDocLanguage(langselection.currentIndex)
-        editor.document.startHighlighter()
-        popup.close()
-        textArea.forceActiveFocus()
+
+        if (popup.focus)
+        {
+            editor.document.setDocLanguage(langselection.currentIndex)
+            editor.document.startHighlighter()
+            popup.close()
+            textArea.forceActiveFocus()
+        }
+
+        if (popupSnippets.focus)
+        {
+            textArea.cursorPosition = document.insertSnippet(snippselection.currentText)
+            popupSnippets.close()
+        }
 
     }
 
+
     // Snippet
 
-    snippselection.model= snippetModel
+    snippselection.model:snippetModel
 
 
     // Dialogs
@@ -109,9 +120,9 @@ TextEditorForm {
         sequence: "Ctrl+i"
         onActivated: {
             snippetModel.snippets = document.snippets
-            popupSnippets.open()}
-
+            popupSnippets.open()
+            snippselection.forceActiveFocus()
+        }
     }
-
 }
 
