@@ -60,7 +60,7 @@ TextEditorForm {
 
     // Snippet
 
-    snippselection.model= snippetModel
+    snippselection.model: snippetModel
 
 
     // Dialogs
