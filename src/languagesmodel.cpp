@@ -220,6 +220,8 @@ snippetMap_t* SnippetsModel::snippets()
 
 void SnippetsModel::setSnippets(snippetMap_t *map)
 {
+    beginResetModel();
     m_snippets = map;
-    emit dataChanged(QModelIndex(),QModelIndex());
+
+    endResetModel();
 }
