@@ -7,7 +7,14 @@
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
     m_CustomPlot = new QCustomPlot();
-    //cursor = new QCPItemTracer();
+
+    cursor = new QCPItemTracer(m_CustomPlot);
+    cursor->setStyle(QCPItemTracer::tsNone);
+    cursorVisible = 0;
+    modeCursor = 0;
+    cursorX = 0;
+    cursorY = 0;
+
     listGraph = {};
 
     Xcen = 0;
@@ -78,7 +85,7 @@ void CustomPlotItem::plotGraph(QString nomGraph)
 
         double x = Xmin;
         g.graph->addData(x, g.getValue(x));
-        while (x < Xmax) {
+        while (x <= Xmax) {
             x += Xsca;
             g.graph->addData(x, g.getValue(x));
         }
@@ -140,8 +147,149 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
 {
     //move cursor according to the amount given
     if (m_CustomPlot) {
-        cursorX += amtX;
-        cursorY += amtY;
+        if (listGraph.isEmpty()) {
+            std::cout << "No graph to attach the cursor !" << std::endl;
+            return;
+        }
+        cursor->setStyle(QCPItemTracer::tsPlus);
+        if (cursorVisible == 0) {
+            cursorX = Xcen;
+            cursorY = Ycen;
+            QCPGraph *closest = cursor->graph();
+            double yClo = listGraph.first().getValue(cursorX);
+            double y;
+            foreach (CurveItem g, listGraph) {
+                y = g.getValue(cursorX);
+                if (std::abs(y - cursorY) <= std::abs(yClo - cursorY)) {
+                    closest = g.graph;
+                    yClo = y;
+                }
+            }
+            cursor->setGraph(closest);
+            cursor->setGraphKey(cursorX);
+            cursor->updatePosition();
+            cursorX = cursor->position->key();
+            cursorY = cursor->position->value();
+        }
+
+        if (amtX > 0) {
+            //bouge le cursor vers la droite
+            cursor->setGraphKey(cursorX + amtX * Xsca);
+            cursor->updatePosition();
+            cursorX = cursor->position->key();
+            cursorY = cursor->position->value();
+            //si trop a droite shift la
+            if (cursorX > Xmax) {
+                // centre sur cursor
+                double nXmin = cursorX - Xlen;
+                double nXmax = cursorX + Xlen;
+                double nYmin = cursorY - Ylen;
+                double nYmax = cursorY + Ylen;
+                setRange(nXmin, nXmax, nYmin, nYmax);
+            } else if (cursorX >= Xmax - 10 * Xsca) {
+                int mvX = 10 - std::round((Xmax - cursorX) / Xsca);
+                moveWindow(mvX, 0);
+            }
+        } else if (amtX < 0) {
+            //bouge le cursor vers la gauche
+            cursor->setGraphKey(cursorX + amtX * Xsca);
+            cursor->updatePosition();
+            cursorX = cursor->position->key();
+            cursorY = cursor->position->value();
+            //si trop a gauche shift la fenetre
+            if (cursorX < Xmin) {
+                // centre sur cursor
+                double nXmin = cursorX - Xlen;
+                double nXmax = cursorX + Xlen;
+                double nYmin = cursorY - Ylen;
+                double nYmax = cursorY + Ylen;
+                setRange(nXmin, nXmax, nYmin, nYmax);
+            } else if (cursorX <= Xmin + 10 * Xsca) {
+                int mvX = std::round((cursorX - Xmin) / Xsca) - 10;
+                moveWindow(mvX, 0);
+            }
+        }
+
+        if (amtY > 0) {
+            //search courbe juste en haut
+            QCPGraph *above = cursor->graph();
+            QCPGraph *minig = cursor->graph();
+            double yAbo = DBL_MAX;
+            double yMin = DBL_MAX;
+            double y;
+            foreach (CurveItem g, listGraph) {
+                y = g.getValue(cursorX);
+                if (y < yAbo && y > cursorY) {
+                    above = g.graph;
+                    yAbo = y;
+                }
+                if (y < yMin) {
+                    minig = g.graph;
+                    yMin = y;
+                }
+            }
+            if (cursor->graph() != above) {
+                cursor->setGraph(above);
+            } else {
+                cursor->setGraph(minig);
+            }
+            cursor->updatePosition();
+            cursorX = cursor->position->key();
+            cursorY = cursor->position->value();
+
+        } else if (amtY < 0) {
+            //search courbe juste en bas
+            QCPGraph *below = cursor->graph();
+            QCPGraph *maxig = cursor->graph();
+            double yBel = -DBL_MAX;
+            double yMax = -DBL_MAX;
+            double y;
+            foreach (CurveItem g, listGraph) {
+                y = g.getValue(cursorX);
+                if (y > yBel && y < cursorY) {
+                    below = g.graph;
+                    yBel = y;
+                }
+                if (y > yMax) {
+                    maxig = g.graph;
+                    yMax = y;
+                }
+            }
+            if (cursor->graph() != below) {
+                cursor->setGraph(below);
+            } else {
+                cursor->setGraph(maxig);
+            }
+            cursor->updatePosition();
+            cursorX = cursor->position->key();
+            cursorY = cursor->position->value();
+        }
+
+        if (cursorY > Ymax) {
+            // centre sur cursor
+            double nXmin = cursorX - Xlen;
+            double nXmax = cursorX + Xlen;
+            double nYmin = cursorY - Ylen;
+            double nYmax = cursorY + Ylen;
+            setRange(nXmin, nXmax, nYmin, nYmax);
+        } else if (cursorY >= Ymax - 10 * Ysca) {
+            //bouge la window
+            int mvY = 10 - std::round((Ymax - cursorY) / Ysca);
+            moveWindow(0, mvY);
+        } else if (cursorY < Ymin) {
+            //centre sur cursor
+            double nXmin = cursorX - Xlen;
+            double nXmax = cursorX + Xlen;
+            double nYmin = cursorY - Ylen;
+            double nYmax = cursorY + Ylen;
+            setRange(nXmin, nXmax, nYmin, nYmax);
+        } else if (cursorY <= Ymin + 10 * Ysca) {
+            //bouge window
+            int mvY = std::round((cursorY - Ymin) / Ysca) - 10;
+            moveWindow(0, mvY);
+        }
+
+        cursorVisible = 1;
     }
 }
 
@@ -178,16 +326,32 @@ void CustomPlotItem::recvInput(int input)
 {
     switch (input) {
     case KeyCode::SLK_UP:
-        moveWindow(0, 1);
+        if (modeCursor == 0) {
+            moveWindow(0, 1);
+        } else {
+            moveCursor(0, 1);
+        }
         break;
     case KeyCode::SLK_DOWN:
-        moveWindow(0, -1);
+        if (modeCursor == 0) {
+            moveWindow(0, -1);
+        } else {
+            moveCursor(0, -1);
+        }
         break;
     case KeyCode::SLK_LEFT:
-        moveWindow(-1, 0);
+        if (modeCursor == 0) {
+            moveWindow(-1, 0);
+        } else {
+            moveCursor(-1, 0);
+        }
         break;
     case KeyCode::SLK_RIGHT:
-        moveWindow(1, 0);
+        if (modeCursor == 0) {
+            moveWindow(1, 0);
+        } else {
+            moveCursor(1, 0);
+        }
         break;
     case KeyCode::SLK_PLUS:
         modifyZoom(.5);
@@ -198,6 +362,9 @@ void CustomPlotItem::recvInput(int input)
     case KeyCode::SLK_CLEAR:
         clearGraph();
         setRange(-10, 10, -10, 10);
+        break;
+    case KeyCode::SLK_ALPHA:
+        switchModeCurWin();
         break;
     default:
         std::cerr << "Unsupported key " << input << std::endl;
@@ -225,6 +392,8 @@ void CustomPlotItem::addGraph(QString formula)
 void CustomPlotItem::clearGraph()
 {
     if (m_CustomPlot) {
+        cursor->setStyle(QCPItemTracer::tsNone);
+        cursorVisible = 0;
         for (auto name : listGraph.keys()) {
             removeGraph(name);
         }
@@ -235,6 +404,11 @@ void CustomPlotItem::removeGraph(QString nomGraph)
 {
     if (m_CustomPlot) {
         if (listGraph.contains(nomGraph)) {
+            //if lié au cursor
+            if (cursor->graph() == listGraph[nomGraph].graph) {
+                cursor->setGraph(nullptr);
+                cursorVisible = 0;
+            }
             m_CustomPlot->removeGraph(listGraph[nomGraph].graph);
             listGraph.remove(nomGraph);
             nbCurves--;
@@ -246,4 +420,52 @@ void CustomPlotItem::onCustomReplot()
 {
     //qDebug() << Q_FUNC_INFO;
     update();
+}
+
+double CustomPlotItem::getXmin()
+{
+    return Xmin;
+}
+
+double CustomPlotItem::getXmax()
+{
+    return Xmax;
+}
+
+double CustomPlotItem::getYmax()
+{
+    return Ymax;
+}
+
+double CustomPlotItem::getYmin()
+{
+    return Ymin;
+}
+
+double CustomPlotItem::getCursorX()
+{
+    return cursorX;
+}
+
+double CustomPlotItem::getCursorY()
+{
+    return cursorY;
+}
+
+void CustomPlotItem::setModeWindow()
+{
+    //now arrows move the window
+    modeCursor = 0;
+}
+
+void CustomPlotItem::setModeCursor()
+{
+    //now arrows move the cursor
+    modeCursor = 1;
+}
+
+void CustomPlotItem::switchModeCurWin()
+{
+    //switch between moving the window and the cursor
+    modeCursor = 1 - modeCursor;
 }

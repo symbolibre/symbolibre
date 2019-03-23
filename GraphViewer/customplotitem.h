@@ -43,9 +43,11 @@ private:
     double Ysca;
 
     /* Position of the cursor */
-    //QCPItemTracer cursor;
+    QCPItemTracer *cursor;
+    int cursorVisible;
     double cursorX;
     double cursorY;
+    int modeCursor;
 
     /* curves on the graph */
     QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
@@ -59,6 +61,15 @@ public slots:
     Q_INVOKABLE void moveWindow(int horizontal, int vertical);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
     Q_INVOKABLE void modifyZoom(double value);
+    Q_INVOKABLE double getXmin();
+    Q_INVOKABLE double getXmax();
+    Q_INVOKABLE double getYmin();
+    Q_INVOKABLE double getYmax();
+    Q_INVOKABLE void setModeWindow();
+    Q_INVOKABLE void setModeCursor();
+    Q_INVOKABLE void switchModeCurWin();
+    Q_INVOKABLE double getCursorX();
+    Q_INVOKABLE double getCursorY();
 
 
 
