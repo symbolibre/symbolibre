@@ -28,6 +28,7 @@ public:
         /* Mathematics operations */
         SLK_PLUS, SLK_MINUS, SLK_TIMES, SLK_DIVIDE,
         SLK_LPAREN, SLK_RPAREN, SLK_SQUAREROOT, SLK_POWER,
+        SLK_SIGMA,
 
         /* Arrow Keys */
         SLK_UP, SLK_DOWN, SLK_LEFT, SLK_RIGHT,

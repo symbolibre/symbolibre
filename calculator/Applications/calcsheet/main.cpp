@@ -21,6 +21,5 @@ int main(int argc, char *argv[])
         return -1;
 
     int ret_value = app.exec();
-    std::cout << "quit\n";
     return ret_value;
 }

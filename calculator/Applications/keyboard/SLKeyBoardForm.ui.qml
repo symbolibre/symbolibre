@@ -329,7 +329,7 @@ Item {
                     id: buttonV
                     alphaTextText: "V"
                     mainTextText: "+"
-                    sndTextText: ""
+                    sndTextText: "∑"
                 }
 
                 CalcButton {

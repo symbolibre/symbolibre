@@ -1,4 +1,5 @@
 #include "calcsheet.hpp"
+#include "SLL.hpp"
 #include <iostream>
 #include <QFont>
 #include <string>
@@ -42,10 +43,16 @@ void CalcSheet::paintEditedArea(QPainter *painter)
     int eaheight = editedAreaHeight();
     painter->setPen(_SL_DARK_GRAY);
     painter->drawRect(0, height() - eaheight, width() - 1, eaheight);
-    painter->setPen(Qt::black);
 
+    painter->setPen(Qt::red);
+    QPoint cursor = editedExpression.getCursorCoordinates();
+    std::cout << cursor.x() << ' ' << cursor.y() << std::endl;
+    painter->drawEllipse(cursor.x() + BORDERSPACE,
+                         cursor.y() + (int) height() - eaheight + BORDERSPACE, 3, 3);
+    painter->setPen(Qt::black);
     editedExpression.draw(BORDERSPACE, (int) height() - eaheight + BORDERSPACE,
                           *painter, true);
+
     return;
 }
 
@@ -59,19 +66,28 @@ void CalcSheet::paintList(QPainter *painter)
 
     painter->setBrush(QBrush(_SL_LIGHT_GRAY));
     int y = height() - editedAreaHeight() + BACKSPACE - BORDERSPACE - 1;
+    int color_parity = 1;
     do {
         y -=  BACKSPACE + resIt->getHeight();
-        painter->setPen(_SL_LIGHT_GRAY);
-        painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
-        painter->setPen(Qt::black);
+        if (color_parity) {
+            painter->setPen(_SL_LIGHT_GRAY);
+            painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
+            painter->setPen(Qt::black);
+        }
         resIt->draw(width() - resIt->getWidth() - BORDERSPACE, y, *painter, false);
 
         y -=  BACKSPACE + exprIt->getHeight();
+        if (color_parity) {
+            painter->setPen(_SL_LIGHT_GRAY);
+            painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + exprIt->getHeight());
+            painter->setPen(Qt::black);
+        }
         exprIt->draw(BORDERSPACE, y, *painter, false);
         if (exprIt == expressions.begin())
             break;
         resIt --;
         exprIt --;
+        color_parity ^= 1;
     } while (y >= 0);
 
     painter->setBrush(QBrush(Qt::white));
@@ -99,10 +115,23 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
     return;
 }
 
+EditionTree evaluate(EditionTree &etree)
+{
+    SLL::Context ctx;
+    SLL::Term term = ctx.eval(etree.getText());
+    term = ctx.simplify(term);
+
+    EditionTree shell = EditionTree();
+    //copyExprAtCursor(term, shell); // convertion from giac version
+    std::string str = ctx.str(term);
+    shell.editStr(str);
+    std::cout << "--------- GOT: '";
+    std::cout << shell.getText() << "'" << std::endl;
+    return shell;
+}
+
 void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 {
-    std::string lol = "lolll";
-
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         editedExpression.editChar('A' + input - KeyCode::SLK_A);
     else if (KeyCode::SLK_0 <= input && input <= KeyCode::SLK_9)
@@ -134,6 +163,9 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
         case KeyCode::SLK_POWER:
             editedExpression.editPower();
             break;
+        case KeyCode::SLK_SIGMA:
+            editedExpression.editSigma();
+            break;
 
         /* Arrows */
         case KeyCode::SLK_UP:
@@ -162,10 +194,8 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
 
         case KeyCode::SLK_EXE:
-            //lol = evaluate(editedExpression.getText());
-            results.push_back(EditionTree(lol));
+            results.push_back(evaluate(editedExpression));
             expressions.push_back(std::move(editedExpression));
-            //results.push_back(editedExpression);
             editedExpression = EditionTree();
             break;
 
@@ -174,6 +204,7 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
         }
 
+    editedExpression.ascii(true);
     emit expressionChanged();
     update();
 }

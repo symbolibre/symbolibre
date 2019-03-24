@@ -2,12 +2,12 @@ TEMPLATE = app
 
 QT += qml quick
 CONFIG += c++11
-INCLUDEPATH += ../../editiontree \
-	../keyboard
+INCLUDEPATH += ../../editiontree ../keyboard ../../../SLL
 
 LIBS += -L../../editiontree -leditiontree \
 	-L ../keyboard -lkeyboard \
-        -lgiac -lgmp
+        -L../../../SLL -lsll \
+	-lgiac -lgmp
 
 SOURCES += main.cpp \
     calcsheet.cpp \

@@ -15,7 +15,6 @@ Term Context::parse(std::string formula)
 
 Term Context::eval(std::string formula)
 {
-    std::cout << "SLL: " << formula << "\n";
     return giac::eval(parse(formula), &this->ctx);
 }
 
