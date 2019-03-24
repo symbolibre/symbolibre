@@ -36,7 +36,6 @@ int yyerror(giac::gen *, giac::context *, const char *s)
 %left '-'
 %left '*'
 %left '/'
-%left ','
 
 %type <giac::gen *> expr
 %type <giac::gen *> id

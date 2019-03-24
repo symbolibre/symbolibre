@@ -7,10 +7,10 @@ INCLUDEPATH += ../../editiontree \
 	../components \
 	../../../GraphViewer 
 
+# Add -lqcustomplot if QCustomPlot is installed system-wide
 LIBS += -L../../../GraphViewer -lGraphViewer \
 	-L../../editiontree -leditiontree \
 	-L../keyboard -lkeyboard \
-	-lqcustomplot \
 	-lgiac -lgmp 
 
 SOURCES += main.cpp \

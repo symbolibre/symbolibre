@@ -8,7 +8,8 @@ TARGET = GraphViewer
 INCLUDEPATH += .
 QT += widgets quick
 
-LIBS += -lgiac -lgmp -lqcustomplot
+# Add -lqcustomplot if QCustomPlot is installed system-wide
+LIBS += -lgiac -lgmp
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
@@ -22,5 +23,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += curveitem.h customplotitem.h keycode.hpp
-SOURCES += curveitem.cpp customplotitem.cpp keycode.cpp
+HEADERS += curveitem.h customplotitem.h keycode.hpp qcustomplot.h
+SOURCES += curveitem.cpp customplotitem.cpp keycode.cpp qcustomplot.cpp

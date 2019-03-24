@@ -14,13 +14,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ../GraphViewer
 
-LIBS += -L ../GraphViewer -lGraphViewer \
-	-lgiac -lgmp -lqcustomplot \
+# Add -lqcustomplot if QCustomPlot is installed system-wide
+LIBS += -L ../GraphViewer -lGraphViewer -lgiac -lgmp
 
-SOURCES += \
-        main.cpp \
-
-
+SOURCES += main.cpp
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
