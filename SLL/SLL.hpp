@@ -15,81 +15,59 @@ struct Exception: public std::exception {
     };
 };
 
-/**
- * Opaque, structured mathematical object
- * Essentially a giac::gen when using Giac.
- */
-class Term
-{
-public:
-    /**
-     * @param formula: SLL formula to be evaluated
-     */
-    Term(std::string formula);
-
-    /**
-     * @param precision: Number of digits of precision
-     * @return Same object, with approximated numerical entries
-     */
-    Term approx(unsigned precision);
-
-    /**
-     * @return Giac's string representation of the object.
-     */
-    std::string str(void);
-
-public:
-    /* Underlying CAS object */
-    giac::gen gen;
-};
+typedef giac::gen Term;
 
 /**
  * Evaluation context where the value of variables is stored
- * This is essentially a map from std::string to SLL::Term.
  */
 class Context
 {
 public:
-    /* ******************* CREATE and SET VARIABLES ******************* */
+    /**
+     * @param formula: Formula to be evaluated
+     * Evaluated the formula in context. The formula has access to all the
+     * variables and functions defined through set().
+     */
+    Term eval(std::string formula);
 
     /**
-     * @param name: Name of the new variable
-     * @param value:  Its value, as an object
-     * The name of the variable has to be new. If you want to assign an
-     * expression, evaluate it before with eval(). */
-    void newVar(std::string name, Term value);
+     * Simplify a term.
+     */
+    Term simplify(Term t);
 
     /**
-     * @param name: Name of an existing variable
-     * @param value:  Its value, as an object
-     * The variable has to exist. If you want to assign an expression,
-     * evaluate it before with eval(). */
-    void setVar(std::string name, Term value);
+     * Numerically approximates a term.
+     * @param precision: Number of digits of precision
+     * @return Same object, with approximated numerical entries
+     */
+    Term approx(Term t, unsigned precision);
 
-    /* *********************** ACCESS VARIABLES *********************** */
+    /**
+     * Produces a human-readable string representation.
+     * @return Giac's string representation of the object
+     */
+    std::string str(Term t);
 
-    Term operator[](std::string name);
+    /**
+     * @param name: Name of the variable to store
+     * @param value: Value of the variable as an evaluated Term
+     * @param replace: If [false] and [name] is set, raise an exception.
+     * If you want to assign an expression, evaluate it before with
+     * eval().
+     */
+    void set(std::string name, Term value, bool replace = true);
+
+    /**
+     * @param name: Variable name (must be set)
+     * Raises an exception if the variable is not set.
+     */
+    Term get(std::string name);
 
 private:
-    /* Mapping from variable names to actual SLL terms */
-    std::map<std::string, Term> vars;
+    /* Giac evaluation context */
+    giac::context ctx;
 };
 
-/**
- * Formally evaluate a string into a structured object
- * @param formula: Text formula following the SLL grammar
- * @param context: Evaluation context
- */
-Term eval(std::string const &formula, Context const &context);
-
-/**
- * Execute an SLL command that does not return a result
- * This type of commands includes variables definitions and updates.
- * @param command: Text command following the SLL grammar
- * @param context: Evaluation context, may be modified by the command
- */
-void exec(std::string const &command, Context &context);
-
-}
+} /* namespace SLL */
 
 #endif // SLL_HPP

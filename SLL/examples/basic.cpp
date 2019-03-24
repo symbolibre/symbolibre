@@ -3,7 +3,13 @@
 
 int main(void)
 {
-    SLL::Term term("2 * 8 + 1");
-    std::cout << term.str() << std::endl;
+    SLL::Context sll;
+
+    SLL::Term t = sll.eval("2 * 8 + 1 + sqrt(2)");
+    SLL::Term u = sll.eval("sqrt(2) * sqrt(2)");
+    u = sll.simplify(u);
+
+    std::cout << sll.str(t) << "\n";
+    std::cout << sll.str(u) << "\n";
     return 0;
 }

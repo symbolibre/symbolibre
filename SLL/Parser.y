@@ -8,13 +8,12 @@
 #include <vector>
 #include <string>
 #include <SLL.hpp>
-
-static giac::context ct;
+using giac::gen;
 
 int yyparse(void);
 int yylex(void);
 
-int yyerror(giac::gen *, const char *s)
+int yyerror(giac::gen *, giac::context *, const char *s)
 {
 	std::cerr << s << std::endl;
 	return 1;
@@ -28,6 +27,7 @@ int yyerror(giac::gen *, const char *s)
 %define parse.trace
 
 %parse-param {giac::gen *ret_gen}
+%parse-param {giac::context *ctx}
 
 %token <const char *> INTEGER
 %token <const char *> ID
@@ -39,23 +39,27 @@ int yyerror(giac::gen *, const char *s)
 %left ','
 
 %type <giac::gen *> expr
+%type <giac::gen *> id
+%type <giac::gen *> args
 
 %%
 
-main: expr { *ret_gen = *$1; delete $1; }
+main: expr { *ret_gen = *$1; }
 
 expr:
-    INTEGER           { $$ = new giac::gen($1, &ct); }
+    INTEGER           { $$ = new gen($1, ctx); }
   | '(' expr ')'      { $$ = $2; }
-  | expr '+' expr     { $$ = new giac::gen(*$1 + *$3); delete $1; delete $3; }
-  | expr '-' expr     { $$ = new giac::gen(*$1 - *$3); delete $1; delete $3; }
-  | expr '*' expr     { $$ = new giac::gen(*$1 * *$3); delete $1; delete $3; }
-  | expr '/' expr     { $$ = new giac::gen(*$1 / *$3); delete $1; delete $3; }
-  /* TODO: Function call */
+  | expr '+' expr     { $$ = new gen(*$1 + *$3);        delete $1; delete $3; }
+  | expr '-' expr     { $$ = new gen(*$1 - *$3);        delete $1; delete $3; }
+  | expr '*' expr     { $$ = new gen(*$1 * *$3);        delete $1; delete $3; }
+  | expr '/' expr     { $$ = new gen(*$1 / *$3);        delete $1; delete $3; }
+  | id '(' args ')'   { $$ = new gen((*$1)(*$3, ctx));  delete $1; delete $3; }
+  | id                { $$ = $1; }
 
-/* Fun: FUN LPAR Arglist RPAR {std::string funname($1); $$ = new FunAppNode(*$3, funname); }
+id: ID                { $$ = new gen($1, ctx); }
 
-Arglist: Calc { std::vector<ExpressionNode *> args; args.push_back($1); $$ = &args; }
-	| Calc COMMA Arglist {std::vector<ExpressionNode *> *args = $3; args->push_back($1); $$ = args; } */
+args:
+    expr              { $$ = new gen(giac::makesequence(*$1)); }
+  | expr ',' expr     { $$ = new gen(giac::makesequence(*$1, *$3)); }
 
 %%

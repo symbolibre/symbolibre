@@ -34,14 +34,14 @@ extern int yydebug;
 namespace SLL {
 
 // We modify the lexer so we lex by taking string input
-int parse(const char *input, giac::gen *gen)
+int parse(const char *input, giac::gen *gen, giac::context *ctx)
 {
 	#ifdef NDEBUG
 	yydebug = 1;
 	#endif
 
 	YY_BUFFER_STATE buf = yy_scan_bytes(input, strlen(input));
-	int x = yyparse(gen);
+	int x = yyparse(gen, ctx);
 	yy_delete_buffer(buf);
 
 	return x;
