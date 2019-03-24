@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = editiontree parser SLL_interface simulator Applications
-SLL_interface.depends = parser
+SUBDIRS = editiontree simulator Applications
 ../SLL.depends    = editiontree
 simulator.depends += editiontree
 simulator.depends += SLL_interface

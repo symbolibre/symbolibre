@@ -3,13 +3,9 @@ CONFIG  += staticlib
 
 QT += qml quick
 CONFIG += c++11
-INCLUDEPATH += ../../editiontree \
-	../../SLL_interface \
-	../../parser
+INCLUDEPATH += ../../editiontree
 
 LIBS += -L../../editiontree -leditiontree \
-	-L../../SLL_interface -lSLL_interface \
-	-L../../parser -lparser \
         -lgiac -lgmp
 
 SOURCES += keycode.cpp 

@@ -3,13 +3,9 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 INCLUDEPATH += ../../editiontree \
-	../../SLL_interface \
-	../../parser \
 	../keyboard
 
 LIBS += -L../../editiontree -leditiontree \
-	-L../../SLL_interface -lSLL_interface \
-	-L../../parser -lparser \
 	-L ../keyboard -lkeyboard \
         -lgiac -lgmp
 

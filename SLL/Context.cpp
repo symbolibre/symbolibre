@@ -6,11 +6,17 @@ namespace SLL
 /* Internal SLL parser */
 int parse(const char *formula, giac::gen *gen, giac::context *ctx);
 
-Term Context::eval(std::string formula)
+Term Context::parse(std::string formula)
 {
     giac::gen g;
-    parse(formula.c_str(), &g, &this->ctx);
-    return giac::eval(g, &this->ctx);
+    SLL::parse(formula.c_str(), &g, &this->ctx);
+    return g;
+}
+
+Term Context::eval(std::string formula)
+{
+    std::cout << "SLL: " << formula << "\n";
+    return giac::eval(parse(formula), &this->ctx);
 }
 
 Term Context::simplify(Term t)

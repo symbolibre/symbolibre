@@ -5,7 +5,6 @@
 #include <memory>
 #include <list>
 #include "keycode.hpp"
-#include "interface.hpp"
 
 /* Class MathRenderer
  *

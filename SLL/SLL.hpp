@@ -25,10 +25,16 @@ class Context
 public:
     /**
      * @param formula: Formula to be evaluated
-     * Evaluated the formula in context. The formula has access to all the
+     * Evaluates the formula in context. The formula has access to all the
      * variables and functions defined through set().
      */
     Term eval(std::string formula);
+
+    /**
+     * @param formula: Formula to parse
+     * Parses the formula but does not evaluate it.
+     */
+    Term parse(std::string formula);
 
     /**
      * Simplify a term.

@@ -122,12 +122,13 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
 
 EditionTree pseudo_evaluation(EditionTree &etree)
 {
-    giac::context ctx;
-    SLL::Term term(etree.getText());
+    SLL::Context ctx;
+    SLL::Term term = ctx.eval(etree.getText());
+    term = ctx.simplify(term);
 
     EditionTree shell = EditionTree();
     //copyExprAtCursor(term, shell); // convertion from giac version
-    std::string str = term.str();
+    std::string str = ctx.str(term);
     shell.editStr(str);
     std::cout << "--------- GOT: '";
     std::cout << shell.getText() << "'" << std::endl;
