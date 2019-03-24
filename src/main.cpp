@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<DocumentHandler>("DocumentHandler", 1, 0, "DocumentHandler");
     qmlRegisterType<LanguagesModel>("org.symbolibre.languagesModel", 1, 0, "LanguagesModel");
     qmlRegisterType<SnippetsModel>("org.symbolibre.snippetsModel", 1, 0, "SnippetsModel");
-    qRegisterMetaType<snippetMap_t*>("snippetMap_t*");
+    qRegisterMetaType<snippetMap_t>("snippetMap_t");
 
     QStringList selectors;
 #ifdef QT_EXTRA_FILE_SELECTOR

@@ -112,7 +112,7 @@ class DocumentHandler : public QObject
 
     Q_PROPERTY(LanguagesModel *languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
 
-    Q_PROPERTY(snippetMap_t *snippets READ snippets WRITE setSnippets NOTIFY snippetsChanged)
+    Q_PROPERTY(snippetMap_t snippets READ snippets WRITE setSnippets NOTIFY snippetsChanged)
 
 public:
     explicit DocumentHandler(QWidget *parent = nullptr);
@@ -162,8 +162,8 @@ public:
     Process *process() const;
     void setProcess(Process *newProcess);
 
-    snippetMap_t* snippets();
-    void setSnippets(snippetMap_t*);
+    snippetMap_t snippets();
+    void setSnippets(snippetMap_t);
 
     Q_INVOKABLE int insertSnippet(QString key);
 

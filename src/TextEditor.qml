@@ -50,7 +50,7 @@ TextEditorForm {
 
     langselection.model: langModel
     //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
-    Keys.onSpacePressed: {
+    Keys.onReturnPressed: {
 
         if (popup.focus)
         {

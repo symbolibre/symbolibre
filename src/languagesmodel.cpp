@@ -168,9 +168,9 @@ QString LanguagesModel::getCmdFromId(const int idx)
     return m_languageList[idx].languageCmd;
 }
 
-snippetMap_t* LanguagesModel::getSnippetsFromId(const int idx)
+snippetMap_t LanguagesModel::getSnippetsFromId(const int idx)
 {
-    return &m_languageList[idx].snippets;
+    return m_languageList[idx].snippets;
 }
 
 SnippetsModel::SnippetsModel()
@@ -190,35 +190,28 @@ int SnippetsModel::rowCount(const QModelIndex &parent) const
 
     if (parent.isValid())
         return 0;
-    if (m_snippets == nullptr)
-    {
-        return 0;
-    }
-    return m_snippets->size();
+
+    return m_snippets.size();
 }
 
 QVariant SnippetsModel::data(const QModelIndex &index, int role) const
 {
-    if(m_snippets == nullptr)
-    {
-        return QVariant();
-    }
-    if (index.row() >= m_snippets->size())
+    if (index.row() >= m_snippets.size())
         return QVariant();
 
-    QList<QString> keys = m_snippets->uniqueKeys();
+    QList<QString> keys = m_snippets.uniqueKeys();
 
     if (role == snippetKeyRole)  return keys[index.row()];
-    else if (role == snippetTextRole)  return (*m_snippets)[keys[index.row()]];
+    else if (role == snippetTextRole)  return (m_snippets)[keys[index.row()]];
     else return QVariant();
 }
 
-snippetMap_t* SnippetsModel::snippets()
+snippetMap_t SnippetsModel::snippets()
 {
     return m_snippets;
 }
 
-void SnippetsModel::setSnippets(snippetMap_t *map)
+void SnippetsModel::setSnippets(snippetMap_t map)
 {
     beginResetModel();
     m_snippets = map;
