@@ -15,7 +15,27 @@ struct Exception: public std::exception {
     };
 };
 
+/**
+ * Type of abstract math terms
+ */
 typedef giac::gen Term;
+
+/**
+ * Answers that can be given when a command is executed
+ */
+struct Status {
+    enum {
+        RESULT,     /**< A term is produced as result */
+        SET_VARIABLE,   /**< A variable is defined */
+        SET_FUNCTION,   /**< A function is defined */
+    } type;
+
+    /** Name of the variable or function just defined */
+    std::string name;
+
+    /** Result term, value of set variable or function */
+    SLL::Term value;
+};
 
 /**
  * Evaluation context where the value of variables is stored
@@ -25,16 +45,25 @@ class Context
 public:
     /**
      * @param formula: Formula to be evaluated
-     * Evaluates the formula in context. The formula has access to all the
-     * variables and functions defined through set().
+     * @return Evaluated SLL::Term
+     *
+     * Evaluates the formula in context. The formula must be a math term,
+     * not a command with side-effects such as an assigment.
+     * This function is a special case of exec() and returns the [value]
+     * attribute of the SLL::Status object produced by exec().
      */
-    Term eval(std::string formula);
+    SLL::Term eval(std::string formula);
 
     /**
-     * @param formula: Formula to parse
-     * Parses the formula but does not evaluate it.
+     * @param command: Formula or command to be evaluated
+     * @return An SLL::Status variant
+     *
+     * Evaluates the formula in context. The formula has access to all the
+     * variables and functions defined through set(). It can either be an
+     * expression to evaluated, or a command to define some variable or
+     * function using the ":=" syntax.
      */
-    Term parse(std::string formula);
+    SLL::Status exec(std::string command);
 
     /**
      * Simplify a term.

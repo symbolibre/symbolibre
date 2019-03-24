@@ -16,16 +16,17 @@ id		[A-Za-z_]+
 
 {blank}    ;
 
-{integer}  { yylval.INTEGER = yytext; return INTEGER; }
+{integer}  { yylval.INTEGER = strdup(yytext); return INTEGER; }
 "+"        { return '+'; }
 "-"        { return '-'; }
 "*"        { return '*'; }
 "/"        { return '/'; }
 "("        { return '('; }
 ")"        { return ')'; }
-{id}       { yylval.ID = yytext; return ID; }
+{id}       { yylval.ID = strdup(yytext); return ID; }
 ","        { return ','; }
-.          { std::cerr << "unknown token near '" << yytext << "' " << strlen(yytext) << "\n";return 0; }
+":="       { return COLONEQ; }
+.          { std::cerr << "unknown token near '" << yytext << "' " << strlen(yytext) << "\n"; return 0; }
 
 %%
 
@@ -34,17 +35,17 @@ extern int yydebug;
 namespace SLL {
 
 // We modify the lexer so we lex by taking string input
-int parse(const char *input, giac::gen *gen, giac::context *ctx)
+int parse(const char *input, SLL::Status *status, giac::context *ctx)
 {
 	#ifdef NDEBUG
 	yydebug = 1;
 	#endif
 
 	YY_BUFFER_STATE buf = yy_scan_bytes(input, strlen(input));
-	int x = yyparse(gen, ctx);
+	int x = yyparse(status, ctx);
 	yy_delete_buffer(buf);
 
 	return x;
 }
 
-}
+} /* namespace SLL */

@@ -115,18 +115,27 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
     return;
 }
 
-EditionTree evaluate(EditionTree &etree)
+EditionTree evaluate(EditionTree &etree, SLL::Context &sll)
 {
-    SLL::Context ctx;
-    SLL::Term term = ctx.eval(etree.getText());
-    term = ctx.simplify(term);
+    SLL::Status status = sll.exec(etree.getText());
+    status.value = sll.simplify(status.value);
 
     EditionTree shell = EditionTree();
-    //copyExprAtCursor(term, shell); // convertion from giac version
-    std::string str = ctx.str(term);
-    shell.editStr(str);
-    std::cout << "--------- GOT: '";
-    std::cout << shell.getText() << "'" << std::endl;
+
+    if (status.type == SLL::Status::RESULT) {
+        //copyExprAtCursor(term, shell); // convertion from giac version
+        std::string str = sll.str(status.value);
+        shell.editStr(str);
+        std::cout << "--------- GOT: '";
+        std::cout << shell.getText() << "'" << std::endl;
+    } else if (status.type == SLL::Status::SET_VARIABLE) {
+        std::string msg = "variable " + status.name + " defined";
+        shell.editStr(msg);
+    } else if (status.type == SLL::Status::SET_FUNCTION) {
+        std::string msg = "function " + status.name + " defined";
+        shell.editStr(msg);
+    }
+
     return shell;
 }
 
@@ -193,8 +202,13 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             editedExpression.editClear();
             break;
 
+        case KeyCode::SLK_COLONEQ:
+            editedExpression.editChar(':');
+            editedExpression.editChar('=');
+            break;
+
         case KeyCode::SLK_EXE:
-            results.push_back(evaluate(editedExpression));
+            results.push_back(evaluate(editedExpression, sll));
             expressions.push_back(std::move(editedExpression));
             editedExpression = EditionTree();
             break;

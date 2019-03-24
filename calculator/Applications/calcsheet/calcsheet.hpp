@@ -4,6 +4,7 @@
 #include <EditionTree.hpp>
 #include <memory>
 #include <list>
+#include "SLL.hpp"
 #include "keycode.hpp"
 
 /* Class MathRenderer
@@ -71,6 +72,7 @@ private:
     std::list<EditionTree> expressions;
     std::list<EditionTree> results;
     EditionTree editedExpression;
+    SLL::Context sll;
 
     int cursorPos;
 };

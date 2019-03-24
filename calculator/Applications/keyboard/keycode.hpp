@@ -35,7 +35,7 @@ public:
 
         /* Special keys */
         SLK_SND, SLK_ALPHA, SLK_DEL, SLK_CLEAR,
-        SLK_ANS, SLK_EXE, SLK_NULL
+        SLK_ANS, SLK_COLONEQ, SLK_EXE, SLK_NULL
     };
     Q_ENUMS(keycode);
 

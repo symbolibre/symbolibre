@@ -4,18 +4,28 @@ namespace SLL
 {
 
 /* Internal SLL parser */
-int parse(const char *formula, giac::gen *gen, giac::context *ctx);
+int parse(const char *formula, SLL::Status *st, giac::context *ctx);
 
-Term Context::parse(std::string formula)
+Status Context::exec(std::string command)
 {
-    giac::gen g;
-    SLL::parse(formula.c_str(), &g, &this->ctx);
-    return g;
+    Status st;
+    SLL::parse(command.c_str(), &st, &this->ctx);
+
+    st.value = giac::eval(st.value, &this->ctx);
+
+    /* Handling of side effects */
+    if (st.type == Status::SET_VARIABLE) {
+        this->set(st.name, st.value);
+    }
+
+    return st;
 }
 
 Term Context::eval(std::string formula)
 {
-    return giac::eval(parse(formula), &this->ctx);
+    Status st = this->exec(formula);
+    /* TODO: raise exception if status is not [RESULT] */
+    return st.value;
 }
 
 Term Context::simplify(Term t)
