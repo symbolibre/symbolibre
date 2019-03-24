@@ -52,7 +52,7 @@ TextEditorForm {
     //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
     Keys.onReturnPressed: {
 
-        if (popup.focus)
+        if (popup.activeFocus)
         {
             editor.document.setDocLanguage(langselection.currentIndex)
             editor.document.startHighlighter()
@@ -60,10 +60,11 @@ TextEditorForm {
             textArea.forceActiveFocus()
         }
 
-        if (popupSnippets.focus)
+        if (popupSnippets.activeFocus)
         {
             textArea.cursorPosition = document.insertSnippet(snippselection.currentText)
             popupSnippets.close()
+            textArea.forceActiveFocus()
         }
 
     }
