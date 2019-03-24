@@ -14,12 +14,19 @@ public:
 
     enum keycode /* SymboLibreKey */
     {
-        /* Letters -- add lower ones ?*/
+        /* Letters */
         SLK_A, SLK_B, SLK_C, SLK_D, SLK_E, SLK_F,
         SLK_G, SLK_H, SLK_I, SLK_J, SLK_K, SLK_L,
         SLK_M, SLK_N, SLK_O, SLK_P, SLK_Q, SLK_R,
         SLK_S, SLK_T, SLK_U, SLK_V, SLK_W, SLK_X,
         SLK_Y, SLK_Z,
+
+        /* Small letters */
+        SLK_a, SLK_b, SLK_c, SLK_d, SLK_e, SLK_f,
+        SLK_g, SLK_h, SLK_i, SLK_j, SLK_k, SLK_l,
+        SLK_m, SLK_n, SLK_o, SLK_p, SLK_q, SLK_r,
+        SLK_s, SLK_t, SLK_u, SLK_v, SLK_w, SLK_x,
+        SLK_y, SLK_z,
 
         /* Digits */
         SLK_0, SLK_1, SLK_2, SLK_3, SLK_4, SLK_5,

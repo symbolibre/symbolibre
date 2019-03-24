@@ -143,6 +143,8 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 {
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         editedExpression.editChar('A' + input - KeyCode::SLK_A);
+    else if (KeyCode::SLK_a <= input && input <= KeyCode::SLK_z)
+        editedExpression.editChar('a' + input - KeyCode::SLK_a);
     else if (KeyCode::SLK_0 <= input && input <= KeyCode::SLK_9)
         editedExpression.editChar('0' + input - KeyCode::SLK_0);
     else

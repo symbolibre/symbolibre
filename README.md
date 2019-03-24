@@ -4,9 +4,10 @@ Calculator applications, mainly math-related.
 
 ## Building
 
-First build SLL in the `SLL` directory.
+First build SLL.
 
-   % make -C SLL
+   % cd SLL
+   % make
 
 Then build GraphViewer.
 
