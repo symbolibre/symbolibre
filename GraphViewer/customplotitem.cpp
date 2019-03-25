@@ -9,8 +9,8 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent)
     m_CustomPlot = new QCustomPlot();
 
     cursor = new QCPItemTracer(m_CustomPlot);
-    cursor->setStyle(QCPItemTracer::tsNone);
-    cursorVisible = 0;
+    cursor->setStyle(QCPItemTracer::tsPlus);
+    cursor->setVisible(0);
     modeCursor = 0;
     cursorX = 0;
     cursorY = 0;
@@ -152,7 +152,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             return;
         }
         cursor->setStyle(QCPItemTracer::tsPlus);
-        if (cursorVisible == 0) {
+        if (cursor->visible() == 0) {
             cursorX = Xcen;
             cursorY = Ycen;
             QCPGraph *closest = cursor->graph();
@@ -289,7 +289,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             moveWindow(0, mvY);
         }
 
-        cursorVisible = 1;
+        cursor->setVisible(1);
     }
 }
 
@@ -392,8 +392,6 @@ void CustomPlotItem::addGraph(QString formula)
 void CustomPlotItem::clearGraph()
 {
     if (m_CustomPlot) {
-        cursor->setStyle(QCPItemTracer::tsNone);
-        cursorVisible = 0;
         for (auto name : listGraph.keys()) {
             removeGraph(name);
         }
@@ -407,7 +405,7 @@ void CustomPlotItem::removeGraph(QString nomGraph)
             //if lié au cursor
             if (cursor->graph() == listGraph[nomGraph].graph) {
                 cursor->setGraph(nullptr);
-                cursorVisible = 0;
+                cursor->setVisible(0);
             }
             m_CustomPlot->removeGraph(listGraph[nomGraph].graph);
             listGraph.remove(nomGraph);
