@@ -48,7 +48,26 @@ TextEditorForm {
 
     //Language Selection Popup
 
+    Component {
+        id: langDelegate
+        Rectangle {
+            id: langDelegateRect
+            width: parent.width
+            height: langDelegateText.height
+            states: State {
+                name: "selected"
+                when: langDelegateRect.ListView.isCurrentItem
+                PropertyChanges { target: langDelegateText; font.bold: true }
+            }
+            Text {
+                id: langDelegateText
+                text: model.languageName
+            }
+        }
+    }
+
     langselection.model: langModel
+    langselection.delegate: langDelegate
     //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
     Keys.onReturnPressed: {
 

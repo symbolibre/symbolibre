@@ -159,6 +159,7 @@ Item {
             x: (parent.width - width) / 2
             y: (parent.height - height) / 2
             width: 180
+            height: 100
 
             parent: ApplicationWindow.contentItem
 
@@ -166,12 +167,10 @@ Item {
             focus: true
             visible: true
 
-            ComboBox {
+            ListView {
                 id: langselection
-                width: parent.width
-                editable: false
-                currentIndex: 1
-                textRole: qsTr("languageName")
+                height: parent.height
+                keyNavigationWraps: true
                 Keys.forwardTo: editor
             }
         }
