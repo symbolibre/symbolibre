@@ -8,6 +8,10 @@ Item {
     property int mode_int : 0
     property int exit : 0
 
+    signal rangeCom(double xmin, double xmax, double ymin, double ymax)
+    // Send a signal saying that range changed. Send when initialized and when lose focus
+
+
     CustomPlotItem { // Should not be aliased, the interface should be enought
         id : plotItem
         anchors.fill: parent
@@ -17,8 +21,11 @@ Item {
         var name = ""
         var i = 0
         for(i=0; i < nameList.length; i++) {
-            plotItem.addGraph(nameList[i] + "=" + exprList[i])
+            if (exprList[i] !== "") {
+                plotItem.addGraph(nameList[i] + "=" + exprList[i])
+            }
         }
+        rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
     }
 
     function setRange(xmin, xmax, ymin, ymax) {
@@ -36,9 +43,21 @@ Item {
         return "Def"
     }
 
+    onModeChanged: {
+        if (mode == "Cursor") {
+            plotItem.setModeCursor()
+        }
+        if (mode == "Zoom") {
+            plotItem.setModeWindow()
+        }
+    }
+
     onFocusChanged: {
         if (focus == true) {
             exit = 0
+        }
+        else {
+            rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
         }
     }
 
@@ -49,8 +68,8 @@ Item {
                 event.accepted = true
             }
             if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
+                plotItem.moveCursor(1, 0)
+                event.accepted = true
             }
         }
 
@@ -60,8 +79,8 @@ Item {
                 event.accepted = true
             }
             if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
+                plotItem.moveCursor(-1, 0)
+                event.accepted = true
             }
         }
 
@@ -71,8 +90,8 @@ Item {
                 event.accepted = true
             }
             if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
+                plotItem.moveCursor(0, 1)
+                event.accepted = true
             }
         }
 
@@ -82,35 +101,27 @@ Item {
                 event.accepted = true
             }
             if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
+                plotItem.moveCursor(0, -1)
+                event.accepted = true
             }
         }
 
         else if (event.key === Qt.Key_Plus) {
-            if (mode == "Zoom") {
+            if (mode == "Zoom" || mode == "Cursor") {
                 plotItem.modifyZoom(0.5)
                 event.accepted = true
-            }
-            if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
             }
         }
 
         else if (event.key === Qt.Key_Minus) {
-            if (mode == "Zoom") {
+            if (mode == "Zoom" || mode == "Cursor") {
                 plotItem.modifyZoom(2.0)
                 event.accepted = true
-            }
-            if (mode == "Cursor") {
-                // TODO
-                event.accepted = false
             }
         }
 
         else if (event.key === Qt.Key_Return) {
-            if (mode == "Zoom") {
+            if (mode == "Zoom" || mode == "Cursor") {
                 exit = 1
                 event.accepted = true
             }

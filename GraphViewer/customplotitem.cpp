@@ -300,6 +300,14 @@ void CustomPlotItem::modifyZoom(double value)
         Xlen *= value;
         Ylen *= value;
 
+        if (modeCursor) {
+            Xcen = cursorX;
+            Ycen = cursorY;
+        } else {
+            Xcen = (Xmin + Xmax) / 2;
+            Ycen = (Ymin + Ymax) / 2;
+        }
+
         Xmin = Xcen - Xlen;
         Xmax = Xcen + Xlen;
         Ymin = Ycen - Ylen;

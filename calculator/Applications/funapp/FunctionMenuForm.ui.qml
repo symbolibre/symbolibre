@@ -15,7 +15,7 @@ Rectangle {
     property double ymin: 0
     property double xmax: 0
     property double ymax: 0
-    property int vertical_spacing: height/18 // Space between boxes
+    property int vertical_spacing: height/16 // Space between boxes
     property int horizontal_spacing : width / 8
     property int box_height: height/6  // height of boxes
     property int text_width : width / 6
