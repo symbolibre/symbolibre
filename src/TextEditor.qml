@@ -115,6 +115,9 @@ TextEditorForm {
         onAccepted: document.saveAs(file)
     }
 
+
+    // Binding for the keyboard
+
     Shortcut {
         sequence: "Ctrl+o"
         onActivated: openDialog.open()
@@ -126,24 +129,52 @@ TextEditorForm {
     }
 
     Shortcut {
-        sequence: "Ctrl+e"
+        sequence: "Shift+Return"
         onActivated: {
             document.execute()
         }
     }
 
     Shortcut {
-        sequence: "Ctrl+l"
+        sequence: "Shift+F4"
         onActivated: popup.open()
     }
 
     Shortcut {
-        sequence: "Ctrl+i"
+        sequence: "F1"
         onActivated: {
             snippetModel.snippets = document.snippets
             popupSnippets.open()
             snippselection.forceActiveFocus()
         }
     }
+
+    Shortcut {
+        sequence: "F5"
+        onActivated: textArea.cursorPosition = document.insertSnippet("if")
+    }
+    Shortcut {
+        sequence: "Shift+F5"
+        onActivated: textArea.cursorPosition = document.insertSnippet("else")
+    }
+
+    Shortcut {
+        sequence: "F6"
+        onActivated: textArea.cursorPosition = document.insertSnippet("for")
+    }
+    Shortcut {
+        sequence: "Shift+F6"
+        onActivated: textArea.cursorPosition = document.insertSnippet("while")
+    }
+
+    Shortcut {
+        sequence: "F7"
+        onActivated: textArea.cursorPosition = document.insertSnippet("print")
+    }
+    Shortcut {
+        sequence: "Shift+F7"
+        onActivated: textArea.cursorPosition = document.insertSnippet("input")
+    }
+
 }
 
