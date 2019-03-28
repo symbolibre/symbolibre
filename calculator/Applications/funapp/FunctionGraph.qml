@@ -2,10 +2,25 @@ import QtQuick 2.4
 
 FunctionGraphForm {
 
-    menu.xmin: graph.xmin
-    menu.ymin: graph.ymin
-    menu.xmax: graph.xmax
-    menu.ymax: graph.ymax
+    // TODO : in a cleaner way. But works correctly for now
+    xtext.text: {
+        if (graph.focus == true) {
+            return (qsTr("X = ") + String(graph.cursorX.toFixed(4)))
+        }
+        else {
+            return ""
+        }
+    }
+
+    ytext.text: {
+        if (graph.focus == true) {
+            return (qsTr("Y = ") + String(graph.cursorY.toFixed(4)))
+        }
+        else {
+            return ""
+        }
+    }
+
 
     onExitGraphChanged: {
          if (exitGraph == 1) {

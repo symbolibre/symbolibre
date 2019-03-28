@@ -10,6 +10,8 @@ class QCustomPlot;
 class CustomPlotItem : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_PROPERTY(double cursorX READ getCursorX NOTIFY cursorXChanged)
+    Q_PROPERTY(double cursorY READ getCursorY NOTIFY cursorYChanged)
 
 public:
     CustomPlotItem(QQuickItem *parent = nullptr);
@@ -23,6 +25,11 @@ public:
     {
         qmlRegisterType<CustomPlotItem>("SLCustomPlotItem", 1, 0, "CustomPlotItem");
     }
+
+
+signals:
+    void cursorXChanged();
+    void cursorYChanged();
 
 private:
     QCustomPlot *m_CustomPlot;

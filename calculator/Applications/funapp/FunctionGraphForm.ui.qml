@@ -11,6 +11,9 @@ FocusDistributor {
     property alias graph: graph
     property alias exitGraph: graph.exit
 
+    property alias xtext: xtext
+    property alias ytext: ytext
+
     SelectBar {
         id: mode
         height: 20
@@ -48,14 +51,15 @@ FocusDistributor {
             nameList: def.nameList
 
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: mode.bottom
+            anchors.bottomMargin: 15
+            anchors.top: parent.top
             anchors.topMargin: 0
             anchors.left: parent.left
             anchors.leftMargin: 0
             anchors.right: parent.right
             anchors.rightMargin: 0
             clip: true
+
 
             /*Connections {
                 target: mainMenu
@@ -66,5 +70,25 @@ FocusDistributor {
                 }
             }*/
         }
+    }
+
+    Text {
+        id: xtext
+        anchors.bottom: parent.bottom
+        x: 160
+        y: 200
+        width: 75
+        height: 20
+        anchors.bottomMargin: 0
+    }
+
+    Text {
+        id: ytext
+        anchors.bottom: parent.bottom
+        x: 252
+        y: 200
+        width: 68
+        height: 20
+        anchors.bottomMargin: 0
     }
 }
