@@ -23,6 +23,7 @@ Rectangle {
         clip: true
         anchors.fill: parent
         SelectBar2 {
+            focus: true
             id: mainMenu
             x: 0
             width: parent.width
@@ -58,13 +59,13 @@ Rectangle {
         }
     }
 
-    FormulaBox {
-        focus : true
+    /*FormulaBox {
+        //focus : true
         x : 0
         y : 0
         width : 100
         height : 40
-    }
+    } */
 }
 
 
