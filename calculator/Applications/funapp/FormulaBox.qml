@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import etBox 1.0
 import SLKeyCode 1.0
-import "../keyboard"
 
 Item {
 
@@ -15,7 +14,6 @@ Item {
 
     Keys.onPressed: {
         function send(code) {
-            console.log("From qml : ", code)
             formula.recvInput(code);
         }
 

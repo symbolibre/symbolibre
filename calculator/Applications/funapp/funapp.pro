@@ -11,7 +11,7 @@ INCLUDEPATH += ../../editiontree \
 LIBS += -L../../../GraphViewer -lGraphViewer \
 	-L../../editiontree -leditiontree \
 	-L../keyboard -lkeyboard \
-	-lgiac -lgmp 
+	-lgiac -lgmp
 
 SOURCES += main.cpp \
     calcsheet.cpp 
