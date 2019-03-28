@@ -7,6 +7,7 @@ import "../keyboard"
 import "../components"
 import QtQuick.Window 2.3
 import SLCustomPlotItem 1.0
+import etBox 1.0
 
 Rectangle {
     id: screen
@@ -55,6 +56,14 @@ Rectangle {
             }
 
         }
+    }
+
+    FormulaBox {
+        focus : true
+        x : 0
+        y : 0
+        width : 100
+        height : 40
     }
 }
 

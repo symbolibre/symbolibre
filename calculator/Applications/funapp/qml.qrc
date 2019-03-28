@@ -31,5 +31,6 @@
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
         <file alias="SelectBar2.qml">../components/SelectBar2.qml</file>
         <file alias="SelectBar2Form.ui.qml">../components/SelectBar2Form.ui.qml</file>
+        <file>FormulaBox.qml</file>
     </qresource>
 </RCC>

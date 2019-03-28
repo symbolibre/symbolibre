@@ -39,6 +39,7 @@ void ETBox::setSpaceFromBorder(int value)
 
 void ETBox::recvInput(int /* KeyCode::keycode */ input)
 {
+    std::cout << "ETbox : " << input << std::endl;
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         expr.editChar('A' + input - KeyCode::SLK_A);
     else if (KeyCode::SLK_a <= input && input <= KeyCode::SLK_z)

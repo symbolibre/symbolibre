@@ -15,6 +15,7 @@ LIBS += -L../../../GraphViewer -lGraphViewer \
 
 SOURCES += main.cpp \
     calcsheet.cpp 
+    
 
 RESOURCES += qml.qrc
 
