@@ -1,6 +1,10 @@
 TEMPLATE = lib
 CONFIG  += staticlib		   
-LIBS += -lgiac
+QT += qml quick
+INCLUDEPATH += ../Applications/keyboard
+LIBS += -lgiac -lgmp \
+	-L ../Applications/keyboard -lkeyboard \
+
 
 HEADERS  = EditionArea.hpp \
 		   Operator.hpp \
@@ -25,6 +29,7 @@ SOURCES  = EditionArea.cpp \
 		   Sigma.cpp \
 		   Flow.cpp \
 		   fromGiacGen.cpp \
-		   InternalEditionNode.cpp
+		   InternalEditionNode.cpp \
+		   ETBox.cpp 
 
 

@@ -14,6 +14,7 @@ void atPlus(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atNeg(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atProd(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atInv(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
+void atFrac(const giac::gen &f, EditionTree &shell, EXT_GIAC_CONTEXT);
 
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
@@ -201,6 +202,33 @@ void atInv(const giac::gen &feuille, EditionTree &shell, EXT_GIAC_CONTEXT)
     return;
 }
 
+void atFrac(const giac::gen &f, EditionTree &shell, EXT_GIAC_CONTEXT)
+{
+    if (f._FRACptr->num.type == giac::_INT_ && f._FRACptr->den.type == giac::_INT_) {
+        shell.editFrac();
+        atGen(f._FRACptr->num, shell, contextptr);
+        shell.editMoveDown();
+        atGen(f._FRACptr->den, shell, contextptr);
+        shell.editMoveRight();
+        return;
+    }
+    /*
+    if (calc_mode(contextptr)==1 && f._FRACptr->den.type==_CPLX){
+        // giac::_CPLX is ignored as we do not manage complex numbers yet
+      gen n=f._FRACptr->num,d=f._FRACptr->den,dr,di;
+      reim(d,dr,di,contextptr);
+      n=n*gen(dr,-di);
+      d=dr*dr+di*di;
+      gen nd=fraction(n,d);
+      if (nd.type==_FRAC)
+    return print_FRAC(nd,contextptr);
+      else
+    return nd.print(contextptr);
+    }
+    return _FRAC2_SYMB(f).print(contextptr); */
+    return atGen(giac::_FRAC2_SYMB(f), shell, contextptr);
+}
+
 void atSPrint(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 // Je ne comprends pas, dans symbolic.cc, pourquoi il y a un add_print
 // ET un add_print_symbolic... quelle est la différence ?
@@ -328,8 +356,10 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         return atNeg(e.feuille, shell, contextptr);
     if (e.sommet == giac::at_inv)
         return atInv(e.feuille, shell, contextptr);
-    if (e.sommet == giac::at_exp)
+    if (e.sommet == giac::at_exp) {
+        std::cout << "at_exp\n";
         return;
+    }
 //#ifndef EMCC
 //  && (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)
 //#endif
@@ -337,6 +367,8 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //      s += printasexp(g.feuille,0,contextptr);
 //      return s;
 //    }
+    std::string bin = e.print(contextptr);
+    shell.editStr(bin);
     return;
 //    if ( g.feuille.type!=_VECT || ( g.sommet!=at_prod && g.feuille._VECTptr->front().type==_VECT ) ){
 //      s += g.sommet.ptr()->print(contextptr);
@@ -369,6 +401,7 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
     std::cout << "@atGen\n";
     std::cout << "GENERATING " << e << std::endl;
+    std::string bin;
     switch (e.type) {
     case giac::_INT_:
         atInt(e.val, shell, contextptr);
@@ -408,12 +441,22 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         break;
     case giac::_VECT:
         std::cout << "_VECT" << std::endl;
+        bin = e.print(contextptr);
+        shell.editStr(bin);
         break;
     case giac::_FUNC:
         std::cout << "_FUNC" << std::endl;
+        bin = e.print(contextptr);
+        shell.editStr(bin);
+        break;
+    case giac::_FRAC:
+        std::cout << "_FRAC" << std::endl;
+        atFrac(e, shell, contextptr);
         break;
     default:
         std::cout << "Unknown case atGen" << std::endl;
+        bin = e.print(contextptr);
+        shell.editStr(bin);
         break;
     }
 }

@@ -123,9 +123,9 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll)
     EditionTree shell = EditionTree();
 
     if (status.type == SLL::Status::RESULT) {
-        //copyExprAtCursor(term, shell); // convertion from giac version
-        std::string str = sll.str(status.value);
-        shell.editStr(str);
+        //std::string str = sll.str(status.value);
+        copyExprAtCursor(status.value, shell); // convertion from giac version
+        //shell.editStr(str);
         std::cout << "--------- GOT: '";
         std::cout << shell.getText() << "'" << std::endl;
     } else if (status.type == SLL::Status::SET_VARIABLE) {

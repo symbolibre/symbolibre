@@ -3,6 +3,10 @@
 
 #include <giac/config.h>
 #include <giac/giac.h>
+
+#include <QQuickPaintedItem>
+// #include <QDebug>
+
 #include "Flow.hpp"
 #include "visitors.hpp"
 
@@ -204,8 +208,40 @@ private:
     char lastEdition;
 };
 
-
+/** Make the conversion from giac to edition trees.
+ * @param expr is a giac::gen corresponding to the source gen.
+ * @param shell is an edition tree that will be modified accordingly.
+ */
 void copyExprAtCursor(giac::gen &expr, EditionTree &shell);
+
+class ETBox : public QQuickPaintedItem
+{
+    Q_OBJECT
+
+public:
+    explicit ETBox(QQuickItem *parent = nullptr);
+
+    /* Painting functions */
+    void paint(QPainter *painter) override;
+
+    /* Getters and setters */
+    void setSpaceFromBorder(int value);
+
+signals:
+    void expressionChanged(void);
+
+public slots:
+    Q_INVOKABLE void recvInput(int /* KeyCode::keycode */ input);
+
+private:
+    EditionTree expr;
+    int centerOnCursor;
+    int adjustHeight;
+    int adjustWidth;
+    int spaceFromBorder;
+};
+
+
 
 
 #endif // EDITIONTREE_HPP
