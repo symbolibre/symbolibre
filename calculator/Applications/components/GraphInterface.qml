@@ -8,6 +8,9 @@ Item {
     property int mode_int : 0
     property int exit : 0
 
+    property double cursorX : plotItem.cursorX
+    property double cursorY : plotItem.cursorY
+
     signal rangeCom(double xmin, double xmax, double ymin, double ymax)
     // Send a signal saying that range changed. Send when initialized and when lose focus
 
@@ -25,7 +28,7 @@ Item {
                 plotItem.addGraph(nameList[i] + "=" + exprList[i])
             }
         }
-        rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
+        rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getYmax())
     }
 
     function setRange(xmin, xmax, ymin, ymax) {

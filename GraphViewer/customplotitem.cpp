@@ -91,6 +91,7 @@ void CustomPlotItem::plotGraph(QString nomGraph)
         }
 
         m_CustomPlot->replot();
+
     }
 }
 
@@ -139,6 +140,14 @@ void CustomPlotItem::moveWindow(int horizontal, int vertical)
                     x -= Xsca;
                 }
             }
+        }
+        if (modeCursor == 0) {
+            cursor->position->setCoords(Xcen, Ycen);
+            cursor->setVisible(1);
+            cursorX = Xcen;
+            cursorY = Ycen;
+            emit cursorXChanged();
+            emit cursorYChanged();
         }
     }
 }
@@ -290,6 +299,8 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         }
 
         cursor->setVisible(1);
+        emit cursorXChanged();
+        emit cursorYChanged();
     }
 }
 
@@ -462,12 +473,20 @@ void CustomPlotItem::setModeWindow()
 {
     //now arrows move the window
     modeCursor = 0;
+
+    // We free the cursor from the graph
+    cursor->setGraph(0);
+    cursor->position->setCoords(Xcen, Ycen);
+    cursor->setVisible(1);
+    emit cursorXChanged();
+    emit cursorYChanged();
 }
 
 void CustomPlotItem::setModeCursor()
 {
     //now arrows move the cursor
     modeCursor = 1;
+    cursor->setVisible(0);
 }
 
 void CustomPlotItem::switchModeCurWin()

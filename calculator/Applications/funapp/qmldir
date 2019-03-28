@@ -15,3 +15,5 @@ TextFieldCustom.qml ../components/TextFieldCustom.qml
 TextFieldCustomForm.ui.qml ../components/TextFieldCustomForm.ui.qml
 HorizontalFocusDistributor.qml ../components/HorizontalFocusDistributor.qml
 GraphInterface.qml ../components/GraphInterface.qml
+SelectBar2.qml ../components/SelectBar2.qml
+SelectBar2Form.ui.qml ../components/SelectBar2Form.ui.qml

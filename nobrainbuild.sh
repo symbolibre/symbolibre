@@ -1,6 +1,6 @@
 cd SLL
 make 
-cd ../GraohViewer
+cd ../GraphViewer
 qmake
 make
 cd ../calculator

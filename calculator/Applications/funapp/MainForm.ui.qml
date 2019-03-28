@@ -21,15 +21,14 @@ Rectangle {
         y: 0
         clip: true
         anchors.fill: parent
-        SelectBar {
+        SelectBar2 {
             id: mainMenu
             x: 0
             width: parent.width
-            height: 35
+            height: 30
             anchors.top: parent.top
             anchors.topMargin: 0
             text1: "Functions"
-            text3: "Table"
             text2: "Graph"
         }
 
@@ -61,7 +60,6 @@ Rectangle {
 
 
 /*##^## Designer {
-    D{i:7;anchors_width:229;anchors_x:65}D{i:9;anchors_width:229;anchors_x:65}D{i:11;anchors_width:229;anchors_x:65}
-D{i:13;anchors_width:320}D{i:3;anchors_x:0}
+    D{i:3;anchors_x:0}
 }
  ##^##*/

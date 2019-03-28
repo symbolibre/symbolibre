@@ -29,5 +29,7 @@
         <file alias="TextFieldCustomForm.ui.qml">../components/TextFieldCustomForm.ui.qml</file>
         <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
+        <file alias="SelectBar2.qml">../components/SelectBar2.qml</file>
+        <file alias="SelectBar2Form.ui.qml">../components/SelectBar2Form.ui.qml</file>
     </qresource>
 </RCC>
