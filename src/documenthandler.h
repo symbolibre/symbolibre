@@ -170,6 +170,7 @@ public:
 
 public Q_SLOTS:
     void load(const QUrl &fileUrl);
+    void load(const QString &filePath);
     void saveAs(const QUrl &fileUrl);
     void setDocLanguage(int language);
     void setDocLanguageFromExtension(QString fileExt);

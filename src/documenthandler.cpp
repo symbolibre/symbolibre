@@ -403,6 +403,11 @@ void DocumentHandler::load(const QUrl &fileUrl)
 
 }
 
+void DocumentHandler::load(const QString &filePath){
+    QUrl path = QUrl::fromLocalFile(filePath);
+    this->load(path);
+}
+
 void DocumentHandler::startHighlighter(void){
 
     m_repository.addCustomSearchPath("syntax-highlighting/data");

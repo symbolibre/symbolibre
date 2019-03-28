@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
+import Qt.labs.folderlistmodel 2.2
 
 Item {
     property ApplicationWindow window: window
@@ -19,6 +20,10 @@ Item {
     property alias popupSnippets: popupSnippets
     property alias langselection: langselection
     property alias snippselection: snippselection
+    property alias popupFileExplorer: popupFileExplorer
+    property alias fileExplorerView: fileExplorerView
+    property alias popupStart: popupStart
+    property alias newOpenSelection: newOpenSelection
 
     Menu {
         id: fileMenu
@@ -46,7 +51,6 @@ Item {
             text: "Langage"
         }
     }
-
 
     /*
     ToolBar {
@@ -82,7 +86,7 @@ Item {
             color: "light yellow"
             width: textArea.lineCount == 1 ? 26 : 20 + 6 * Math.ceil(
                                                  Math.log(
-                                                     textArea.lineCount) / Math.log(
+                                                     textArea.lineCount + 1) / Math.log(
                                                      10))
             height: parent.height
         }
@@ -165,10 +169,32 @@ Item {
 
             modal: true
             focus: true
-            visible: true
+            visible: false
 
             ListView {
                 id: langselection
+                height: parent.height
+                keyNavigationWraps: true
+                Keys.forwardTo: editor
+            }
+        }
+
+        Popup {
+
+            id: popupFileExplorer
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            width: 200
+            height: 200
+
+            parent: ApplicationWindow.contentItem
+
+            modal: true
+            focus: true
+            visible: false
+
+            ListView {
+                id: fileExplorerView
                 height: parent.height
                 keyNavigationWraps: true
                 Keys.forwardTo: editor
@@ -184,7 +210,7 @@ Item {
 
             parent: ApplicationWindow.contentItem
 
-            modal: false
+            modal: true
             focus: true
             visible: false
 
@@ -197,13 +223,33 @@ Item {
                 Keys.forwardTo: editor
             }
         }
+
+        Popup {
+            id: popupStart
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            width: 180
+            height: 60
+
+            parent: ApplicationWindow.contentItem
+
+            modal: true
+            focus: true
+            visible: true
+
+            ListView {
+                id: newOpenSelection
+                width: parent.width
+                height: parent.height
+                keyNavigationWraps: true
+                Keys.forwardTo: editor
+
+            }
+        }
     }
 }
-
-
-
-
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
  ##^##*/
+

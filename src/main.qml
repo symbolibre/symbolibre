@@ -17,7 +17,7 @@ ApplicationWindow {
     TextEditor {
     id: editor
     window: mainwindow
-    Component.onCompleted: langselection.forceActiveFocus()
+    Component.onCompleted: newOpenSelection.forceActiveFocus()
     }
 
     title: editor.fileName + qsTr(" - Symbolibre IDE")

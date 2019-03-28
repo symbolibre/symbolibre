@@ -2,8 +2,8 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
-
 import Qt.labs.platform 1.0
+import Qt.labs.folderlistmodel 2.2
 
 import DocumentHandler 1.0
 import org.symbolibre.languagesModel 1.0
@@ -24,6 +24,27 @@ TextEditorForm {
      SnippetsModel
      {
          id: snippetModel
+     }
+
+     FolderListModel {
+         id: fileExplorerViewModel
+         showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
+
+         // To make it display files of a specific folder :
+         // folder: "file://<path to directory>
+         // ex :
+         // folder: "file///home/username/Documents"
+
+     }
+
+     ListModel {
+         id: newOpenFileModel
+         ListElement {
+             choice: "New file"
+         }
+         ListElement {
+             choice: "Open file"
+         }
      }
 
 
@@ -68,7 +89,60 @@ TextEditorForm {
 
     langselection.model: langModel
     langselection.delegate: langDelegate
-    //langselection.onCurrentIndexChanged: document.setDocLanguage(langselection.currentIndex)
+
+    // Snippet
+
+    snippselection.model: snippetModel
+
+    // File Explorer
+
+    Component {
+        id: fileDelegate
+        Rectangle {
+            id: fileDelegateRect
+            width: parent.width
+            height: fileDelegateText.height
+            states: State {
+                name: "selected"
+                when: fileDelegateRect.ListView.isCurrentItem
+                PropertyChanges { target: fileDelegateText; font.bold: true }
+            }
+            Text {
+                id: fileDelegateText
+                text: fileName
+            }
+        }
+    }
+
+    fileExplorerView.model: fileExplorerViewModel
+    fileExplorerView.delegate: fileDelegate
+
+
+    // Starting Popup
+
+    Component {
+        id: newOpenFileDelegate
+        Rectangle {
+            id: newOpenFileDelegateRect
+            width: parent.width
+            height: newOpenFileDelegateText.height
+            states: State {
+                name: "selected"
+                when: newOpenFileDelegateRect.ListView.isCurrentItem
+                PropertyChanges { target: newOpenFileDelegateText; font.bold: true }
+            }
+            Text {
+                id: newOpenFileDelegateText
+                text: model.choice
+            }
+        }
+    }
+
+    newOpenSelection.model: newOpenFileModel
+    newOpenSelection.delegate: newOpenFileDelegate
+
+    // Management of the popups
+
     Keys.onReturnPressed: {
 
         if (popup.activeFocus)
@@ -86,14 +160,28 @@ TextEditorForm {
             textArea.forceActiveFocus()
         }
 
+        if (popupFileExplorer.activeFocus)
+        {
+            document.load(fileExplorerView.model.get(fileExplorerView.currentIndex, "filePath"))
+            popupFileExplorer.close()
+            textArea.forceActiveFocus()
+        }
+
+        if (popupStart.activeFocus){
+            if (newOpenSelection.currentIndex == 0){
+                popupStart.close()
+                popup.open()
+                langselection.forceActiveFocus()
+            }
+            else if (newOpenSelection.currentIndex == 1){
+                popupStart.close()
+                popupFileExplorer.open()
+                fileExplorerView.forceActiveFocus()
+            }
+
+        }
+
     }
-
-
-    // Snippet
-
-
-    snippselection.model: snippetModel
-
 
     // Dialogs
 
@@ -137,7 +225,7 @@ TextEditorForm {
 
     Shortcut {
         sequence: "Shift+F4"
-        onActivated: popup.open()
+        onActivated: popupStart.open()
     }
 
     Shortcut {
@@ -174,6 +262,11 @@ TextEditorForm {
     Shortcut {
         sequence: "Shift+F7"
         onActivated: textArea.cursorPosition = document.insertSnippet("input")
+    }
+
+    Shortcut {
+        sequence: "Shift+Backspace"
+        onActivated: textArea.undo()
     }
 
 }
