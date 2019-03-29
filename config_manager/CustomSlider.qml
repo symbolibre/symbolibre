@@ -20,11 +20,24 @@ Row {
     }
 
     Keys.onLeftPressed: {
+        var lastvalue = slider.value
         slider.decrease()
+        if(slider.value != lastvalue) {
+            configrw.write(props.key, slider.value)
+        }
     }
 
     Keys.onRightPressed: {
+        var lastvalue = slider.value
         slider.increase()
+        configrw.write(props.key, slider.value)
+        if(slider.value != lastvalue) {
+            configrw.write(props.key, slider.value)
+        }
+    }
+
+    function init() {
+        slider.value = configrw.read(props.key)
     }
 }
 
