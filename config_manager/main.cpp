@@ -9,6 +9,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
+#include <iostream>
+#include "configrw.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,22 +20,32 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    /*QQmlComponent component(&engine, QUrl::fromLocalFile("JSONListModel.qml"));
-    QObject *jsonListModel = component.create();*/
+    QQmlComponent component(&engine, QUrl::fromLocalFile("JSONListModel.qml"));
+    QObject *jsonListModel = component.create();
 
-    QFile file("config.json");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return 1;
+
+    QFile file("layout.json");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        std::cout << "config.json not found" << std::endl;
+        return 1;
+    }
+
     QTextStream in(&file);
     //qDebug() << in.readAll();
 
 
-    //jsonListModel->setProperty("json", in.readAll());
+    jsonListModel->setProperty("json", in.readAll().toUtf8());
     file.close();
 
-    //engine.rootContext()->setContextProperty("configmodel", QVariant::fromValue(jsonListModel));
+    ConfigRW configrw("config.json");
+
+    engine.rootContext()->setContextProperty("configrw", &configrw);
+    engine.rootContext()->setContextProperty("configmodel", QVariant::fromValue(jsonListModel));
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
+
 
     return app.exec();
 }

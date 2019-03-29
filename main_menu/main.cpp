@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
         }
     }
 
+
+
     std::sort(apps.begin(), apps.end());
 
     for(auto path : apps) {

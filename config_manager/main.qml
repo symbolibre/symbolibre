@@ -18,11 +18,6 @@ Window {
 
     title: qsTr("Paramètres")
 
-    JSONListModel {
-        id: configmodel
-        source: "config.json"
-    }
-
     ColumnFocusDistributor {
         id: column
         spacing: 8
@@ -90,7 +85,10 @@ Window {
                                     case "bool": return "Boolean.qml"
                                     case "entry": return "Entry.qml"
                                 }
-                                onLoaded: item.props = model
+                                onLoaded: {
+                                    item.props = model
+                                    item.init()
+                                }
                             }
                         }
                     }

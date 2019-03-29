@@ -19,11 +19,21 @@ Row {
     }
 
     Keys.onLeftPressed: {
-        onoff.checked = false
+        if(onoff.checked == true) {
+            onoff.checked = false;
+            configrw.write(props.key, false);
+        }
     }
 
     Keys.onRightPressed: {
-        onoff.checked = true
+        if(onoff.checked == false) {
+            onoff.checked = true;
+            configrw.write(props.key, true);
+        }
+    }
+
+    function init() {
+        onoff.checked = configrw.read(props.key)
     }
 }
 

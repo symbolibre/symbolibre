@@ -4,7 +4,6 @@
         <file>Choice.qml</file>
         <file>JSONListModel.qml</file>
         <file>jsonpath.js</file>
-        <file>config.json</file>
         <file>CustomSlider.qml</file>
         <file>Boolean.qml</file>
         <file>ColumnFocusDistributor.qml</file>

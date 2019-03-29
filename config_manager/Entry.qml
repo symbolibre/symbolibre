@@ -25,12 +25,19 @@ Row {
 
 
     Keys.onLeftPressed: {
-        if(textinput.val > 1)
+        if(textinput.val > 1) {
             textinput.val--
+            configrw.write(props.key, textinput.val)
+        }
     }
 
     Keys.onRightPressed: {
         textinput.val++
+        configrw.write(props.key, textinput.val)
+    }
+
+    function init() {
+        textinput.val = configrw.read(props.key)
     }
 }
 

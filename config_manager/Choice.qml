@@ -24,13 +24,19 @@ Row {
     Keys.onLeftPressed: {
         if(combobox.currentIndex > 0) {
             combobox.currentIndex--
+            configrw.write(props.key, combobox.currentIndex)
         }
     }
 
     Keys.onRightPressed: {
         if(combobox.currentIndex < combobox.count-1) {
             combobox.currentIndex++
+            configrw.write(props.key, combobox.currentIndex)
         }
+    }
+
+    function init() {
+        combobox.currentIndex = configrw.read(props.key)
     }
 }
 

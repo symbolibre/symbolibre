@@ -34,7 +34,10 @@ Window {
                     Text {
                         text: model.caption
                         anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 16
+                        font.pixelSize: 14
+                        wrapMode: Text.WordWrap
+                        width: grid.cellWidth
+                        horizontalAlignment: Text.AlignHCenter
                     }
                 }
                 Keys.onPressed: if (event.key === Qt.Key_Return) { launcher.launch(model.command) }
@@ -48,7 +51,7 @@ Window {
             anchors.leftMargin: 0
             anchors.topMargin: 0
             anchors.fill: parent
-            cellWidth: parent.width / 4 - 3; cellHeight: parent.height/3
+            cellWidth: parent.width / 3 - 3; cellHeight: parent.height/3
 
             model: listmodel.model
             delegate: buttonDelegate
