@@ -5,9 +5,8 @@ import "../keyboard"
 
 Rectangle {
     width: 320
-    height: 240 * 2
+    height: 240
     property alias formula: formula
-    property alias keyboard: keyboard
 
     Rectangle {
         id: renderer
@@ -24,19 +23,6 @@ Rectangle {
             x: 0
             y: 0
             focus: true
-        }
-    }
-
-    Rectangle {
-        id: pad
-        height: 240
-        width: 320
-        x: 0
-        y: 240
-        color: "black"
-
-        SLKeyBoard {
-            id: keyboard
         }
     }
 }
