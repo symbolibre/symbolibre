@@ -20,7 +20,7 @@ Row {
         text: val
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pointSize: 10
+        font.pixelSize: 11
     }
 
 

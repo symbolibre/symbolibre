@@ -14,7 +14,7 @@ Row {
     ComboBox {
         id: combobox
         height: 32
-        font.pointSize: 10
+        font.pixelSize: 11
         hoverEnabled: true
         flat: false
         width: 140
