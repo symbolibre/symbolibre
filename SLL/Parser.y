@@ -52,6 +52,7 @@ void end_var(SLL::Status *status, std::string name, giac::gen value)
 %left '-'
 %left '*'
 %left '/'
+%right '^'
 
 %type <giac::gen *> expr
 %type <giac::gen *> id
@@ -71,6 +72,9 @@ expr:
   | expr '-' expr     { $$ = new gen(*$1 - *$3);        delete $1; delete $3; }
   | expr '*' expr     { $$ = new gen(*$1 * *$3);        delete $1; delete $3; }
   | expr '/' expr     { $$ = new gen(*$1 / *$3);        delete $1; delete $3; }
+  | expr '^' expr     { $$ = new gen(gen("pow", ctx)
+                                     (gen(giac::makesequence(*$1, *$3)), ctx));
+                        delete $1; delete $3; }
   | id '(' args ')'   { $$ = new gen((*$1)(*$3, ctx));  delete $1; delete $3; }
   | id                { $$ = $1; }
 

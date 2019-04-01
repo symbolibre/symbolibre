@@ -20,6 +20,7 @@ id		[A-Za-z_]+
 "+"        { return '+'; }
 "-"        { return '-'; }
 "*"        { return '*'; }
+"^"        { return '^'; }
 "/"        { return '/'; }
 "("        { return '('; }
 ")"        { return ')'; }
