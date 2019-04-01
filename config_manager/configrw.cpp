@@ -27,7 +27,7 @@ ConfigRW::ConfigRW(QString path)
 
     QTextStream file_text(&file_obj);
     QString json_string;
-    json_string = file_text.readAll();
+    json_string = file_text.readAll().toUtf8();
     file_obj.close();
     QByteArray json_bytes = json_string.toLocal8Bit();
 
