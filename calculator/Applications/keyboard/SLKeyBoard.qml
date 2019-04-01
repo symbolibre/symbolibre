@@ -39,9 +39,9 @@ SLKeyBoardForm {
     buttonCLEAR.onActivated: { activated(KeyCode.SLK_CLEAR); switchState("normal"); }
 
     /* Classical buttons : alphabet */
-    buttonA.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_A)
-    buttonB.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_B)
-    buttonC.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_C)
+    buttonA.onActivated: classicalSend(KeyCode.SLK_COS, KeyCode.SLK_NULL, KeyCode.SLK_A)
+    buttonB.onActivated: classicalSend(KeyCode.SLK_SIN, KeyCode.SLK_NULL, KeyCode.SLK_B)
+    buttonC.onActivated: classicalSend(KeyCode.SLK_TAN, KeyCode.SLK_NULL, KeyCode.SLK_C)
     buttonD.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_D)
     buttonE.onActivated: classicalSend(KeyCode.SLK_APPROX, KeyCode.SLK_NULL, KeyCode.SLK_E)
     buttonF.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_F)

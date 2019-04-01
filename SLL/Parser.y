@@ -67,6 +67,7 @@ expr:
     INTEGER           { $$ = new gen($1, ctx); free($1); }
   | '(' expr ')'      { $$ = $2; }
   | expr '+' expr     { $$ = new gen(*$1 + *$3);        delete $1; delete $3; }
+  | '-' expr          { $$ = new gen(gen("0", ctx) - *$2);		   delete $2; }
   | expr '-' expr     { $$ = new gen(*$1 - *$3);        delete $1; delete $3; }
   | expr '*' expr     { $$ = new gen(*$1 * *$3);        delete $1; delete $3; }
   | expr '/' expr     { $$ = new gen(*$1 / *$3);        delete $1; delete $3; }

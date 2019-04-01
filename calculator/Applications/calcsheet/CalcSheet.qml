@@ -13,20 +13,20 @@ MathRenderer {
         }
 
         /* Arrow keys */
-        if(event.key == Qt.Key_Left)      send(KeyCode.SLK_LEFT);
-        if(event.key == Qt.Key_Right)     send(KeyCode.SLK_RIGHT);
-        if(event.key == Qt.Key_Up)        send(KeyCode.SLK_UP);
-        if(event.key == Qt.Key_Down)      send(KeyCode.SLK_DOWN);
+        if(event.key === Qt.Key_Left)      send(KeyCode.SLK_LEFT);
+        if(event.key === Qt.Key_Right)     send(KeyCode.SLK_RIGHT);
+        if(event.key === Qt.Key_Up)        send(KeyCode.SLK_UP);
+        if(event.key === Qt.Key_Down)      send(KeyCode.SLK_DOWN);
 
         /* Special keys */
-        if(event.key == Qt.Key_Return)    send(KeyCode.SLK_EXE);
-        if(event.key == Qt.Key_Backspace) send(KeyCode.SLK_DEL);
+        if(event.key === Qt.Key_Return)    send(KeyCode.SLK_EXE);
+        if(event.key === Qt.Key_Backspace) send(KeyCode.SLK_DEL);
 
         /* Operator keys */
-        if(event.key == Qt.Key_Asterisk)  send(KeyCode.SLK_TIMES);
-        if(event.key == Qt.Key_Slash)     send(KeyCode.SLK_DIVIDE);
-        if(event.key == Qt.Key_Plus)      send(KeyCode.SLK_PLUS);
-        if(event.key == Qt.Key_Minus)     send(KeyCode.SLK_MINUS);
+        if(event.key === Qt.Key_Asterisk)  send(KeyCode.SLK_TIMES);
+        if(event.key === Qt.Key_Slash)     send(KeyCode.SLK_DIVIDE);
+        if(event.key === Qt.Key_Plus)      send(KeyCode.SLK_PLUS);
+        if(event.key === Qt.Key_Minus)     send(KeyCode.SLK_MINUS);
 
         /* Raw input keys */
         if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z)
@@ -41,13 +41,31 @@ MathRenderer {
         }
 
         /* Punctuation */
-        if(event.key == Qt.Key_Equal)      send(KeyCode.SLK_COLONEQ);
-        if(event.key == Qt.Key_ParenLeft)  send(KeyCode.SLK_LPAREN);
-        if(event.key == Qt.Key_ParenRight) send(KeyCode.SLK_RPAREN);
+        if(event.key === Qt.Key_Equal)      send(KeyCode.SLK_COLONEQ);
+        if(event.key === Qt.Key_ParenLeft)  send(KeyCode.SLK_LPAREN);
+        if(event.key === Qt.Key_ParenRight) send(KeyCode.SLK_RPAREN);
 
-        /* Functions */
-        if(event.key == Qt.Key_F15 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_SQUAREROOT);
-        if(event.key == Qt.Key_F19) send(KeyCode.SLK_APPROX);
+        /* New keys */ // TODO : dispatch when debugged
+
+        // cos stuff
+        if (event.key === Qt.Key_F15 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_SQUAREROOT);
+        if (event.key === Qt.Key_F10) send(KeyCode.SLK_SIN);
+        if (event.key === Qt.Key_F10 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_ASIN);
+        if (event.key === Qt.Key_F11) send(KeyCode.SLK_COS);
+        if (event.key === Qt.Key_F11 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_ACOS);
+        if (event.key === Qt.Key_F12) send(KeyCode.SLK_TAN);
+        if (event.key === Qt.Key_F12 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_TAN);
+        if (event.key === Qt.Keys_F13) send(KeyCode.SLK_PI)
+
+        // pow, exponential
+        if (event.key === Qt.Keys_F16) send(KeyCode.SLK_EXP);
+        if (event.key === Qt.Key_F16 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_LN);
+        if (event.key === Qt.Key_F17 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_LOG);
+        if (event.key === Qt.Keys_F21) send(KeyCode.SLK_POW10);
+
+
+        // Special Keys
+        if(event.key === Qt.Key_F19) send(KeyCode.SLK_APPROX);
 
         formula.update();
     }

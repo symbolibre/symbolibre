@@ -43,7 +43,13 @@ public:
         /* Special keys */
         SLK_SND, SLK_ALPHA, SLK_DEL, SLK_CLEAR,
         SLK_ANS, SLK_COLONEQ, SLK_EXE, SLK_NULL,
-        SLK_APPROX
+        SLK_APPROX,
+
+        /* New keys */ //TODO: dispatch when debugged
+        SLK_COS, SLK_SIN, SLK_TAN,
+        SLK_ASIN, SLK_ATAN, SLK_ACOS,
+        SLK_PI, SLK_SQUARE, SLK_EXP, SLK_LN, SLK_LOG,
+        SLK_POW10
     };
     Q_ENUMS(keycode);
 

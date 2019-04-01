@@ -145,6 +145,14 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll, int mode)
     return shell;
 }
 
+void CalcSheet::parenthesize()
+{
+    recvInput(KeyCode::SLK_LPAREN);
+    recvInput(KeyCode::SLK_RPAREN);
+    recvInput(KeyCode::SLK_LEFT);
+}
+
+
 void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 {
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
@@ -223,6 +231,88 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
 
         case KeyCode::SLK_APPROX:
             mode = 1 - mode;
+            break;
+
+    /* New keys */ //TODO : dispatch once debugged
+
+        case KeyCode::SLK_COS:
+            editedExpression.editChar('c');
+            editedExpression.editChar('o');
+            editedExpression.editChar('s');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_SIN:
+            editedExpression.editChar('s');
+            editedExpression.editChar('i');
+            editedExpression.editChar('n');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_TAN:
+            editedExpression.editChar('t');
+            editedExpression.editChar('a');
+            editedExpression.editChar('n');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_ACOS:
+            editedExpression.editChar('a');
+            editedExpression.editChar('c');
+            editedExpression.editChar('o');
+            editedExpression.editChar('s');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_ASIN:
+            editedExpression.editChar('a');
+            editedExpression.editChar('s');
+            editedExpression.editChar('i');
+            editedExpression.editChar('n');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_ATAN:
+            editedExpression.editChar('a');
+            editedExpression.editChar('t');
+            editedExpression.editChar('a');
+            editedExpression.editChar('n');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_PI:
+            editedExpression.editChar('p');
+            editedExpression.editChar('i');
+            break;
+
+        case KeyCode::SLK_SQUARE:
+            recvInput(KeyCode::SLK_POWER);
+            recvInput(KeyCode::SLK_2);
+            recvInput(KeyCode::SLK_RIGHT);
+            break;
+
+        case KeyCode::SLK_EXP:
+            recvInput(KeyCode::SLK_e);
+            recvInput(KeyCode::SLK_POWER);
+            break;
+
+        case KeyCode::SLK_LN:
+            editedExpression.editChar('l');
+            editedExpression.editChar('n');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_LOG:
+            editedExpression.editChar('l');
+            editedExpression.editChar('o');
+            editedExpression.editChar('g');
+            parenthesize();
+            break;
+
+        case KeyCode::SLK_POW10:
+            recvInput(KeyCode::SLK_1);
+            recvInput(KeyCode::SLK_0);
+            recvInput(KeyCode::SLK_POWER);
             break;
 
 

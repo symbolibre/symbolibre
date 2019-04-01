@@ -112,21 +112,21 @@ Item {
                 CalcButton {
                     id: buttonA
                     alphaTextText: "A"
-                    mainTextText: ""
+                    mainTextText: "cos"
                     sndTextText: ""
                 }
 
                 CalcButton {
                     id: buttonB
                     alphaTextText: "B"
-                    mainTextText: ""
+                    mainTextText: "sin"
                     sndTextText: ""
                 }
 
                 CalcButton {
                     id: buttonC
                     alphaTextText: "C"
-                    mainTextText: ""
+                    mainTextText: "tan"
                     sndTextText: ""
                 }
 
