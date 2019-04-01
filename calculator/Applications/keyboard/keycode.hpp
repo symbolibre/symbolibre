@@ -49,7 +49,7 @@ public:
         SLK_COS, SLK_SIN, SLK_TAN,
         SLK_ASIN, SLK_ATAN, SLK_ACOS,
         SLK_PI, SLK_SQUARE, SLK_EXP, SLK_LN, SLK_LOG,
-        SLK_POW10
+        SLK_POW10,
     };
     Q_ENUMS(keycode);
 

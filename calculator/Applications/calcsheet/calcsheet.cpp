@@ -315,7 +315,6 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             recvInput(KeyCode::SLK_POWER);
             break;
 
-
         default:
             std::cerr << "Unsupported key " << input << std::endl;
             break;
