@@ -3,6 +3,7 @@
 #include <iostream>
 #include <giac/config.h>
 #include <giac/gen.h>
+#include <giac/usual.h>
 // #include <giac/dispatch.h>
 // #include <giac/usual.h>
 
@@ -15,6 +16,7 @@ void atNeg(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atProd(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atInv(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atFrac(const giac::gen &f, EditionTree &shell, EXT_GIAC_CONTEXT);
+void atPow(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
@@ -315,6 +317,73 @@ void atSPrint(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //    return s;
 }
 
+void atPow(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
+{
+    if (e.feuille.type != giac::_VECT || e.feuille._VECTptr->size() != 2) {
+        // Here I do not what to do - I do not understand the case
+        // How the lol do we have size() != 2 on power ?
+        std::string bin = e.print(contextptr);
+        shell.editStr(bin);
+        return;
+    }
+
+    giac::gen pui = e.feuille._VECTptr->back();
+    giac::gen arg = e.feuille._VECTptr->front();
+    if (giac::__pow.printsommet == &giac::cprintaspow) {
+        atGen(arg, shell, contextptr);
+        shell.editPower();
+        atGen(pui, shell, contextptr);
+        shell.editMoveRight(); // exit Power node
+        return;
+    }
+
+    //bool argpar = ((arg.type > giac::_CPLX && arg.type != giac::_FLOAT_)
+    //             || !giac::is_positive(arg, contextptr))
+    //             && arg.type != giac::_IDNT;
+    //skipped : #if defined EMCC || defined GIAC_GGB
+    //skipped : bool need = giac::need_parenthesis(arg) || arg.type == giac::_SYMB;
+
+
+    // FIXME : for some reason, tests pui == giac::plus_one_half segfault
+    // We would have to investigate giac code a bit more, it must come from
+    // the fact that we try to ignore #ifdef lines.
+
+    std::string spow = pui.print(contextptr);
+    //if (pui == giac::plus_one_half)
+    if (spow == "1/2") {
+        shell.editRoot();
+        atGen(arg, shell, contextptr);
+        shell.editMoveRight();
+        return;
+    }
+    //if (pui == giac::minus_one_half)
+    if (spow == "-1/2") {
+        shell.editFrac();
+        shell.editChar('1');
+        shell.editMoveDown();
+        shell.editRoot();
+        atGen(arg, shell, contextptr);
+        shell.editMoveRight(); // exit square root
+        shell.editMoveRight(); // exit fraction
+        return;
+    }
+    //if (pui == giac::minus_one)
+    if (spow == "-1") {
+        shell.editFrac();
+        shell.editChar('1');
+        shell.editMoveDown();
+        atGen(arg, shell, contextptr);
+        shell.editMoveRight(); // exit fraction
+        return;
+    }
+
+    // This final case should work. If it does not, mail me.
+    atGen(arg, shell, contextptr);
+    shell.editPower();
+    atGen(pui, shell, contextptr);
+    shell.editMoveRight(); // exit Power node
+    return;
+}
 
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
@@ -349,17 +418,13 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         return atProd(e, shell, contextptr);
     if (e.sommet == giac::at_plus)
         return atPlus(e, shell, contextptr);
-    if (e.sommet == giac::at_pow)
-        // return atPow(e, shell);
-        return;
     if (e.sommet == giac::at_neg)
         return atNeg(e.feuille, shell, contextptr);
     if (e.sommet == giac::at_inv)
         return atInv(e.feuille, shell, contextptr);
-    if (e.sommet == giac::at_exp) {
-        std::cout << "at_exp\n";
-        return;
-    }
+    if (e.sommet == giac::at_pow)
+        return atPow(e, shell, contextptr);
+    // if (e.sommet == giac::at_exp) { std::cout << "at_exp\n"; return; }
 //#ifndef EMCC
 //  && (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)
 //#endif
@@ -367,6 +432,7 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //      s += printasexp(g.feuille,0,contextptr);
 //      return s;
 //    }
+    std::cout << "-> @atSymbolic : UNTREATED CASE\n";
     std::string bin = e.print(contextptr);
     shell.editStr(bin);
     return;
@@ -393,8 +459,6 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //      s += end_VECT_string(g.feuille.subtype,false,contextptr);
 //    s += ')';
 //    return s;
-    std::cout << "-> @atSymbolic : UNTREATED CASE\n";
-    return;
 }
 
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
@@ -413,9 +477,13 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         atLeaf(e, shell, contextptr);
         break;
     case giac::_CPLX:
+        bin = e.print(contextptr);
+        shell.editStr(bin);
         std::cout << "_CPLX" << std::endl;
         break;
     case giac::_IDNT:
+        bin = e.print(contextptr);
+        shell.editStr(bin);
         std::cout << "_IDNT" << std::endl;
         break;
     case giac::_SYMB:

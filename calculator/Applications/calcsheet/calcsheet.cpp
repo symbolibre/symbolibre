@@ -130,8 +130,8 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll, int mode)
         } else {
             str = sll.str(sll.approx(status.value, 10));
         }
-        shell.editStr(str);  // TODO : conversion from giac version
-        //copyExprAtCursor(status.value, shell); // convertion from giac version
+        //shell.editStr(str);  // TODO : conversion from giac version
+        copyExprAtCursor(status.value, shell); // convertion from giac version
         std::cout << "--------- GOT: '";
         std::cout << shell.getText() << "'" << std::endl;
     } else if (status.type == SLL::Status::SET_VARIABLE) {
