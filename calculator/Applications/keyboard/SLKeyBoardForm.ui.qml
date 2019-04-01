@@ -140,7 +140,7 @@ Item {
                 CalcButton {
                     id: buttonE
                     alphaTextText: "E"
-                    mainTextText: ""
+                    mainTextText: "App"
                     sndTextText: ""
                 }
             }

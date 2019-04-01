@@ -33,6 +33,11 @@ Term Context::simplify(Term t)
     return giac::_simplify(t, &this->ctx);
 }
 
+Term Context::approx(Term t, unsigned int precision)
+{
+    return giac::_evalf(t, &this->ctx); // TODO : precision
+}
+
 std::string Context::str(Term t)
 {
     return t.print(NULL);

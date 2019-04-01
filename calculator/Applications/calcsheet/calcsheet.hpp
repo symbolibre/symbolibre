@@ -74,6 +74,8 @@ private:
     EditionTree editedExpression;
     SLL::Context sll;
 
+    int mode; // mode is 0 if exact, 1 if approx
+
     int cursorPos;
 };
 

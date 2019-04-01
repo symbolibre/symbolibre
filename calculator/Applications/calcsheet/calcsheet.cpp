@@ -16,6 +16,7 @@ CalcSheet::CalcSheet(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
     editedExpression = EditionTree();
     cursorPos = -1;
+    mode = 0; // Init to exact mode
 }
 
 void CalcSheet::paint(QPainter *painter)
@@ -115,7 +116,7 @@ void CalcSheet::recomputeDimensions(QPainter *painter, bool hard)
     return;
 }
 
-EditionTree evaluate(EditionTree &etree, SLL::Context &sll)
+EditionTree evaluate(EditionTree &etree, SLL::Context &sll, int mode)
 {
     SLL::Status status = sll.exec(etree.getText());
     status.value = sll.simplify(status.value);
@@ -123,9 +124,14 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll)
     EditionTree shell = EditionTree();
 
     if (status.type == SLL::Status::RESULT) {
-        //std::string str = sll.str(status.value);
-        copyExprAtCursor(status.value, shell); // convertion from giac version
-        //shell.editStr(str);
+        std::string str;
+        if (mode == 0) {
+            str = sll.str(status.value);
+        } else {
+            str = sll.str(sll.approx(status.value, 10));
+        }
+        shell.editStr(str);  // TODO : conversion from giac version
+        //copyExprAtCursor(status.value, shell); // convertion from giac version
         std::cout << "--------- GOT: '";
         std::cout << shell.getText() << "'" << std::endl;
     } else if (status.type == SLL::Status::SET_VARIABLE) {
@@ -210,10 +216,15 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
 
         case KeyCode::SLK_EXE:
-            results.push_back(evaluate(editedExpression, sll));
+            results.push_back(evaluate(editedExpression, sll, mode));
             expressions.push_back(std::move(editedExpression));
             editedExpression = EditionTree();
             break;
+
+        case KeyCode::SLK_APPROX:
+            mode = 1 - mode;
+            break;
+
 
         default:
             std::cerr << "Unsupported key " << input << std::endl;

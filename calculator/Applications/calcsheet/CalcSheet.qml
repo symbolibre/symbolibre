@@ -46,7 +46,8 @@ MathRenderer {
         if(event.key == Qt.Key_ParenRight) send(KeyCode.SLK_RPAREN);
 
         /* Functions */
-        if(event.key == Qt.Key_F5 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_SQUAREROOT);
+        if(event.key == Qt.Key_F15 && (event.mod & Qt.ShiftModifer)) send(KeyCode.SLK_SQUAREROOT);
+        if(event.key == Qt.Key_F19) send(KeyCode.SLK_APPROX);
 
         formula.update();
     }

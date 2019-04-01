@@ -43,7 +43,7 @@ SLKeyBoardForm {
     buttonB.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_B)
     buttonC.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_C)
     buttonD.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_D)
-    buttonE.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_E)
+    buttonE.onActivated: classicalSend(KeyCode.SLK_APPROX, KeyCode.SLK_NULL, KeyCode.SLK_E)
     buttonF.onActivated: classicalSend(KeyCode.SLK_NULL, KeyCode.SLK_NULL, KeyCode.SLK_F)
     buttonG.onActivated: classicalSend(KeyCode.SLK_LPAREN, KeyCode.SLK_NULL, KeyCode.SLK_G)
     buttonH.onActivated: classicalSend(KeyCode.SLK_RPAREN, KeyCode.SLK_NULL, KeyCode.SLK_H)
