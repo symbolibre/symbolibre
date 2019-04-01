@@ -16,7 +16,7 @@ Item {
     TextField {
         id: textField
         text: qsTr(initialText)
-        font.pointSize: height/text_prop
+        font.pixelSize: 11
         renderType: Text.QtRendering
         height: 395
         anchors.fill: parent
