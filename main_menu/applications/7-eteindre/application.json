@@ -1,5 +1,5 @@
 {
-    "command": "",
+    "command": "./shutdown.sh",
     "caption": "Éteindre",
     "icon": "../../icons/eteindre.png"
 }
