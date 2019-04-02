@@ -3,17 +3,20 @@
 
 int main (int argc, char **argv)
 {
-    if (argc != 3)
-        return 1;
-
     QApplication app(argc, argv);
 
     QTermWidget term (false, nullptr);
     term.resize(320, 200);
     term.setScrollBarPosition(QTermWidget::NoScrollBar);
 
-    term.setShellProgram(argv[1]);
-    term.setArgs(QStringList(QString(argv[2])));
+    if (argc > 1)
+        term.setShellProgram(argv[1]);
+
+    QStringList args;
+    for (int i = 2; i < argc; ++i) {
+        args << argv[i];
+    }
+    term.setArgs(args);
     term.startShellProgram();
 
     term.show();
