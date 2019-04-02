@@ -7,6 +7,9 @@
 namespace SLL
 {
 
+constexpr bool giac_debug = false;
+constexpr bool giac_conv  = false;
+
 struct Exception: public std::exception {
     enum Error {
         NAME_EXISTS,

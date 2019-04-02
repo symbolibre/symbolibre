@@ -7,7 +7,7 @@ import "../keyboard"
 Window {
     visible: true
     width: 320
-    height: 240*2
+    height: 220+240
     title: qsTr("Quick Calculator")
 
     MainForm {

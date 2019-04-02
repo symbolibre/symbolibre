@@ -5,12 +5,12 @@ import "../keyboard"
 
 Rectangle {
     width: 320
-    height: 240
+    height: 220
     property alias formula: formula
 
     Rectangle {
         id: renderer
-        height: 240
+        height: parent.height
         width: 320
         x: 0
         y: 0
@@ -18,7 +18,7 @@ Rectangle {
 
         CalcSheet {
             id: formula
-            height: 240
+            height: parent.height
             width: 320
             x: 0
             y: 0

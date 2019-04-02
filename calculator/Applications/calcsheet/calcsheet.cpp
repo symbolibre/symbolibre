@@ -126,12 +126,19 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll, int mode)
     if (status.type == SLL::Status::RESULT) {
         std::string str;
         if (mode == 0) {
-            str = sll.str(status.value);
+            if (SLL::giac_conv)
+                copyExprAtCursor(status.value, shell); // convertion from giac version
+            else
+                str = sll.str(status.value); // no translation for debug
         } else {
-            str = sll.str(sll.approx(status.value, 10));
+            if (SLL::giac_conv) {
+                SLL::Term approx = sll.approx(status.value, 10);
+                copyExprAtCursor(approx, shell);
+            } else
+                str = sll.str(sll.approx(status.value, 10)); // no translation for debug
         }
-        //shell.editStr(str);  // TODO : conversion from giac version
-        copyExprAtCursor(status.value, shell); // convertion from giac version
+        if (!SLL::giac_conv)
+            shell.editStr(str);
         std::cout << "--------- GOT: '";
         std::cout << shell.getText() << "'" << std::endl;
     } else if (status.type == SLL::Status::SET_VARIABLE) {

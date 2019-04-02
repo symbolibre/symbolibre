@@ -5,22 +5,22 @@ import "../keyboard"
 
 Rectangle {
     width: 320
-    height: 240 * 2
+    height: 220 + 240
     property alias formula: formula
     property alias keyboard: keyboard
 
     Rectangle {
         id: renderer
-        height: 240
-        width: 320
+        height: 220
+        width: parent.width
         x: 0
         y: 0
         color: "white"
 
         CalcSheet {
             id: formula
-            height: 240
-            width: 320
+            height: parent.height
+            width: parent.width
             x: 0
             y: 0
             focus: true
@@ -30,9 +30,9 @@ Rectangle {
     Rectangle {
         id: pad
         height: 240
-        width: 320
+        width: parent.width
         x: 0
-        y: 240
+        y: 220
         color: "black"
 
         SLKeyBoard {
