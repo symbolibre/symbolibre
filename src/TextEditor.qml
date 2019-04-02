@@ -217,7 +217,7 @@ TextEditorForm {
     }
 
     Shortcut {
-        sequence: "Shift+Return"
+        sequence: "F3"
         onActivated: {
             document.execute()
         }
