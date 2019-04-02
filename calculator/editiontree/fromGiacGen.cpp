@@ -487,16 +487,16 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
     case giac::_INT_:
         atInt(e.val, shell, contextptr);
         break;
+    case giac::_REAL:
     case giac::_DOUBLE_:
-        atLeaf(e, shell, contextptr);
-        break;
     case giac::_ZINT:
         atLeaf(e, shell, contextptr);
         break;
     case giac::_CPLX:
         bin = e.print(contextptr);
         shell.editStr(bin);
-        std::cout << "_CPLX" << std::endl;
+        if (local_debug)
+            std::cout << "_CPLX" << std::endl;
         break;
     case giac::_IDNT:
         bin = e.print(contextptr);
