@@ -140,7 +140,7 @@ Item {
                 persistentSelection: true
                 background: null
                 font.family: "Deja Vu Sans Mono"
-                font.pointSize: 10
+                font.pixelSize: 13
             }
 
             ScrollBar.vertical: lineNumberFlickable.ScrollBar.vertical
