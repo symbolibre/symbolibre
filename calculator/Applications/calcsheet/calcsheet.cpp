@@ -45,12 +45,12 @@ void CalcSheet::paintEditedArea(QPainter *painter)
     painter->setPen(_SL_DARK_GRAY);
     painter->drawRect(0, height() - eaheight, width() - 1, eaheight);
 
-    painter->setPen(Qt::red);
-    QPoint cursor = editedExpression.getCursorCoordinates();
-    std::cout << cursor.x() << ' ' << cursor.y() << std::endl;
-    painter->drawEllipse(cursor.x() + BORDERSPACE,
-                         cursor.y() + (int) height() - eaheight + BORDERSPACE, 3, 3);
-    painter->setPen(Qt::black);
+    //painter->setPen(Qt::red);
+    //QPoint cursor = editedExpression.getCursorCoordinates();
+    //std::cout << cursor.x() << ' ' << cursor.y() << std::endl;
+    //painter->drawEllipse(cursor.x() + BORDERSPACE,
+    //                     cursor.y() + (int) height() - eaheight + BORDERSPACE, 3, 3);
+    //painter->setPen(Qt::black);
     editedExpression.draw(BORDERSPACE, (int) height() - eaheight + BORDERSPACE,
                           *painter, true);
 
@@ -139,8 +139,10 @@ EditionTree evaluate(EditionTree &etree, SLL::Context &sll, int mode)
         }
         if (!SLL::giac_conv)
             shell.editStr(str);
-        std::cout << "--------- GOT: '";
-        std::cout << shell.getText() << "'" << std::endl;
+        if (SLL::debug)
+            std::cout << "--------- GOT: '";
+        if (SLL::debug)
+            std::cout << shell.getText() << "'" << std::endl;
     } else if (status.type == SLL::Status::SET_VARIABLE) {
         std::string msg = "variable " + status.name + " defined";
         shell.editStr(msg);
@@ -197,6 +199,16 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
         case KeyCode::SLK_SIGMA:
             editedExpression.editSigma();
+            break;
+
+        case KeyCode::SLK_SPACE:
+            editedExpression.editChar(' ');
+            break;
+        case KeyCode::SLK_COMMA:
+            editedExpression.editChar(',');
+            break;
+        case KeyCode::SLK_DOT:
+            editedExpression.editChar('.');
             break;
 
         /* Arrows */
@@ -327,7 +339,8 @@ void CalcSheet::recvInput(int /* KeyCode::keycode */ input)
             break;
         }
 
-    editedExpression.ascii(true);
+    if (SLL::debug)
+        editedExpression.ascii(true);
     emit expressionChanged();
     update();
 }

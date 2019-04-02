@@ -21,10 +21,14 @@ void atPow(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 
+static bool local_debug = false; // TODO : map it to SLL, should rewrite dependancies
+// so I am not doing that know.
+
 void atInt(int a, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
     char lastEdition = shell.getLastEdition();
-    std::cout << "@atInt with last edition " << lastEdition << "\n";
+    if (local_debug)
+        std::cout << "@atInt with last edition " << lastEdition << "\n";
     if (a < 0) {
         if (lastEdition == '+') {
             shell.editDelete();
@@ -43,15 +47,18 @@ void atInt(int a, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atLeaf(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atLeaf\n";
+    if (local_debug)
+        std::cout << "@atLeaf\n";
     std::string str = e.print();
-    std::cout << "atLeaf : " << str << std::endl;
+    if (local_debug)
+        std::cout << "atLeaf : " << str << std::endl;
     shell.editStr(str);
 }
 
 void atPlus(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atPlus\n";
+    if (local_debug)
+        std::cout << "@atPlus\n";
 
     if (giac::is_inf(e.feuille) && giac::abs_calc_mode(contextptr) == 38)
         return shell.editChar('?');
@@ -78,7 +85,8 @@ void atPlus(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atNeg(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atNeg\n";
+    if (local_debug)
+        std::cout << "@atNeg\n";
     char lastEdition = shell.getLastEdition();
     if (lastEdition == '+') {
         shell.editDelete();
@@ -105,7 +113,8 @@ void atNeg(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atProd(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atProd\n";
+    if (local_debug)
+        std::cout << "@atProd\n";
     giac::gen n0, d0;
     if (giac::print_rewrite_prod_inv && giac::rewrite_prod_inv(e.feuille, n0, d0)) {
         shell.editFrac();
@@ -166,7 +175,8 @@ void atProd(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atInv(const giac::gen &feuille, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atInv\n";
+    if (local_debug)
+        std::cout << "@atInv\n";
     giac::gen f = feuille;
     bool isneg = false;
     bool calc38 = giac::calc_mode(contextptr) == 38;
@@ -235,7 +245,8 @@ void atSPrint(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 // Je ne comprends pas, dans symbolic.cc, pourquoi il y a un add_print
 // ET un add_print_symbolic... quelle est la différence ?
 {
-    std::cout << "@atSPrint\n";
+    if (local_debug)
+        std::cout << "@atSPrint\n";
     if (e.type == giac::_IDNT) {
         /*
         if (calc_mode(contextptr)==1 && (is_inf(g) || is_undef(g)))
@@ -387,7 +398,8 @@ void atPow(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atSymbolic " << e << "\n";
+    if (local_debug)
+        std::cout << "@atSymbolic " << e << "\n";
     if (!e.sommet.ptr()) {
         shell.editStr("NULL");
         shell.editParen(LPAREN);
@@ -399,7 +411,8 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
     if (e.sommet.ptr()->printsommet
             && e.sommet != giac::at_plus && e.sommet != giac::at_prod
             && e.sommet != giac::at_pow) {
-        std::cout << "printsommet";
+        if (local_debug)
+            std::cout << "printsommet";
         // s += g.sommet.ptr()->printsommet(g.feuille,g.sommet.ptr()->s,contextptr);
         shell.editStr(e.sommet.ptr()->s);
         atGen(e.feuille, shell, contextptr);
@@ -413,7 +426,8 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         // return s;
         return;
 
-    std::cout << "->@atSymbolic : entering operators...\n";
+    if (local_debug)
+        std::cout << "->@atSymbolic : entering operators...\n";
     if (e.sommet == giac::at_prod)
         return atProd(e, shell, contextptr);
     if (e.sommet == giac::at_plus)
@@ -432,7 +446,8 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //      s += printasexp(g.feuille,0,contextptr);
 //      return s;
 //    }
-    std::cout << "-> @atSymbolic : UNTREATED CASE\n";
+    if (local_debug)
+        std::cout << "-> @atSymbolic : UNTREATED CASE\n";
     std::string bin = e.print(contextptr);
     shell.editStr(bin);
     return;
@@ -463,8 +478,10 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
-    std::cout << "@atGen\n";
-    std::cout << "GENERATING " << e << std::endl;
+    if (local_debug)
+        std::cout << "@atGen\n";
+    if (local_debug)
+        std::cout << "GENERATING " << e << std::endl;
     std::string bin;
     switch (e.type) {
     case giac::_INT_:
@@ -484,10 +501,12 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
     case giac::_IDNT:
         bin = e.print(contextptr);
         shell.editStr(bin);
-        std::cout << "_IDNT" << std::endl;
+        if (local_debug)
+            std::cout << "_IDNT" << std::endl;
         break;
     case giac::_SYMB:
-        std::cout << "_SYMB" << std::endl;
+        if (local_debug)
+            std::cout << "_SYMB" << std::endl;
         if (giac::is_inf(e._SYMBptr->feuille)) {
             if (e._SYMBptr->sommet == giac::at_plus)
                 shell.editChar('?'); // TODO infinity
@@ -508,21 +527,25 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
             return atSymbolic((*e._SYMBptr), shell, contextptr);
         break;
     case giac::_VECT:
-        std::cout << "_VECT" << std::endl;
+        if (local_debug)
+            std::cout << "_VECT" << std::endl;
         bin = e.print(contextptr);
         shell.editStr(bin);
         break;
     case giac::_FUNC:
-        std::cout << "_FUNC" << std::endl;
+        if (local_debug)
+            std::cout << "_FUNC" << std::endl;
         bin = e.print(contextptr);
         shell.editStr(bin);
         break;
     case giac::_FRAC:
-        std::cout << "_FRAC" << std::endl;
+        if (local_debug)
+            std::cout << "_FRAC" << std::endl;
         atFrac(e, shell, contextptr);
         break;
     default:
-        std::cout << "Unknown case atGen" << std::endl;
+        if (local_debug)
+            std::cout << "Unknown case atGen" << std::endl;
         bin = e.print(contextptr);
         shell.editStr(bin);
         break;
@@ -531,8 +554,10 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void copyExprAtCursor(giac::gen &expr, EditionTree &shell)
 {
-    std::cout << "@copyExprAtCursor\n";
-    std::cout << "... parsing GIAC=" << expr << std::endl;
+    if (local_debug)
+        std::cout << "@copyExprAtCursor\n";
+    if (local_debug)
+        std::cout << "... parsing GIAC=" << expr << std::endl;
     atGen(expr, shell, giac::context0);
 }
 

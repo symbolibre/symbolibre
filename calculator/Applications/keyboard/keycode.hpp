@@ -32,6 +32,9 @@ public:
         SLK_0, SLK_1, SLK_2, SLK_3, SLK_4, SLK_5,
         SLK_6, SLK_7, SLK_8, SLK_9,
 
+        /* Ponctuation */
+        SLK_COMMA, SLK_DOT, SLK_SPACE,
+
         /* Mathematics operations */
         SLK_PLUS, SLK_MINUS, SLK_TIMES, SLK_DIVIDE,
         SLK_LPAREN, SLK_RPAREN, SLK_SQUAREROOT, SLK_POWER,

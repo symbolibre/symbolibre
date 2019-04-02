@@ -8,7 +8,8 @@ namespace SLL
 {
 
 constexpr bool giac_debug = false;
-constexpr bool giac_conv  = false;
+constexpr bool giac_conv  = true;
+constexpr bool debug      = false;
 
 struct Exception: public std::exception {
     enum Error {

@@ -45,25 +45,35 @@ MathRenderer {
         if(event.key === Qt.Key_Equal)      send(KeyCode.SLK_COLONEQ);
         if(event.key === Qt.Key_ParenLeft)  send(KeyCode.SLK_LPAREN);
         if(event.key === Qt.Key_ParenRight) send(KeyCode.SLK_RPAREN);
+        if(event.key === Qt.Key_Comma)      send(KeyCode.SLK_COMMA);
+        if(event.key === Qt.Key_Period)     send(KeyCode.SLK_DOT);
+        if(event.key === Qt.Key_Space)      send(KeyCode.SLK_SPACE);
 
         /* New keys */ // TODO : dispatch when debugged
 
         // cos stuff
-        if (event.key === Qt.Key_F15 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_SQUAREROOT);
+        if (event.key === Qt.Key_F15 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_SQUAREROOT);
 
-        if (event.key === Qt.Key_F10 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_ASIN);
+        if (event.key === Qt.Key_F10 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_ASIN);
         else if (event.key === Qt.Key_F10) send(KeyCode.SLK_SIN);
-        if (event.key === Qt.Key_F11 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_ACOS);
+        if (event.key === Qt.Key_F11 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_ACOS);
         else if (event.key === Qt.Key_F11) send(KeyCode.SLK_COS);
-        if (event.key === Qt.Key_F12 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_TAN);
+        if (event.key === Qt.Key_F12 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_TAN);
         else if (event.key === Qt.Key_F12) send(KeyCode.SLK_TAN);
         if (event.key === Qt.Key_F13) send(KeyCode.SLK_PI);
 
         // pow, exponential
-        if (event.key === Qt.Key_F16 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_LN);
+        if (event.key === Qt.Key_F16 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_LN);
         else if (event.key === Qt.Key_F16) send(KeyCode.SLK_EXP);
-        if (event.key === Qt.Key_F17 && (event.modifiers & Qt.ShiftModifier)) send(KeyCode.SLK_LOG);
+        if (event.key === Qt.Key_F17 && (event.modifiers & Qt.ShiftModifier)) 
+            send(KeyCode.SLK_LOG);
         else if (event.key === Qt.Key_F17) send(KeyCode.SLK_POWER);
+        if(event.key === Qt.Key_sterling)  send(KeyCode.SLK_POWER);
         if (event.key === Qt.Key_F21) send(KeyCode.SLK_POW10);
 
         // Special Keys
