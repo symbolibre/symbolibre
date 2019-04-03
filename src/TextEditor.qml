@@ -162,6 +162,8 @@ TextEditorForm {
 
         if (popupFileExplorer.activeFocus)
         {
+            editor.document.setDocLanguage(2)
+            editor.document.startHighlighter()
             document.load(fileExplorerView.model.get(fileExplorerView.currentIndex, "filePath"))
             popupFileExplorer.close()
             textArea.forceActiveFocus()
