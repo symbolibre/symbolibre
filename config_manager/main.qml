@@ -26,7 +26,7 @@ Window {
         TabBar {
             id: bar
             width: parent.width
-            font.pixelSize: 11
+            font.pixelSize: 13
 
             Repeater {
                 model: configmodel.model

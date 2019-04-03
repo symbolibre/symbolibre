@@ -9,7 +9,7 @@ Rectangle {
         height: 32
         id: element
         text: props.label
-        font.pixelSize: 11
+        font.pixelSize: 13
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
