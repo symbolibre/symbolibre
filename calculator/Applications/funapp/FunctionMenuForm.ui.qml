@@ -35,7 +35,7 @@ Rectangle {
         anchors.leftMargin: horizontal_spacing
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 11
+        font.pixelSize: 13
     }
 
     Text {
@@ -49,7 +49,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: horizontal_spacing
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: 11
+        font.pixelSize: 13
         horizontalAlignment: Text.AlignHCenter
     }
 
@@ -66,7 +66,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: horizontal_spacing
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: 11
+        font.pixelSize: 13
         horizontalAlignment: Text.AlignHCenter
     }
 
@@ -82,7 +82,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: horizontal_spacing
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: 11
+        font.pixelSize: 13
         horizontalAlignment: Text.AlignHCenter
     }
 

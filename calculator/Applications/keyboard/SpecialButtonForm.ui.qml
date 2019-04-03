@@ -34,7 +34,7 @@ Item {
             height: 15
             text: qsTr("NULL")
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 12
+            font.pixelSize: 13
         }
     }
 }

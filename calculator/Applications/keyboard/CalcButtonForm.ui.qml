@@ -35,7 +35,7 @@ Item {
             font.family: "Ubuntu Sans"
             smooth: false
             antialiasing: false
-            font.pixelSize: 11
+            font.pixelSize: 13
         }
 
         Text {
