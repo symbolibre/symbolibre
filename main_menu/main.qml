@@ -38,7 +38,7 @@ Window {
                         height: 26
                         text: model.caption
                         anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 13
+                        font.pixelSize: 11
                         font.family: "DejaVu Sans Mono"
                         wrapMode: Text.WordWrap
                         width: grid.cellWidth
