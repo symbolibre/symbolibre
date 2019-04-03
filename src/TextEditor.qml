@@ -162,8 +162,6 @@ TextEditorForm {
 
         if (popupFileExplorer.activeFocus)
         {
-            editor.document.setDocLanguage(2)
-            editor.document.startHighlighter()
             document.load(fileExplorerView.model.get(fileExplorerView.currentIndex, "filePath"))
             popupFileExplorer.close()
             textArea.forceActiveFocus()
@@ -176,6 +174,8 @@ TextEditorForm {
                 langselection.forceActiveFocus()
             }
             else if (newOpenSelection.currentIndex == 1){
+                editor.document.setDocLanguage(2)
+                editor.document.startHighlighter()
                 popupStart.close()
                 popupFileExplorer.open()
                 fileExplorerView.forceActiveFocus()
