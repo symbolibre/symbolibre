@@ -411,7 +411,8 @@ void DocumentHandler::load(const QString &filePath){
 void DocumentHandler::startHighlighter(void){
 
     m_repository.addCustomSearchPath("syntax-highlighting/data");
-    m_repository.addCustomSearchPath("syntax-files/");
+    m_repository.addCustomSearchPath("syntax-files");
+    m_repository.addCustomSearchPath("../src/syntax-files");
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
 
     const QString defName = syntaxDefinitionName();
