@@ -29,12 +29,7 @@ TextEditorForm {
      FolderListModel {
          id: fileExplorerViewModel
          showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
-
-         // To make it display files of a specific folder :
-         // folder: "file://<path to directory>
-         // ex :
-         // folder: "file///home/username/Documents"
-
+         folder: "file:///home/symbolibre/my_programs" // FIXME
      }
 
      ListModel {
