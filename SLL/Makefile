@@ -22,7 +22,7 @@ obj    := $(src:%=build/%.o) $(src-l).o $(src-p).o
 all: $(lib)
 
 $(lib): $(obj)
-	ar rcs $@ $^
+	ar cqs $@ $^
 
 build/%.cpp.o: %.cpp | build/
 	g++ -c $< -o $@ $(cflags) $(dflags)
