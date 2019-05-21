@@ -190,9 +190,9 @@ EditionNode *Flow::getActiveChild(void)
 }
 
 void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
-/* This function could seems complicated but it is not.
- * It is just taking care of those poor parenthesis that cannot compute
- * their dimensions without knowing of their surroundings. */
+/* This function could seem complicated but it is not.
+ * It is just taking care of those poor parentheses that cannot compute
+ * their dimensions without knowledge of their surroundings. */
 {
     width         = 0;
     height        = 0;
@@ -201,13 +201,16 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
     int last_cheight = 0;
 
     auto it = flow.begin();
-    /* Empty case : remove the soup ! */
+    /* Empty case: a box will be drawn */
     if (empty()) {
-        (*it)->computeDimensions(painter, EDITIONAREA_FORCE_PLACEHOLDER,
-                                 EDITIONAREA_FORCE_PLACEHOLDER);
-        width         = (*it)->width;
-        height        = (*it)->height;
-        center_height = (*it)->center_height;
+        (*it)->computeDimensions(painter, 0, 0); // useless
+
+        QFontMetrics metrics = painter.fontMetrics();
+        QRect br = metrics.boundingRect(QString("⃞"));
+
+        width  = br.width();
+        height = std::max(FONT_SIZE, br.height());
+        center_height = height / 2; // FIXME?
         return;
     }
 
@@ -224,7 +227,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             if (it != flow.end() && (*it)->empty())
                 it ++;
 
-            /* Compute parenthesis' sizes: only 'width' is important */
+            /* Compute parenthesis' size: only 'width' is important */
             (*it)->computeDimensions(painter, last_height, last_cheight);
             (*it)->height        = left_height;
             (*it)->center_height = left_center_height;
@@ -238,7 +241,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             }
 
             /* Update flow box */
-            width += it_width; /* only 1 parenthesis : RPAREN ) */
+            width += it_width; /* only 1 parenthesis: RPAREN ) */
             height = std::max(center_height, it_center)
                      + std::max(height - center_height, it_height - it_center);
             center_height = std::max(center_height, it_center);
@@ -317,8 +320,17 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
     //painter.drawRect(brect);
 
     //painter.setPen(Qt::black);
+
     if (empty()) {
-        (*(flow.begin()))->draw(x, y, painter, cursor, EDITIONAREA_FORCE_PLACEHOLDER);
+        // draw a box, or the cursor if selected
+        QRect brect = QRect(x, y, width, height);
+        if (cursor) {
+            painter.setPen(Qt::red);
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("|"));
+            painter.setPen(Qt::black);
+        } else {
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString(cursor ? "|" : "⃞"));
+        }
         return;
     }
 
@@ -335,7 +347,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
 
 centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
 {
-    /* It is kind of cheating, but par_rect.x stands for  the center_height */
+    /* FIXME It is kind of cheating, but par_rect.x stands for the center_height */
     centeredBox par_box;
     par_box.height = par_box.width = par_box.center_height = 0;
 

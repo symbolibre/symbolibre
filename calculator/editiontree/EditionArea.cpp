@@ -128,18 +128,14 @@ void EditionArea::editChar(char symbol)
     cursor_pos++;
 }
 
-void EditionArea::computeDimensions(QPainter &painter, int force_mod, int /**/)
+void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     QFontMetrics metrics = painter.fontMetrics();
-    QRect br;
-    if (force_mod == EDITIONAREA_FORCE_PLACEHOLDER)
-        br = metrics.boundingRect(QString("⃞"));
-    else
-        br = metrics.boundingRect(QString::fromStdString(text));
+    QRect br = metrics.boundingRect(QString::fromStdString(text));
 
     width  = br.width();
     height = std::max(FONT_SIZE, br.height());
-    center_height = height / 2; // FIXME ?
+    center_height = height / 2; // FIXME?
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
@@ -156,7 +152,7 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
 
     /* About printing the cursor: */
     if (cursor) {
-        /* We have to make measurment to find the palce of the cursor */
+        /* We have to make measurements to find the location of the cursor */
         painter.setPen(Qt::red);
         QFontMetrics metrics = painter.fontMetrics();
         QFont font           = painter.font();
@@ -166,25 +162,6 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
                             y, font.pixelSize(), height);
 
         painter.drawText(crect, Qt::AlignHCenter | Qt::AlignVCenter, QString("│"));
-        painter.setPen(Qt::black);
-        //painter.drawRect(crect);
-    }
-}
-
-void EditionArea::draw(int x, int y, QPainter &painter, bool cursor, int mod)
-{
-    if (mod != EDITIONAREA_FORCE_PLACEHOLDER)
-        draw(x, y, painter, cursor);
-
-    QRect brect = QRect(x, y, width, height);
-    painter.setPen(Qt::black);
-
-    if (!cursor)
-        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("⃞"));
-    else {
-        /* We have to make measurment to find the palce of the cursor */
-        painter.setPen(Qt::red);
-        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("│"));
         painter.setPen(Qt::black);
         //painter.drawRect(crect);
     }

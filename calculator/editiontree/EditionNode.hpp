@@ -180,10 +180,6 @@ public:
      * \param cursor true to draw the cursor
      */
     virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
-    virtual void draw(int x, int y, QPainter &painter, bool cursor, int)
-    {
-        return draw(x, y, painter, cursor);
-    }
 
     /**
      * Return the coordinates of the top of the cursor, (0, 0) corresponding

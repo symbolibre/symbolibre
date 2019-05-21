@@ -5,11 +5,11 @@
 #include <string>
 #include <memory>
 
-#define EDITIONAREA_FORCE_PLACEHOLDER -1
-
 /**
  * Edition areas are the only node where text can be written.
  * It is a leaf node that contains a mere string.
+ * They are found in one and only one location:
+ * even-numbered children of Flow nodes.
  */
 class EditionArea : public EditionNode
 {
@@ -62,7 +62,6 @@ public:
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
-    void draw(int x, int y, QPainter &painter, bool cursor, int mod) override;
 
     QPoint getCursorCoordinates(void) override;
 };

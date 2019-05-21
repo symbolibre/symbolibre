@@ -20,6 +20,7 @@ class Flow : public InternalEditionNode
     using FlowIterator = std::list<std::unique_ptr<EditionNode>>::iterator;
 
 private:
+    // FIXME get rid of std::list
     std::list<std::unique_ptr<EditionNode>> flow;
     FlowIterator edited_node;
 

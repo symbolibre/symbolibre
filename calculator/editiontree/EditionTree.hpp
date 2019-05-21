@@ -194,11 +194,6 @@ public:
         return root.draw(x, y, painter, cursor);
     }
 
-    void draw(int x, int y, QPainter &painter, bool cursor, int)
-    {
-        return root.draw(x, y, painter, cursor);
-    }
-
     QPoint getCursorCoordinates(void)
     {
         return root.getCursorCoordinates();
