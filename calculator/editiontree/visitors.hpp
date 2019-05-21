@@ -7,7 +7,7 @@
 class MoveLeftVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editMoveLeft();
     }
@@ -16,7 +16,7 @@ public:
 class MoveRightVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editMoveRight();
     }
@@ -25,7 +25,7 @@ public:
 class MoveUpVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editMoveUp();
     }
@@ -34,7 +34,7 @@ public:
 class MoveDownVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editMoveDown();
     }
@@ -43,7 +43,7 @@ public:
 class DeleteVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editDelete();
     }
@@ -52,7 +52,7 @@ public:
 class ClearVisitor : public ActiveEditionNodeVisitor
 {
 public:
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.editClear();
     }
@@ -66,7 +66,7 @@ public:
         assert(n);
     }
     InsertVisitor(const InsertVisitor *) = delete;
-    virtual bool visit(EditionNode &node)
+    bool visit(EditionNode &node) override
     {
         return node.insert(newnode);
     }
