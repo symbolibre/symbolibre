@@ -1,2 +1,2 @@
-# symbolibre-gui
+# symbolibre-system-apps
 
