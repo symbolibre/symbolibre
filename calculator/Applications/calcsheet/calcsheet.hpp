@@ -23,8 +23,8 @@
 #define BORDERSPACE 5 /* admnistrative size between borders */
 #define DEFAULT_EDITED_AREA_SIZE 23
 
-extern QColor _SL_LIGHT_GRAY;
-extern QColor _SL_DARK_GRAY;
+extern QColor SL_LIGHT_GRAY;
+extern QColor SL_DARK_GRAY;
 
 class CalcSheet : public QQuickPaintedItem
 {

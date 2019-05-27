@@ -4,12 +4,12 @@
 #include <QFont>
 #include <string>
 
-QColor _SL_LIGHT_GRAY(230, 230, 230);
-QColor _SL_DARK_GRAY(96, 96, 96);
+QColor SL_LIGHT_GRAY(230, 230, 230);
+QColor SL_DARK_GRAY(96, 96, 96);
 
 /*static __attribute__((constructor)) void _(void)
 {
-    _SL_LIGHT_GRAY.red = ...;
+    SL_LIGHT_GRAY.red = ...;
 }*/
 
 CalcSheet::CalcSheet(QQuickItem *parent) : QQuickPaintedItem(parent)
@@ -42,7 +42,7 @@ qreal CalcSheet::editedAreaHeight(void)
 void CalcSheet::paintEditedArea(QPainter *painter)
 {
     int eaheight = editedAreaHeight();
-    painter->setPen(_SL_DARK_GRAY);
+    painter->setPen(SL_DARK_GRAY);
     painter->drawRect(0, height() - eaheight, width() - 1, eaheight);
 
     //painter->setPen(Qt::red);
@@ -65,13 +65,13 @@ void CalcSheet::paintList(QPainter *painter)
     auto resIt  = --results.end();
     auto exprIt = --expressions.end();
 
-    painter->setBrush(QBrush(_SL_LIGHT_GRAY));
+    painter->setBrush(QBrush(SL_LIGHT_GRAY));
     int y = height() - editedAreaHeight() + BACKSPACE - BORDERSPACE - 1;
     int color_parity = 1;
     do {
         y -=  BACKSPACE + resIt->getHeight();
         if (color_parity) {
-            painter->setPen(_SL_LIGHT_GRAY);
+            painter->setPen(SL_LIGHT_GRAY);
             painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + resIt->getHeight());
             painter->setPen(Qt::black);
         }
@@ -79,7 +79,7 @@ void CalcSheet::paintList(QPainter *painter)
 
         y -=  BACKSPACE + exprIt->getHeight();
         if (color_parity) {
-            painter->setPen(_SL_LIGHT_GRAY);
+            painter->setPen(SL_LIGHT_GRAY);
             painter->drawRect(0, y  - BACKSPACE / 2, width(), BACKSPACE + exprIt->getHeight());
             painter->setPen(Qt::black);
         }
