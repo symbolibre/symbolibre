@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include "calcsheet.hpp"
 #include "keycode.hpp"
 #include "customplotitem.h"
 #include "EditionTree.hpp"
@@ -14,7 +13,6 @@ int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv); //QGuiApplication
-    qmlRegisterType<CalcSheet>("org.symbolibre.mathrenderer", 1, 0, "MathRenderer");
     qmlRegisterType<ETBox>("etBox", 1, 0, "ETBox");
     KeyCode::declareQML();
     CustomPlotItem::declareQML();
