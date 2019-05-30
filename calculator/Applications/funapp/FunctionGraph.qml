@@ -2,25 +2,11 @@ import QtQuick 2.4
 
 FunctionGraphForm {
 
-    // TODO : in a cleaner way. But works correctly for now
-    xtext.text: {
-        if (graph.focus == true) {
-            return (qsTr("X = ") + String(graph.cursorX.toFixed(4)))
-        }
-        else {
-            return ""
-        }
-    }
+    xtext.visible: graph.focus
+    xtext.text: "X = " + String(graph.cursorX.toFixed(4))
 
-    ytext.text: {
-        if (graph.focus == true) {
-            return (qsTr("Y = ") + String(graph.cursorY.toFixed(4)))
-        }
-        else {
-            return ""
-        }
-    }
-
+    ytext.visible: graph.focus
+    ytext.text: "Y = " + String(graph.cursorY.toFixed(4))
 
     onExitGraphChanged: {
          if (exitGraph == 1) {
