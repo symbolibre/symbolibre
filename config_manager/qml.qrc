@@ -6,7 +6,6 @@
         <file>jsonpath.js</file>
         <file>CustomSlider.qml</file>
         <file>Boolean.qml</file>
-        <file>ColumnFocusDistributor.qml</file>
         <file>Entry.qml</file>
         <file>ParamText.qml</file>
     </qresource>

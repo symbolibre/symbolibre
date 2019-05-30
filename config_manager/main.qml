@@ -5,7 +5,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 Window {
-
+    id: window
     visible: true
     width: 320
     height: 216
@@ -18,21 +18,23 @@ Window {
 
     title: qsTr("Paramètres")
 
-    ColumnFocusDistributor {
+    ColumnLayout {
         id: column
         spacing: 8
         anchors.fill: parent
 
         TabBar {
             id: bar
-            width: parent.width
+            Layout.fillWidth: true
             font.pixelSize: 13
+            focus: true
+            KeyNavigation.down: tabStack.children[tabStack.currentIndex]
 
             Repeater {
                 model: configmodel.model
                 TabButton {
                     id: tabButton
-
+                    focus: true
                     Component.onCompleted: {
                         if(index == 0) {
                             forceActiveFocus()
@@ -55,47 +57,33 @@ Window {
         }
 
         StackLayout {
-            onFocusChanged: {
-                if (focus == true) {
-                    rep.forceActiveFocus()
-                }
-            }
-
-            width: parent.width
+            id: tabStack
+            Layout.fillWidth: true
             currentIndex: bar.currentIndex
             Repeater {
-                onFocusChanged: {
-                    if (focus == true) {
-                        itemAt(bar.currentIndex).forceActiveFocus()
-                    }
-                }
-
                 id: rep
                 model: configmodel.model
 
-               ColumnFocusDistributor {
+                ListView {
                     id: colparams
-                    Repeater {
-                        model: params
-                        Component {
-                            Loader {
-
-                                source: switch(type) {
-                                    case "choice": return "Choice.qml"
-                                    case "slider": return "CustomSlider.qml"
-                                    case "bool": return "Boolean.qml"
-                                    case "entry": return "Entry.qml"
-                                }
-                                onLoaded: {
-                                    item.props = model
-                                    item.init()
-                                }
+                    focus: true
+                    model: params
+                    delegate: Component {
+                        Loader {
+                            source: switch(type) {
+                                case "choice": return "Choice.qml"
+                                case "slider": return "CustomSlider.qml"
+                                case "bool": return "Boolean.qml"
+                                case "entry": return "Entry.qml"
+                            }
+                            onLoaded: {
+                                item.props = model
+                                item.init()
                             }
                         }
                     }
-               }
+                }
             }
-
         }
     }
 }
