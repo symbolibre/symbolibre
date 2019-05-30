@@ -68,18 +68,16 @@ Window {
                     id: colparams
                     focus: true
                     model: params
-                    delegate: Component {
-                        Loader {
-                            source: switch(type) {
-                                case "choice": return "Choice.qml"
-                                case "slider": return "CustomSlider.qml"
-                                case "bool": return "Boolean.qml"
-                                case "entry": return "Entry.qml"
-                            }
-                            onLoaded: {
-                                item.props = model
-                                item.init()
-                            }
+                    delegate: Loader {
+                        source: switch(type) {
+                            case "choice": return "Choice.qml"
+                            case "slider": return "CustomSlider.qml"
+                            case "bool": return "Boolean.qml"
+                            case "entry": return "Entry.qml"
+                        }
+                        onLoaded: {
+                            item.props = model
+                            item.init()
                         }
                     }
                 }
