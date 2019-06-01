@@ -108,22 +108,13 @@ public:
 
     void editChar(char symbol)
     {
-        root.getActiveNode()->editChar(symbol);
+        root.getActiveNode()->editString(std::string(1, symbol));
     }
 
-    void editStr(std::string &str)
+    void editStr(const std::string &str)
     {
-        lastEdition = str[str.length() - 1];
-        for (int i = 0; (unsigned) i < str.length(); i++)
-            editChar(str[i]);
+        root.getActiveNode()->editString(str);
     }
-
-    void editStr(const char *s)
-    {
-        std::string str = s;
-        editStr(str);
-    }
-
 
     bool editOperator(char achar, QString qs)
     {

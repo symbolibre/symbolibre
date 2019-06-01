@@ -122,10 +122,10 @@ bool EditionArea::editDelete(void)
         return false; /* nothing deleted */
 }
 
-void EditionArea::editChar(char symbol)
+void EditionArea::editString(const std::string &str)
 {
-    text.insert(text.begin() + cursor_pos, symbol);
-    cursor_pos++;
+    text.insert(cursor_pos, str);
+    cursor_pos += str.size();
 }
 
 void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)

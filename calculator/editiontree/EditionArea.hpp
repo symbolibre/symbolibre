@@ -52,7 +52,7 @@ public:
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;
     bool editDelete(void) override;
-    void editChar(char symbol);
+    void editString(const std::string &str);
 
     EditionArea *getActiveNode(void)
     {
