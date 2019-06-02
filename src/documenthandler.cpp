@@ -131,55 +131,6 @@ void DocumentHandler::setSelectionEnd(int position)
     emit selectionEndChanged();
 }
 
-
-bool DocumentHandler::bold() const
-{
-    QTextCursor cursor = textCursor();
-    if (cursor.isNull())
-        return false;
-    return textCursor().charFormat().fontWeight() == QFont::Bold;
-}
-
-void DocumentHandler::setBold(bool bold)
-{
-    QTextCharFormat format;
-    format.setFontWeight(bold ? QFont::Bold : QFont::Normal);
-    mergeFormatOnWordOrSelection(format);
-    emit boldChanged();
-}
-
-bool DocumentHandler::italic() const
-{
-    QTextCursor cursor = textCursor();
-    if (cursor.isNull())
-        return false;
-    return textCursor().charFormat().fontItalic();
-}
-
-void DocumentHandler::setItalic(bool italic)
-{
-    QTextCharFormat format;
-    format.setFontItalic(italic);
-    mergeFormatOnWordOrSelection(format);
-    emit italicChanged();
-}
-
-bool DocumentHandler::underline() const
-{
-    QTextCursor cursor = textCursor();
-    if (cursor.isNull())
-        return false;
-    return textCursor().charFormat().fontUnderline();
-}
-
-void DocumentHandler::setUnderline(bool underline)
-{
-    QTextCharFormat format;
-    format.setFontUnderline(underline);
-    mergeFormatOnWordOrSelection(format);
-    emit underlineChanged();
-}
-
 int DocumentHandler::fontSize() const
 {
     QTextCursor cursor = textCursor();
@@ -464,9 +415,6 @@ bool DocumentHandler::wasAlreadySaved(void){
 
 void DocumentHandler::reset()
 {
-    emit boldChanged();
-    emit italicChanged();
-    emit underlineChanged();
     emit fontSizeChanged();
 }
 

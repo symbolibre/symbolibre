@@ -94,10 +94,6 @@ class DocumentHandler : public QObject
     Q_PROPERTY(int selectionStart READ selectionStart WRITE setSelectionStart NOTIFY selectionStartChanged)
     Q_PROPERTY(int selectionEnd READ selectionEnd WRITE setSelectionEnd NOTIFY selectionEndChanged)
 
-    Q_PROPERTY(bool bold READ bold WRITE setBold NOTIFY boldChanged)
-    Q_PROPERTY(bool italic READ italic WRITE setItalic NOTIFY italicChanged)
-    Q_PROPERTY(bool underline READ underline WRITE setUnderline NOTIFY underlineChanged)
-
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 
     Q_PROPERTY(QString fileName READ fileName NOTIFY fileUrlChanged)
@@ -128,18 +124,6 @@ public:
 
     int selectionEnd() const;
     void setSelectionEnd(int position);
-
-    Qt::Alignment alignment() const;
-    void setAlignment(Qt::Alignment alignment);
-
-    bool bold() const;
-    void setBold(bool bold);
-
-    bool italic() const;
-    void setItalic(bool italic);
-
-    bool underline() const;
-    void setUnderline(bool underline);
 
     int fontSize() const;
     void setFontSize(int size);
@@ -184,10 +168,6 @@ Q_SIGNALS:
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();
-
-    void boldChanged();
-    void italicChanged();
-    void underlineChanged();
 
     void fontSizeChanged();
 
