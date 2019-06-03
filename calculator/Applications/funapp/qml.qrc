@@ -22,7 +22,6 @@
         <file alias="SelectBarForm.ui.qml">../components/SelectBarForm.ui.qml</file>
         <file alias="ColumnLayoutFocusDistributor.qml">../components/ColumnLayoutFocusDistributor.qml</file>
         <file alias="StackLayoutFocusDistributor.qml">../components/StackLayoutFocusDistributor.qml</file>
-        <file alias="FocusEncapsulator.qml">../components/FocusEncapsulator.qml</file>
         <file alias="FocusDistributorForm.ui.qml">../components/FocusDistributorForm.ui.qml</file>
         <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
         <file alias="TextFieldCustom.qml">../components/TextFieldCustom.qml</file>
