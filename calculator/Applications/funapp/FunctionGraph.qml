@@ -8,10 +8,8 @@ FunctionGraphForm {
     ytext.visible: graph.focus
     ytext.text: "Y = " + String(graph.cursorY.toFixed(4))
 
-    onExitGraphChanged: {
-         if (exitGraph == 1) {
-             focusedChild = focusedChild - 1
-         }
+    graph.onExit: {
+         focusedChild = focusedChild - 1
     }
 
     stack.currentIndex: {

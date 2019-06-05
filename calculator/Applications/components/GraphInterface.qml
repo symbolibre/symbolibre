@@ -6,7 +6,7 @@ Item {
     property var nameList
     property var exprList
     property int mode_int : 0
-    property int exit : 0
+    signal exit
 
     property double cursorX : plotItem.cursorX
     property double cursorY : plotItem.cursorY
@@ -56,10 +56,7 @@ Item {
     }
 
     onFocusChanged: {
-        if (focus == true) {
-            exit = 0
-        }
-        else {
+        if (!focus) {
             rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
         }
     }
@@ -125,7 +122,7 @@ Item {
 
         else if (event.key === Qt.Key_Return) {
             if (mode == "Zoom" || mode == "Cursor") {
-                exit = 1
+                exit()
                 event.accepted = true
             }
         }

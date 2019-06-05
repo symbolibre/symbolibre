@@ -4,12 +4,10 @@ import "../components"
 FocusDistributor {
     width: 320
     height: 220
-    property int exitGraph: graph.exit
     property alias mode: mode
     property alias stack: stack
     property alias menu: menu
     property alias graph: graph
-    property alias exitGraph: graph.exit
 
     property alias xtext: xtext
     property alias ytext: ytext
