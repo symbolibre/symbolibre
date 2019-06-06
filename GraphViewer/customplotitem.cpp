@@ -393,12 +393,21 @@ void CustomPlotItem::recvInput(int input)
 
 void CustomPlotItem::addGraph(QString formula)
 {
+    if (!formula.count()) {
+        std::cerr << "empty formula given to addGraph\n";
+        return;
+    }
+
     if (formula[0] == QChar('-')) {
         removeGraph(formula.remove(0, 1));
         return;
     }
 
     QStringList decomp = formula.split("(x)=");
+    if (decomp.size() != 2) {
+        std::cerr << "FIXME non-trivial function'" << formula.toStdString() << "' in addGraph\n";
+        return;
+    }
     if (listGraph.contains(decomp[0])) {
         listGraph[decomp[0]].updateFormula(decomp[1].toStdString());
     } else {
