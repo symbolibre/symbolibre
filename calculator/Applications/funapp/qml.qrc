@@ -4,8 +4,8 @@
         <file>MainForm.ui.qml</file>
         <file>FunctionMenu.qml</file>
         <file>FunctionMenuForm.ui.qml</file>
-        <file>FunctionDefinition.qml</file>
-        <file>FunctionDefinitionForm.ui.qml</file>
+        <file>FunctionDefinitionView.qml</file>
+        <file>FunctionDefinitionRow.qml</file>
         <file>FunctionGraph.qml</file>
         <file>FunctionGraphForm.ui.qml</file>
     </qresource>

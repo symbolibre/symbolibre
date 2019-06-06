@@ -3,8 +3,7 @@ import SLCustomPlotItem 1.0
 
 Item {
 
-    property var nameList
-    property var exprList
+    property ListModel functions
     property int mode_int : 0
     signal exit
 
@@ -21,11 +20,10 @@ Item {
     }
 
     function plot() {
-        var name = ""
         var i = 0
-        for(i=0; i < nameList.length; i++) {
-            if (exprList[i] !== "") {
-                plotItem.addGraph(nameList[i] + "=" + exprList[i])
+        for(i=0; i < functions.count; i++) {
+            if (functions.get(i).expr !== "") {
+                plotItem.addGraph(functions.get(i).name + "(x)=" + functions.get(i).expr)
             }
         }
         rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getYmax())

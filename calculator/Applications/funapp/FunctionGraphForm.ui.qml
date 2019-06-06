@@ -2,6 +2,8 @@ import QtQuick 2.4
 import "../components"
 
 FocusDistributor {
+    id: root
+
     width: 320
     height: 220
     property alias mode: mode
@@ -11,6 +13,8 @@ FocusDistributor {
 
     property alias xtext: xtext
     property alias ytext: ytext
+
+    property ListModel functions
 
     SelectBar {
         id: mode
@@ -45,8 +49,7 @@ FocusDistributor {
         GraphInterface {
             id: graph
             mode_int: mode.savedIndex
-            exprList: def.exprList
-            nameList: def.nameList
+            functions: root.functions
 
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 15

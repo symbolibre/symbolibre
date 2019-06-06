@@ -45,13 +45,14 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            FunctionDefinition {
+            FunctionDefinitionView {
                 id: def
                 anchors.fill: parent
             }
 
             FunctionGraph {
                 id: functionGraph
+                functions: def.functions
                 anchors.fill: parent
             }
 
