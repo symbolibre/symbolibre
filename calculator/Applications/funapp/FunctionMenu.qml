@@ -21,16 +21,8 @@ FunctionMenuForm {
         defined(xmin, xmax, ymin, ymax)
     }
 
-    xmin: {
-        return(parseFloat(xminEntry.text))
-    }
-    xmax: {
-        return(parseFloat(xmaxEntry.text))
-    }
-    ymin: {
-        return(parseFloat(yminEntry.text))
-    }
-    ymax: {
-        return(parseFloat(ymaxEntry.text))
-    }
+    xmin: parseFloat(xminEntry.text)
+    xmax: parseFloat(xmaxEntry.text)
+    ymin: parseFloat(yminEntry.text)
+    ymax: parseFloat(ymaxEntry.text)
 }
