@@ -27,8 +27,8 @@ FunctionGraphForm {
       Doing this in more general scope does not seem to work anyway */
     Connections {
         target: mainMenu
-        onSavedIndexChanged: {
-            if (mainMenu.savedIndex == 1) {
+        onCurrentIndexChanged: {
+            if (mainMenu.currentIndex == 1) {
                 graph.plot()
             }
         }

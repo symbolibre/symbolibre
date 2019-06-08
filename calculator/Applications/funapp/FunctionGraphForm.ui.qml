@@ -55,16 +55,6 @@ FocusDistributor {
             anchors.leftMargin: 0
             anchors.rightMargin: 0
             clip: true
-
-
-            /*Connections {
-                target: mainMenu
-                onSavedIndexChanged: {
-                    if (mainMenu.currentIndex == 1) {
-                        graph.plot()
-                    }
-                }
-            }*/
         }
     }
 
