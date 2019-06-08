@@ -53,8 +53,8 @@ Item {
         }
     }
 
-    onFocusChanged: {
-        if (!focus) {
+    onActiveFocusChanged: {
+        if (!activeFocus) {
             rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
         }
     }

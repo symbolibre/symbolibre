@@ -44,37 +44,37 @@ FocusDistributor {
             id: menu
         }
 
-        GraphInterface {
-            id: graph
-            mode_int: mode.currentIndex
-            functions: root.functions
+        FocusScope {
+            focus: true
 
-            anchors.fill: parent
-            anchors.bottomMargin: 15
-            anchors.topMargin: 0
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
-            clip: true
+            GraphInterface {
+                id: graph
+                focus: true
+                width: parent.width
+                height: parent.height - 15
+                mode_int: mode.currentIndex
+                functions: root.functions
+                clip: true
+            }
+
+            Label {
+                id: xtext
+                anchors.bottom: parent.bottom
+                anchors.right: ytext.left
+                width: 75
+                height: 20
+                anchors.bottomMargin: 0
+            }
+
+            Label {
+                id: ytext
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                width: 75
+                height: 20
+                anchors.bottomMargin: 0
+            }
         }
     }
 
-    Text {
-        id: xtext
-        anchors.bottom: parent.bottom
-        x: 160
-        y: 200
-        width: 75
-        height: 20
-        anchors.bottomMargin: 0
-    }
-
-    Text {
-        id: ytext
-        anchors.bottom: parent.bottom
-        x: 252
-        y: 200
-        width: 68
-        height: 20
-        anchors.bottomMargin: 0
-    }
 }
