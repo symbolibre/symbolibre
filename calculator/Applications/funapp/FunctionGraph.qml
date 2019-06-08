@@ -8,6 +8,8 @@ FunctionGraphForm {
     ytext.visible: graph.focus
     ytext.text: "Y = " + String(graph.cursorY.toFixed(4))
 
+    mode.width: mode.parent.width
+
     graph.onExit: {
          focusedChild = focusedChild - 1
     }

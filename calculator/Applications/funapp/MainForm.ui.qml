@@ -17,11 +17,9 @@ Rectangle {
 
     FocusDistributor {
         id: focusDistributor
-        x: 0
-        y: 0
         clip: true
         anchors.fill: parent
-        SelectBar2 {
+        SLTabBar {
             focus: true
             id: mainMenu
             x: 0
@@ -29,11 +27,15 @@ Rectangle {
             height: 30
             anchors.top: parent.top
             anchors.topMargin: 0
-            text1: "Functions"
-            text2: "Graph"
+            Repeater {
+                model: ["Functions", "Graph"]
+                TabButton {
+                    text: modelData
+                }
+            }
         }
 
-        StackLayoutFocusDistributor {
+        SLStackLayout {
             id: stackLayoutFocusDistributor
             clip: true
             anchors.top: mainMenu.bottom
@@ -41,9 +43,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.topMargin: 0
-            currentIndex: mainMenu.savedIndex
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            currentIndex: mainMenu.currentIndex
 
             FunctionDefinitionView {
                 id: def

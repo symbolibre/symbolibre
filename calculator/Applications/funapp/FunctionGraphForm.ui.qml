@@ -1,11 +1,11 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.2
 import "../components"
 
 FocusDistributor {
     id: root
 
-    width: parent.width
     height: 220
     property alias mode: mode
     property alias stack: stack
@@ -17,25 +17,24 @@ FocusDistributor {
 
     property ListModel functions
 
-    SelectBar {
+    SLTabBar {
         id: mode
+        focus: true
+        width: parent.width
         height: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
         anchors.top: parent.top
-        anchors.topMargin: 1
         clip: true
-        text1: "Axis"
-        text2: "Cursor"
-        text3: "Zoom"
+        Repeater {
+            model: ["Axis", "Cursor", "Zoom"]
+            TabButton {
+                text: modelData
+            }
+        }
     }
 
-    StackLayoutFocusDistributor {
+    SLStackLayout {
         id: stack
-        anchors.right: parent.right
-        anchors.left: parent.left
+        width: parent.width
         anchors.bottom: parent.bottom
         anchors.top: mode.bottom
         anchors.margins: 0
