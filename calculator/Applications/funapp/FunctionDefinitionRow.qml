@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
+import "../components"
 
 FocusScope {
     id: root
@@ -21,7 +22,7 @@ FocusScope {
             color: model.color
             KeyNavigation.right: exprfield
         }
-        TextField { // TODO ET
+        SLTextField { // TODO ET
             id: exprfield
             Layout.fillWidth: true
             text: model.expr

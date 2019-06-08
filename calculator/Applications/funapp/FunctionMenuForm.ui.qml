@@ -91,7 +91,7 @@ Rectangle {
         id: focusDistributor
         anchors.fill: parent
 
-        TextFieldCustom {
+        SLTextField {
             id : xminEntry
             x: 135
             width: parent.width / 4
@@ -102,7 +102,7 @@ Rectangle {
             anchors.rightMargin: horizontal_spacing * 2
         }
 
-        TextFieldCustom {
+        SLTextField {
             id : xmaxEntry
             x: 135
             width: parent.width / 4
@@ -113,7 +113,7 @@ Rectangle {
             anchors.rightMargin: horizontal_spacing * 2
         }
 
-        TextFieldCustom {
+        SLTextField {
             id: yminEntry
             x: 135
             y: 98
@@ -125,7 +125,7 @@ Rectangle {
             anchors.rightMargin: horizontal_spacing * 2
         }
 
-        TextFieldCustom {
+        SLTextField {
             id : ymaxEntry
             x: 135
             y: 138

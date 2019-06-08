@@ -22,8 +22,7 @@
         <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
         <file alias="FocusDistributorForm.ui.qml">../components/FocusDistributorForm.ui.qml</file>
         <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
-        <file alias="TextFieldCustom.qml">../components/TextFieldCustom.qml</file>
-        <file alias="TextFieldCustomForm.ui.qml">../components/TextFieldCustomForm.ui.qml</file>
+        <file alias="SLTextField.qml">../components/SLTextField.qml</file>
         <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
         <file alias="SLTabBar.qml">../components/SLTabBar.qml</file>
