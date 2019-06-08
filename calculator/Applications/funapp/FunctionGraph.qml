@@ -12,15 +12,6 @@ FunctionGraphForm {
          focusedChild = focusedChild - 1
     }
 
-    stack.currentIndex: {
-        if (mode.savedIndex == 0) {
-            return 0
-        }
-        else {
-            return 1
-        }
-    }
-
     Connections {
         target: menu
         onDefined : {

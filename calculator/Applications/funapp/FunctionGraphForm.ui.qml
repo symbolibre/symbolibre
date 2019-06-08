@@ -1,10 +1,11 @@
 import QtQuick 2.4
+import QtQuick.Layouts 1.12
 import "../components"
 
 FocusDistributor {
     id: root
 
-    width: 320
+    width: parent.width
     height: 220
     property alias mode: mode
     property alias stack: stack
@@ -23,9 +24,9 @@ FocusDistributor {
         anchors.rightMargin: 0
         anchors.left: parent.left
         anchors.leftMargin: 0
-        clip: true
         anchors.top: parent.top
         anchors.topMargin: 1
+        clip: true
         text1: "Axis"
         text2: "Cursor"
         text3: "Zoom"
@@ -34,13 +35,11 @@ FocusDistributor {
     StackLayoutFocusDistributor {
         id: stack
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 0
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
         anchors.top: mode.bottom
-        anchors.topMargin: 0
+        anchors.margins: 0
+        currentIndex: Math.min(mode.currentIndex, 1)
 
         FunctionMenu {
             id: menu
@@ -48,16 +47,13 @@ FocusDistributor {
 
         GraphInterface {
             id: graph
-            mode_int: mode.savedIndex
+            mode_int: mode.currentIndex
             functions: root.functions
 
-            anchors.bottom: parent.bottom
+            anchors.fill: parent
             anchors.bottomMargin: 15
-            anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.left: parent.left
             anchors.leftMargin: 0
-            anchors.right: parent.right
             anchors.rightMargin: 0
             clip: true
 
@@ -65,7 +61,7 @@ FocusDistributor {
             /*Connections {
                 target: mainMenu
                 onSavedIndexChanged: {
-                    if (mainMenu.savedIndex == 1) {
+                    if (mainMenu.currentIndex == 1) {
                         graph.plot()
                     }
                 }
