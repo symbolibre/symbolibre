@@ -4,16 +4,16 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
 
 
-Item {
+FocusScope {
     property alias functions: fmodel
     ListModel {
         id: fmodel
-        ListElement { name: "f1"; expr: "x+2"; color: "black" }
-        ListElement { name: "f2"; expr: "x^2"; color: "red" }
-        ListElement { name: "f3"; expr: "sin(x)"; color: "blue" }
-        ListElement { name: "f4"; expr: "-x"; color: "orange" }
-        ListElement { name: "f5"; expr: "-x"; color: "green" }
-        ListElement { name: "f6"; expr: "-x"; color: "grey" }
+        ListElement { active: false; name: "f1"; expr: "x+2"; color: "black" }
+        ListElement { active: true; name: "f2"; expr: "x^2"; color: "red" }
+        ListElement { active: true; name: "f3"; expr: "sin(x)"; color: "blue" }
+        ListElement { active: true; name: "f4"; expr: "-x"; color: "orange" }
+        ListElement { active: true; name: "f5"; expr: ""; color: "green" }
+        ListElement { active: true; name: "f6"; expr: ""; color: "grey" }
     }
 
     ColumnLayout {
@@ -24,7 +24,7 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             model: fmodel
-            delegate: FunctionDefinitionRow { focus: true }
+            delegate: FunctionDefinitionRow { }
         }
     }
 }

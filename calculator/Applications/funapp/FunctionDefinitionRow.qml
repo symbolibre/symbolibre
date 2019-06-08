@@ -13,6 +13,7 @@ FocusScope {
         anchors.fill: parent
         CheckBox {
             id: enabled
+            checked: model.active
             KeyNavigation.right: exprfield
             focus: true
         }
@@ -28,5 +29,16 @@ FocusScope {
             text: model.expr
             focus: true
         }
+    }
+
+    Binding {
+        target: model
+        property: "expr"
+        value: exprfield.text
+    }
+    Binding {
+        target: model
+        property: "active"
+        value: enabled.checked
     }
 }
