@@ -18,12 +18,10 @@
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
     </qresource>
     <qresource prefix="/../components">
-        <file alias="ColumnLayoutFocusDistributor.qml">../components/ColumnLayoutFocusDistributor.qml</file>
         <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
         <file alias="FocusDistributorForm.ui.qml">../components/FocusDistributorForm.ui.qml</file>
         <file alias="FocusDistributor.qml">../components/FocusDistributor.qml</file>
         <file alias="SLTextField.qml">../components/SLTextField.qml</file>
-        <file alias="HorizontalFocusDistributor.qml">../components/HorizontalFocusDistributor.qml</file>
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
         <file alias="SLTabBar.qml">../components/SLTabBar.qml</file>
         <file>FormulaBox.qml</file>
