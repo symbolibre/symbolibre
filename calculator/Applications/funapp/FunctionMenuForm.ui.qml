@@ -87,8 +87,9 @@ Rectangle {
     }
 
 
-    FocusDistributor {
+    FocusScope {
         id: focusDistributor
+        focus: true
         anchors.fill: parent
 
         SLTextField {

@@ -3,8 +3,9 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.2
 import "../components"
 
-FocusDistributor {
+FocusScope {
     id: root
+    focus: true
 
     height: 220
     property alias mode: mode
@@ -30,6 +31,7 @@ FocusDistributor {
                 text: modelData
             }
         }
+        KeyNavigation.down: stack
     }
 
     SLStackLayout {

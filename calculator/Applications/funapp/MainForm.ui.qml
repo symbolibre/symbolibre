@@ -15,9 +15,10 @@ Rectangle {
 
     property alias graph: functionGraph.graph
 
-    FocusDistributor {
+    FocusScope {
         id: focusDistributor
         clip: true
+        focus: true
         anchors.fill: parent
         SLTabBar {
             focus: true
@@ -33,10 +34,12 @@ Rectangle {
                     text: modelData
                 }
             }
+            KeyNavigation.down: stackLayout
         }
 
         SLStackLayout {
-            id: stackLayoutFocusDistributor
+            id: stackLayout
+            focus: true
             clip: true
             anchors.top: mainMenu.bottom
             anchors.right: parent.right
@@ -53,7 +56,6 @@ Rectangle {
                 id: functionGraph
                 functions: def.functions
             }
-
         }
     }
 }
