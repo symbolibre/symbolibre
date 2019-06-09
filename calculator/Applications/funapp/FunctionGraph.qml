@@ -11,33 +11,23 @@ FunctionGraphForm {
     mode.width: mode.parent.width
 
     graph.onExit: {
-         focusedChild = focusedChild - 1
+         mode.forceActiveFocus()
     }
 
-    Connections {
-        target: menu
-        onDefined : {
-            graph.setRange(xmin, xmax, ymin, ymax)
-        }
-    }
-
-
-
-    /* TODO : maybe not really modular, but works anyway -\_("/)_/-
-      Doing this in more general scope does not seem to work anyway */
-    Connections {
-        target: mainMenu
-        onCurrentIndexChanged: {
-            if (mainMenu.currentIndex == 1) {
-                graph.plot()
-            }
+    graph.onVisibleChanged: {
+        if (graph.visible) {
+            graph.setRange(menu.xmin, menu.xmax, menu.ymin, menu.ymax)
+            graph.plot()
         }
     }
 
     Connections {
         target: graph
         onRangeCom : {
-            menu.default_range(xmin, xmax, ymin, ymax)
+            menu.xmin = xmin
+            menu.xmax = xmax
+            menu.ymin = ymin
+            menu.ymax = ymax
         }
     }
 }

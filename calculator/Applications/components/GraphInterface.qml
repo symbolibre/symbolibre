@@ -11,10 +11,10 @@ Item {
     property double cursorY : plotItem.cursorY
 
     signal rangeCom(double xmin, double xmax, double ymin, double ymax)
-    // Send a signal saying that range changed. Send when initialized and when lose focus
+    // Send a signal saying that range changed. Send when lose focus
 
 
-    CustomPlotItem { // Should not be aliased, the interface should be enought
+    CustomPlotItem { // Should not be aliased, the interface should be enough
         id : plotItem
         anchors.fill: parent
     }
@@ -26,7 +26,6 @@ Item {
                 plotItem.addGraph(functions.get(i).name + "(x)=" + functions.get(i).expr)
             }
         }
-        rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getYmax())
     }
 
     function setRange(xmin, xmax, ymin, ymax) {
