@@ -8,6 +8,7 @@
         <file>FunctionDefinitionRow.qml</file>
         <file>FunctionGraph.qml</file>
         <file>FunctionGraphForm.ui.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/../keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
@@ -18,6 +19,7 @@
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
     </qresource>
     <qresource prefix="/../components">
+        <file alias="SLCheckBox.qml">../components/SLCheckBox.qml</file>
         <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
         <file alias="SLTextField.qml">../components/SLTextField.qml</file>
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>

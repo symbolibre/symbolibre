@@ -3,14 +3,10 @@ import QtQuick.Controls 2.2
 
 TextField {
     property bool editFocus: false
-    property color borderColor : "#4E8FC1"
+    property color borderColor : palette.highlight
 
     focus: true
-
     readOnly: !editFocus
-
-    font.pixelSize: 13
-    renderType: Text.QtRendering
 
     background: Rectangle {
         border.color : parent.borderColor

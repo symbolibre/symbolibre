@@ -22,7 +22,6 @@ FocusScope {
         id: mode
         focus: true
         width: parent.width
-        height: 20
         anchors.top: parent.top
         clip: true
         Repeater {
