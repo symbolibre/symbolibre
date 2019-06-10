@@ -31,7 +31,6 @@ Rectangle {
                 model: ["Functions", "Graph"]
                 TabButton {
                     text: modelData
-                    background.implicitHeight: 18 // FIXME
                 }
             }
             KeyNavigation.down: stackLayout
@@ -45,7 +44,6 @@ Rectangle {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.topMargin: 0
             currentIndex: mainMenu.currentIndex
 
             FunctionDefinitionView {
