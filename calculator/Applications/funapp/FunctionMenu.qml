@@ -27,7 +27,7 @@ FocusScope {
         SLTextField {
             id: xminField
             focus: true
-            text: String(xmin)
+            text: +xmin.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: xmaxField
             onEditFocusChanged: if (!editFocus) xmin = parseFloat(text)
@@ -40,7 +40,7 @@ FocusScope {
         SLTextField {
             id: xmaxField
             focus: true
-            text: String(xmax)
+            text: +xmax.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: yminField
             onEditFocusChanged: if (!editFocus) xmax = parseFloat(text)
@@ -53,7 +53,7 @@ FocusScope {
         SLTextField {
             id: yminField
             focus: true
-            text: String(ymin)
+            text: +ymin.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: ymaxField
             onEditFocusChanged: if (!editFocus) ymin = parseFloat(text)
@@ -66,7 +66,7 @@ FocusScope {
         SLTextField {
             id: ymaxField
             focus: true
-            text: String(ymax)
+            text: +ymax.toPrecision(6)
             Layout.fillWidth: true
             onEditFocusChanged: if (!editFocus) ymax = parseFloat(text)
         }
