@@ -25,13 +25,13 @@ Rectangle {
             id: mainMenu
             x: 0
             width: parent.width
-            height: 30
             anchors.top: parent.top
             anchors.topMargin: 0
             Repeater {
                 model: ["Functions", "Graph"]
                 TabButton {
                     text: modelData
+                    background.implicitHeight: 18 // FIXME
                 }
             }
             KeyNavigation.down: stackLayout

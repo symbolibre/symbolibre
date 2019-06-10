@@ -28,6 +28,7 @@ FocusScope {
             model: ["Axis", "Cursor", "Zoom"]
             TabButton {
                 text: modelData
+                background.implicitHeight: 18 // FIXME
             }
         }
         KeyNavigation.down: stack
