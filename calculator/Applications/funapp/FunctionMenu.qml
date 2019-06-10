@@ -14,8 +14,10 @@ FocusScope {
 
 
     GridLayout {
-        x: parent.x
-        width: parent.width
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 8
         columns: 2
 
         Label {

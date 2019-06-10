@@ -18,6 +18,7 @@ FocusScope {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 8
         ListView {
             id: fview
             spacing: 4
