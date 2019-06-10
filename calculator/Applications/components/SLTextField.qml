@@ -20,15 +20,15 @@ TextField {
     Keys.onLeftPressed: {
         if (readOnly) {
             cursorPosition = 0;
-            event.accepted = false;
         }
+        event.accepted = false;
     }
 
     Keys.onRightPressed: {
         if (readOnly) {
             cursorPosition = text.length;
-            event.accepted = false;
         }
+        event.accepted = false;
     }
 
     onActiveFocusChanged: if (!activeFocus) editFocus = false
