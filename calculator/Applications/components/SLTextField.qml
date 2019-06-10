@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 
 TextField {
     property bool editFocus: false
-    property color borderColor : palette.highlight
+    property color borderColor : activeFocus ? palette.highlight : palette.windowText
 
     focus: true
     readOnly: !editFocus

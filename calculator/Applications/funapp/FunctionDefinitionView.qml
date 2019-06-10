@@ -20,6 +20,7 @@ FocusScope {
         anchors.fill: parent
         ListView {
             id: fview
+            spacing: 4
             focus: true
             Layout.fillHeight: true
             Layout.fillWidth: true
