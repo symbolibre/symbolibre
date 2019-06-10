@@ -17,5 +17,19 @@ TextField {
         editFocus = !editFocus
     }
 
+    Keys.onLeftPressed: {
+        if (readOnly) {
+            cursorPosition = 0;
+            event.accepted = false;
+        }
+    }
+
+    Keys.onRightPressed: {
+        if (readOnly) {
+            cursorPosition = text.length;
+            event.accepted = false;
+        }
+    }
+
     onActiveFocusChanged: if (!activeFocus) editFocus = false
 }
