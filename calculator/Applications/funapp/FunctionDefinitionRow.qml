@@ -4,6 +4,9 @@ import QtQuick.Layouts 1.11
 import "../components"
 
 FocusScope {
+    property alias active: active
+    property alias exprfield: exprfield
+
     id: root
     focus: true
     width: parent.width
@@ -12,10 +15,23 @@ FocusScope {
         id: row
         anchors.fill: parent
         SLCheckBox {
-            id: enabled
+            id: active
             checked: model.active
             KeyNavigation.right: exprfield
             focus: true
+            // FIXME is there a simpler/cleaner way to do this?
+            Keys.onDownPressed: {
+                root.ListView.view.incrementCurrentIndex();
+                root.ListView.view.currentItem.active.forceActiveFocus()
+            }
+            Keys.onUpPressed: {
+                if (index == 0) {
+                    event.accepted = false
+                } else {
+                    root.ListView.view.decrementCurrentIndex();
+                    root.ListView.view.currentItem.active.forceActiveFocus()
+                }
+            }
         }
         Label {
             id: name
@@ -28,6 +44,18 @@ FocusScope {
             Layout.fillWidth: true
             text: model.expr
             focus: true
+            Keys.onDownPressed: {
+                root.ListView.view.incrementCurrentIndex();
+                root.ListView.view.currentItem.exprfield.forceActiveFocus()
+            }
+            Keys.onUpPressed: {
+                if (index == 0) {
+                    event.accepted = false
+                } else {
+                    root.ListView.view.decrementCurrentIndex();
+                    root.ListView.view.currentItem.exprfield.forceActiveFocus()
+                }
+            }
         }
     }
 
@@ -39,6 +67,6 @@ FocusScope {
     Binding {
         target: model
         property: "active"
-        value: enabled.checked
+        value: active.checked
     }
 }
