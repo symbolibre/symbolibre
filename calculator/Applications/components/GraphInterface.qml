@@ -23,7 +23,9 @@ Item {
         var i = 0
         for(i=0; i < functions.count; i++) {
             if (functions.get(i).expr !== "" && functions.get(i).active) {
-                plotItem.addGraph(functions.get(i).name + "(x)=" + functions.get(i).expr)
+                plotItem.addGraph(
+                    functions.get(i).name + "(x)=" + functions.get(i).expr,
+                    functions.get(i).color)
             }
         }
     }

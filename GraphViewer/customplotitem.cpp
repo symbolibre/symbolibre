@@ -393,6 +393,11 @@ void CustomPlotItem::recvInput(int input)
 
 void CustomPlotItem::addGraph(QString formula)
 {
+    addGraph(formula, listColor[nbCurves % 4]);
+}
+
+void CustomPlotItem::addGraph(QString formula, QColor color)
+{
     if (!formula.count()) {
         std::cerr << "empty formula given to addGraph\n";
         return;
@@ -411,7 +416,7 @@ void CustomPlotItem::addGraph(QString formula)
     if (listGraph.contains(decomp[0])) {
         listGraph[decomp[0]].updateFormula(decomp[1].toStdString());
     } else {
-        listGraph[decomp[0]] = CurveItem(decomp[1].toStdString(), m_CustomPlot->addGraph(), listColor[nbCurves % 4]);
+        listGraph[decomp[0]] = CurveItem(decomp[1].toStdString(), m_CustomPlot->addGraph(), color);
         nbCurves++;
     }
     plotGraph(decomp[0]);

@@ -64,6 +64,7 @@ private:
 public slots:
     Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula);
+    Q_INVOKABLE void addGraph(QString formula, QColor color);
     Q_INVOKABLE void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
     Q_INVOKABLE void moveWindow(int horizontal, int vertical);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
