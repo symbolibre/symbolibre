@@ -26,7 +26,7 @@ FocusScope {
             Layout.fillHeight: true
             Layout.fillWidth: true
             model: fmodel
-            delegate: FunctionDefinitionRow { }
+            delegate: FunctionDefinitionDelegate { }
             keyNavigationEnabled: false
         }
     }

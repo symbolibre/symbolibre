@@ -3,8 +3,8 @@
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
         <file>FunctionMenu.qml</file>
+        <file>FunctionDefinitionDelegate.qml</file>
         <file>FunctionDefinitionView.qml</file>
-        <file>FunctionDefinitionRow.qml</file>
         <file>FunctionGraph.qml</file>
         <file>FunctionGraphForm.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
