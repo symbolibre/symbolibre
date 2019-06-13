@@ -16,7 +16,7 @@ ApplicationWindow {
     palette.text: "black"
     palette.buttonText: "white"
     palette.brightText: "white"
-    palette.highlight: "darkblue"
+    palette.highlight: "#4080c0"
     palette.highlightedText: "white"
 
     palette.button: "#2b79b5"

@@ -9,7 +9,7 @@ TextField {
     readOnly: !editFocus
 
     background: Rectangle {
-        border.color : parent.borderColor
+        border.color : parent.editFocus || parent.activeFocus ? parent.borderColor : "#a0a0a0"
         border.width: parent.editFocus ? 3 : parent.activeFocus ? 2 : 1
     }
 
