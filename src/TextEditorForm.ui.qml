@@ -10,11 +10,8 @@ Item {
     property alias openFileMenu: openFileMenu
     property alias saveAsMenu: saveAsMenu
     property alias saveMenu: saveMenu
-    //property alias fileButton: fileButton
-    //property alias runButton: runButton
     property alias fileMenu: fileMenu
     property alias languageMenu: languageMenu
-    //property alias editorToolBar: editorToolBar
     property alias textArea: textArea
     property alias popup: popup
     property alias popupSnippets: popupSnippets
@@ -52,30 +49,6 @@ Item {
         }
     }
 
-    /*
-    ToolBar {
-        id: editorToolBar
-        width: 320
-        height: 29
-        z: 1
-        parent: window
-
-        Row {
-            id: fileRow
-
-            ToolButton {
-                id: fileButton
-                text: "Fichier"
-            }
-
-            ToolButton {
-                id: runButton
-                text: "Exécuter"
-                spacing: -3
-            }
-        }
-    }
-*/
     Rectangle {
         visible: true
         width: window.width
