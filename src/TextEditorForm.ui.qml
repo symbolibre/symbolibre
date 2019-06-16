@@ -173,7 +173,9 @@ Item {
 
             ListView {
                 id: langselection
+                width: parent.width
                 height: parent.height
+                clip: true
                 keyNavigationWraps: true
                 Keys.forwardTo: editor
             }
@@ -195,7 +197,9 @@ Item {
 
             ListView {
                 id: fileExplorerView
+                width: parent.width
                 height: parent.height
+                clip: true
                 keyNavigationWraps: true
                 Keys.forwardTo: editor
             }
@@ -241,6 +245,7 @@ Item {
                 id: newOpenSelection
                 width: parent.width
                 height: parent.height
+                clip: true
                 keyNavigationWraps: true
                 Keys.forwardTo: editor
 

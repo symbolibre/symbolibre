@@ -64,26 +64,13 @@ TextEditorForm {
 
     //Language Selection Popup
 
-    Component {
-        id: langDelegate
-        Rectangle {
-            id: langDelegateRect
-            width: parent.width
-            height: langDelegateText.height
-            states: State {
-                name: "selected"
-                when: langDelegateRect.ListView.isCurrentItem
-                PropertyChanges { target: langDelegateText; font.bold: true }
-            }
-            Text {
-                id: langDelegateText
-                text: model.languageName
-            }
-        }
-    }
 
     langselection.model: langModel
-    langselection.delegate: langDelegate
+    langselection.delegate: ItemDelegate {
+        width: parent.width
+        text: model.languageName
+        highlighted: ListView.isCurrentItem
+    }
 
     // Snippet
 
@@ -91,50 +78,22 @@ TextEditorForm {
 
     // File Explorer
 
-    Component {
-        id: fileDelegate
-        Rectangle {
-            id: fileDelegateRect
-            width: parent.width
-            height: fileDelegateText.height
-            states: State {
-                name: "selected"
-                when: fileDelegateRect.ListView.isCurrentItem
-                PropertyChanges { target: fileDelegateText; font.bold: true }
-            }
-            Text {
-                id: fileDelegateText
-                text: fileName
-            }
-        }
-    }
-
     fileExplorerView.model: fileExplorerViewModel
-    fileExplorerView.delegate: fileDelegate
+    fileExplorerView.delegate: ItemDelegate {
+        width: parent.width
+        text: model.fileName
+        highlighted: ListView.isCurrentItem
+    }
 
 
     // Starting Popup
 
-    Component {
-        id: newOpenFileDelegate
-        Rectangle {
-            id: newOpenFileDelegateRect
-            width: parent.width
-            height: newOpenFileDelegateText.height
-            states: State {
-                name: "selected"
-                when: newOpenFileDelegateRect.ListView.isCurrentItem
-                PropertyChanges { target: newOpenFileDelegateText; font.bold: true }
-            }
-            Text {
-                id: newOpenFileDelegateText
-                text: model.choice
-            }
-        }
-    }
-
     newOpenSelection.model: newOpenFileModel
-    newOpenSelection.delegate: newOpenFileDelegate
+    newOpenSelection.delegate: ItemDelegate {
+        width: parent.width
+        text: model.choice
+        highlighted: ListView.isCurrentItem
+    }
 
     // Management of the popups
 
