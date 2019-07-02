@@ -9,6 +9,7 @@
 #include <string>
 #include <SLL.hpp>
 #include <cstdlib>
+#include "Parser.h"
 using giac::gen;
 
 int yyparse(void);
@@ -37,6 +38,8 @@ void end_var(SLL::Status *status, std::string name, giac::gen value)
 %}
 
 %start main
+
+%locations
 
 %define api.value.type union
 %define parse.trace
