@@ -1,6 +1,6 @@
 %{
 #include <SLL.hpp>
-#include "Parser.h"
+#include <Parser.hpp>
 #include <string.h>
 
 /* Location tracking information */

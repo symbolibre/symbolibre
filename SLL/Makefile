@@ -8,7 +8,7 @@ lib    := libsll.a
 
 cflags := -Wall -Wextra -std=c++17 -I. -D_GNU_SOURCE -O2
 dflags  = -MMD -MT $@ -MF $(@:.o=.d) -MP
-bflags  = -W -f --defines=$(@:.tab.cpp=.h) --verbose
+bflags  = -W -f --defines=$(@:.tab.cpp=.tab.h) --verbose
 
 ifdef NDEBUG
   cflags += -DNDEBUG
