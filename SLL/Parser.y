@@ -4,41 +4,52 @@
 
 %{
 
-#include <iostream>
-#include <vector>
-#include <string>
 #include <SLL.hpp>
-#include <cstdlib>
 #include "Parser.h"
+
+#include <iostream>
+#include <string>
+#include <set>
+
+#include <clocale>
+#include <libintl.h>
 using giac::gen;
+
+/* Set of declared variables with locations */
+struct identifier {
+	char *name;
+	int line;
+	int col;
+};
+typedef std::set<struct identifier> IdList;
 
 int yyparse(void);
 int yylex(void);
 
-int yyerror(SLL::Status *, giac::context *, const char *s)
+int yyerror(SLL::Status *, giac::context *, std::string &, char const *s)
 {
-	std::cerr << s << std::endl;
+	std::cerr << s << "\n";
 	return 1;
 }
 
-void end_value(SLL::Status *status, giac::gen value)
+void end_value(SLL::Status *status, std::string formula, giac::context *ctx)
 {
 	status->type = SLL::Status::RESULT;
 	status->name = "";
-	status->value = value;
+	status->value = giac::gen(formula, ctx);
 }
 
-void end_var(SLL::Status *status, std::string name, giac::gen value)
+void end_var(SLL::Status *status, std::string name, std::string formula,
+	giac::context *ctx)
 {
 	status->type = SLL::Status::SET_VARIABLE;
 	status->name = name;
-	status->value = value;
+	status->value = giac::gen(formula, ctx);
 }
 
 %}
 
 %start main
-
 %locations
 
 %define api.value.type union
@@ -46,45 +57,42 @@ void end_var(SLL::Status *status, std::string name, giac::gen value)
 
 %parse-param {SLL::Status *status}
 %parse-param {giac::context *ctx}
+%parse-param {std::string &out}
 
-%token <char *> INTEGER
 %token <char *> ID
+%token <int> C
 %token COLONEQ
+%token ARROW
 
-%left '+'
-%left '-'
-%left '*'
-%left '/'
-%right '^'
-
-%type <giac::gen *> expr
-%type <giac::gen *> id
-%type <giac::gen *> args
+//%type <IdList> expr
 
 %%
 
 main:
-    expr              { end_value(status, *$1);    delete $1; }
-  | ID COLONEQ expr   { end_var(status, $1, *$3);  delete $3; free($1); }
+    expr                   { end_value(status, out, ctx); }
+  | ID COLONEQ expr        { end_var(status, $1, out, ctx); free($1); }
 
 expr:
-    INTEGER           { $$ = new gen($1, ctx); free($1); }
-  | '(' expr ')'      { $$ = $2; }
-  | expr '+' expr     { $$ = new gen(*$1 + *$3);        delete $1; delete $3; }
-  | '-' expr          { $$ = new gen(gen("0", ctx) - *$2);		   delete $2; }
-  | expr '-' expr     { $$ = new gen(*$1 - *$3);        delete $1; delete $3; }
-  | expr '*' expr     { $$ = new gen(*$1 * *$3);        delete $1; delete $3; }
-  | expr '/' expr     { $$ = new gen(*$1 / *$3);        delete $1; delete $3; }
-  | expr '^' expr     { $$ = new gen(gen("pow", ctx)
-                                     (gen(giac::makesequence(*$1, *$3)), ctx));
-                        delete $1; delete $3; }
-  | id '(' args ')'   { $$ = new gen((*$1)(*$3, ctx));  delete $1; delete $3; }
-  | id                { $$ = $1; }
+    atom
+  | atom expr
 
-id: ID                { $$ = new gen($1, ctx); free($1); }
+atom:
+    leftp expr rightp
+  | id leftp expr rightp
+  | id
+  | C                      { out += $1; }
 
-args:
-    expr              { $$ = new gen(giac::makesequence(*$1)); }
-  | expr ',' expr     { $$ = new gen(giac::makesequence(*$1, *$3)); }
+leftp: '('                 { out += '('; }
+rightp: ')'                { out += ')'; }
+
+id: ID                     { out += $1; free($1); }
 
 %%
+
+__attribute__((constructor))
+void configure_gettext(void)
+{
+	setlocale(LC_ALL, "");
+	bindtextdomain("functions", "lang");
+	textdomain("functions");
+}

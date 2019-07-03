@@ -3,6 +3,7 @@
 src    := $(wildcard *.cpp)
 lexer  := $(wildcard *.l)
 parser := $(wildcard *.y)
+po     := $(wildcard lang/*/*/*.po)
 lib    := libsll.a
 
 cflags := -Wall -Wextra -std=c++17 -I. -D_GNU_SOURCE -O2
@@ -16,10 +17,11 @@ endif
 src-l  := $(lexer:%.l=build/%.yy.cpp)
 src-p  := $(parser:%.y=build/%.tab.cpp)
 obj    := $(src:%=build/%.o) $(src-l).o $(src-p).o
+mo     := $(po:%.po=%.mo)
 
 # Building
 
-all: $(lib)
+all: $(lib) $(mo)
 
 $(lib): $(obj)
 	ar cqs $@ $^
@@ -38,6 +40,10 @@ $(src-p).o: $(src-p) | build/
 	g++ -c $< -o $@ $(cflags) $(dflags)
 $(src-p): $(parser) | build/
 	bison $< -o $@ $(bflags)
+
+# Translation files
+%.mo: %.po
+	msgfmt -o $@ $<
 
 %/:
 	mkdir -p $@

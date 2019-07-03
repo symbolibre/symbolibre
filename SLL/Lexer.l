@@ -17,27 +17,16 @@ static int col;
 %option noyywrap
 %option nounput
 
-blank		[ \t]+
-integer		[0-9]+
-id		[A-Za-z_]+
-
 %%
 
-{blank}    ;
-\n         yylineno++, col = 1;
-
-{integer}  { yylval.INTEGER = strdup(yytext); return INTEGER; }
-"+"        { return '+'; }
-"-"        { return '-'; }
-"*"        { return '*'; }
-"^"        { return '^'; }
-"/"        { return '/'; }
-"("        { return '('; }
-")"        { return ')'; }
-{id}       { yylval.ID = strdup(yytext); return ID; }
-","        { return ','; }
-":="       { return COLONEQ; }
-.          { std::cerr << "unknown token near '" << yytext << "' " << strlen(yytext) << "\n"; return 0; }
+"("         return '(';
+")"         return ')';
+":="        return COLONEQ;
+"->"        return ARROW;
+[A-Za-z_]+  { yylval.ID = strdup(yytext); return ID; }
+[ \t]+      ;
+\n          yylineno++, col = 1;
+.           { yylval.C = yytext[0]; return C; }
 
 %%
 
@@ -55,8 +44,11 @@ int parse(const char *input, SLL::Status *status, giac::context *ctx)
 	/* Initialize location tracking */
 	col = 1;
 
+	std::string result;
+	result.reserve(1024);
+
 	YY_BUFFER_STATE buf = yy_scan_bytes(input, strlen(input));
-	int x = yyparse(status, ctx);
+	int x = yyparse(status, ctx, result);
 	yy_delete_buffer(buf);
 
 	return x;

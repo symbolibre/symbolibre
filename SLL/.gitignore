@@ -3,3 +3,5 @@ build/
 # Target library (whatever the format)
 libssl.a
 libssl*.so
+# Compiled internationalization files
+*.mo
