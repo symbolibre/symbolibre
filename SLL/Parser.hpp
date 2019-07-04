@@ -3,12 +3,19 @@
 #ifndef SLL_PARSER
 #define SLL_PARSER
 
-#include <set>
+#include <vector>
 
-/* A used variable name with its location (line, column) */
-typedef std::tuple<std::string, int, int> IdLoc;
-/* A set of such locations */
-typedef std::set<IdLoc> IdLocSet;
+/* A used variable name with its location */
+struct IdLoc {
+    std::string name;
+    int line;
+    int col;
+
+    IdLoc(std::string name, int line, int col)
+        : name(name), line(line), col(col) { }
+};
+/* A list of such locations */
+using IdLocVec = std::vector<IdLoc>;
 
 #include "build/Parser.tab.h"
 

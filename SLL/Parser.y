@@ -35,27 +35,26 @@ void end_var(SLL::Status *status, std::string name, std::string formula,
 	status->value = giac::gen(formula, ctx);
 }
 
-void idlocset_filter(IdLocSet *set, IdLocSet *ref)
+void idlocvec_filter(IdLocVec *vec, IdLocVec *ref)
 {
-	std::string name = std::get<0>(*ref->begin());
-	auto it = set->begin();
+	std::string name = (*ref)[0].name;
+	auto it = vec->begin();
 
-	while(it != set->end())
+	while(it != vec->end())
 	{
-		if(std::get<0>(*it) == name) it = set->erase(it);
+		if((*it).name == name) it = vec->erase(it);
 		else ++it;
 	}
 }
 
-void idlocset_check(IdLocSet *set, giac::context *ctx)
+void idlocvec_check(IdLocVec *vec, giac::context *ctx)
 {
-	for(auto it = set->begin(); it != set->end(); ++it)
+	for(auto it = vec->begin(); it != vec->end(); ++it)
 	{
-		std::string name = std::get<0>(*it);
-		if(ctx->tabptr->count(name.c_str())) continue;
+		if(ctx->tabptr->count(it->name.c_str())) continue;
 
-		std::cerr << std::get<1>(*it) << ":" << std::get<2>(*it) <<
-			": undefined variable " << name << "\n";
+		std::cerr << it->line << ":" << it->col <<
+			": undefined variable " << it->name << "\n";
 	}
 }
 
@@ -76,32 +75,33 @@ void idlocset_check(IdLocSet *set, giac::context *ctx)
 %token COLONEQ
 %token ARROW
 
-%type <IdLocSet *> atom expr id
+%type <IdLocVec *> atom expr id
 
 %%
 
 main:
     expr            { end_value(status, out, ctx);
-	              idlocset_check($1, ctx); delete $1; }
+	              idlocvec_check($1, ctx); delete $1; }
   | ID COLONEQ expr { end_var(status, $1, out, ctx); free($1);
-                      idlocset_check($3, ctx); delete $3; }
+                      idlocvec_check($3, ctx); delete $3; }
 
 expr:
     atom            { $$ = $1; }
-  | atom expr       { $$ = $1; $$->insert($2->begin(), $2->end()); delete $2; }
-  | id arrow expr   { $$ = $3; idlocset_filter($3, $1); }
+  | atom expr       { $$ = $1; $$->insert($$->end(), $2->begin(), $2->end());
+                      delete $2; }
+  | id arrow expr   { $$ = $3; idlocvec_filter($3, $1); }
 
 atom:
     lp expr rp      { $$ = $2; }
   | id              { $$ = $1; }
-  | C               { $$ = new IdLocSet(); out += $1; }
+  | C               { $$ = new IdLocVec(); out += $1; }
 
 lp: '('             { out += '('; }
 rp: ')'             { out += ')'; }
 arrow: ARROW        { out += "->"; }
 
-id: ID              { $$ = new IdLocSet();
-	              $$->insert(IdLoc($1, @1.first_line, @1.first_column));
+id: ID              { $$ = new IdLocVec();
+	              $$->push_back(IdLoc($1, @1.first_line, @1.first_column));
                       out += $1; free($1); }
 
 %%
