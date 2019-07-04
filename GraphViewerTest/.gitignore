@@ -1,2 +1,4 @@
 qcustomplot.cpp
 qcustomplot.h
+Makefile
+GraphViewerTest
