@@ -10,19 +10,16 @@ import org.symbolibre.languagesModel 1.0
 import org.symbolibre.snippetsModel 1.0
 
 TextEditorForm {
-
     id: editor
 
-    property string fileName: document.fileName
+    property string filePath: document.filePath
     property alias  document: document
 
-     LanguagesModel
-     {
+     LanguagesModel {
         id: langModel
      }
 
-     SnippetsModel
-     {
+     SnippetsModel {
          id: snippetModel
      }
 
@@ -48,11 +45,16 @@ TextEditorForm {
     DocumentHandler {
         id: document
         document: textArea.textDocument
+
         languageModel: langModel
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
-        onLoaded: textArea.text = text
+
+        fontSize: 13
+        onLoaded: {
+            textArea.text = text
+        }
     }
 
 
@@ -134,9 +136,7 @@ TextEditorForm {
                 popupFileExplorer.open()
                 fileExplorerView.forceActiveFocus()
             }
-
         }
-
     }
 
     // Dialogs
@@ -153,9 +153,9 @@ TextEditorForm {
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        defaultSuffix: document.fileExtension
+        defaultSuffix: document.langExtension
         //nameFilters: openDialog.nameFilters
-        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation) + "/" + document.filePathDefault
         onAccepted: document.saveAs(file)
     }
 
@@ -194,6 +194,19 @@ TextEditorForm {
     }
 
     Shortcut {
+        sequence: "F2"
+        onActivated: {
+            document.fontSize = document.fontSize - 1
+        }
+    }
+    Shortcut {
+        sequence: "Shift+F2"
+        onActivated: {
+            document.fontSize = document.fontSize + 1
+        }
+    }
+
+    Shortcut {
         sequence: "F5"
         onActivated: textArea.cursorPosition = document.insertSnippet("if")
     }
@@ -226,4 +239,3 @@ TextEditorForm {
     }
 
 }
-

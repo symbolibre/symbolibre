@@ -52,9 +52,6 @@
 
 #include <QFile>
 #include <QFileInfo>
-#include <QFileSelector>
-#include <QQmlFile>
-#include <QQmlFileSelector>
 #include <QQuickTextDocument>
 #include <QTextCharFormat>
 #include <QTextDocument>
@@ -63,128 +60,55 @@
 DocumentHandler::DocumentHandler(QWidget *parent)
     : QObject(parent)
 {
-    setDocument(nullptr);
-    setCursorPosition(-1);
-    setSelectionStart(0);
-    setSelectionEnd(0);
+    /* Whenever the file path changes, the language model is also supposed to
+       change. (Opening new files and saving with new extensions can all
+       reasonably change the language.) */
+    connect(this, &DocumentHandler::filePathChanged,
+            this, &DocumentHandler::docLanguageChanged);
+
+    m_document = nullptr;
+    m_cursorPosition = -1;
+    m_selectionStart = 0;
+    m_selectionEnd = 0;
+
+    /* Overridden by setting the [fontSize] attribute from QML */
+    setFontSize(13);
+
     setDocLanguage(0);
     setLanguageModel(nullptr);
+
     m_highlighter = nullptr;
     m_process = new Process(parent);
 }
 
-
-QQuickTextDocument *DocumentHandler::document() const
-{
-    return m_document;
-}
-
-void DocumentHandler::setDocument(QQuickTextDocument *document)
-{
-    if (document == m_document)
-        return;
-
-    m_document = document;
-    emit documentChanged();
-}
-
-int DocumentHandler::cursorPosition() const
-{
-    return m_cursorPosition;
-}
-
-void DocumentHandler::setCursorPosition(int position)
-{
-    if (position == m_cursorPosition)
-        return;
-
-    m_cursorPosition = position;
-    reset();
-    emit cursorPositionChanged();
-}
-
-int DocumentHandler::selectionStart() const
-{
-    return m_selectionStart;
-}
-
-void DocumentHandler::setSelectionStart(int position)
-{
-    if (position == m_selectionStart)
-        return;
-
-    m_selectionStart = position;
-    emit selectionStartChanged();
-}
-
-int DocumentHandler::selectionEnd() const
-{
-    return m_selectionEnd;
-}
-
-void DocumentHandler::setSelectionEnd(int position)
-{
-    if (position == m_selectionEnd)
-        return;
-
-    m_selectionEnd = position;
-    emit selectionEndChanged();
-}
-
-int DocumentHandler::fontSize() const
-{
-    QTextCursor cursor = textCursor();
-    if (cursor.isNull())
-        return 0;
-    QTextCharFormat format = cursor.charFormat();
-    return format.font().pointSize();
-}
-
 void DocumentHandler::setFontSize(int size)
 {
-    if (size <= 0)
-        return;
+    if (size <= 0) return;
+    m_fontSize = size;
 
-    QTextCursor cursor = textCursor();
-    if (cursor.isNull())
-        return;
+    /* Set the font size on the text edition area */
 
-    if (!cursor.hasSelection())
-        cursor.select(QTextCursor::WordUnderCursor);
+    QTextDocument *doc = textDocument();
+    if (doc) {
+        QFont f = doc->defaultFont();
+        f.setPixelSize(size);
+        doc->setDefaultFont(f);
 
-    if (cursor.charFormat().property(QTextFormat::FontPointSize).toInt() == size)
-        return;
+        /* The text document has a local formatting style (like rich text).
+           Select the whole document then set the font size. */
+        QTextCursor cursor = textCursor();
+        if (!cursor.isNull()) {
+            cursor.select(QTextCursor::Document);
+            QTextCharFormat format;
+            format.setFont(f);
+            cursor.mergeCharFormat(format);
+        }
+    }
 
-    QTextCharFormat format;
-    format.setFontPointSize(size);
-    mergeFormatOnWordOrSelection(format);
     emit fontSizeChanged();
 }
 
-QString DocumentHandler::fileName() const
-{
-    const QString filePath = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
-    const QString fileName = QFileInfo(filePath).fileName();
-    if (fileName.isEmpty())
-        return QString("Sans titre").append(fileExtension()); //fileExtension is NOT the current extension.
-    return fileName;
-}
-
-/*
- * This function does NOT return the current extension of the file.
- *  It returns what should be the its extension according to the
- * type of the document that we are currently writing
- * This type is determined by :
- * - user selection
- * - file opening
- * and is stored in the m_docLanguage attribute.
-*/
-
-//TODO
-/*
- * Use a NOT hardcoded switch to determine the extension !
- */
-QString DocumentHandler::fileExtension() const
+QString DocumentHandler::langExtension() const
 {
     if (m_languageModel == nullptr)
         return QString(".txt");
@@ -192,11 +116,10 @@ QString DocumentHandler::fileExtension() const
     return m_languageModel->getExtensionFromId(docLanguage());
 }
 
-QUrl DocumentHandler::fileUrl() const
+QString DocumentHandler::filePath() const
 {
-    return m_fileUrl;
+    return m_filePath;
 }
-
 
 int DocumentHandler::docLanguage() const
 {
@@ -210,7 +133,7 @@ void DocumentHandler::setDocLanguage(int lang)
 
     m_docLanguage = lang;
     emit docLanguageChanged();
-    emit fileUrlChanged();
+    emit filePathChanged();
 
     return;
 }
@@ -225,11 +148,9 @@ void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
 }
 
 
-/*
- * This function returns the name required by the KSyntaxHighlighter
- * to correctly identify our file type, and to use the right syntax
- * KSyntaxHighlighting::Definition to highlight it.
-*/
+/* Returns the name required by the KSyntaxHighlighter to correctly identify
+   our file type, and to use the proper syntax KSyntaxHighlighting::Definition
+   to highlight it. */
 QString DocumentHandler::syntaxDefinitionName(void) const
 {
     return m_languageModel->getColorationFromId(docLanguage());
@@ -271,60 +192,57 @@ snippetMap_t DocumentHandler::snippets()
 
 void DocumentHandler::setSnippets(snippetMap_t)
 {
-
+    /* TODO: DocumentHandler::setSnippets() probably shouldn't be empty */
 }
 
 int DocumentHandler::insertSnippet(QString key)
 {
+    /* TODO: If the selection is non-empty, it is correctly deleted but the
+       TODO: cursor is placed after the snippet instead of in the middle. */
+
     QString snipp = ((m_languageModel->getSnippetsFromId(docLanguage())))[key];
-    int old_position = cursorPosition();
+    int old_position = m_cursorPosition;
     int pos_in_snipp = snipp.indexOf("*");
     snipp.remove("*");
 
     textCursor().insertText(snipp);
     if (pos_in_snipp > -1)
-        setCursorPosition(old_position + pos_in_snipp);
+        m_cursorPosition = old_position + pos_in_snipp;
 
-    return cursorPosition();
+    return m_cursorPosition;
 }
-
 
 void DocumentHandler::execute()
 {
     if (m_process == nullptr)
         return;
 
+    /* TODO: Save the file to execute somewhere else (or pipe it) */
     QFile tempfile("temp");
-       if (!tempfile.open(QIODevice::ReadWrite| QIODevice::Truncate | QIODevice::Text))
+    if (!tempfile.open(QFile::ReadWrite | QFile::Truncate | QFile::Text))
            return;
 
     QTextStream out(&tempfile);
-    out << document()->textDocument()->toPlainText();
+    out << textDocument()->toPlainText();
     tempfile.close();
 
     QString cmd = languageModel()->getCmdFromId(docLanguage());
-    QString file = QQmlFile::urlToLocalFileOrQrc(m_fileUrl);
+    QString file = m_filePath;
     QStringList args;
     args << cmd << "./temp";
 
     m_process->start("./term/term", args);
 }
 
-void DocumentHandler::load(const QUrl &fileUrl)
+void DocumentHandler::load(const QString &filePath)
 {
-    if (fileUrl == m_fileUrl)
-        return;
+    QString local = filePath;
 
-    QQmlEngine *engine = qmlEngine(this);
-    if (!engine) {
-        qWarning() << "load() called before DocumentHandler has QQmlEngine";
-        return;
-    }
+    if (filePath.startsWith("file://"))
+        local = filePath.right(filePath.size() - 7);
 
-    const QUrl path = QQmlFileSelector::get(engine)->selector()->select(fileUrl);
-    const QString fileName = QQmlFile::urlToLocalFileOrQrc(path);
-    if (QFile::exists(fileName)) {
-        QFile file(fileName);
+    if (QFile::exists(local)) {
+        QFile file(local);
         if (file.open(QIODevice::ReadOnly|QIODevice::Text)) {
             QTextStream in(&file);
             QString data = in.readAll();
@@ -332,31 +250,25 @@ void DocumentHandler::load(const QUrl &fileUrl)
                 doc->setModified(false);
 
             emit loaded(data.toUtf8());
-            reset();
         }
     }
 
-    m_fileUrl = fileUrl;
-    emit fileUrlChanged();
+    m_filePath = local;
+    emit filePathChanged();
 
-    setDocLanguageFromExtension(QFileInfo(fileName).suffix());
+    setDocLanguageFromExtension(QFileInfo(local).suffix());
 
     const QString defName = syntaxDefinitionName();
 
     const auto def = m_repository.definitionForName(defName);
-    if (!def.isValid()){
-        qInfo() << "Definition for syntax highlighting is not valid : the name " << defName << " was not found\n";
-        return;
+    if (def.isValid()) {
+            m_highlighter->setDefinition(def);
+            m_highlighter->rehighlight();
     }
-
-    m_highlighter->setDefinition(def);
-    m_highlighter->rehighlight();
-
-}
-
-void DocumentHandler::load(const QString &filePath){
-    QUrl path = QUrl::fromLocalFile(filePath);
-    this->load(path);
+    else {
+        qInfo() << "Invalid syntax highlighting definition: '" << defName
+            << "' not found\n";
+    }
 }
 
 void DocumentHandler::startHighlighter(void){
@@ -364,7 +276,7 @@ void DocumentHandler::startHighlighter(void){
     m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_repository.addCustomSearchPath("syntax-files");
     m_repository.addCustomSearchPath("../src/syntax-files");
-    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(document()->textDocument());
+    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(textDocument());
 
     const QString defName = syntaxDefinitionName();
 
@@ -386,14 +298,17 @@ void DocumentHandler::startHighlighter(void){
     m_highlighter->rehighlight();
 }
 
-void DocumentHandler::saveAs(const QUrl &fileUrl)
+void DocumentHandler::saveAs(const QString &filePath)
 {
-    QTextDocument *doc = textDocument();
-    if (!doc)
-        return;
+    QString local = filePath;
 
-    const QString filePath = fileUrl.toLocalFile();
-    QFile file(filePath);
+    if (filePath.startsWith("file://"))
+        local = filePath.right(filePath.size() - 7);
+
+    QTextDocument *doc = textDocument();
+    if (!doc) return;
+
+    QFile file(local);
 
     if (!file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         emit error(tr("Cannot save: ") + file.errorString());
@@ -402,20 +317,15 @@ void DocumentHandler::saveAs(const QUrl &fileUrl)
     file.write((doc->toPlainText()).toUtf8());
     file.close();
 
-    if (fileUrl == m_fileUrl)
-        return;
+    if (filePath == m_filePath) return;
 
-    m_fileUrl = fileUrl;
-    emit fileUrlChanged();
+    m_filePath = filePath;
+    emit filePathChanged();
 }
 
-bool DocumentHandler::wasAlreadySaved(void){
-    return !fileUrl().isEmpty();
-}
-
-void DocumentHandler::reset()
+bool DocumentHandler::wasAlreadySaved(void)
 {
-    emit fontSizeChanged();
+    return !filePath().isEmpty();
 }
 
 QTextCursor DocumentHandler::textCursor() const
@@ -440,17 +350,4 @@ QTextDocument *DocumentHandler::textDocument() const
         return nullptr;
 
     return m_document->textDocument();
-}
-
-void DocumentHandler::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
-{
-    QTextCursor cursor = textCursor();
-    if (!cursor.hasSelection())
-        cursor.select(QTextCursor::WordUnderCursor);
-    cursor.mergeCharFormat(format);
-}
-
-int DocumentHandler::countLines() const
-{
-    return document()->textDocument()->blockCount();
 }

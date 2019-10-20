@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
@@ -7,6 +7,7 @@ import Qt.labs.folderlistmodel 2.2
 Item {
     property ApplicationWindow window: window
 
+    /* Expose most ID'd objects as properties */
     property alias openFileMenu: openFileMenu
     property alias saveAsMenu: saveAsMenu
     property alias saveMenu: saveMenu
@@ -50,84 +51,115 @@ Item {
     }
 
     Rectangle {
-        visible: true
         width: window.width
         height: window.height
 
+        /* Base sidebar on the left of the screen */
+
         Rectangle {
-            id: lineNumberBackground
-            color: "light yellow"
-            width: textArea.lineCount == 1 ? 26 : 20 + 6 * Math.ceil(
-                                                 Math.log(
-                                                     textArea.lineCount + 1) / Math.log(
-                                                     10))
+            id: sidebar
+            color: "#e0e0e0"
+
+            /* FIXME: This length 6 (width of a digit + spacing) should be
+               FIXME: computed from font metrics */
+            width: textArea.lineCount == 1 ? 18 : 12 + 6 *
+                Math.ceil(Math.log(textArea.lineCount + 1) / Math.log(10))
             height: parent.height
         }
 
+        /* Line numbers in sidebar */
+
         Flickable {
-            id: lineNumberFlickable
-            flickableDirection: Flickable.VerticalFlick
-            boundsBehavior: Flickable.StopAtBounds
-            anchors.fill: lineNumberBackground
+            id: sidebarFlickable
             contentHeight: textArea.height
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
+
+            /* The top margin is shared with the text area to keep line numbers
+               and lines aligned. */
+            anchors.fill: sidebar
+            anchors.rightMargin: 3
+            anchors.topMargin: textArea.topPadding
 
             Column {
                 id: lineNumber
                 spacing: 0
-                y: 6 //Should not be manually handled - risk of bad alignement on other devices ! Needs to be fixed later on
+
                 Repeater {
                     id: lineNumberRepeater
                     model: textArea.lineCount
 
                     Text {
-                        text: index + 1 + ":"
-                        font: textArea.font
-                        horizontalAlignment: Text.AlignLeft
-                        LayoutMirroring.enabled: true
-                        width: lineNumberBackground.width
+                        text: index + 1
+
+                        font.family: textArea.font.family
+                        font.pixelSize: document.fontSize
+                        font.hintingPreference: Font.PreferFullHinting
+
+                        color: "#808080"
+                        horizontalAlignment: Text.AlignRight
+                        width: sidebar.width -
+                               sidebarFlickable.anchors.rightMargin
                     }
                 }
             }
 
+            /* This scrollbar is shared with the text area so that both
+               elements scroll in sync. */
             ScrollBar.vertical: vertScrollBar
         }
 
+        /* Text area */
+
         Flickable {
             id: textFlickable
-            flickableDirection: Flickable.HorizontalAndVerticalFlick
             boundsBehavior: Flickable.StopAtBounds
-            anchors.right: parent.right
+            clip: true
+
+            anchors.right:  parent.right
             anchors.bottom: parent.bottom
-            anchors.top: parent.top
-            anchors.left: lineNumberBackground.right
+            anchors.top:    parent.top
+            anchors.left:   sidebar.right
 
             TextArea.flickable: TextArea {
                 id: textArea
-                anchors.left: parent.left
-                anchors.top: parent.top
-                rightPadding: 20 * window.width / 320 //Seems to be a known bug :
-                //https://stackoverflow.com/questions/44471032/qml-textarea-strange-padding for more information
+                topPadding: 2
+                leftPadding: 2
+                rightPadding: 0
+                bottomPadding: 0
+
                 textFormat: TextEdit.PlainText
                 wrapMode: TextArea.NoWrap
                 selectByMouse: true
                 persistentSelection: true
-                background: null
+
                 font.family: "Deja Vu Sans Mono"
-                font.pixelSize: 13
+                font.pixelSize: document.fontSize
+                font.hintingPreference: Font.PreferFullHinting
             }
 
-            ScrollBar.vertical: lineNumberFlickable.ScrollBar.vertical
+            ScrollBar.vertical: vertScrollBar
             ScrollBar.horizontal: horizScrollBar
         }
 
         ScrollBar {
             id: vertScrollBar
             orientation: Qt.Vertical
+
+            /* Anchor to the right of the text area */
+            anchors.top:    parent.top
+            anchors.bottom: parent.bottom
+            anchors.right:  parent.right
         }
 
         ScrollBar {
             id: horizScrollBar
             orientation: Qt.Horizontal
+
+            /* Anchor to the bottom of the text area */
+            anchors.left:   sidebar.right
+            anchors.right:  parent.right
+            anchors.bottom: parent.bottom
         }
 
         Popup {
@@ -221,13 +253,12 @@ Item {
                 clip: true
                 keyNavigationWraps: true
                 Keys.forwardTo: editor
-
             }
         }
     }
 }
+
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
  ##^##*/
-

@@ -6,8 +6,6 @@ import Qt.labs.platform 1.0
 
 import DocumentHandler 1.0
 
-
-
 ApplicationWindow {
     id: mainwindow
     visible: true
@@ -15,9 +13,9 @@ ApplicationWindow {
     height: 240
 
     TextEditor {
-    id: editor
-    window: mainwindow
-    Component.onCompleted: newOpenSelection.forceActiveFocus()
+        id: editor
+        window: mainwindow
+        Component.onCompleted: newOpenSelection.forceActiveFocus()
     }
 
     title: editor.fileName + qsTr(" - Symbolibre IDE")
