@@ -48,7 +48,7 @@
 **
 ****************************************************************************/
 
-#include "documenthandler.h"
+#include "SourceEditor.h"
 
 #include <QFile>
 #include <QFileInfo>
@@ -57,14 +57,14 @@
 #include <QTextDocument>
 #include <QDebug>
 
-DocumentHandler::DocumentHandler(QWidget *parent)
+SourceEditor::SourceEditor(QWidget *parent)
     : QObject(parent)
 {
     /* Whenever the file path changes, the language model is also supposed to
        change. (Opening new files and saving with new extensions can all
        reasonably change the language.) */
-    connect(this, &DocumentHandler::filePathChanged,
-            this, &DocumentHandler::docLanguageChanged);
+    connect(this, &SourceEditor::filePathChanged,
+            this, &SourceEditor::docLanguageChanged);
 
     m_document = nullptr;
     m_cursorPosition = -1;
@@ -81,7 +81,7 @@ DocumentHandler::DocumentHandler(QWidget *parent)
     m_process = new Process(parent);
 }
 
-void DocumentHandler::setFontSize(int size)
+void SourceEditor::setFontSize(int size)
 {
     if (size <= 0) return;
     m_fontSize = size;
@@ -108,7 +108,7 @@ void DocumentHandler::setFontSize(int size)
     emit fontSizeChanged();
 }
 
-QString DocumentHandler::langExtension() const
+QString SourceEditor::langExtension() const
 {
     if (m_languageModel == nullptr)
         return QString(".txt");
@@ -116,17 +116,17 @@ QString DocumentHandler::langExtension() const
     return m_languageModel->getExtensionFromId(docLanguage());
 }
 
-QString DocumentHandler::filePath() const
+QString SourceEditor::filePath() const
 {
     return m_filePath;
 }
 
-int DocumentHandler::docLanguage() const
+int SourceEditor::docLanguage() const
 {
     return m_docLanguage;
 }
 
-void DocumentHandler::setDocLanguage(int lang)
+void SourceEditor::setDocLanguage(int lang)
 {
     if (lang == docLanguage())
         return;
@@ -138,7 +138,7 @@ void DocumentHandler::setDocLanguage(int lang)
     return;
 }
 
-void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
+void SourceEditor::setDocLanguageFromExtension(QString fileExt)
 {
     int newDocLanguage = 0;
 
@@ -151,17 +151,17 @@ void DocumentHandler::setDocLanguageFromExtension(QString fileExt)
 /* Returns the name required by the KSyntaxHighlighter to correctly identify
    our file type, and to use the proper syntax KSyntaxHighlighting::Definition
    to highlight it. */
-QString DocumentHandler::syntaxDefinitionName(void) const
+QString SourceEditor::syntaxDefinitionName(void) const
 {
     return m_languageModel->getColorationFromId(docLanguage());
 }
 
-LanguagesModel *DocumentHandler::languageModel() const
+LanguagesModel *SourceEditor::languageModel() const
 {
     return m_languageModel;
 }
 
-void DocumentHandler::setLanguageModel(LanguagesModel *langModel)
+void SourceEditor::setLanguageModel(LanguagesModel *langModel)
 {
     if (m_languageModel == langModel)
         return;
@@ -171,12 +171,12 @@ void DocumentHandler::setLanguageModel(LanguagesModel *langModel)
 }
 
 
-Process *DocumentHandler::process() const
+Process *SourceEditor::process() const
 {
     return m_process;
 }
 
-void DocumentHandler::setProcess(Process *newProcess)
+void SourceEditor::setProcess(Process *newProcess)
 {
     if (m_process == newProcess)
         return;
@@ -185,17 +185,17 @@ void DocumentHandler::setProcess(Process *newProcess)
     emit processChanged();
 }
 
-snippetMap_t DocumentHandler::snippets()
+snippetMap_t SourceEditor::snippets()
 {
     return m_languageModel->getSnippetsFromId(docLanguage());
 }
 
-void DocumentHandler::setSnippets(snippetMap_t)
+void SourceEditor::setSnippets(snippetMap_t)
 {
-    /* TODO: DocumentHandler::setSnippets() probably shouldn't be empty */
+    /* TODO: SourceEditor::setSnippets() probably shouldn't be empty */
 }
 
-int DocumentHandler::insertSnippet(QString key)
+int SourceEditor::insertSnippet(QString key)
 {
     /* TODO: If the selection is non-empty, it is correctly deleted but the
        TODO: cursor is placed after the snippet instead of in the middle. */
@@ -212,7 +212,7 @@ int DocumentHandler::insertSnippet(QString key)
     return m_cursorPosition;
 }
 
-void DocumentHandler::execute()
+void SourceEditor::execute()
 {
     if (m_process == nullptr)
         return;
@@ -234,7 +234,7 @@ void DocumentHandler::execute()
     m_process->start("./term/term", args);
 }
 
-void DocumentHandler::load(const QString &filePath)
+void SourceEditor::load(const QString &filePath)
 {
     QString local = filePath;
 
@@ -271,8 +271,8 @@ void DocumentHandler::load(const QString &filePath)
     }
 }
 
-void DocumentHandler::startHighlighter(void){
-
+void SourceEditor::startHighlighter(void)
+{
     m_repository.addCustomSearchPath("syntax-highlighting/data");
     m_repository.addCustomSearchPath("syntax-files");
     m_repository.addCustomSearchPath("../src/syntax-files");
@@ -298,7 +298,7 @@ void DocumentHandler::startHighlighter(void){
     m_highlighter->rehighlight();
 }
 
-void DocumentHandler::saveAs(const QString &filePath)
+void SourceEditor::saveAs(const QString &filePath)
 {
     QString local = filePath;
 
@@ -323,12 +323,12 @@ void DocumentHandler::saveAs(const QString &filePath)
     emit filePathChanged();
 }
 
-bool DocumentHandler::wasAlreadySaved(void)
+bool SourceEditor::wasAlreadySaved(void)
 {
     return !filePath().isEmpty();
 }
 
-QTextCursor DocumentHandler::textCursor() const
+QTextCursor SourceEditor::textCursor() const
 {
     QTextDocument *doc = textDocument();
     if (!doc)
@@ -344,7 +344,7 @@ QTextCursor DocumentHandler::textCursor() const
     return cursor;
 }
 
-QTextDocument *DocumentHandler::textDocument() const
+QTextDocument *SourceEditor::textDocument() const
 {
     if (!m_document)
         return nullptr;

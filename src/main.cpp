@@ -5,7 +5,7 @@
 #include <QQmlFileSelector>
 #include <QApplication>
 
-#include "documenthandler.h"
+#include "SourceEditor.h"
 #include "languagesmodel.h"
 #include "process.h"
 
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-    qmlRegisterType<DocumentHandler>("DocumentHandler", 1, 0, "DocumentHandler");
+    qmlRegisterType<SourceEditor>("SourceEditor", 1, 0, "SourceEditor");
     qmlRegisterType<LanguagesModel>("org.symbolibre.languagesModel", 1, 0, "LanguagesModel");
     qmlRegisterType<SnippetsModel>("org.symbolibre.snippetsModel", 1, 0, "SnippetsModel");
     qRegisterMetaType<snippetMap_t>("snippetMap_t");

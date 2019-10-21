@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
-import DocumentHandler 1.0
+import SourceEditor 1.0
 import org.symbolibre.languagesModel 1.0
 import org.symbolibre.snippetsModel 1.0
 
@@ -40,9 +40,9 @@ TextEditorForm {
      }
 
 
-    // Document handling
+    // Edition
 
-    DocumentHandler {
+    SourceEditor {
         id: document
         document: textArea.textDocument
 

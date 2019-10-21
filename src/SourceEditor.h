@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#ifndef DOCUMENTHANDLER_H
-#define DOCUMENTHANDLER_H
+#ifndef SOURCEEDITOR_H
+#define SOURCEEDITOR_H
 
 #include <QFont>
 #include <QObject>
@@ -66,37 +66,37 @@
 #include "languagesmodel.h"
 #include "process.h"
 
-/** DocumentHandler is a wrapper around a text document in the source code
-    editor. It binds code to language definitions and performs syntax
-    highlighting, manages the file's storage path (during Open, Save as, etc),
-    and exposes graphical parameters such as the font size. It is used
-    alongside a text edition area to provide code edition functionalities.
-    It can be seen as an extension of TextDocument.
+/** SourceEditor is a wrapper around a text document in the source code editor.
+    It binds code to language definitions and performs syntax highlighting,
+    manages the file's storage path (during Open, Save as, etc), and exposes
+    graphical parameters such as the font size. It is used alongside a text
+    edition area to provide code edition functionalities. It can be seen as an
+    extension of TextDocument.
 
     This is, in essence, a QML object. Several properties must be QML-bound for
     advanced editing to work, and the interface is conceived for efficient use
     in a QML program.
 
-    When using DocumentHandler, instantiate it along a QML editor such as
-    TextEdit or TextArea. Then, bind its document to the textDocument of the
-    editor, and its cursorPosition, selectionStart and selectionEnd properties
-    to that of the editor. This allows DocumentHandler to perform smart snippet
-    insertion, among other features. For example:
+    When using SourceEditor, instantiate it along a QML editor such as TextEdit
+    or TextArea. Then, bind its document to the textDocument of the editor, and
+    its cursorPosition, selectionStart and selectionEnd properties to that of
+    the editor. This allows SourceEditor to perform smart snippet insertion,
+    among other features. For example:
 
-        DocumentHandler {
-            id: handler
+        SourceEditor {
+            id: srcedit
             document: editor.textDocument
             cursorPosition: editor.cursorPosition
             selectionStart: editor.selectionStart
             selectionEnd: editor.selectionENd
         }
     **/
-class DocumentHandler: public QObject
+class SourceEditor: public QObject
 {
     Q_OBJECT
 
     /** Underlying Qt Quick document. This attribute is used only in QML code
-        to bind DocumentHandler to a text area. **/
+        to bind SourceEditor to a text area. **/
     Q_PROPERTY(QQuickTextDocument *document
         MEMBER m_document NOTIFY documentChanged)
 
@@ -139,7 +139,7 @@ class DocumentHandler: public QObject
     Q_PROPERTY(snippetMap_t snippets READ snippets WRITE setSnippets NOTIFY snippetsChanged)
 
 public:
-    explicit DocumentHandler(QWidget *parent = nullptr);
+    explicit SourceEditor(QWidget *parent = nullptr);
 
     /* QML accessors */
     QString langExtension() const;
@@ -228,4 +228,4 @@ private:
     Process *m_process;
 };
 
-#endif /* DOCUMENTHANDLER_H */
+#endif /* SOURCEEDITOR_H */
