@@ -96,7 +96,7 @@ void SourceEditor::setFontSize(int size)
 
         /* The text document has a local formatting style (like rich text).
            Select the whole document then set the font size. */
-        QTextCursor cursor = textCursor();
+        QTextCursor cursor(doc);
         if (!cursor.isNull()) {
             cursor.select(QTextCursor::Document);
             QTextCharFormat format;
@@ -241,16 +241,13 @@ void SourceEditor::load(const QString &filePath)
     if (filePath.startsWith("file://"))
         local = filePath.right(filePath.size() - 7);
 
-    if (QFile::exists(local)) {
-        QFile file(local);
-        if (file.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            QTextStream in(&file);
-            QString data = in.readAll();
-            if (QTextDocument *doc = textDocument())
-                doc->setModified(false);
+    QFile file(local);
 
-            emit loaded(data.toUtf8());
-        }
+    if (file.exists() && file.open(QFile::ReadOnly | QFile::Text)) {
+        QString data(file.readAll());
+        QTextDocument *doc = textDocument();
+        if (doc) doc->setModified(false);
+        emit loaded(data.toUtf8());
     }
 
     m_filePath = local;
@@ -311,7 +308,7 @@ void SourceEditor::saveAs(const QString &filePath)
     QFile file(local);
 
     if (!file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
-        emit error(tr("Cannot save: ") + file.errorString());
+        emit error(file.errorString());
         return;
     }
     file.write((doc->toPlainText()).toUtf8());
