@@ -39,10 +39,11 @@ FocusScope {
             color: model.color
             KeyNavigation.right: exprfield
         }
-        SLTextField { // TODO ET
+        ExprField {
             id: exprfield
+            height: 30
             Layout.fillWidth: true
-            text: model.expr
+            //text: model.expr // FIXME
             focus: true
             Keys.onDownPressed: {
                 root.ListView.view.incrementCurrentIndex();
