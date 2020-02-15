@@ -33,7 +33,7 @@ void Sigma::ascii(int shift, bool cc)
     rbound.ascii(shift + 2, cc && (cursor_location == SIGMA_CURSOR_RBOUND));
 }
 
-std::string Sigma::getText(void)
+std::string Sigma::getText(void) const
 {
     std::string str = "sum(";
     str.insert(str.size(), lbound.getText());

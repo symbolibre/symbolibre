@@ -19,7 +19,7 @@ protected:
 
 public:
     /** Returns the text contained by the node */
-    std::string getText(void);
+    std::string getText(void) const;
 
     /** Sets the text contained by the node to 'str' */
     void set_to(std::string str);

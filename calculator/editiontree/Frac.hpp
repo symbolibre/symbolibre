@@ -25,7 +25,7 @@ public:
 
 
     void ascii(int shift, bool contains_cursor) override;
-    std::string getText(void) override;
+    std::string getText(void) const override;
 
     bool dropCursor(movedir dir) override;
 

@@ -19,7 +19,7 @@ void Paren::ascii(int shift, bool)
         std::cout << " └ PAREN )\n";
 }
 
-std::string Paren::getText(void)
+std::string Paren::getText(void) const
 {
     std::string str;
     if (ptype == LPAREN)

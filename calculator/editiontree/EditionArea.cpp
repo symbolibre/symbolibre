@@ -14,7 +14,7 @@ EditionArea::EditionArea() : EditionNode(),
 
 }
 
-std::string EditionArea::getText(void)
+std::string EditionArea::getText(void) const
 {
     return text;
 }

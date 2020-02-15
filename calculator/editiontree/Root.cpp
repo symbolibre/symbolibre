@@ -20,7 +20,7 @@ void Root::ascii(int shift, bool cc)
     expression.ascii(shift + 1, cc);
 }
 
-std::string Root::getText(void)
+std::string Root::getText(void) const
 {
     std::string str = "sqrt(";
     str.insert(str.size(), expression.getText());

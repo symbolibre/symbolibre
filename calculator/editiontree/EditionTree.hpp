@@ -46,7 +46,7 @@ public:
         return root.ascii(0, draw_cursor);
     }
 
-    std::string getText(void)
+    std::string getText(void) const
     {
         return root.getText();
     }
@@ -203,15 +203,21 @@ void copyExprAtCursor(giac::gen &expr, EditionTree &shell);
 class ETBox : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString text READ text NOTIFY textChanged)
 
 public:
     explicit ETBox(QQuickItem *parent = nullptr);
+
+    QString text() const
+    {
+        return QString::fromStdString(expr.getText());
+    }
 
     /* Painting functions */
     void paint(QPainter *painter) override;
 
 signals:
-    void expressionChanged(void);
+    void textChanged(QString);
 
 public slots:
     Q_INVOKABLE bool recvInput(int /* KeyCode::keycode */ input);

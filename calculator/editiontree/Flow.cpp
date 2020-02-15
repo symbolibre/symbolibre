@@ -31,7 +31,7 @@ void Flow::ascii(int shift, bool cc)
         (*it)->ascii(shift + 1, cc && it == edited_node);
 }
 
-std::string Flow::getText(void)
+std::string Flow::getText(void) const
 /* FIXME : Bad complexity */
 {
     std::string str;

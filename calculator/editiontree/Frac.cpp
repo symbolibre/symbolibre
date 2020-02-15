@@ -19,7 +19,7 @@ void Frac::ascii(int shift, bool cc)
     denominator.ascii(shift + 1, cc && !cursor_on_top);
 }
 
-std::string Frac::getText(void)
+std::string Frac::getText(void) const
 /* FIXME : awfull complexity */
 {
     std::string str = "(";

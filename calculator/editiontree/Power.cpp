@@ -20,7 +20,7 @@ void Power::ascii(int shift, bool cc)
     expression.ascii(shift + 1, cc);
 }
 
-std::string Power::getText(void)
+std::string Power::getText(void) const
 {
     std::string str = "^(";
     str.insert(str.size(), expression.getText());

@@ -113,7 +113,7 @@ bool ETBox::recvInput(int /* KeyCode::keycode */ input)
         }
 
     // expr.ascii(true);
-    emit expressionChanged();
+    emit textChanged(QString::fromStdString(expr.getText()));
     update();
     return ret;
 }

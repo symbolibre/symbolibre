@@ -22,7 +22,7 @@ public:
     Root(void);  /* I'm Root */
 
     void ascii(int shift, bool contains_cursor) override;
-    std::string getText(void) override;
+    std::string getText(void) const override;
     bool dropCursor(movedir dir) override;
     bool empty(void) override;
 
