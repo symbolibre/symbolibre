@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalog>
+    <menu id="root" title="Math.">
+        <entry title="Basique" jump="base" />
+        <entry title="Trigonométrie" jump="trig" />
+    </menu>
+    <menu id="base" title="Basique">
+        <entry title="sqrt">{"type": "sqrt", "content":[[""]]}</entry>
+        <entry title="pow">{"type": "pow", "content":[[""]]}</entry>
+    </menu>
+    <menu id="trig" title="Trigonométrie">
+        <entry title="cos">["cos"]</entry>
+        <entry title="sin">["sin"]</entry>
+    </menu>
+</catalog>

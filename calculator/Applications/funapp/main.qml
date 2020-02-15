@@ -4,6 +4,8 @@ import QtQuick.Window 2.2
 import "components"
 
 ApplicationWindow {
+    id: window
+
     visible: true
     width: 320
     height: 220
@@ -25,6 +27,19 @@ ApplicationWindow {
     palette.midlight: "#4e8fc1"
     palette.dark: "#053d68"
     palette.mid: "#074e84"
+
+    CatalogPopup {
+        id: catalog
+        x: parent.x
+        y: parent.y + parent.height / 6
+        width: parent.width
+        height: parent.height * 2 / 3
+    }
+    function openCatalog(callback) {
+        catalog.setMenu("root");
+        catalog.callback = callback;
+        catalog.open();
+    }
 
     Rectangle {
         id: screen

@@ -56,6 +56,12 @@ FocusScope {
                     root.ListView.view.currentItem.exprfield.forceActiveFocus()
                 }
             }
+            Keys.onPressed: {
+                if (event.key == Qt.Key_F1)
+                    window.openCatalog(function(str) {
+                        exprfield.insertJson(str);
+                    });
+            }
         }
     }
 

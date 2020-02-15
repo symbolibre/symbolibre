@@ -5,6 +5,7 @@
         <file>FunctionDefinitionDelegate.qml</file>
         <file>FunctionDefinitionView.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>math_catalog_fr.xml</file>
     </qresource>
     <qresource prefix="/keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
@@ -15,6 +16,8 @@
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
     </qresource>
     <qresource prefix="/components">
+        <file alias="Catalog.qml">../components/Catalog.qml</file>
+        <file alias="CatalogPopup.qml">../components/CatalogPopup.qml</file>
         <file alias="SLCheckBox.qml">../components/SLCheckBox.qml</file>
         <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
         <file alias="SLTextField.qml">../components/SLTextField.qml</file>
