@@ -7,6 +7,8 @@ import etBox 1.0
 
 FocusScope {
     id: root
+    property string text: etbox.text
+
     Rectangle {
         anchors.fill: parent
         border.width: root.activeFocus ? 2 : 1
@@ -14,6 +16,7 @@ FocusScope {
         border.color: root.activeFocus ? palette.highlight : palette.mid
 
         ETBox {
+            id: etbox
             focus: true
             anchors.fill: parent
 
