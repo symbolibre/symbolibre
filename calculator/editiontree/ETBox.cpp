@@ -5,7 +5,7 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
     centerOnCursor(0), adjustHeight(0), adjustWidth(0)
 {
     expr = EditionTree();
-    spaceFromBorder = 5; /* Hard-coded, but should can be modified */
+    connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(update()));
 }
 
 void ETBox::paint(QPainter *painter)
@@ -18,6 +18,7 @@ void ETBox::paint(QPainter *painter)
 
     expr.computeDimensions(*painter);
     QPoint p = expr.getCursorCoordinates();
+    const int spaceFromBorder = 5;
     int x, y;
     if (expr.getWidth() < (int) width() - spaceFromBorder)
         x = spaceFromBorder;
@@ -28,17 +29,13 @@ void ETBox::paint(QPainter *painter)
     else
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
     painter->drawRect(0, 0, width() - 1, height() - 1);
-    expr.draw(x, y, *painter, false);
-    return;
+    expr.draw(x, y, *painter, hasActiveFocus());
 }
 
-void ETBox::setSpaceFromBorder(int value)
+bool ETBox::recvInput(int /* KeyCode::keycode */ input)
 {
-    spaceFromBorder = value;
-}
+    bool ret = true;
 
-void ETBox::recvInput(int /* KeyCode::keycode */ input)
-{
     if (KeyCode::SLK_A <= input && input <= KeyCode::SLK_Z)
         expr.editChar('A' + input - KeyCode::SLK_A);
     else if (KeyCode::SLK_a <= input && input <= KeyCode::SLK_z)
@@ -78,20 +75,19 @@ void ETBox::recvInput(int /* KeyCode::keycode */ input)
 
         /* Arrows */
         case KeyCode::SLK_UP:
-            if (!expr.editMoveUp())
-                std::cerr << "Cannot move UP" << std::endl;
+            ret = expr.editMoveUp();
             break;
+
         case KeyCode::SLK_DOWN:
-            if (!expr.editMoveDown())
-                std::cerr << "Cannot move DOWN" << std::endl;
+            ret = expr.editMoveDown();
             break;
+
         case KeyCode::SLK_RIGHT:
-            if (!expr.editMoveRight())
-                std::cerr << "Cannot move RIGHT" << std::endl;
+            ret = expr.editMoveRight();
             break;
+
         case KeyCode::SLK_LEFT:
-            if (!expr.editMoveLeft())
-                std::cerr << "Cannot move LEFT" << std::endl;
+            ret = expr.editMoveLeft();
             break;
 
         /* Special keys */
@@ -119,4 +115,5 @@ void ETBox::recvInput(int /* KeyCode::keycode */ input)
     // expr.ascii(true);
     emit expressionChanged();
     update();
+    return ret;
 }

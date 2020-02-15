@@ -210,21 +210,17 @@ public:
     /* Painting functions */
     void paint(QPainter *painter) override;
 
-    /* Getters and setters */
-    void setSpaceFromBorder(int value);
-
 signals:
     void expressionChanged(void);
 
 public slots:
-    Q_INVOKABLE void recvInput(int /* KeyCode::keycode */ input);
+    Q_INVOKABLE bool recvInput(int /* KeyCode::keycode */ input);
 
 private:
     EditionTree expr;
     int centerOnCursor;
     int adjustHeight;
     int adjustWidth;
-    int spaceFromBorder;
 };
 
 
