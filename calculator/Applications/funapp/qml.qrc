@@ -23,6 +23,6 @@
         <file alias="SLTextField.qml">../components/SLTextField.qml</file>
         <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
         <file alias="SLTabBar.qml">../components/SLTabBar.qml</file>
-        <file>FormulaBox.qml</file>
+        <file alias="ExprField.qml">../components/ExprField.qml</file>
     </qresource>
 </RCC>
