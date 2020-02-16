@@ -12,7 +12,7 @@
 /* **********************       FLOW NODE      ********************** */
 /* ****************************************************************** */
 
-Flow::Flow(std::string strinit) : InternalEditionNode(),
+Flow::Flow(std::string strinit) : EditionNode(),
     flow(), edited_node(flow.end())
 {
     /* The flow is initialized with an edition area. */
@@ -184,9 +184,21 @@ bool Flow::insert(EditionNode *newnode)
     return true;
 }
 
+bool Flow::accept(ActiveEditionNodeVisitor &v)
+{
+    if (getActiveChild()->accept(v))
+        return true;
+    return v.visit(*this);
+}
+
 EditionNode *Flow::getActiveChild(void)
 {
     return edited_node->get();
+}
+
+EditionArea *InternalEditionNode::getActiveNode(void)
+{
+    return getActiveChild()->getActiveNode();
 }
 
 void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)

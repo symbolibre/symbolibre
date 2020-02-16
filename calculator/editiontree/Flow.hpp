@@ -15,7 +15,7 @@ struct centeredBox {
  * A Flow contains a list of non-Flow nodes.
  * \see EditionNode
  */
-class Flow : public InternalEditionNode
+class Flow : public EditionNode
 {
     using FlowIterator = std::list<std::unique_ptr<EditionNode>>::iterator;
 
@@ -48,7 +48,10 @@ public:
 
     bool insert(EditionNode *newnode) override;
 
-    EditionNode *getActiveChild(void) override;
+    bool accept(ActiveEditionNodeVisitor &v) override;
+
+    EditionArea *getActiveNode(void) override;
+    EditionNode *getActiveChild(void);
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
