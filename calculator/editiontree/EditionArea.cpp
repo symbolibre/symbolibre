@@ -62,7 +62,7 @@ bool EditionArea::dropCursor(movedir dir)
     return true;
 }
 
-bool EditionArea::empty(void)
+bool EditionArea::empty(void) const
 {
     return text.size() == 0;
 }

@@ -22,7 +22,7 @@ public:
     void ascii(int shift, bool contains_cursor) override;
     std::string getText(void) const override;
     bool dropCursor(movedir dir) override;
-    bool empty(void) override;
+    bool empty(void) const override;
 
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;

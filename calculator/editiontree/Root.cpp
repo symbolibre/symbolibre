@@ -33,7 +33,7 @@ bool Root::dropCursor(movedir dir)
     return expression.dropCursor(dir);
 }
 
-bool Root::empty(void)
+bool Root::empty(void) const
 {
     return expression.empty();
 }

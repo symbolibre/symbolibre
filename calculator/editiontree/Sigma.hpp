@@ -31,7 +31,7 @@ public:
 
     bool dropCursor(movedir dir) override;
 
-    bool empty(void) override;
+    bool empty(void) const override;
 
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;

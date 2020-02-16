@@ -33,7 +33,7 @@ bool Power::dropCursor(movedir dir)
     return expression.dropCursor(dir);
 }
 
-bool Power::empty(void)
+bool Power::empty(void) const
 {
     return expression.empty();
 }

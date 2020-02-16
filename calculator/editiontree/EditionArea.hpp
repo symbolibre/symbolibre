@@ -41,7 +41,7 @@ public:
 
     void ascii(int shift, bool contains_cursor) override;
     bool dropCursor(movedir dir) override;
-    bool empty(void) override;
+    bool empty(void) const override;
     void clear(void);
     bool reachedRight(void);
     bool reachedLeft(void);

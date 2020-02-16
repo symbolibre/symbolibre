@@ -53,7 +53,7 @@ bool Flow::dropCursor(movedir dir)
     return (*edited_node)->dropCursor(dir);
 }
 
-bool Flow::empty(void)
+bool Flow::empty(void) const
 {
     /* A flow has always an edition area, thus we want to know if there is
      * only one edition area, and if it is empty. */

@@ -34,7 +34,7 @@ public:
     bool dropCursor(movedir dir) override;
 
     /* Administrative: */
-    bool empty(void) override;
+    bool empty(void) const override;
     bool reachedRight(void);
     bool reachedLeft(void);
 

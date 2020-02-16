@@ -54,7 +54,7 @@ bool Sigma::dropCursor(movedir dir)
     }
 }
 
-bool Sigma::empty(void)
+bool Sigma::empty(void) const
 {
     return false;
 }

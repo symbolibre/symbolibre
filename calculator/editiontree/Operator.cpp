@@ -26,7 +26,7 @@ bool Operator::dropCursor(movedir)
     return false;
 }
 
-bool Operator::empty(void)
+bool Operator::empty(void) const
 {
     return false;
 }

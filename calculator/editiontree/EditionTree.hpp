@@ -66,7 +66,7 @@ public:
         return root.dropCursor(dir);
     }
 
-    bool empty(void)
+    bool empty(void) const
     {
         return root.empty();
     }

@@ -93,7 +93,7 @@ public:
      * Returns 'true' if the current node is empty.
      * By convention, a root node is empty iff its content is empty.
      */
-    virtual bool empty(void) = 0;
+    virtual bool empty(void) const = 0;
 
     /** Move the cursor right.
      * \return true if the operation succeeded,

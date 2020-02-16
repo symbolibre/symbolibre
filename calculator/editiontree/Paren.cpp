@@ -35,7 +35,7 @@ bool Paren::dropCursor(movedir)
 }
 
 /* The following methods should not be called */
-bool Paren::empty(void)
+bool Paren::empty(void) const
 {
     return false;    /* Contains a parenthesis by defn */
 }

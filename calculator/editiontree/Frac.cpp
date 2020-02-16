@@ -37,7 +37,7 @@ bool Frac::dropCursor(movedir dir)
     return numerator.dropCursor(dir);
 }
 
-bool Frac::empty(void)
+bool Frac::empty(void) const
 {
     return false;
     //return numerator.empty() && denominator.empty();
