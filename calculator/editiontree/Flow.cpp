@@ -196,7 +196,7 @@ EditionNode *Flow::getActiveChild(void)
     return edited_node->get();
 }
 
-EditionArea *InternalEditionNode::getActiveNode(void)
+EditionArea *Flow::getActiveNode(void)
 {
     return getActiveChild()->getActiveNode();
 }
