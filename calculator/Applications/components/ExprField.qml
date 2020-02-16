@@ -7,11 +7,12 @@ import etBox 1.0
 
 FocusScope {
     id: root
-    implicitWidth: etbox.implicitWidth
-    implicitHeight: etbox.implicitHeight
+    implicitWidth: etbox.implicitWidth + 4
+    implicitHeight: etbox.implicitHeight + 4
     property string text: etbox.text
 
     Rectangle {
+        id: rect
         anchors.fill: parent
         border.width: root.activeFocus ? 2 : 1
         color: palette.base
@@ -20,7 +21,10 @@ FocusScope {
         ETBox {
             id: etbox
             focus: true
-            anchors.fill: parent
+            x: parent.x + 2
+            y: parent.y + 2
+            width: parent.width - 4
+            height: parent.height - 4
 
             Keys.onPressed: {
                 function send(code) {

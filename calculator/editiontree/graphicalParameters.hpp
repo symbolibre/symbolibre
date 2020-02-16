@@ -4,7 +4,7 @@
 /* This header defines constants to handle rendering details such as the font
  * size, the space between two tokens, etc. All quantities are in number of pixels.*/
 
-constexpr int FONT_SIZE = 10; /* Font size parameter. */
+constexpr int FONT_SIZE = 12; /* Font size parameter. */
 constexpr int INTERSPACE = FONT_SIZE / 3; /* space between two tokens */
 
 constexpr int FRAC_UP_SPACE = 2; /* space between the numerator nottom and the fraction bar below */

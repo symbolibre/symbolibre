@@ -22,12 +22,11 @@ void ETBox::paint(QPainter *painter)
     setImplicitHeight(expr.getHeight());
 
     QPoint p = expr.getCursorCoordinates();
-    const int spaceFromBorder = 5;
     int x, y;
-    if (expr.getWidth() < (int) width() - spaceFromBorder)
-        x = spaceFromBorder;
+    if (expr.getWidth() < (int) width())
+        x = 0;
     else
-        x = spaceFromBorder - (expr.getWidth() - p.x());
+        x = - (expr.getWidth() - p.x());
 
     // center expression vertically if there is enough room
     if (expr.getHeight() <= height())
@@ -37,7 +36,6 @@ void ETBox::paint(QPainter *painter)
     else
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
 
-    painter->drawRect(0, 0, width() - 1, height() - 1);
     expr.draw(x, y, *painter, hasActiveFocus());
 }
 
