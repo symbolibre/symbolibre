@@ -4,7 +4,6 @@ import SLCustomPlotItem 1.0
 Item {
 
     property ListModel functions
-    property int mode_int : 0
     signal exit
 
     property double cursorX : plotItem.cursorX
@@ -35,15 +34,7 @@ Item {
     }
 
     id: graph
-    property string mode : {
-        if (mode_int == 1) {
-            return "Cursor"
-        }
-        if (mode_int == 2) {
-            return "Zoom"
-        }
-        return "Def"
-    }
+    property string mode : "Cursor"
 
     onModeChanged: {
         if (mode == "Cursor") {
