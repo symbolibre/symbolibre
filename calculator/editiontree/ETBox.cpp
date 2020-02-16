@@ -6,6 +6,7 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
 {
     expr = EditionTree();
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(update()));
+    setImplicitHeight(FONT_SIZE);
 }
 
 void ETBox::paint(QPainter *painter)
@@ -17,6 +18,9 @@ void ETBox::paint(QPainter *painter)
     painter->setFont(font);
 
     expr.computeDimensions(*painter);
+    setImplicitWidth(expr.getWidth());
+    setImplicitHeight(expr.getHeight());
+
     QPoint p = expr.getCursorCoordinates();
     const int spaceFromBorder = 5;
     int x, y;
@@ -24,10 +28,15 @@ void ETBox::paint(QPainter *painter)
         x = spaceFromBorder;
     else
         x = spaceFromBorder - (expr.getWidth() - p.x());
-    if (expr.getHeight() - expr.getCenterHeight() < (int) height() / 2)
+
+    // center expression vertically if there is enough room
+    if (expr.getHeight() <= height())
+        y = height() / 2 - expr.getHeight() / 2;
+    else if (expr.getHeight() - expr.getCenterHeight() < (int) height() / 2)
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight();
     else
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
+
     painter->drawRect(0, 0, width() - 1, height() - 1);
     expr.draw(x, y, *painter, hasActiveFocus());
 }

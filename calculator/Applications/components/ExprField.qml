@@ -7,6 +7,8 @@ import etBox 1.0
 
 FocusScope {
     id: root
+    implicitWidth: etbox.implicitWidth
+    implicitHeight: etbox.implicitHeight
     property string text: etbox.text
 
     Rectangle {

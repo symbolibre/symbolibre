@@ -41,7 +41,6 @@ FocusScope {
         }
         ExprField {
             id: exprfield
-            height: 30
             Layout.fillWidth: true
             //text: model.expr // FIXME
             focus: true
