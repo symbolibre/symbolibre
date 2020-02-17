@@ -1,7 +1,7 @@
 #ifndef FLOW_HPP
 #define FLOW_HPP
 
-#include "InternalEditionNode.hpp"
+#include "EditionNode.hpp"
 
 /* This structure is for convenience. */
 struct centeredBox {

@@ -1,7 +1,7 @@
 #ifndef FRAC_HPP
 #define FRAC_HPP
 
-#include "EditionNode.hpp"
+#include "InternalEditionNode.hpp"
 #include "Flow.hpp"
 
 /** Frac nodes are semantic nodes that represents fractions.

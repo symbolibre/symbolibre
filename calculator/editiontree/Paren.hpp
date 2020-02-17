@@ -1,7 +1,7 @@
 #ifndef PAREN_HPP
 #define PAREN_HPP
 
-#include "EditionNode.hpp"
+#include "InternalEditionNode.hpp"
 #include <string>
 
 /** Parens are semantic nodes, yet a bit special because

@@ -1,7 +1,7 @@
 #ifndef OPERATOR_HPP
 #define OPERATOR_HPP
 
-#include "EditionNode.hpp"
+#include "InternalEditionNode.hpp"
 #include <QString>
 
 /**

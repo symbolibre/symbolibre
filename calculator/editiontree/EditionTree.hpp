@@ -5,7 +5,6 @@
 #include <giac/giac.h>
 
 #include <QQuickPaintedItem>
-// #include <QDebug>
 
 #include "Flow.hpp"
 #include "visitors.hpp"

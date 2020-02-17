@@ -1,7 +1,7 @@
 #ifndef SIGMA_HPP
 #define SIGMA_HPP
 
-#include "EditionNode.hpp"
+#include "InternalEditionNode.hpp"
 #include "Flow.hpp"
 
 /** Sigma nodes are semantic nodes that represents finite sums.
