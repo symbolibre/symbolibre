@@ -61,7 +61,7 @@ private:
     QMap<QString, CurveItem> listGraph;
     int nbCurves;
 
-public slots:
+public:
     Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula);
     Q_INVOKABLE void addGraph(QString formula, QColor color);
