@@ -14,11 +14,9 @@ void Operator::ascii(int shift, bool cc)
     std::cout << " └" << (cc ? '*' : ' ') << "OPERATOR " << achar << '\n';
 }
 
-std::string Operator::getText(void) const /* DO NOT USE IT */
+std::string Operator::getText(void) const
 {
-    std::string op = "."; // help T^T
-    op[0] = achar;
-    return op;
+    return std::string(1, achar);
 }
 
 bool Operator::dropCursor(movedir)
