@@ -37,7 +37,7 @@ public:
 
 public:
 
-    EditionArea(void);
+    EditionArea(std::string text = "");
 
     void ascii(int shift, bool contains_cursor) override;
     bool dropCursor(movedir dir) override;

@@ -8,8 +8,8 @@
 /* ****************************************************************** */
 
 
-EditionArea::EditionArea() : EditionNode(),
-    text(), cursor_pos(0)
+EditionArea::EditionArea(std::string text) : EditionNode(),
+    text(text), cursor_pos(0)
 {
 
 }
