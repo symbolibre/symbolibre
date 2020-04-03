@@ -12,6 +12,11 @@ Power::Power(void) : InternalEditionNode(), expression()
 
 }
 
+QString Power::getNodeType() const
+{
+    return "pow";
+}
+
 void Power::ascii(int shift, bool cc)
 {
     for (int i = 0; i < shift; i++)
@@ -64,4 +69,9 @@ void Power::draw(int x, int y, QPainter &painter, bool cursor)
 QPoint Power::getCursorCoordinates(void)
 {
     return expression.getCursorCoordinates();
+}
+
+std::vector<Flow *> Power::getChildren()
+{
+    return {&expression};
 }

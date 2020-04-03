@@ -5,6 +5,8 @@
 #include "Operator.hpp"
 #include "Root.hpp"
 
+#include <QJsonArray>
+
 #include <algorithm>
 #include <cassert>
 

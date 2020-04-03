@@ -12,6 +12,11 @@ Root::Root(void) : InternalEditionNode(), expression(), rootWidth(-1)
 
 }
 
+QString Root::getNodeType() const
+{
+    return "sqrt";
+}
+
 void Root::ascii(int shift, bool cc)
 {
     for (int i = 0; i < shift; i++)
@@ -79,4 +84,9 @@ QPoint Root::getCursorCoordinates(void)
     size_t xPos = posInChild.x() + rootWidth + ROOT_VSPACE;
     size_t yPos = posInChild.y() + ROOT_HSPACE;
     return QPoint(xPos, yPos);
+}
+
+std::vector<Flow *> Root::getChildren()
+{
+    return {&expression};
 }

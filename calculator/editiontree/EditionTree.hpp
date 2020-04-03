@@ -4,6 +4,7 @@
 #include <giac/config.h>
 #include <giac/giac.h>
 
+#include <QJsonArray>
 #include <QQuickPaintedItem>
 
 #include "Flow.hpp"
@@ -15,6 +16,7 @@
 #include "Paren.hpp"
 #include "Root.hpp"
 #include "Power.hpp"
+#include "serialization.hpp"
 #include "Sigma.hpp"
 
 /* Method calls are forwarded to the Flow member.
@@ -26,6 +28,19 @@ public:
 
 public:
     EditionTree(std::string text = "") : root(text), lastEdition(0) {}
+    EditionTree(const QJsonArray &json) :
+        root(deserializeFlow(json)), lastEdition(0) {}
+
+    QJsonArray serialize() const
+    {
+        return serializeFlow(root);
+    }
+
+    void deserialize(const QJsonArray &json)
+    {
+        root = deserializeFlow(json);
+        lastEdition = 0;
+    }
 
     int getWidth() const
     {
@@ -205,6 +220,7 @@ class ETBox : public QQuickPaintedItem
     Q_PROPERTY(qreal implicitWidth READ implicitWidth NOTIFY implicitWidthChanged)
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
+    Q_PROPERTY(QString json READ json WRITE setJson NOTIFY textChanged)
 
 public:
     explicit ETBox(QQuickItem *parent = nullptr);
@@ -213,6 +229,9 @@ public:
     {
         return QString::fromStdString(expr.getText());
     }
+
+    QString json() const;
+    void setJson(const QString &json);
 
     /* Painting functions */
     void paint(QPainter *painter) override;

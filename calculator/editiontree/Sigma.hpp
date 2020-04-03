@@ -26,6 +26,8 @@ public:
 public:
     Sigma(void);
 
+    QString getNodeType() const override;
+
     void ascii(int shift, bool contains_cursor) override;
     std::string getText(void) const override;
 
@@ -45,6 +47,8 @@ public:
 
     QPoint getCursorCoordinates(void) override;
 
+protected:
+    std::vector<Flow *> getChildren() override;
 };
 
 #endif // SIGMA_HPP

@@ -19,6 +19,8 @@ private:
 public:
     Power(void);  /* I'm Root */
 
+    QString getNodeType() const override;
+
     void ascii(int shift, bool contains_cursor) override;
     std::string getText(void) const override;
     bool dropCursor(movedir dir) override;
@@ -31,6 +33,8 @@ public:
     void draw(int x, int y, QPainter &painter, bool cursor) override;
     QPoint getCursorCoordinates(void) override;
 
+protected:
+    std::vector<Flow *> getChildren() override;
 };
 
 #endif // POWER_HPP

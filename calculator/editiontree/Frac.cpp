@@ -10,6 +10,11 @@ Frac::Frac(std::string strnum) : InternalEditionNode(),
 
 }
 
+QString Frac::getNodeType() const
+{
+    return "frac";
+}
+
 void Frac::ascii(int shift, bool cc)
 {
     for (int i = 0; i < shift; i++)
@@ -128,4 +133,9 @@ QPoint Frac::getCursorCoordinates(void)
         size_t yPos = posInChild.y() + height - center_height + FRAC_UP_SPACE;
         return QPoint(xPos, yPos);
     }
+}
+
+std::vector<Flow *> Frac::getChildren()
+{
+    return {&numerator, &denominator};
 }

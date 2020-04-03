@@ -14,6 +14,11 @@ Sigma::Sigma(void) : InternalEditionNode(),
 
 }
 
+QString Sigma::getNodeType() const
+{
+    return "sum";
+}
+
 void Sigma::ascii(int shift, bool cc)
 {
     for (int i = 0; i < shift; i++)
@@ -169,4 +174,9 @@ QPoint Sigma::getCursorCoordinates(void)
         return QPoint(xPos, yPos);
     }
     return QPoint(0, 0);
+}
+
+std::vector<Flow *> Sigma::getChildren()
+{
+    return {&lbound, &rbound};
 }

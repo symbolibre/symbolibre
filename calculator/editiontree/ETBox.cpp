@@ -1,12 +1,30 @@
 #include "EditionTree.hpp"
 #include "keycode.hpp"
 
+#include <QDebug>
+#include <QJsonDocument>
+
 ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
     centerOnCursor(0), adjustHeight(0), adjustWidth(0)
 {
     expr = EditionTree();
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(update()));
     setImplicitHeight(FONT_SIZE);
+}
+
+QString ETBox::json() const
+{
+    QJsonDocument doc;
+    doc.setArray(expr.serialize());
+    return doc.toJson();
+}
+
+void ETBox::setJson(const QString &json)
+{
+    auto doc = QJsonDocument::fromJson(json.toUtf8());
+    if (!doc.isArray())
+        qDebug() << "bad editiontree json";
+    expr.deserialize(doc.array());
 }
 
 void ETBox::paint(QPainter *painter)

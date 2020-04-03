@@ -19,6 +19,9 @@ class Flow : public EditionNode
 {
     using FlowIterator = std::list<std::unique_ptr<EditionNode>>::iterator;
 
+    friend Flow deserializeFlow(const QJsonArray &json);
+    friend QJsonArray serializeFlow(const Flow &flow);
+
 private:
     // FIXME get rid of std::list
     std::list<std::unique_ptr<EditionNode>> flow;

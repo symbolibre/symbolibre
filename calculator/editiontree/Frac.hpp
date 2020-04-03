@@ -20,9 +20,11 @@ public:
     Flow numerator;
     Flow denominator;
     bool cursor_on_top;
+
 public:
     Frac(std::string strnum = "");
 
+    QString getNodeType() const override;
 
     void ascii(int shift, bool contains_cursor) override;
     std::string getText(void) const override;
@@ -42,6 +44,8 @@ public:
     void draw(int x, int y, QPainter &painter, bool cursor) override;
     QPoint getCursorCoordinates(void) override;
 
+protected:
+    std::vector<Flow *> getChildren() override;
 };
 
 #endif // FRAC_HPP

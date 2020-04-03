@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG  += staticlib		   
+CONFIG  += staticlib c++14
 QT += qml quick
 INCLUDEPATH += ../Applications/keyboard
 LIBS += -lgiac -lgmp \
@@ -26,6 +26,7 @@ SOURCES  = EditionArea.cpp \
 		   Root.cpp \
 		   Frac.cpp \
 		   Power.cpp \
+		   serialization.cpp \
 		   Sigma.cpp \
 		   Flow.cpp \
 		   fromGiacGen.cpp \

@@ -5,6 +5,7 @@
 #include <memory>
 #include <list>
 #include <string>
+#include <QJsonObject>
 #include <QPainter>
 #include <QFont>
 #include <QFontMetrics>
