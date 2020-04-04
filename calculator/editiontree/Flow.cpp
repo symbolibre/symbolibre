@@ -21,6 +21,20 @@ Flow::Flow(std::string strinit) : EditionNode(),
     edited_node = flow.insert(flow.begin(), std::move(new_text));
 }
 
+Flow::Flow(Flow &&other) : EditionNode(std::move(other)),
+    flow(std::move(other.flow)), edited_node(other.edited_node)
+{
+    other.edited_node = other.flow.end();
+}
+
+Flow &Flow::operator=(Flow &&other)
+{
+    flow = std::move(other.flow);
+    edited_node = other.edited_node;
+    other.edited_node = other.flow.end();
+    return *this;
+}
+
 void Flow::ascii(int shift, bool cc)
 {
     /* Flow nodes have only one child, so quite east too */

@@ -65,6 +65,10 @@ public:
     EditionNode() : width(0), height(0), center_height(0) {}
     virtual ~EditionNode() = default;
 
+    // FIXME needs Flow::flow to be a vector
+    EditionNode(const EditionNode &) = delete;
+    EditionNode(EditionNode &&) = default;
+
     /** Accepts a visitor. \see ActiveEditionNodeVisitor */
     virtual bool accept(ActiveEditionNodeVisitor &v)
     {

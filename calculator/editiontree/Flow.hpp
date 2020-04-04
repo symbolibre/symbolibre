@@ -26,6 +26,8 @@ private:
 
 public:
     Flow(std::string strinit = "");
+    Flow(Flow &&other);
+    Flow &operator=(Flow &&other);
 
     void ascii(int shift, bool contains_cursor) override;
 
