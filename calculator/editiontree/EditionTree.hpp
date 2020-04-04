@@ -219,7 +219,7 @@ class ETBox : public QQuickPaintedItem
     Q_OBJECT
     Q_PROPERTY(qreal implicitWidth READ implicitWidth NOTIFY implicitWidthChanged)
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
-    Q_PROPERTY(QString text READ text NOTIFY textChanged)
+    Q_PROPERTY(QString text READ text NOTIFY textChanged STORED false)
     Q_PROPERTY(QString json READ json WRITE setJson NOTIFY textChanged)
 
 public:
