@@ -9,7 +9,8 @@ FocusScope {
     id: root
     implicitWidth: etbox.implicitWidth + 4
     implicitHeight: etbox.implicitHeight + 4
-    property string text: etbox.text
+    property alias text: etbox.text
+    property alias json: etbox.json
 
     Rectangle {
         id: rect
