@@ -44,7 +44,7 @@ void ETBox::insertJson(const QString &json)
         return;
     }
 
-    emit textChanged(QString::fromStdString(expr.getText()));
+    emit exprChanged();
     update();
 }
 
@@ -159,7 +159,7 @@ bool ETBox::recvInput(int /* KeyCode::keycode */ input)
         }
 
     // expr.ascii(true);
-    emit textChanged(QString::fromStdString(expr.getText()));
+    emit exprChanged();
     update();
     return ret;
 }

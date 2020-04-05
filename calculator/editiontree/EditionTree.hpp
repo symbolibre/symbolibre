@@ -226,8 +226,8 @@ class ETBox : public QQuickPaintedItem
     Q_OBJECT
     Q_PROPERTY(qreal implicitWidth READ implicitWidth NOTIFY implicitWidthChanged)
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
-    Q_PROPERTY(QString text READ text NOTIFY textChanged STORED false)
-    Q_PROPERTY(QString json READ json WRITE setJson NOTIFY textChanged)
+    Q_PROPERTY(QString text READ text NOTIFY exprChanged STORED false)
+    Q_PROPERTY(QString json READ json WRITE setJson NOTIFY exprChanged)
 
 public:
     explicit ETBox(QQuickItem *parent = nullptr);
@@ -244,7 +244,7 @@ public:
     void paint(QPainter *painter) override;
 
 signals:
-    void textChanged(QString);
+    void exprChanged();
 
 public slots:
     bool recvInput(int /* KeyCode::keycode */ input);
