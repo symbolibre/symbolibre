@@ -5,6 +5,7 @@
 #include "Frac.hpp"
 #include "InternalEditionNode.hpp"
 #include "Operator.hpp"
+#include "Paren.hpp"
 #include "Power.hpp"
 #include "Root.hpp"
 #include "Sigma.hpp"
@@ -24,7 +25,10 @@ QJsonArray serializeFlow(const Flow &flow)
             children.append(QJsonValue(QString::fromStdString(area->getText())));
 
         else if (auto op = dynamic_cast<Operator *>(node.get()))
-            children.append(QJsonObject({qMakePair(QString("type"), QString("op")), qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
+            children.append(QJsonObject({qMakePair(QString("name"), QString("op")), qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
+
+        else if (auto paren = dynamic_cast<Paren *>(node.get()))
+            children.append(QJsonObject({qMakePair(QString("name"), QString(paren->getParenType() == LPAREN ? "lparen" : "rparen"))}));
 
         else if (auto intNode = dynamic_cast<InternalEditionNode *>(node.get()))
             children.append(serializeInternalNode(*intNode));
@@ -65,6 +69,12 @@ EditionNode *deserializeInternalNode(QJsonObject node)
             return nullptr;
         }
     }
+
+    else if (name == "lparen")
+        return new Paren(LPAREN);
+
+    else if (name == "rparen")
+        return new Paren(RPAREN);
 
     InternalEditionNode *ret;
     if (name == "frac")
