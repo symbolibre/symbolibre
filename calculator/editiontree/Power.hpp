@@ -13,11 +13,8 @@
  */
 class Power : public InternalEditionNode
 {
-private:
-    Flow expression;
-
 public:
-    Power(void);  /* I'm Root */
+    Power(void);
 
     QString getNodeType() const override;
 
@@ -26,15 +23,10 @@ public:
     bool dropCursor(movedir dir) override;
     bool empty(void) const override;
 
-    EditionNode *getActiveChild(void) override;
-
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
     QPoint getCursorCoordinates(void) override;
-
-protected:
-    std::vector<Flow *> getChildren() override;
 };
 
 #endif // POWER_HPP

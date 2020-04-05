@@ -17,11 +17,8 @@
 class Frac : public InternalEditionNode
 {
 public:
-    Flow numerator;
-    Flow denominator;
-    bool cursor_on_top;
+    enum {idx_num = 0, idx_den = 1};
 
-public:
     Frac(std::string strnum = "");
 
     QString getNodeType() const override;
@@ -36,16 +33,11 @@ public:
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;
 
-    EditionNode *getActiveChild(void) override;
-
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
     QPoint getCursorCoordinates(void) override;
-
-protected:
-    std::vector<Flow *> getChildren() override;
 };
 
 #endif // FRAC_HPP

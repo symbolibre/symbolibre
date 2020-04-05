@@ -4,11 +4,7 @@
 #include <string>
 #include <algorithm>
 
-#define SIGMA_CURSOR_LBOUND 2
-#define SIGMA_CURSOR_RBOUND 4
-
-Sigma::Sigma(void) : InternalEditionNode(),
-    lbound(), rbound(), cursor_location(SIGMA_CURSOR_RBOUND),
+Sigma::Sigma(void) : InternalEditionNode(2),
     sigma_height(0), sigma_width(0)
 {
 
@@ -27,23 +23,23 @@ void Sigma::ascii(int shift, bool cc)
 
     for (int i = 0; i < shift + 1; i++)
         std::cout << "  ";
-    std::cout << " └" << (cc && cursor_location == SIGMA_CURSOR_LBOUND ? '*' : ' ')
+    std::cout << " └" << (cc && active_child_idx == idx_lbound ? '*' : ' ')
               << "LBOUND\n";
-    lbound.ascii(shift + 2, cc && (cursor_location == SIGMA_CURSOR_LBOUND));
+    children[idx_lbound].ascii(shift + 2, cc && (active_child_idx == idx_lbound));
 
     for (int i = 0; i < shift + 1; i++)
         std::cout << "  ";
-    std::cout << " └" << (cc && cursor_location == SIGMA_CURSOR_RBOUND ? '*' : ' ')
+    std::cout << " └" << (cc && active_child_idx == idx_rbound ? '*' : ' ')
               << "RBOUND\n";
-    rbound.ascii(shift + 2, cc && (cursor_location == SIGMA_CURSOR_RBOUND));
+    children[idx_rbound].ascii(shift + 2, cc && (active_child_idx == idx_rbound));
 }
 
 std::string Sigma::getText(void) const
 {
     std::string str = "sum(";
-    str.insert(str.size(), lbound.getText());
+    str.insert(str.size(), children[idx_lbound].getText());
     str.insert(str.size(), ",");
-    str.insert(str.size(), rbound.getText());
+    str.insert(str.size(), children[idx_rbound].getText());
     str.insert(str.size(), ")");
     return str;
 }
@@ -51,11 +47,11 @@ std::string Sigma::getText(void) const
 bool Sigma::dropCursor(movedir dir)
 {
     if (dir == MLEFT || dir == MDOWN) {
-        cursor_location = SIGMA_CURSOR_RBOUND;
-        return rbound.dropCursor(MLEFT);
+        active_child_idx = idx_rbound;
+        return children[idx_rbound].dropCursor(MLEFT);
     } else {
-        cursor_location = SIGMA_CURSOR_LBOUND;
-        return lbound.dropCursor(MRIGHT);
+        active_child_idx = idx_lbound;
+        return children[idx_lbound].dropCursor(MRIGHT);
     }
 }
 
@@ -66,36 +62,28 @@ bool Sigma::empty(void) const
 
 bool Sigma::editMoveUp(void)
 {
-    if (cursor_location == SIGMA_CURSOR_RBOUND)
+    if (active_child_idx == idx_rbound)
         return false;
 
-    cursor_location = SIGMA_CURSOR_RBOUND;
-    rbound.dropCursor(MLEFT);
+    active_child_idx = idx_rbound;
+    children[idx_rbound].dropCursor(MLEFT);
     return true;
 }
 
 bool Sigma::editMoveDown(void)
 {
-    if (cursor_location == SIGMA_CURSOR_LBOUND)
+    if (active_child_idx == idx_lbound)
         return false;
 
-    cursor_location = SIGMA_CURSOR_LBOUND;
-    lbound.dropCursor(MLEFT);
+    active_child_idx = idx_lbound;
+    children[idx_lbound].dropCursor(MLEFT);
     return true;
-}
-
-EditionNode *Sigma::getActiveChild(void)
-{
-    if (cursor_location == SIGMA_CURSOR_LBOUND)
-        return &lbound;
-    else
-        return &rbound;
 }
 
 void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    lbound.computeDimensions(painter, 0, 0);
-    rbound.computeDimensions(painter, 0, 0);
+    children[idx_lbound].computeDimensions(painter, 0, 0);
+    children[idx_rbound].computeDimensions(painter, 0, 0);
 
     //QFont font = QFont("dejavu sans mono");
     //font.setStyleHint(QFont::Monospace);
@@ -115,12 +103,12 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
     font.setFamily("deja vu sans mono");
     painter.setFont(font);
 
-    width = std::max(std::max(sigma_width, lbound.width), rbound.width);
+    width = std::max({sigma_width, children[idx_lbound].width, children[idx_rbound].width});
     if (width == 0)
         width = metrics.width(QChar('0'));
 
-    height = sigma_height + rbound.height + lbound.height;
-    center_height = sigma_height / 2 + rbound.height;
+    height = sigma_height + children[idx_rbound].height + children[idx_lbound].height;
+    center_height = sigma_height / 2 + children[idx_rbound].height;
 }
 
 void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
@@ -132,18 +120,18 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
     int y_mid = y + height - center_height;
 
     /* Lower bound */
-    int x_lbound = x + (width - lbound.width) / 2;
+    int x_lbound = x + (width - children[idx_lbound].width) / 2;
     int y_lbound = y_mid + sigma_height / 2;
-    lbound.draw(x_lbound, y_lbound, painter,
-                cursor && (cursor_location == SIGMA_CURSOR_LBOUND));
+    children[idx_lbound].draw(x_lbound, y_lbound, painter,
+                              cursor && (active_child_idx == idx_lbound));
 
 
     /* Upper bound */
-    int x_rbound = x + (width - rbound.width) / 2;
-    int y_rbound = 0;// y_mid - sigma_height/2 - rbound.height;
+    int x_rbound = x + (width - children[idx_rbound].width) / 2;
+    int y_rbound = 0;// y_mid - sigma_height/2 - children[idx_rbound].height;
 
-    rbound.draw(x_rbound, y_rbound, painter,
-                cursor && (cursor_location == SIGMA_CURSOR_RBOUND));
+    children[idx_rbound].draw(x_rbound, y_rbound, painter,
+                              cursor && (active_child_idx == idx_rbound));
 
     /* Sigma */
     QFont font = painter.font();
@@ -162,21 +150,16 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 
 QPoint Sigma::getCursorCoordinates(void)
 {
-    if (cursor_location == SIGMA_CURSOR_RBOUND) {
-        QPoint posInChild = rbound.getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - rbound.width) / 2;
+    if (active_child_idx == idx_rbound) {
+        QPoint posInChild = children[idx_rbound].getCursorCoordinates();
+        size_t xPos = posInChild.x() + (width - children[idx_rbound].width) / 2;
         size_t yPos = posInChild.y();
         return QPoint(xPos, yPos);
     } else {
-        QPoint posInChild = lbound.getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - lbound.width) / 2;
-        size_t yPos = rbound.height + sigma_height + posInChild.y();
+        QPoint posInChild = children[idx_lbound].getCursorCoordinates();
+        size_t xPos = posInChild.x() + (width - children[idx_lbound].width) / 2;
+        size_t yPos = children[idx_rbound].height + sigma_height + posInChild.y();
         return QPoint(xPos, yPos);
     }
     return QPoint(0, 0);
-}
-
-std::vector<Flow *> Sigma::getChildren()
-{
-    return {&lbound, &rbound};
 }

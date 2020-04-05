@@ -18,11 +18,11 @@
 class Sigma : public InternalEditionNode
 {
 public:
-    Flow lbound;
-    Flow rbound;
-    int cursor_location;
     int sigma_height;
     int sigma_width;
+
+    enum {idx_lbound = 0, idx_rbound = 1};
+
 public:
     Sigma(void);
 
@@ -38,17 +38,12 @@ public:
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;
 
-    EditionNode *getActiveChild(void) override;
-
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
                            int lheight, int lcenterheight) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 
     QPoint getCursorCoordinates(void) override;
-
-protected:
-    std::vector<Flow *> getChildren() override;
 };
 
 #endif // SIGMA_HPP

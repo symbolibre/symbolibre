@@ -7,7 +7,7 @@
 #include <QFont>
 #include <QRect>
 
-Root::Root(void) : InternalEditionNode(), expression(), rootWidth(-1)
+Root::Root(void) : InternalEditionNode(1), rootWidth(-1)
 {
 
 }
@@ -22,42 +22,37 @@ void Root::ascii(int shift, bool cc)
     for (int i = 0; i < shift; i++)
         std::cout << "  ";
     std::cout << " └" << (cc ? '*' : ' ') << "SQUAREROOT\n";
-    expression.ascii(shift + 1, cc);
+    children[0].ascii(shift + 1, cc);
 }
 
 std::string Root::getText(void) const
 {
     std::string str = "sqrt(";
-    str.insert(str.size(), expression.getText());
+    str.insert(str.size(), children[0].getText());
     str.push_back(')');
     return str;
 }
 
 bool Root::dropCursor(movedir dir)
 {
-    return expression.dropCursor(dir);
+    return children[0].dropCursor(dir);
 }
 
 bool Root::empty(void) const
 {
-    return expression.empty();
-}
-
-EditionNode *Root::getActiveChild(void)
-{
-    return &expression;
+    return children[0].empty();
 }
 
 void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    expression.computeDimensions(painter, 0, 0);
+    children[0].computeDimensions(painter, 0, 0);
 
     /* Computing width */
 
     rootWidth     = ROOT_WIDTH;
-    width         = expression.width  + rootWidth + 2 * ROOT_VSPACE;
-    height        = expression.height + ROOT_HSPACE;
-    center_height = expression.center_height;
+    width         = children[0].width  + rootWidth + 2 * ROOT_VSPACE;
+    height        = children[0].height + ROOT_HSPACE;
+    center_height = children[0].center_height;
 }
 
 void Root::draw(int x, int y, QPainter &painter, bool cursor)
@@ -73,20 +68,15 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
     painter.setRenderHint(QPainter::Antialiasing, false);
 
 
-    /* Then, draw the 'expression' */
-    expression.draw(x + rootWidth + ROOT_VSPACE,
-                    y + ROOT_HSPACE, painter, cursor);
+    /* Then, draw the expression */
+    children[0].draw(x + rootWidth + ROOT_VSPACE,
+                     y + ROOT_HSPACE, painter, cursor);
 }
 
 QPoint Root::getCursorCoordinates(void)
 {
-    QPoint posInChild = expression.getCursorCoordinates();
+    QPoint posInChild = children[0].getCursorCoordinates();
     size_t xPos = posInChild.x() + rootWidth + ROOT_VSPACE;
     size_t yPos = posInChild.y() + ROOT_HSPACE;
     return QPoint(xPos, yPos);
-}
-
-std::vector<Flow *> Root::getChildren()
-{
-    return {&expression};
 }

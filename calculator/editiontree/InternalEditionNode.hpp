@@ -16,7 +16,7 @@ class InternalEditionNode : public EditionNode
     friend EditionNode *deserializeInternalNode(QJsonObject node);
 
 public:
-    InternalEditionNode() = default;
+    InternalEditionNode(int nchildren);
 
     /**
      * Returns the string to use as key during serialization.
@@ -31,10 +31,12 @@ public:
     * Returns the child where the cursor is.
      * \return the non-null active child
      */
-    virtual EditionNode *getActiveChild(void) = 0;
+    EditionNode *getActiveChild(void);
+    const EditionNode *getActiveChild(void) const;
 
 protected:
-    virtual std::vector<Flow *> getChildren() = 0;
+    std::vector<Flow> children;
+    int active_child_idx;
 };
 
 #endif // INTERNALEDITIONNODE_HPP

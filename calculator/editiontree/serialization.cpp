@@ -45,8 +45,8 @@ QJsonObject serializeInternalNode(const InternalEditionNode &node)
     json["name"] = node.getNodeType();
 
     QJsonArray children;
-    for (auto &child : const_cast<InternalEditionNode &>(node).getChildren()) {
-        children.append(serializeFlow(*child));
+    for (auto &child : const_cast<InternalEditionNode &>(node).children) {
+        children.append(serializeFlow(child));
     }
     json["content"] = children;
     return json;
@@ -93,7 +93,7 @@ EditionNode *deserializeInternalNode(QJsonObject node)
     int i = 0;
     const auto content = node["content"].toArray();
     for (auto flowNode : content) {
-        *ret->getChildren()[i] = deserializeFlow(flowNode.toArray());
+        ret->children[i] = deserializeFlow(flowNode.toArray());
         ++i;
     }
 
