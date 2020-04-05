@@ -50,8 +50,21 @@ QJsonObject serializeInternalNode(const InternalEditionNode &node)
 
 EditionNode *deserializeInternalNode(QJsonObject node)
 {
-    auto name = node["name"].toString();
-    auto content = node["content"].toArray();
+    const auto name = node["name"].toString();
+
+    if (name == "op") {
+        const auto op = node["op"].toString();
+        if (op == "*")
+            return new Operator('*', "×");
+        else if (op == "+")
+            return new Operator('+', "+");
+        else if (op == "-")
+            return new Operator('-', "-");
+        else {
+            qDebug() << "deserialization of unknown operator";
+            return nullptr;
+        }
+    }
 
     InternalEditionNode *ret;
     if (name == "frac")
@@ -62,10 +75,13 @@ EditionNode *deserializeInternalNode(QJsonObject node)
         ret = new Root;
     else if (name == "sum")
         ret = new Sigma;
-    else
+    else {
+        qDebug() << "deserialization of unknown internal node";
         return nullptr;
+    }
 
     int i = 0;
+    const auto content = node["content"].toArray();
     for (auto flowNode : content) {
         *ret->getChildren()[i] = deserializeFlow(flowNode.toArray());
         ++i;
@@ -96,27 +112,14 @@ Flow deserializeFlow(const QJsonArray &json)
         isEditionArea = true;
 
         auto obj = child.toObject();
-        if (obj["name"].toString() == "op") {
-            auto op = obj["op"].toString();
-            if (op == "*")
-                flow.flow.push_back(std::make_unique<Operator>('*', "×"));
-            else if (op == "+")
-                flow.flow.push_back(std::make_unique<Operator>('+', "+"));
-            else if (op == "-")
-                flow.flow.push_back(std::make_unique<Operator>('-', "-"));
-            else {
-                qDebug() << "deserialization of unknown operator";
-                flow.flow.push_back(std::make_unique<Operator>('?', "?"));
-            }
-        } else {
-            auto node = deserializeInternalNode(obj);
-            if (!node) {
-                qDebug() << "deserialization of unknown internal node";
-                return Flow();
-            }
-            flow.flow.push_back(std::unique_ptr<EditionNode>(node));
-        }
+        auto node = deserializeInternalNode(obj);
+
+        if (!node)
+            return Flow();
+
+        flow.flow.push_back(std::unique_ptr<EditionNode>(node));
     }
+
     flow.edited_node = --flow.flow.end();
     return flow;
 }
