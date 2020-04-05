@@ -21,6 +21,9 @@ public:
     /** Returns the text contained by the node */
     std::string getText(void) const;
 
+    /** Returns the position of the cursor */
+    int getCursorPos(void) const;
+
     /** Sets the text contained by the node to 'str' */
     void set_to(std::string str);
 
@@ -37,7 +40,7 @@ public:
 
 public:
 
-    EditionArea(std::string text = "");
+    EditionArea(std::string text = "", int cursor_pos = 0);
 
     void ascii(int shift, bool contains_cursor) override;
     bool dropCursor(movedir dir) override;

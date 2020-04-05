@@ -31,9 +31,9 @@ public:
     EditionTree(const QJsonArray &json) :
         root(deserializeFlow(json)), lastEdition(0) {}
 
-    QJsonArray serialize() const
+    QJsonArray serialize(bool cursor) const
     {
-        return serializeFlow(root);
+        return serializeFlow(root, cursor);
     }
 
     void deserialize(const QJsonArray &json)

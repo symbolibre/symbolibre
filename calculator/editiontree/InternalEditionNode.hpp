@@ -12,7 +12,7 @@ class Flow;
  */
 class InternalEditionNode : public EditionNode
 {
-    friend QJsonObject serializeInternalNode(const InternalEditionNode &node);
+    friend QJsonObject serializeInternalNode(const InternalEditionNode &node, bool cursor);
     friend EditionNode *deserializeInternalNode(QJsonObject node);
 
 public:

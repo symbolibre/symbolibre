@@ -8,8 +8,8 @@
 /* ****************************************************************** */
 
 
-EditionArea::EditionArea(std::string text) : EditionNode(),
-    text(text), cursor_pos(0)
+EditionArea::EditionArea(std::string text, int cursor_pos) : EditionNode(),
+    text(text), cursor_pos(cursor_pos)
 {
 
 }
@@ -17,6 +17,11 @@ EditionArea::EditionArea(std::string text) : EditionNode(),
 std::string EditionArea::getText(void) const
 {
     return text;
+}
+
+int EditionArea::getCursorPos(void) const
+{
+    return cursor_pos;
 }
 
 void EditionArea::set_to(std::string str)

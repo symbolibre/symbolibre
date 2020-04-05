@@ -15,7 +15,7 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
 QString ETBox::json() const
 {
     QJsonDocument doc;
-    doc.setArray(expr.serialize());
+    doc.setArray(expr.serialize(true));
     return doc.toJson();
 }
 

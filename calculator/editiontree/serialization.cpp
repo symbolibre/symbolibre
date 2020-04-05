@@ -17,21 +17,36 @@
 #include <memory>
 
 
-QJsonArray serializeFlow(const Flow &flow)
+QJsonArray serializeFlow(const Flow &flow, bool cursor)
 {
     QJsonArray children;
     for (auto &node : flow.flow) {
-        if (auto area = dynamic_cast<EditionArea *>(node.get()))
-            children.append(QJsonValue(QString::fromStdString(area->getText())));
+        if (auto area = dynamic_cast<EditionArea *>(node.get())) {
+            if (cursor && flow.edited_node->get() == node.get())
+                children.append(QJsonObject({
+                qMakePair(QString("type"), QString("selected_text")),
+                qMakePair(QString("text"), QString::fromStdString(area->getText())),
+                qMakePair(QString("cursor"), area->getCursorPos())
+            }));
+            else
+                children.append(QJsonValue(QString::fromStdString(area->getText())));
+        }
 
         else if (auto op = dynamic_cast<Operator *>(node.get()))
-            children.append(QJsonObject({qMakePair(QString("name"), QString("op")), qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
+            children.append(QJsonObject({
+            qMakePair(QString("type"), QString("op")),
+            qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
 
         else if (auto paren = dynamic_cast<Paren *>(node.get()))
-            children.append(QJsonObject({qMakePair(QString("name"), QString(paren->getParenType() == LPAREN ? "lparen" : "rparen"))}));
+            children.append(QJsonObject({
+            qMakePair(
+                QString("type"),
+                QString(paren->getParenType() == LPAREN ? "lparen" : "rparen"))
+        }));
 
-        else if (auto intNode = dynamic_cast<InternalEditionNode *>(node.get()))
-            children.append(serializeInternalNode(*intNode));
+        else if (auto intNode = dynamic_cast<InternalEditionNode *>(node.get())) {
+            children.append(serializeInternalNode(*intNode, cursor && flow.edited_node->get() == node.get()));
+        }
 
         else
             qDebug() << "serialization of unknown edition node";
@@ -39,22 +54,25 @@ QJsonArray serializeFlow(const Flow &flow)
     return children;
 }
 
-QJsonObject serializeInternalNode(const InternalEditionNode &node)
+QJsonObject serializeInternalNode(const InternalEditionNode &node, bool cursor)
 {
     QJsonObject json;
-    json["name"] = node.getNodeType();
+    json["type"] = node.getNodeType();
 
     QJsonArray children;
     for (auto &child : const_cast<InternalEditionNode &>(node).children) {
-        children.append(serializeFlow(child));
+        children.append(serializeFlow(child, cursor && &child == node.getActiveChild()));
     }
     json["content"] = children;
+    if (cursor)
+        json["cursor"] = node.active_child_idx;
+
     return json;
 }
 
 EditionNode *deserializeInternalNode(QJsonObject node)
 {
-    const auto name = node["name"].toString();
+    const auto name = node["type"].toString();
 
     if (name == "op") {
         const auto op = node["op"].toString();
@@ -96,6 +114,7 @@ EditionNode *deserializeInternalNode(QJsonObject node)
         ret->children[i] = deserializeFlow(flowNode.toArray());
         ++i;
     }
+    ret->active_child_idx = node["cursor"].toInt();
 
     return ret;
 }
@@ -103,33 +122,52 @@ EditionNode *deserializeInternalNode(QJsonObject node)
 Flow deserializeFlow(const QJsonArray &json)
 {
     Flow flow;
+    flow.flow.clear();
+    flow.edited_node = flow.flow.end();
+
     bool isEditionArea = true; // every other child should be an edition area
     for (auto child : json) {
-        if (child.isString()) {
-            if (!isEditionArea) {
+        if (isEditionArea) {
+            if (child.isString()) {
+                flow.flow.push_back(std::make_unique<EditionArea>(child.toString().toStdString()));
+            }
+
+            else if (child.isObject() && child.toObject()["type"] == "selected_text") {
+                const auto text = child.toObject()["text"].toString().toStdString();
+                const auto cursor_pos = child.toObject()["cursor"].toInt();
+                flow.flow.push_back(std::make_unique<EditionArea>(text, cursor_pos));
+                flow.edited_node = --flow.flow.end();
+            }
+
+            else {
                 qDebug() << "deserialization of ill-formed flow";
                 return Flow();
             }
-            flow.flow.push_back(std::make_unique<EditionArea>(child.toString().toStdString()));
+
             isEditionArea = false;
             continue;
         }
 
-        if (isEditionArea || !child.isObject()) {
+        if (!child.isObject()) {
             qDebug() << "deserialization of ill-formed flow";
             return Flow();
         }
         isEditionArea = true;
 
-        auto obj = child.toObject();
+        const auto obj = child.toObject();
         auto node = deserializeInternalNode(obj);
 
         if (!node)
             return Flow();
 
         flow.flow.push_back(std::unique_ptr<EditionNode>(node));
+
+        if (!obj["cursor"].isUndefined())
+            flow.edited_node = --flow.flow.end();
     }
 
-    flow.edited_node = --flow.flow.end();
+    if (flow.edited_node == flow.flow.end())
+        --flow.edited_node;
+
     return flow;
 }
