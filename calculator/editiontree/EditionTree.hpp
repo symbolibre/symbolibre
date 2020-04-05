@@ -179,6 +179,13 @@ public:
         return root.accept(v);
     }
 
+    void insert(EditionNode *node)
+    {
+        lastEdition = 0;
+        InsertVisitor v(node);
+        root.accept(v);
+    }
+
     EditionArea *getActiveNode(void)
     {
         return root.getActiveNode();
@@ -240,7 +247,8 @@ signals:
     void textChanged(QString);
 
 public slots:
-    Q_INVOKABLE bool recvInput(int /* KeyCode::keycode */ input);
+    bool recvInput(int /* KeyCode::keycode */ input);
+    void insertJson(const QString &json);
 
 private:
     EditionTree expr;

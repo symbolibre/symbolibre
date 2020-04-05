@@ -27,6 +27,27 @@ void ETBox::setJson(const QString &json)
     expr.deserialize(doc.array());
 }
 
+void ETBox::insertJson(const QString &json)
+{
+    auto doc = QJsonDocument::fromJson(json.toUtf8());
+    if (doc.isArray())
+        expr.insert(new Flow(deserializeFlow(doc.array())));
+
+    else if (doc.isObject()) {
+        auto node = deserializeInternalNode(doc.object());
+        if (node)
+            expr.insert(node);
+    }
+
+    else {
+        qDebug() << "bad editionnode json";
+        return;
+    }
+
+    emit textChanged(QString::fromStdString(expr.getText()));
+    update();
+}
+
 void ETBox::paint(QPainter *painter)
 {
     QFont font = QFont("dejavu sans mono");
