@@ -128,6 +128,18 @@ void EditionArea::editString(const std::string &str)
     cursor_pos += str.size();
 }
 
+bool EditionArea::insert(EditionNode *newnode)
+{
+    if (auto area = dynamic_cast<EditionArea *>(newnode)) {
+        editString(area->getText());
+        cursor_pos += area->cursor_pos;
+        delete newnode;
+        return true;
+    }
+
+    return false;
+}
+
 void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     QFontMetrics metrics = painter.fontMetrics();

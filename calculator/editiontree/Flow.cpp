@@ -5,6 +5,7 @@
 #include "Operator.hpp"
 #include "Root.hpp"
 
+#include <QDebug>
 #include <QJsonArray>
 
 #include <algorithm>
@@ -160,6 +161,17 @@ bool Flow::insert(EditionNode *newnode)
 
     auto ed_area = dynamic_cast<EditionArea *>(edited_node->get());
     assert(ed_area);
+
+    if (auto f = dynamic_cast<Flow *>(newnode)) {
+        if (f->flow.size() == 1) {
+            ed_area->editString(f->flow.front()->getText());
+            delete f;
+            return true;
+        }
+
+        qDebug() << "TODO insertion of non-trivial flow";
+        return false;
+    }
 
     // Special absorbing case of fractions
     auto frac = dynamic_cast<Frac *>(newnode);

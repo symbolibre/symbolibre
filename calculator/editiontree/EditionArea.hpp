@@ -53,6 +53,7 @@ public:
     bool editMoveDown(void) override;
     bool editDelete(void) override;
     void editString(const std::string &str);
+    bool insert(EditionNode *newnode) override;
 
     EditionArea *getActiveNode(void)
     {
