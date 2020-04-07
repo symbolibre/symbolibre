@@ -24,6 +24,9 @@ public:
     /** Returns the position of the cursor */
     int getCursorPos(void) const;
 
+    /** Sets the positon of the cursor */
+    void setCursorPos(int pos);
+
     /** Sets the text contained by the node to 'str' */
     void set_to(std::string str);
 

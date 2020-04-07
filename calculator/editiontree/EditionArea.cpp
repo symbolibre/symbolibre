@@ -24,6 +24,12 @@ int EditionArea::getCursorPos(void) const
     return cursor_pos;
 }
 
+void EditionArea::setCursorPos(int pos)
+{
+    if (pos >= 0 && pos <= text.size())
+        cursor_pos = pos;
+}
+
 void EditionArea::set_to(std::string str)
 {
     text = std::move(str);
