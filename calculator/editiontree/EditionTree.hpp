@@ -247,7 +247,6 @@ signals:
     void exprChanged();
 
 public slots:
-    bool recvInput(int /* KeyCode::keycode */ input);
     void insertJson(const QString &json);
 
     bool moveCursorLeft();

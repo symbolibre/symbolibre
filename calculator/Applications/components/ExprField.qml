@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import SLKeyCode 1.0
 import etBox 1.0
+import "editiontree.js" as ET
 
 // adapted from CalcSheet
 
@@ -28,80 +29,85 @@ FocusScope {
             height: parent.height - 4
 
             Keys.onPressed: {
-                function send(code) {
-                    return recvInput(code);
+                function insert(data) {
+                    insertJson(JSON.stringify(data))
+                }
+                function insertText(text) {
+                    insertJson(JSON.stringify([text]))
                 }
 
                 /* Arrow keys */
                 if(event.key === Qt.Key_Left)
-                    event.accepted = send(KeyCode.SLK_LEFT);
+                    event.accepted = etbox.moveCursorLeft();
                 if(event.key === Qt.Key_Right)
-                    event.accepted = send(KeyCode.SLK_RIGHT);
+                    event.accepted = etbox.moveCursorRight();
                 if(event.key === Qt.Key_Up)
-                    event.accepted = send(KeyCode.SLK_UP);
+                    event.accepted = etbox.moveCursorUp();
                 if(event.key === Qt.Key_Down)
-                    event.accepted = send(KeyCode.SLK_DOWN);
+                    event.accepted = etbox.moveCursorDown();
 
                 /* Special keys */
-                if(event.key === Qt.Key_Return)    send(KeyCode.SLK_EXE);
-                if(event.key === Qt.Key_Backspace) send(KeyCode.SLK_DEL);
+                if(event.key === Qt.Key_Backspace) etbox.deleteChar();
+                if(event.key === Qt.Key_Delete) etbox.deleteChar();
 
                 /* Operator keys */
-                if(event.key === Qt.Key_Asterisk)  send(KeyCode.SLK_TIMES);
-                if(event.key === Qt.Key_Slash)     send(KeyCode.SLK_DIVIDE);
-                if(event.key === Qt.Key_Plus)      send(KeyCode.SLK_PLUS);
-                if(event.key === Qt.Key_Minus)     send(KeyCode.SLK_MINUS);
+                if(event.key === Qt.Key_Asterisk)  insert(ET.op("*"));
+                if(event.key === Qt.Key_Slash)     insert(ET.frac([""],[""]));
+                if(event.key === Qt.Key_Plus)      insert(ET.op("+"));
+                if(event.key === Qt.Key_Minus)     insert(ET.op("-"));
 
                 /* Raw input keys */
                 if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z)
-                {
-                    var shift = KeyCode.SLK_a;
-                    console.log(event.modifiers, Qt.ShiftModifier);
-                    if(event.modifiers & Qt.ShiftModifier) shift = KeyCode.SLK_A;
-                    send(event.key - Qt.Key_A + shift);
-                }
+                    insertText(event.text);
+
                 if(event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
-                {
-                    send(event.key - Qt.Key_0 + KeyCode.SLK_0);
-                }
+                    insertText(event.text);
 
                 /* Punctuation */
-                if(event.key === Qt.Key_Equal)      send(KeyCode.SLK_COLONEQ);
-                if(event.key === Qt.Key_ParenLeft)  send(KeyCode.SLK_LPAREN);
-                if(event.key === Qt.Key_ParenRight) send(KeyCode.SLK_RPAREN);
-                if(event.key === Qt.Key_Comma)      send(KeyCode.SLK_COMMA);
-                if(event.key === Qt.Key_Period)     send(KeyCode.SLK_DOT);
-                if(event.key === Qt.Key_Space)      send(KeyCode.SLK_SPACE);
+                if(event.key === Qt.Key_ParenLeft)  insert(ET.lparen());
+                if(event.key === Qt.Key_ParenRight) insert(ET.rparen());
+
+                if(event.key === Qt.Key_Equal)
+                    insertText(":=");
+
+                if(event.key === Qt.Key_Comma ||
+                   event.key === Qt.Key_Period ||
+                   event.key === Qt.Key_Space)
+                   insertText(event.text);
 
                 /* New keys */ // TODO : dispatch when debugged
 
-                // cos stuff
                 if (event.key === Qt.Key_F15 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_SQUAREROOT);
+                    insert(ET.sqrt([""]));
 
                 if (event.key === Qt.Key_F10 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_ASIN);
-                else if (event.key === Qt.Key_F10) send(KeyCode.SLK_SIN);
+                    insertText("asin");
+                else if (event.key === Qt.Key_F10)
+                    insertText("sin");
                 if (event.key === Qt.Key_F11 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_ACOS);
-                else if (event.key === Qt.Key_F11) send(KeyCode.SLK_COS);
+                    insertText("acos");
+                else if (event.key === Qt.Key_F11)
+                    insertText("cos");
                 if (event.key === Qt.Key_F12 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_TAN);
-                else if (event.key === Qt.Key_F12) send(KeyCode.SLK_TAN);
-                if (event.key === Qt.Key_F13) send(KeyCode.SLK_PI);
+                    insertText("atan");
+                else if (event.key === Qt.Key_F12)
+                    insertText("tan");
+                if (event.key === Qt.Key_F13)
+                    insertText("pi");
 
                 // pow, exponential
                 if (event.key === Qt.Key_F16 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_LN);
-                else if (event.key === Qt.Key_F16) send(KeyCode.SLK_EXP);
+                    insertText("ln");
+                else if (event.key === Qt.Key_F16)
+                    insert(["e", ET.set_cursor(ET.pow([""])), ""]);
                 if (event.key === Qt.Key_F17 && (event.modifiers & Qt.ShiftModifier))
-                    send(KeyCode.SLK_LOG);
-                else if (event.key === Qt.Key_F17) send(KeyCode.SLK_POWER);
-                if(event.key === Qt.Key_sterling)  send(KeyCode.SLK_POWER);
-                if (event.key === Qt.Key_F21) send(KeyCode.SLK_POW10);
-
-                // Special Keys
-                if(event.key === Qt.Key_F19) send(KeyCode.SLK_APPROX);
+                    insertText("log");
+                else if (event.key === Qt.Key_F17)
+                    insert(ET.set_cursor(ET.pow([""])));
+                if(event.key === Qt.Key_sterling)
+                    insert(ET.set_cursor(ET.pow([""])));
+                if (event.key === Qt.Key_F21)
+                    insert(["10", ET.set_cursor(ET.pow([""])), ""]);
             }
         }
     }
