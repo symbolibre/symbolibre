@@ -6,7 +6,7 @@
         <file>FunctionDefinitionView.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
-    <qresource prefix="/../keyboard">
+    <qresource prefix="/keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
         <file alias="SLKeyBoardForm.ui.qml">../keyboard/SLKeyBoardForm.ui.qml</file>
         <file alias="CalcButton.qml">../keyboard/CalcButton.qml</file>
@@ -14,7 +14,7 @@
         <file alias="SpecialButton.qml">../keyboard/SpecialButton.qml</file>
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
     </qresource>
-    <qresource prefix="/../components">
+    <qresource prefix="/components">
         <file alias="SLCheckBox.qml">../components/SLCheckBox.qml</file>
         <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
         <file alias="SLTextField.qml">../components/SLTextField.qml</file>
