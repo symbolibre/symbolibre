@@ -250,6 +250,13 @@ public slots:
     bool recvInput(int /* KeyCode::keycode */ input);
     void insertJson(const QString &json);
 
+    bool moveCursorLeft();
+    bool moveCursorRight();
+    bool moveCursorUp();
+    bool moveCursorDown();
+    bool deleteChar();
+    bool clear();
+
 private:
     EditionTree expr;
     int centerOnCursor;

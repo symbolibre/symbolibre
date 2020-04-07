@@ -48,6 +48,42 @@ void ETBox::insertJson(const QString &json)
     update();
 }
 
+bool ETBox::moveCursorLeft()
+{
+    update();
+    return expr.editMoveLeft();
+}
+
+bool ETBox::moveCursorRight()
+{
+    update();
+    return expr.editMoveRight();
+}
+
+bool ETBox::moveCursorUp()
+{
+    update();
+    return expr.editMoveUp();
+}
+
+bool ETBox::moveCursorDown()
+{
+    update();
+    return expr.editMoveDown();
+}
+
+bool ETBox::deleteChar()
+{
+    update();
+    return expr.editDelete();
+}
+
+bool ETBox::clear()
+{
+    update();
+    return expr.editClear();
+}
+
 void ETBox::paint(QPainter *painter)
 {
     QFont font = QFont("dejavu sans mono");
