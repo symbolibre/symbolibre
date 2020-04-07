@@ -125,9 +125,12 @@ bool Flow::editMoveLeft(void)
 
 bool Flow::editDelete(void)
 {
+    const auto it_area_right = edited_node;
+    const auto *area_right = dynamic_cast<EditionArea *>(it_area_right->get());
     // this assertion is verified because the edited node is always an edition
     // area in a flow and Flow::editDelete always returns true
-    assert(dynamic_cast<EditionArea *>(edited_node->get()));
+    assert(area_right);
+    std::string right_str = area_right->getText();
 
     // we don't delete anything if there is nothing at the left of the cursor
     if (empty())
@@ -135,11 +138,17 @@ bool Flow::editDelete(void)
     if (reachedLeft())
         return true;
 
+    const auto it_to_remove = --edited_node;
+    assert(!reachedLeft());
+    auto *area_left = dynamic_cast<EditionArea *>((--edited_node)->get());
+    assert(area_left);
+
+    flow.erase(it_to_remove);
+
     // we merge the edition areas at the left and at the right of the removed node
-    edited_node = flow.erase(--edited_node);
-    std::string right_str = (*edited_node)->getText();
-    edited_node = --flow.erase(edited_node);
-    static_cast<EditionArea *>(edited_node->get())->append(right_str);
+    flow.erase(it_area_right);
+    area_left->setCursorPos(area_left->getText().size());
+    area_left->append(right_str);
     return true;
 }
 
