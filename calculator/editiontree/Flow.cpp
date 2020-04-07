@@ -168,25 +168,50 @@ bool Flow::insert(EditionNode *newnode)
      * an edition area, so we have to split it into two and insert between the two
      * edition areas. */
 
-    auto ed_area = dynamic_cast<EditionArea *>(edited_node->get());
-    assert(ed_area);
+    auto target_ed_area = dynamic_cast<EditionArea *>(edited_node->get());
+    assert(target_ed_area);
 
-    if (auto f = dynamic_cast<Flow *>(newnode)) {
-        if (f->flow.size() == 1) {
-            ed_area->editString(f->flow.front()->getText());
-            delete f;
+    if (auto newflow = dynamic_cast<Flow *>(newnode)) {
+        if (newflow->flow.size() == 1) {
+            target_ed_area->editString(newflow->flow.front()->getText());
+            delete newflow;
             return true;
         }
 
-        qDebug() << "TODO insertion of non-trivial flow";
-        return false;
+        FlowIterator new_edited_node = edited_node;
+        // update the edited node
+        if (newflow->edited_node != newflow->flow.end() &&
+                newflow->edited_node != newflow->flow.begin())
+            new_edited_node = newflow->edited_node;
+
+        // merge the left text areas
+        std::string right;
+        target_ed_area->cutAtCursor(right);
+        auto right_ed_area = dynamic_cast<EditionArea *>(newflow->flow.back().get());
+        assert(right_ed_area);
+        right_ed_area->append(std::move(right));
+
+        // merge the right text areas
+        const int length_before = target_ed_area->getText().size();
+        auto left_ed_area = dynamic_cast<EditionArea *>(newflow->flow.front().get());
+        assert(left_ed_area);
+        target_ed_area->append(left_ed_area->getText());
+        target_ed_area->setCursorPos(left_ed_area->getCursorPos() + length_before);
+        newflow->flow.pop_front();
+
+        // merge the flows
+        flow.splice(++edited_node, std::move(newflow->flow));
+        edited_node = new_edited_node;
+
+        delete newflow;
+        return true;
     }
 
     // Special absorbing case of fractions
     auto frac = dynamic_cast<Frac *>(newnode);
-    if (frac && !ed_area->empty() && ed_area->reachedRight()) {
-        std::string numerator = ed_area->getText();
-        ed_area->clear();
+    if (frac && !target_ed_area->empty() && target_ed_area->reachedRight()) {
+        std::string numerator = target_ed_area->getText();
+        target_ed_area->clear();
         ++edited_node;
 
         auto new_text = std::make_unique<EditionArea>();
@@ -202,7 +227,7 @@ bool Flow::insert(EditionNode *newnode)
 
     /* This code could be reduced, but would be harder to understand */
     std::string right_str;
-    ed_area->cutAtCursor(right_str);
+    target_ed_area->cutAtCursor(right_str);
     ++edited_node;
 
     auto new_text  = std::make_unique<EditionArea>();
