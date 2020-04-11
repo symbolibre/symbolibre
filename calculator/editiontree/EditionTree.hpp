@@ -6,6 +6,7 @@
 
 #include <QJsonArray>
 #include <QQuickPaintedItem>
+#include <QTimer>
 
 #include "Flow.hpp"
 #include "visitors.hpp"
@@ -286,11 +287,15 @@ public slots:
     bool deleteChar();
     bool clear();
 
+    void updateResetCursor();
+
 private:
     EditionTree expr;
     QColor textColor;
     HorizontalAlignment halign;
     VerticalAlignment valign;
+    bool cursorBlink;
+    QTimer cursorTimer;
 };
 
 

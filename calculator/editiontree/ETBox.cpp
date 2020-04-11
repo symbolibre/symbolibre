@@ -5,11 +5,16 @@
 #include <QJsonDocument>
 
 ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
-    halign(), valign()
+    expr(), textColor(Qt::black), halign(), valign(), cursorBlink(true),
+    cursorTimer(this)
 {
-    expr = EditionTree();
-    connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(update()));
+    connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
     setImplicitHeight(FONT_SIZE);
+    connect(&cursorTimer, &QTimer::timeout, [&]() {
+        cursorBlink = !cursorBlink;
+        update();
+    });
+    cursorTimer.start(500);
 }
 
 QString ETBox::json() const
@@ -25,7 +30,7 @@ void ETBox::setJson(const QString &json)
     if (!doc.isArray())
         qDebug() << "bad editiontree json";
     expr.deserialize(doc.array());
-    update();
+    updateResetCursor();
 }
 
 void ETBox::insertJson(const QString &json)
@@ -46,42 +51,42 @@ void ETBox::insertJson(const QString &json)
     }
 
     emit exprChanged();
-    update();
+    updateResetCursor();
 }
 
 bool ETBox::moveCursorLeft()
 {
-    update();
+    updateResetCursor();
     return expr.editMoveLeft();
 }
 
 bool ETBox::moveCursorRight()
 {
-    update();
+    updateResetCursor();
     return expr.editMoveRight();
 }
 
 bool ETBox::moveCursorUp()
 {
-    update();
+    updateResetCursor();
     return expr.editMoveUp();
 }
 
 bool ETBox::moveCursorDown()
 {
-    update();
+    updateResetCursor();
     return expr.editMoveDown();
 }
 
 bool ETBox::deleteChar()
 {
-    update();
+    updateResetCursor();
     return expr.editDelete();
 }
 
 bool ETBox::clear()
 {
-    update();
+    updateResetCursor();
     return expr.editClear();
 }
 
@@ -89,6 +94,7 @@ void ETBox::setColor(QColor color)
 {
     textColor = color;
     update();
+    updateResetCursor();
     emit colorChanged(color);
 }
 
@@ -104,6 +110,16 @@ void ETBox::setVerticalAlignment(VerticalAlignment align)
     update();
 }
 
+void ETBox::updateResetCursor()
+{
+    update();
+    cursorBlink = true;
+    if (hasActiveFocus())
+        cursorTimer.start();
+    else
+        cursorTimer.stop();
+}
+
 void ETBox::paint(QPainter *painter)
 {
     QFont font = QFont("dejavu sans mono");
@@ -116,6 +132,10 @@ void ETBox::paint(QPainter *painter)
     expr.computeDimensions(*painter);
     setImplicitWidth(expr.getWidth());
     setImplicitHeight(expr.getHeight());
+
+    // We don't want to display a box in an entirely empty expression
+    if (expr.empty() && (!hasActiveFocus() || !cursorBlink))
+        return;
 
     QPoint p = expr.getCursorCoordinates();
     int x, y;
@@ -141,6 +161,6 @@ void ETBox::paint(QPainter *painter)
     else
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
 
-    expr.draw(x, y, *painter, hasActiveFocus());
+    expr.draw(x, y, *painter, hasActiveFocus() && cursorBlink);
 }
 
