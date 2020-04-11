@@ -25,6 +25,7 @@ void ETBox::setJson(const QString &json)
     if (!doc.isArray())
         qDebug() << "bad editiontree json";
     expr.deserialize(doc.array());
+    update();
 }
 
 void ETBox::insertJson(const QString &json)

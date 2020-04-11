@@ -12,8 +12,13 @@ FocusScope {
     implicitHeight: etbox.implicitHeight + 4
     property alias text: etbox.text
     property alias json: etbox.json
+
     function insertJson(json) {
         return etbox.insertJson(json);
+    }
+
+    function clear() {
+        json = JSON.stringify([""])
     }
 
     Rectangle {
