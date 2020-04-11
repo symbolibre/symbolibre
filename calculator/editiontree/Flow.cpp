@@ -280,7 +280,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
         (*it)->computeDimensions(painter, 0, 0); // useless
 
         QFontMetrics metrics = painter.fontMetrics();
-        QRect br = metrics.boundingRect(QString("⃞"));
+        QRect br = metrics.boundingRect(QString("□"));
 
         width  = br.width();
         height = std::max(FONT_SIZE, br.height());
@@ -404,7 +404,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("|"));
             painter.setPen(pen);
         } else {
-            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString(cursor ? "|" : "⃞"));
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString(cursor ? "|" : "□"));
         }
         return;
     }
