@@ -5,7 +5,7 @@
  * size, the space between two tokens, etc. All quantities are in number of pixels.*/
 
 constexpr int FONT_SIZE = 12; /* Font size parameter. */
-constexpr int INTERSPACE = FONT_SIZE / 3; /* space between two tokens */
+constexpr int INTERSPACE = 1; /* space between two tokens */
 
 constexpr int FRAC_UP_SPACE = 2; /* space between the numerator nottom and the fraction bar below */
 constexpr int FRAC_DOWN_SPACE = 2; /* space between the denominator top and the fraction bar above  */

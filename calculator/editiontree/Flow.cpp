@@ -399,12 +399,10 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
         // draw a box, or the cursor if selected
         QRect brect = QRect(x, y, width, height);
         if (cursor) {
-            const auto pen = painter.pen();
-            painter.setPen(Qt::red);
-            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("|"));
-            painter.setPen(pen);
+            const auto metrics = painter.fontMetrics();
+            painter.drawLine(x + width / 2, y, x + width / 2, y + metrics.height());
         } else {
-            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString(cursor ? "|" : "□"));
+            painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("□"));
         }
         return;
     }

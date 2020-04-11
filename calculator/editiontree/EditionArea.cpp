@@ -156,9 +156,9 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
     QFontMetrics metrics = painter.fontMetrics();
     QRect br = metrics.boundingRect(QString::fromStdString(text));
 
-    width  = br.width();
+    width  = br.width() + 2; // the +2 makes some room at the end for the cursor
     height = std::max(FONT_SIZE, br.height());
-    center_height = height / 2; // FIXME?
+    center_height = height / 2; // FIXME metrics.ascent()
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
@@ -170,24 +170,17 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
     //painter.setPen(Qt::black);
 
 
-    painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom,
+    painter.drawText(brect, Qt::AlignLeft | Qt::AlignBottom,
                      QString::fromStdString(text));
 
     /* About printing the cursor: */
     if (cursor) {
         /* We have to make measurements to find the location of the cursor */
-        const auto pen = painter.pen();
-        painter.setPen(Qt::red);
         QFontMetrics metrics = painter.fontMetrics();
-        QFont font           = painter.font();
 
-        int left_width = metrics.width(QString::fromStdString(text), cursor_pos);
-        QRect crect = QRect(x + left_width - font.pixelSize() / 2,
-                            y, font.pixelSize(), height);
-
-        painter.drawText(crect, Qt::AlignHCenter | Qt::AlignVCenter, QString("│"));
-        painter.setPen(pen);
-        //painter.drawRect(crect);
+        const int left_width = metrics.horizontalAdvance(QString::fromStdString(text), cursor_pos);
+        const int xcursor = std::min(x + left_width, x + width - 1);
+        painter.drawLine(xcursor, y, xcursor, y + metrics.height());
     }
 }
 
