@@ -166,7 +166,7 @@ Flow deserializeFlow(const QJsonArray &json)
             flow.edited_node = --flow.flow.end();
     }
 
-    if (flow.flow.size() % 2) {
+    if (flow.flow.size() % 2 == 0) {
         qDebug() << "deserialization of ill-formed flow";
         return Flow();
     }
