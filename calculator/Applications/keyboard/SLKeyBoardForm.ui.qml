@@ -1,9 +1,10 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.2
 
-Item {
+Rectangle {
     width: 320
     height: 240
+    color: "black"
     property alias buttonSND: buttonSND
     property alias buttonALPHA: buttonALPHA
     property alias buttonANS: buttonANS

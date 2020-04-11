@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import org.symbolibre.mathrenderer 1.0
 import SLKeyCode 1.0
-import "../keyboard"
+import "keyboard"
 
 MathRenderer {
 
@@ -32,7 +32,6 @@ MathRenderer {
         if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z)
         {
             var shift = KeyCode.SLK_a;
-            console.log(event.modifiers, Qt.ShiftModifier);
             if(event.modifiers & Qt.ShiftModifier) shift = KeyCode.SLK_A;
             send(event.key - Qt.Key_A + shift);
         }
