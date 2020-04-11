@@ -228,6 +228,8 @@ class ETBox : public QQuickPaintedItem
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
     Q_PROPERTY(QString text READ text NOTIFY exprChanged STORED false)
     Q_PROPERTY(QString json READ json WRITE setJson NOTIFY exprChanged)
+    Q_PROPERTY(HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment)
+    Q_PROPERTY(VerticalAlignment verticalAlignment READ verticalAlignment WRITE setVerticalAlignment)
 
 public:
     explicit ETBox(QQuickItem *parent = nullptr);
@@ -242,6 +244,26 @@ public:
 
     /* Painting functions */
     void paint(QPainter *painter) override;
+
+    enum HorizontalAlignment { AlignLeft, AlignRight, AlignHCenter };
+    Q_ENUM(HorizontalAlignment)
+
+    HorizontalAlignment horizontalAlignment() const
+    {
+        return halign;
+    }
+
+    void setHorizontalAlignment(HorizontalAlignment align);
+
+    enum VerticalAlignment { AlignTop, AlignBottom, AlignVCenter };
+    Q_ENUM(VerticalAlignment)
+
+    VerticalAlignment verticalAlignment() const
+    {
+        return valign;
+    }
+
+    void setVerticalAlignment(VerticalAlignment align);
 
 signals:
     void exprChanged();
@@ -258,9 +280,8 @@ public slots:
 
 private:
     EditionTree expr;
-    int centerOnCursor;
-    int adjustHeight;
-    int adjustWidth;
+    HorizontalAlignment halign;
+    VerticalAlignment valign;
 };
 
 

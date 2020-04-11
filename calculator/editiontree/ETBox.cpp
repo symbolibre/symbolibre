@@ -5,7 +5,7 @@
 #include <QJsonDocument>
 
 ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
-    centerOnCursor(0), adjustHeight(0), adjustWidth(0)
+    halign(), valign()
 {
     expr = EditionTree();
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(update()));
@@ -84,6 +84,18 @@ bool ETBox::clear()
     return expr.editClear();
 }
 
+void ETBox::setHorizontalAlignment(HorizontalAlignment align)
+{
+    halign = align;
+    update();
+}
+
+void ETBox::setVerticalAlignment(VerticalAlignment align)
+{
+    valign = align;
+    update();
+}
+
 void ETBox::paint(QPainter *painter)
 {
     QFont font = QFont("dejavu sans mono");
@@ -98,15 +110,24 @@ void ETBox::paint(QPainter *painter)
 
     QPoint p = expr.getCursorCoordinates();
     int x, y;
-    if (expr.getWidth() < (int) width())
-        x = 0;
-    else
+    if (expr.getWidth() < width()) {
+        if (halign == AlignLeft)
+            x = 0;
+        else if (halign == AlignRight)
+            x = width() - expr.getWidth();
+        else
+            x = width() / 2 - expr.getWidth() / 2;
+    } else
         x = - (expr.getWidth() - p.x());
 
-    // center expression vertically if there is enough room
-    if (expr.getHeight() <= height())
-        y = height() / 2 - expr.getHeight() / 2;
-    else if (expr.getHeight() - expr.getCenterHeight() < (int) height() / 2)
+    if (expr.getHeight() <= height()) {
+        if (valign == AlignTop)
+            y = 0;
+        else if (valign == AlignBottom)
+            y = height() - expr.getHeight();
+        else
+            y = height() / 2 - expr.getHeight() / 2;
+    } else if (expr.getHeight() - expr.getCenterHeight() < (int) height() / 2)
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight();
     else
         y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
