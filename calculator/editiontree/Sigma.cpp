@@ -117,7 +117,7 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
     // painter.drawRect(brect);
     //
     // painter.setPen(Qt::black);
-    int y_mid = y + height - center_height;
+    int y_mid = y + center_height;
 
     /* Lower bound */
     int x_lbound = x + (width - children[idx_lbound].width) / 2;
@@ -128,7 +128,7 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 
     /* Upper bound */
     int x_rbound = x + (width - children[idx_rbound].width) / 2;
-    int y_rbound = 0;// y_mid - sigma_height/2 - children[idx_rbound].height;
+    int y_rbound = y;
 
     children[idx_rbound].draw(x_rbound, y_rbound, painter,
                               cursor && (active_child_idx == idx_rbound));
