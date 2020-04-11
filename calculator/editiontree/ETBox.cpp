@@ -85,6 +85,13 @@ bool ETBox::clear()
     return expr.editClear();
 }
 
+void ETBox::setColor(QColor color)
+{
+    textColor = color;
+    update();
+    emit colorChanged(color);
+}
+
 void ETBox::setHorizontalAlignment(HorizontalAlignment align)
 {
     halign = align;
@@ -104,6 +111,7 @@ void ETBox::paint(QPainter *painter)
     font.setHintingPreference(QFont::PreferFullHinting);
     font.setPixelSize(FONT_SIZE);
     painter->setFont(font);
+    painter->setPen(textColor);
 
     expr.computeDimensions(*painter);
     setImplicitWidth(expr.getWidth());

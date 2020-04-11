@@ -228,6 +228,7 @@ class ETBox : public QQuickPaintedItem
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
     Q_PROPERTY(QString text READ text NOTIFY exprChanged STORED false)
     Q_PROPERTY(QString json READ json WRITE setJson NOTIFY exprChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment)
     Q_PROPERTY(VerticalAlignment verticalAlignment READ verticalAlignment WRITE setVerticalAlignment)
 
@@ -244,6 +245,12 @@ public:
 
     /* Painting functions */
     void paint(QPainter *painter) override;
+
+    QColor color() const
+    {
+        return textColor;
+    }
+    void setColor(QColor color);
 
     enum HorizontalAlignment { AlignLeft, AlignRight, AlignHCenter };
     Q_ENUM(HorizontalAlignment)
@@ -267,6 +274,7 @@ public:
 
 signals:
     void exprChanged();
+    void colorChanged(QColor color);
 
 public slots:
     void insertJson(const QString &json);
@@ -280,6 +288,7 @@ public slots:
 
 private:
     EditionTree expr;
+    QColor textColor;
     HorizontalAlignment halign;
     VerticalAlignment valign;
 };

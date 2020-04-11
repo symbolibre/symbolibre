@@ -176,6 +176,7 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
     /* About printing the cursor: */
     if (cursor) {
         /* We have to make measurements to find the location of the cursor */
+        const auto pen = painter.pen();
         painter.setPen(Qt::red);
         QFontMetrics metrics = painter.fontMetrics();
         QFont font           = painter.font();
@@ -185,7 +186,7 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
                             y, font.pixelSize(), height);
 
         painter.drawText(crect, Qt::AlignHCenter | Qt::AlignVCenter, QString("│"));
-        painter.setPen(Qt::black);
+        painter.setPen(pen);
         //painter.drawRect(crect);
     }
 }
