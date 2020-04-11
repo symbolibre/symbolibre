@@ -9,7 +9,7 @@ constexpr int INTERSPACE = FONT_SIZE / 3; /* space between two tokens */
 
 constexpr int FRAC_UP_SPACE = 2; /* space between the numerator nottom and the fraction bar below */
 constexpr int FRAC_DOWN_SPACE = 2; /* space between the denominator top and the fraction bar above  */
-constexpr int FRAC_SPACE = 0; /* space at the right and the left of the fraction (outside) */
+constexpr int FRAC_SPACE = 4; /* space at the right and the left of the fraction (outside) */
 
 constexpr int PAREN_SPACE = 1; /* space at the right and the left of the parenthesis */
 
