@@ -53,7 +53,7 @@ bool Frac::editMoveUp(void)
         return false;
 
     active_child_idx = idx_num;
-    children[idx_num].dropCursor(MLEFT); /* FIXME: smart drop */
+    children[idx_num].dropCursor(MUP);
     return true;
 }
 
@@ -63,7 +63,7 @@ bool Frac::editMoveDown(void)
         return false;
 
     active_child_idx = idx_den;
-    children[idx_den].dropCursor(MLEFT); /* FIXME: smart drop */
+    children[idx_den].dropCursor(MDOWN);
     return true;
 }
 
