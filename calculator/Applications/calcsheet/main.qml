@@ -47,6 +47,7 @@ Window {
             id: expr
             focus: true
             Layout.fillWidth: true
+            Layout.maximumHeight: 120
             Keys.onPressed: {
                 if (event.key == Qt.Key_Return && text != "") {
                     historyModel.insert(0, {

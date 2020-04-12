@@ -1,20 +1,24 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.11
 import "components"
 import etBox 1.0
 
 FocusScope {
     width: parent.width
     height: column.height
-    Column {
+    ColumnLayout {
         id: column
         width: parent.width
+        spacing: 0
         Rectangle {
             color: sourceExpr.activeFocus ? "lightblue" : "white"
             width: parent.width
-            height: sourceExpr.height
+            Layout.preferredHeight: sourceExpr.implicitHeight
+            Layout.maximumHeight: 120
             Expr {
                 id: sourceExpr
                 width: parent.width
+                height: parent.height
                 horizontalAlignment: ETBox.AlignLeft
                 json: model.sourceJson
                 KeyNavigation.down: resultExpr
@@ -24,10 +28,12 @@ FocusScope {
         Rectangle {
             color: resultExpr.activeFocus ? "lightblue" : "lightgray"
             width: parent.width
-            height: resultExpr.height
+            Layout.preferredHeight: resultExpr.implicitHeight
+            Layout.maximumHeight: 120
             Expr {
                 id: resultExpr
                 width: parent.width
+                height: parent.height
                 horizontalAlignment: ETBox.AlignRight
                 json: model.resultJson
                 focus: true
