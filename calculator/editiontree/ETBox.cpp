@@ -5,8 +5,8 @@
 #include <QJsonDocument>
 
 ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
-    expr(), textColor(Qt::black), halign(), valign(), cursorBlink(true),
-    cursorTimer(this)
+    expr(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
+    cursorBlink(true), cursorTimer(this)
 {
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
     setImplicitHeight(FONT_SIZE);
