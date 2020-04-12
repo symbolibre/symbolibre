@@ -22,6 +22,13 @@ FocusScope {
                 horizontalAlignment: ETBox.AlignLeft
                 json: model.sourceJson
                 KeyNavigation.down: resultExpr
+                Keys.onPressed: {
+                    if (event.key == Qt.Key_Return) {
+                        expr.json = json;
+                        expr.forceActiveFocus();
+                        event.accepted = true;
+                    }
+                }
             }
         }
 
@@ -37,6 +44,13 @@ FocusScope {
                 horizontalAlignment: ETBox.AlignRight
                 json: model.resultJson
                 focus: true
+                Keys.onPressed: {
+                    if (event.key == Qt.Key_Return) {
+                        expr.json = json;
+                        expr.forceActiveFocus();
+                        event.accepted = true;
+                    }
+                }
             }
         }
     }
