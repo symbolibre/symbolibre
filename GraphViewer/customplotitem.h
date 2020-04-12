@@ -12,6 +12,7 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_OBJECT
     Q_PROPERTY(double cursorX READ getCursorX NOTIFY cursorXChanged)
     Q_PROPERTY(double cursorY READ getCursorY NOTIFY cursorYChanged)
+    Q_PROPERTY(QString selectedCurve READ selectedCurve WRITE setSelectedCurve NOTIFY selectedCurveChanged)
 
 public:
     CustomPlotItem(QQuickItem *parent = nullptr);
@@ -20,16 +21,20 @@ public:
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
 
+    QString selectedCurve() const;
 
     static void declareQML()
     {
         qmlRegisterType<CustomPlotItem>("SLCustomPlotItem", 1, 0, "CustomPlotItem");
     }
 
+public slots:
+    void setSelectedCurve(QString curve);
 
 signals:
     void cursorXChanged();
     void cursorYChanged();
+    void selectedCurveChanged(QString);
 
 private:
     QCustomPlot *m_CustomPlot;
@@ -78,8 +83,6 @@ public:
     Q_INVOKABLE void switchModeCurWin();
     Q_INVOKABLE double getCursorX();
     Q_INVOKABLE double getCursorY();
-
-
 
 private slots:
     void updateCustomPlotSize();

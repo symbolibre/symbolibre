@@ -179,6 +179,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->updatePosition();
             cursorX = cursor->position->key();
             cursorY = cursor->position->value();
+            emit selectedCurveChanged(selectedCurve());
         }
 
         if (amtX > 0) {
@@ -245,6 +246,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->updatePosition();
             cursorX = cursor->position->key();
             cursorY = cursor->position->value();
+            emit selectedCurveChanged(selectedCurve());
 
         } else if (amtY < 0) {
             //search courbe juste en bas
@@ -272,6 +274,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->updatePosition();
             cursorX = cursor->position->key();
             cursorY = cursor->position->value();
+            emit selectedCurveChanged(selectedCurve());
         }
 
         if (cursorY > Ymax) {
@@ -439,6 +442,7 @@ void CustomPlotItem::removeGraph(QString nomGraph)
             if (cursor->graph() == listGraph[nomGraph].graph) {
                 cursor->setGraph(nullptr);
                 cursor->setVisible(0);
+                emit selectedCurveChanged(QString());
             }
             m_CustomPlot->removeGraph(listGraph[nomGraph].graph);
             listGraph.remove(nomGraph);
@@ -483,15 +487,41 @@ double CustomPlotItem::getCursorY()
     return cursorY;
 }
 
+QString CustomPlotItem::selectedCurve() const
+{
+    for (auto it = listGraph.begin(); it != listGraph.end(); ++it)
+        if (it.value().graph == cursor->graph())
+            return it.key();
+    return "";
+}
+
+void CustomPlotItem::setSelectedCurve(QString curve)
+{
+    auto it = listGraph.find(curve);
+    if (it != listGraph.end()) {
+        cursor->setGraph(it->graph);
+        cursor->updatePosition();
+        cursorX = cursor->position->key();
+        cursorY = cursor->position->value();
+        emit cursorXChanged();
+        emit cursorYChanged();
+        emit selectedCurveChanged(curve);
+    } else {
+        cursor->setGraph(nullptr);
+        emit selectedCurveChanged(QString());
+    }
+}
+
 void CustomPlotItem::setModeWindow()
 {
     //now arrows move the window
     modeCursor = 0;
 
     // We free the cursor from the graph
-    cursor->setGraph(0);
+    cursor->setGraph(nullptr);
     cursor->position->setCoords(Xcen, Ycen);
     cursor->setVisible(1);
+    emit selectedCurveChanged(QString());
     emit cursorXChanged();
     emit cursorYChanged();
 }

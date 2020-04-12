@@ -8,6 +8,7 @@ Item {
 
     property double cursorX : plotItem.cursorX
     property double cursorY : plotItem.cursorY
+    property alias selectedCurve: plotItem.selectedCurve
 
     signal rangeCom(double xmin, double xmax, double ymin, double ymax)
     // Send a signal saying that range changed. Send when lose focus
