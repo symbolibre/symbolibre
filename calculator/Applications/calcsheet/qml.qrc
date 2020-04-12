@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>CalcSheet.qml</file>
+        <file>HistoryDelegate.qml</file>
     </qresource>
     <qresource prefix="/keyboard">
         <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
@@ -10,5 +10,12 @@
         <file alias="CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
         <file alias="SpecialButton.qml">../keyboard/SpecialButton.qml</file>
         <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
+    </qresource>
+    <qresource prefix="/components">
+        <file alias="Catalog.qml">../components/Catalog.qml</file>
+        <file alias="CatalogPopup.qml">../components/CatalogPopup.qml</file>
+        <file alias="Expr.qml">../components/Expr.qml</file>
+        <file alias="ExprField.qml">../components/ExprField.qml</file>
+        <file alias="editiontree.js">../components/editiontree.js</file>
     </qresource>
 </RCC>

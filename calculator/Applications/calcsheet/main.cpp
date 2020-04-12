@@ -3,7 +3,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
-#include "calcsheet.hpp"
+#include "MathContext.hpp"
 #include "keycode.hpp"
 #include "VirtualKeyboardContext.hpp"
 
@@ -11,13 +11,15 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<CalcSheet>("org.symbolibre.mathrenderer", 1, 0, "MathRenderer");
+    qmlRegisterType<ETBox>("etBox", 1, 0, "ETBox");
     KeyCode::declareQML();
     VirtualKeyboardContext vk;
+    MathContext math;
 
     QQmlEngine engine;
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("keyboard", &vk);
+    context->setContextProperty("math", &math);
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 
