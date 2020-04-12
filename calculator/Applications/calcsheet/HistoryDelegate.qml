@@ -54,4 +54,10 @@ FocusScope {
             }
         }
     }
+    Keys.onPressed: {
+        if (event.key == Qt.Key_Delete) {
+            historyModel.remove(index);
+            event.accepted = true;
+        }
+    }
 }

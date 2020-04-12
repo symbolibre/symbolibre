@@ -42,6 +42,11 @@ Window {
             delegate: HistoryDelegate {}
             keyNavigationEnabled: true
             verticalLayoutDirection: ListView.BottomToTop
+            onCurrentIndexChanged: {
+                positionViewAtIndex(currentIndex, ListView.Contain);
+                if (activeFocus && currentIndex == -1)
+                    expr.forceActiveFocus();
+            }
         }
         ExprField {
             id: expr
