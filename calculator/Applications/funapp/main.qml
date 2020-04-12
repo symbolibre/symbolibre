@@ -51,7 +51,6 @@ ApplicationWindow {
             focus: true
             anchors.fill: parent
             SLTabBar {
-                focus: true
                 id: mainMenu
                 x: 0
                 width: parent.width
@@ -68,7 +67,6 @@ ApplicationWindow {
 
             SLStackLayout {
                 id: stackLayout
-                focus: true
                 clip: true
                 anchors.top: mainMenu.bottom
                 anchors.right: parent.right
@@ -78,6 +76,7 @@ ApplicationWindow {
 
                 FunctionDefinitionView {
                     id: def
+                    focus: true
                 }
 
                 FunctionMenu {
@@ -86,7 +85,6 @@ ApplicationWindow {
 
                 GraphInterface {
                     id: graph
-                    focus: true
                     width: parent.width
                     height: parent.height - 15
                     functions: def.functions

@@ -8,7 +8,6 @@ FocusScope {
     property alias exprfield: exprfield
 
     id: root
-    focus: true
     width: parent.width
     height: exprfield.height
     RowLayout {
@@ -18,7 +17,6 @@ FocusScope {
             id: active
             checked: model.active
             KeyNavigation.right: exprfield
-            focus: true
             // FIXME is there a simpler/cleaner way to do this?
             Keys.onDownPressed: {
                 root.ListView.view.incrementCurrentIndex();

@@ -5,7 +5,6 @@ import "components"
 
 FocusScope {
     id: root
-    focus: true
 
     property double xmin: -10
     property double xmax: 10
@@ -39,7 +38,6 @@ FocusScope {
 
         SLTextField {
             id: xmaxField
-            focus: true
             text: +xmax.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: yminField
@@ -52,7 +50,6 @@ FocusScope {
 
         SLTextField {
             id: yminField
-            focus: true
             text: +ymin.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: ymaxField
@@ -65,7 +62,6 @@ FocusScope {
 
         SLTextField {
             id: ymaxField
-            focus: true
             text: +ymax.toPrecision(6)
             Layout.fillWidth: true
             onEditFocusChanged: if (!editFocus) ymax = parseFloat(text)
