@@ -13,6 +13,8 @@ class MathContext : public QObject
 public:
     MathContext();
 
+    Q_INVOKABLE QString toGiac(const QString &json);
+
     EditionTree evaluate(const EditionTree &etree, bool approx);
     Q_INVOKABLE QString evaluate(const QString &json, bool approx);
 

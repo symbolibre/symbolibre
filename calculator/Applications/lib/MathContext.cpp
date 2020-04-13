@@ -10,6 +10,16 @@ MathContext::MathContext() : QObject(), sll()
 
 }
 
+QString MathContext::toGiac(const QString &json)
+{
+    auto doc = QJsonDocument::fromJson(json.toUtf8());
+    if (!doc.isArray()) {
+        qDebug() << "bad editiontree json given to toGiac()";
+        return "";
+    }
+    return QString::fromStdString(EditionTree(doc.array()).getText());
+}
+
 EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
 {
     SLL::Status status = sll.exec(etree.getText());

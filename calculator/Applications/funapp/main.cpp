@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "FileSystemContext.hpp"
+#include "MathContext.hpp"
 #include "keycode.hpp"
 #include "customplotitem.h"
 #include "EditionTree.hpp"
@@ -19,10 +20,12 @@ int main(int argc, char *argv[])
     CustomPlotItem::declareQML();
 
     FileSystemContext fs;
+    MathContext math;
 
     QQmlEngine engine;
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("fs", &fs);
+    context->setContextProperty("math", &math);
 
     QQmlComponent component(&engine, QUrl::fromLocalFile("./main.qml"));
     if (component.status() != QQmlComponent::Ready) {

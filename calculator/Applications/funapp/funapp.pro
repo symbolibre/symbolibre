@@ -6,13 +6,15 @@ INCLUDEPATH += ../../editiontree \
 	../lib \
 	../keyboard \
 	../components \
-	../../../GraphViewer 
+	../../../GraphViewer \
+        ../../../SLL
 
 # Add -lqcustomplot if QCustomPlot is installed system-wide
 LIBS += -L../../../GraphViewer -lGraphViewer \
 	-L../lib -lslmath \
 	-L../../editiontree -leditiontree \
 	-L../keyboard -lkeyboard \
+        -L../../../SLL -lsll \
 	-lgiac -lgmp
 
 SOURCES += main.cpp
