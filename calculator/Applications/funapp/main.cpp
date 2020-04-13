@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "FileSystemContext.hpp"
 #include "keycode.hpp"
 #include "customplotitem.h"
 #include "EditionTree.hpp"
@@ -17,13 +18,19 @@ int main(int argc, char *argv[])
     KeyCode::declareQML();
     CustomPlotItem::declareQML();
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl::fromLocalFile("./main.qml"));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    FileSystemContext fs;
 
-    int ret_value = app.exec();
-    std::cout << "quit\n";
-    return ret_value;
+    QQmlEngine engine;
+    auto *context = new QQmlContext(engine.rootContext());
+    context->setContextProperty("fs", &fs);
 
+    QQmlComponent component(&engine, QUrl::fromLocalFile("./main.qml"));
+    if (component.status() != QQmlComponent::Ready) {
+        qCritical() << component.errors();
+        return 1;
+    }
+    auto *window = component.create(context);
+    context->setParent(window);
+
+    return app.exec();
 }

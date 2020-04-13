@@ -8,12 +8,19 @@ FocusScope {
     property alias functions: fmodel
     ListModel {
         id: fmodel
-        ListElement { active: false; name: "f1"; expr: "x+2"; color: "black" }
-        ListElement { active: true; name: "f2"; expr: "x^2"; color: "red" }
-        ListElement { active: true; name: "f3"; expr: "sin(x)"; color: "blue" }
-        ListElement { active: true; name: "f4"; expr: "-x"; color: "orange" }
-        ListElement { active: true; name: "f5"; expr: ""; color: "green" }
-        ListElement { active: true; name: "f6"; expr: ""; color: "grey" }
+        Component.onCompleted: {
+            var json = JSON.parse(fs.readFile("./functions.json"));
+            if (!json.functions.length)
+                json = JSON.parse(fs.readFile("./functions_default.json"))
+            for (var item of json.functions)
+                fmodel.append(item);
+        }
+        Component.onDestruction: {
+            var json = {functions: []};
+            for (let i = 0; i < fmodel.count; i++)
+                json.functions.push(fmodel.get(i));
+            fs.writeFile("./functions.json", JSON.stringify(json));
+        }
     }
 
     ColumnLayout {

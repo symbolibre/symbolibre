@@ -40,7 +40,8 @@ FocusScope {
         ExprField {
             id: exprfield
             Layout.fillWidth: true
-            //text: model.expr // FIXME
+            json: model.expr
+            onJsonChanged: model.expr = json
             focus: true
             Keys.onDownPressed: {
                 root.ListView.view.incrementCurrentIndex();
@@ -63,11 +64,6 @@ FocusScope {
         }
     }
 
-    Binding {
-        target: model
-        property: "expr"
-        value: exprfield.json
-    }
     Binding {
         target: model
         property: "active"
