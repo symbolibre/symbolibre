@@ -66,7 +66,7 @@ FocusScope {
     Binding {
         target: model
         property: "expr"
-        value: exprfield.text
+        value: exprfield.json
     }
     Binding {
         target: model
