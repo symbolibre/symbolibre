@@ -12,7 +12,7 @@ LIBS += -L../../editiontree -leditiontree \
 SOURCES += main.cpp \
     MathContext.cpp \
 
-RESOURCES += qml.qrc ../components/components.qrc ../keyboard/keyboard.qrc
+RESOURCES += qtquickcontrols2.conf
 
 TARGET = calcsheet
 

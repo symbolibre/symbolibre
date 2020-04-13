@@ -14,9 +14,8 @@ LIBS += -L../../../GraphViewer -lGraphViewer \
 	-lgiac -lgmp
 
 SOURCES += main.cpp
-    
 
-RESOURCES += qml.qrc ../components/components.qrc catalog/ $$files(SL/*.qml)
+RESOURCES += qtquickcontrols2.conf
 
 TARGET = funapp
 

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 
-    QQmlComponent component(&engine, "qrc:/main.qml");
+    QQmlComponent component(&engine, QUrl::fromLocalFile("./main.qml"));
     if (component.status() != QQmlComponent::Ready) {
         qCritical() << component.errors();
         return 1;

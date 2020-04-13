@@ -6,7 +6,7 @@ import SLKeyCode 1.0
 import "keyboard"
 import "components"
 
-ApplicationWindow {
+SLWindow {
     id: window
     visible: true
     width: 320
