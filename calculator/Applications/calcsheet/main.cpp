@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+#include "FileSystemContext.hpp"
 #include "MathContext.hpp"
 #include "keycode.hpp"
 #include "VirtualKeyboardContext.hpp"
@@ -15,11 +16,13 @@ int main(int argc, char *argv[])
     KeyCode::declareQML();
     VirtualKeyboardContext vk;
     MathContext math;
+    FileSystemContext fs;
 
     QQmlEngine engine;
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("keyboard", &vk);
     context->setContextProperty("math", &math);
+    context->setContextProperty("fs", &fs);
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 
