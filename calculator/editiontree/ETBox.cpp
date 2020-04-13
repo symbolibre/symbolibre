@@ -21,7 +21,7 @@ QString ETBox::json() const
 {
     QJsonDocument doc;
     doc.setArray(expr.serialize(true));
-    return doc.toJson();
+    return doc.toJson(QJsonDocument::Compact);
 }
 
 void ETBox::setJson(const QString &json)
