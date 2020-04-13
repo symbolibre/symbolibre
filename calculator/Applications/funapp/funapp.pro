@@ -16,7 +16,7 @@ LIBS += -L../../../GraphViewer -lGraphViewer \
 SOURCES += main.cpp
     
 
-RESOURCES += qml.qrc catalog/ $$files(SL/*.qml)
+RESOURCES += qml.qrc ../components/components.qrc catalog/ $$files(SL/*.qml)
 
 TARGET = funapp
 

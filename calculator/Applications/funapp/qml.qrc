@@ -7,23 +7,4 @@
         <file>qtquickcontrols2.conf</file>
         <file>math_catalog_fr.xml</file>
     </qresource>
-    <qresource prefix="/keyboard">
-        <file alias="SLKeyBoard.qml">../keyboard/SLKeyBoard.qml</file>
-        <file alias="SLKeyBoardForm.ui.qml">../keyboard/SLKeyBoardForm.ui.qml</file>
-        <file alias="CalcButton.qml">../keyboard/CalcButton.qml</file>
-        <file alias="CalcButtonForm.ui.qml">../keyboard/CalcButtonForm.ui.qml</file>
-        <file alias="SpecialButton.qml">../keyboard/SpecialButton.qml</file>
-        <file alias="SpecialButtonForm.ui.qml">../keyboard/SpecialButtonForm.ui.qml</file>
-    </qresource>
-    <qresource prefix="/components">
-        <file alias="Catalog.qml">../components/Catalog.qml</file>
-        <file alias="CatalogPopup.qml">../components/CatalogPopup.qml</file>
-        <file alias="SLCheckBox.qml">../components/SLCheckBox.qml</file>
-        <file alias="SLStackLayout.qml">../components/SLStackLayout.qml</file>
-        <file alias="SLTextField.qml">../components/SLTextField.qml</file>
-        <file alias="GraphInterface.qml">../components/GraphInterface.qml</file>
-        <file alias="SLTabBar.qml">../components/SLTabBar.qml</file>
-        <file alias="ExprField.qml">../components/ExprField.qml</file>
-        <file alias="editiontree.js">../components/editiontree.js</file>
-    </qresource>
 </RCC>
