@@ -6,11 +6,10 @@ Item {
     property ListModel functions
     signal exit
 
-    property double cursorX : plotItem.cursorX
-    property double cursorY : plotItem.cursorY
+    property alias cursorPos : plotItem.cursorPos
+    property alias view : plotItem.view
     property alias selectedCurve: plotItem.selectedCurve
 
-    signal rangeCom(double xmin, double xmax, double ymin, double ymax)
     // Send a signal saying that range changed. Send when lose focus
 
 
@@ -31,7 +30,7 @@ Item {
     }
 
     function setRange(xmin, xmax, ymin, ymax) {
-        plotItem.setRange(xmin, xmax, ymin, ymax)
+        plotItem.setRange(Qt.rect(xmin, ymin, xmax - xmin, ymax - ymin))
     }
 
     id: graph
@@ -48,7 +47,7 @@ Item {
 
     onActiveFocusChanged: {
         if (!activeFocus) {
-            rangeCom(plotItem.getXmin(), plotItem.getXmax(), plotItem.getYmin(), plotItem.getXmax())
+            viewChanged(plotItem.view)
         }
     }
 

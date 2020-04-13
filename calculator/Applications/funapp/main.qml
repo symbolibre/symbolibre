@@ -89,11 +89,11 @@ ApplicationWindow {
                         plot()
                     }
                 }
-                onRangeCom : {
-                    menu.xmin = xmin
-                    menu.xmax = xmax
-                    menu.ymin = ymin
-                    menu.ymax = ymax
+                onViewChanged: {
+                    menu.xmin = view.x
+                    menu.xmax = view.x + view.width
+                    menu.ymin = view.y
+                    menu.ymax = view.y + view.height
                 }
             }
 
@@ -106,8 +106,8 @@ ApplicationWindow {
                 text: {
                     graph.selectedCurve ?
                         graph.selectedCurve +
-                        "(" + String(graph.cursorX.toPrecision(4)) + ") = " +
-                        String(graph.cursorY.toPrecision(4)) : ""
+                        "(" + String(graph.cursorPos.x.toPrecision(4)) + ") = " +
+                        String(graph.cursorPos.y.toPrecision(4)) : ""
                 }
             }
 
@@ -119,7 +119,7 @@ ApplicationWindow {
                 width: 75
                 height: 20
                 anchors.bottomMargin: 0
-                text: "X = " + String(graph.cursorX.toPrecision(4))
+                text: "X = " + String(graph.cursorPos.x.toPrecision(4))
             }
             Label {
                 id: ytext
@@ -129,7 +129,7 @@ ApplicationWindow {
                 width: 75
                 height: 20
                 anchors.bottomMargin: 0
-                text: "Y = " + String(graph.cursorY.toPrecision(4))
+                text: "Y = " + String(graph.cursorPos.y.toPrecision(4))
             }
         }
 

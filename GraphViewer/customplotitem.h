@@ -10,8 +10,8 @@ class QCustomPlot;
 class CustomPlotItem : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(double cursorX READ getCursorX NOTIFY cursorXChanged)
-    Q_PROPERTY(double cursorY READ getCursorY NOTIFY cursorYChanged)
+    Q_PROPERTY(QRectF view READ view WRITE setRange NOTIFY viewChanged)
+    Q_PROPERTY(QPointF cursorPos READ cursorPos NOTIFY cursorPosChanged)
     Q_PROPERTY(QString selectedCurve READ selectedCurve WRITE setSelectedCurve NOTIFY selectedCurveChanged)
 
 public:
@@ -22,6 +22,8 @@ public:
     void plotGraph(QString nomGraph);
 
     QString selectedCurve() const;
+    const QRectF &view() const;
+    QPointF cursorPos() const;
 
     static void declareQML()
     {
@@ -32,24 +34,16 @@ public slots:
     void setSelectedCurve(QString curve);
 
 signals:
-    void cursorXChanged();
-    void cursorYChanged();
+    void viewChanged(QRectF);
+    void cursorPosChanged(QPointF);
     void selectedCurveChanged(QString);
 
 private:
-    QCustomPlot *m_CustomPlot;
+    QCustomPlot m_CustomPlot;
 
-    /* Upper and lower bound of the screen */
-    double Xmin;
-    double Xmax;
-    double Ymin;
-    double Ymax;
+    QRectF m_view;
+    QPointF m_cursorPos;
 
-    /* Center of the screen */
-    double Xcen;
-    double Ycen;
-    double Xlen;
-    double Ylen;
     /* Scale of the axis to ensure smooth plot */
     double Xsca;
     double Ysca;
@@ -62,27 +56,20 @@ private:
     int modeCursor;
 
     /* curves on the graph */
-    QColor listColor[4] = {Qt::red, Qt::blue, Qt::green, Qt::black};
     QMap<QString, CurveItem> listGraph;
     int nbCurves;
 
 public:
     Q_INVOKABLE void recvInput(int input);
-    Q_INVOKABLE void addGraph(QString formula);
-    Q_INVOKABLE void addGraph(QString formula, QColor color);
-    Q_INVOKABLE void setRange(double nXmin, double nXmax, double nYmin, double nYmax);
-    Q_INVOKABLE void moveWindow(int horizontal, int vertical);
+    Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
+    Q_INVOKABLE void setRange(const QRectF &range);
+    Q_INVOKABLE void moveWindow(QPoint offset);
+    Q_INVOKABLE void moveWindow(int x, int y);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
     Q_INVOKABLE void modifyZoom(double value);
-    Q_INVOKABLE double getXmin();
-    Q_INVOKABLE double getXmax();
-    Q_INVOKABLE double getYmin();
-    Q_INVOKABLE double getYmax();
     Q_INVOKABLE void setModeWindow();
     Q_INVOKABLE void setModeCursor();
     Q_INVOKABLE void switchModeCurWin();
-    Q_INVOKABLE double getCursorX();
-    Q_INVOKABLE double getCursorY();
 
 private slots:
     void updateCustomPlotSize();
