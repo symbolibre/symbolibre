@@ -3,12 +3,14 @@ TEMPLATE = app
 QT += qml quick core gui printsupport widgets
 CONFIG += c++11
 INCLUDEPATH += ../../editiontree \
+	../lib \
 	../keyboard \
 	../components \
 	../../../GraphViewer 
 
 # Add -lqcustomplot if QCustomPlot is installed system-wide
 LIBS += -L../../../GraphViewer -lGraphViewer \
+	-L../lib -lslmath \
 	-L../../editiontree -leditiontree \
 	-L../keyboard -lkeyboard \
 	-lgiac -lgmp

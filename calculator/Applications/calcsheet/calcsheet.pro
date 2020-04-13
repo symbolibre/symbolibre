@@ -2,15 +2,15 @@ TEMPLATE = app
 
 QT += qml quick
 CONFIG += c++11
-INCLUDEPATH += ../../editiontree ../keyboard ../../../SLL
+INCLUDEPATH += ../../editiontree ../lib ../keyboard ../../../SLL
 
-LIBS += -L../../editiontree -leditiontree \
-	-L ../keyboard -lkeyboard \
+LIBS += -L ../keyboard -lkeyboard \
+        -L../lib -lslmath \
+        -L../../editiontree -leditiontree \
         -L../../../SLL -lsll \
-	-lgiac -lgmp
+        -lgiac -lgmp
 
 SOURCES += main.cpp \
-    MathContext.cpp \
 
 RESOURCES += qtquickcontrols2.conf
 
@@ -39,7 +39,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    MathContext.hpp \
 
 DISTFILES +=
 
