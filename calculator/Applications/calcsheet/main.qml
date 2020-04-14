@@ -72,6 +72,8 @@ SLWindow {
                     });
                     expr.clear();
                     history.currentIndex = 0;
+                    if (historyModel.count > 100)
+                        historyModel.remove(historyModel.count - 1);
                     event.accepted = true;
                 }
                 if (event.key == Qt.Key_F1) {
