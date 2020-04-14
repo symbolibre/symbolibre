@@ -9,9 +9,10 @@ FocusScope {
     ListModel {
         id: fmodel
         Component.onCompleted: {
-            var json = JSON.parse(fs.readFile("./functions.json"));
-            if (!json.functions.length)
-                json = JSON.parse(fs.readFile("./functions_default.json"))
+            var data = fs.readFile("./functions.json");
+            if (!data)
+                data = fs.readFile("./functions_default.json");
+            var json = JSON.parse(data);
             for (var item of json.functions)
                 fmodel.append(item);
         }
