@@ -30,6 +30,7 @@ void ETBox::setJson(const QString &json)
     if (!doc.isArray())
         qDebug() << "bad editiontree json";
     expr.deserialize(doc.array());
+    emit exprChanged();
     updateResetCursor();
 }
 
@@ -81,13 +82,17 @@ bool ETBox::moveCursorDown()
 bool ETBox::deleteChar()
 {
     updateResetCursor();
-    return expr.editDelete();
+    bool ret = expr.editDelete();
+    emit exprChanged();
+    return ret;
 }
 
 bool ETBox::clear()
 {
     updateResetCursor();
-    return expr.editClear();
+    bool ret = expr.editClear();
+    emit exprChanged();
+    return ret;
 }
 
 void ETBox::setColor(QColor color)
