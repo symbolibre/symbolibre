@@ -11,7 +11,7 @@ FocusScope {
         width: parent.width
         spacing: 0
         Rectangle {
-            color: sourceExpr.activeFocus ? "lightblue" : "white"
+            color: sourceExpr.fillColor
             width: parent.width
             Layout.preferredHeight: sourceExpr.implicitHeight
             Layout.maximumHeight: 120
@@ -20,6 +20,7 @@ FocusScope {
                 width: parent.width
                 height: parent.height
                 horizontalAlignment: ETBox.AlignLeft
+                fillColor: activeFocus ? "lightblue" : "white"
                 json: model.sourceJson
                 KeyNavigation.down: resultExpr
                 Keys.onPressed: {
@@ -33,7 +34,7 @@ FocusScope {
         }
 
         Rectangle {
-            color: resultExpr.activeFocus ? "lightblue" : "lightgray"
+            color: resultExpr.color
             width: parent.width
             Layout.preferredHeight: resultExpr.implicitHeight
             Layout.maximumHeight: 120
@@ -42,6 +43,7 @@ FocusScope {
                 width: parent.width
                 height: parent.height
                 horizontalAlignment: ETBox.AlignRight
+                fillColor: activeFocus ? "lightblue" : "lightgray"
                 json: model.resultJson
                 focus: true
                 Keys.onPressed: {

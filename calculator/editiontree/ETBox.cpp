@@ -15,6 +15,14 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
         update();
     });
     cursorTimer.start(500);
+    // QTextLayout forces QPainter::RasterOp_NotDestination composition mode,
+    // which does not behave correctly when the background is transparent
+    setFillColor(Qt::white);
+    connect(this, &ETBox::fillColorChanged, [&]() {
+        if (fillColor().alpha() != 255)
+            qWarning() << "transparent fill colors are not supported by ETBox";
+    });
+    setOpaquePainting(true);
 }
 
 QString ETBox::json() const

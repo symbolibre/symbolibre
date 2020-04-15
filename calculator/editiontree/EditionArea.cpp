@@ -1,7 +1,7 @@
 #include "EditionArea.hpp"
 #include <QString>
+#include <QTextLayout>
 #include <algorithm>
-#include <Qt>
 
 /* ****************************************************************** */
 /* **********************       TEXT NODE      ********************** */
@@ -153,35 +153,30 @@ bool EditionArea::insert(EditionNode *newnode)
 
 void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    QFontMetrics metrics = painter.fontMetrics();
-    QRect br = metrics.boundingRect(QString::fromStdString(text));
+    QTextLayout layout(QString::fromStdString(text), painter.font());
+    layout.beginLayout();
+    layout.createLine();
+    layout.endLayout();
+    QRect br = layout.boundingRect().toAlignedRect();
 
-    width  = br.width() + 2; // the +2 makes some room at the end for the cursor
+    width  = br.width() + 1; // the +1 makes some room at the end for the cursor
     height = std::max(FONT_SIZE, br.height());
-    center_height = height / 2; // FIXME metrics.ascent()
+    center_height = height / 2; // FIXME ascent
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
 {
     QRect brect = QRect(x, y, width, height);
 
-    //painter.setPen(Qt::yellow);
-    //painter.drawRect(brect);
-    //painter.setPen(Qt::black);
-
-
-    painter.drawText(brect, Qt::AlignLeft | Qt::AlignBottom,
-                     QString::fromStdString(text));
+    QTextLayout layout(QString::fromStdString(text), painter.font());
+    layout.beginLayout();
+    layout.createLine();
+    layout.endLayout();
+    layout.draw(&painter, brect.topLeft());
 
     /* About printing the cursor: */
-    if (cursor) {
-        /* We have to make measurements to find the location of the cursor */
-        QFontMetrics metrics = painter.fontMetrics();
-
-        const int left_width = metrics.horizontalAdvance(QString::fromStdString(text), cursor_pos);
-        const int xcursor = std::min(x + left_width, x + width - 1);
-        painter.drawLine(xcursor, y, xcursor, y + metrics.height());
-    }
+    if (cursor)
+        layout.drawCursor(&painter, brect.topLeft(), cursor_pos, 1);
 }
 
 QPoint EditionArea::getCursorCoordinates(void)
