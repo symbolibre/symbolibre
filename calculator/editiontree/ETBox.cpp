@@ -10,6 +10,7 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
 {
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
     setImplicitHeight(FONT_SIZE);
+    setImplicitWidth(1);
     connect(&cursorTimer, &QTimer::timeout, [&]() {
         cursorBlink = !cursorBlink;
         update();
@@ -19,6 +20,7 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
     // which does not behave correctly when the background is transparent
     setFillColor(Qt::white);
     connect(this, &ETBox::fillColorChanged, [&]() {
+        update();
         if (fillColor().alpha() != 255)
             qWarning() << "transparent fill colors are not supported by ETBox";
     });
@@ -170,7 +172,7 @@ void ETBox::paint(QPainter *painter)
 
     QPoint p = expr.getCursorCoordinates();
     int x, y;
-    if (expr.getWidth() < width()) {
+    if (expr.getWidth() <= width()) {
         if (halign == AlignLeft)
             x = 0;
         else if (halign == AlignRight)
