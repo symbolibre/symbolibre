@@ -34,6 +34,7 @@ SLWindow {
         y: parent.y + parent.height / 6
         width: parent.width
         height: parent.height * 2 / 3
+        catalogId: "math_fr"
     }
     function openCatalog(callback) {
         catalog.setMenu("root");

@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.0
 Popup {
     id: popup
     property var callback
+    property alias catalogId: catalog.catalogId
     property alias currentMenu: catalog.currentMenu
     function setMenu(menu) {
         catalog.currentMenu = menu;

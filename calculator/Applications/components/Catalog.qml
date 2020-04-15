@@ -4,7 +4,9 @@ import QtQuick.Layouts 1.0
 import QtQuick.XmlListModel 2.0
 
 RowLayout {
+    id: root
     signal entrySelected(string entry)
+    property string catalogId
     property string currentMenu: "root"
     property alias keyNavigationWraps: listView.keyNavigationWraps
 
@@ -23,7 +25,7 @@ RowLayout {
 
         model: XmlListModel {
             id: xmlModel
-            source: "math_catalog_fr.xml"
+            source: "catalog/" + root.catalogId + ".xml"
             query: "/catalog/menu[@id=\"" + currentMenu + "\"]/entry"
             XmlRole { name: "title"; query: "./@title/string()" }
             XmlRole { name: "doc"; query: "./@doc/string()" }
@@ -86,7 +88,7 @@ RowLayout {
 
         function getCatalogDoc(id) {
             var req = new XMLHttpRequest();
-            req.open("GET", "./catalog/fr/math/" + String(id) + ".html", false);
+            req.open("GET", "./catalog/" + root.catalogId + "/" + String(id) + ".html", false);
             req.send();
             return req.responseText;
         }
