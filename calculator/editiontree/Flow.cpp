@@ -125,18 +125,24 @@ bool Flow::editMoveLeft(void)
 
 bool Flow::editDelete(void)
 {
+    // trick to allow deleting empty internal nodes from the inside
+    if (auto node = dynamic_cast<InternalEditionNode *>(edited_node->get())) {
+        if (node->empty())
+            ++edited_node;
+        else
+            return true;
+    }
+
     const auto it_area_right = edited_node;
     const auto *area_right = dynamic_cast<EditionArea *>(it_area_right->get());
-    // this assertion is verified because the edited node is always an edition
-    // area in a flow and Flow::editDelete always returns true
     assert(area_right);
     std::string right_str = area_right->getText();
 
     // we don't delete anything if there is nothing at the left of the cursor
     if (empty())
-        return true;
+        return false;
     if (reachedLeft())
-        return true;
+        return false;
 
     const auto it_to_remove = --edited_node;
     assert(!reachedLeft());
