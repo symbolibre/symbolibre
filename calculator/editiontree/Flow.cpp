@@ -389,7 +389,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
     /* At the end the width corresponding to interspacement. */
     int nonEmpty = numberNonEmpty();
     if (nonEmpty > 0)
-        width += INTERSPACE * (nonEmpty - 1);
+        width += INTERSPACE * nonEmpty;
 }
 
 void Flow::draw(int x, int y, QPainter &painter, bool cursor)
