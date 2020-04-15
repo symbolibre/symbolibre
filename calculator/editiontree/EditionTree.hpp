@@ -275,6 +275,7 @@ public:
 
 signals:
     void exprChanged();
+    void cursorPosChanged();
     void colorChanged(QColor color);
 
 public slots:

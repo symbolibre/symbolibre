@@ -31,6 +31,7 @@ void ETBox::setJson(const QString &json)
         qDebug() << "bad editiontree json";
     expr.deserialize(doc.array());
     emit exprChanged();
+    emit cursorPosChanged();
     updateResetCursor();
 }
 
@@ -52,38 +53,54 @@ void ETBox::insertJson(const QString &json)
     }
 
     emit exprChanged();
+    emit cursorPosChanged();
     updateResetCursor();
 }
 
 bool ETBox::moveCursorLeft()
 {
     updateResetCursor();
-    return expr.editMoveLeft();
+    bool ret = expr.editMoveLeft();
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
 }
 
 bool ETBox::moveCursorRight()
 {
     updateResetCursor();
-    return expr.editMoveRight();
+    bool ret = expr.editMoveRight();
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
 }
 
 bool ETBox::moveCursorUp()
 {
     updateResetCursor();
-    return expr.editMoveUp();
+    bool ret = expr.editMoveUp();
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
 }
 
 bool ETBox::moveCursorDown()
 {
     updateResetCursor();
-    return expr.editMoveDown();
+    bool ret = expr.editMoveDown();
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
 }
 
 bool ETBox::deleteChar()
 {
     updateResetCursor();
     bool ret = expr.editDelete();
-    emit exprChanged();
+    if (ret) {
+        emit exprChanged();
+        emit cursorPosChanged();
+    }
     return ret;
 }
 
@@ -92,6 +109,7 @@ bool ETBox::clear()
     updateResetCursor();
     bool ret = expr.editClear();
     emit exprChanged();
+    emit cursorPosChanged();
     return ret;
 }
 
