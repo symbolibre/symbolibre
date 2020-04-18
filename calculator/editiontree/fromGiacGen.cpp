@@ -21,8 +21,7 @@ void atPow(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 
-static bool local_debug = false; // TODO : map it to SLL, should rewrite dependancies
-// so I am not doing that know.
+static bool local_debug = false;
 
 void atInt(int a, EditionTree &shell, EXT_GIAC_CONTEXT)
 {

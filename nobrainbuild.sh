@@ -1,6 +1,4 @@
-cd SLL
-make 
-cd ../GraphViewer
+cd GraphViewer
 qmake
 make
 cd ../calculator

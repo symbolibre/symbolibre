@@ -2,9 +2,8 @@ TEMPLATE = lib
 CONFIG  += staticlib c++14
 QT += qml quick
 
-INCLUDEPATH += ../../editiontree ../../../SLL
-LIBS += -L../../editiontree -leditiontree \
-    -L../../../SLL -lsll \
+INCLUDEPATH += ../../editiontree
+LIBS += -L../../editiontree -leditiontree
 
 HEADERS  = FilesystemContext.hpp \
     MathContext.hpp \

@@ -4,12 +4,7 @@ Calculator applications, mainly math-related.
 
 ## Building
 
-First build SLL.
-
-   % cd SLL
-   % make
-
-Then build GraphViewer.
+First build GraphViewer.
 
    % cd GraphViewer
    % qmake

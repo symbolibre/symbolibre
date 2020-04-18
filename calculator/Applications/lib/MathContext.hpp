@@ -2,7 +2,8 @@
 #define MATHCONTEXT_HPP
 
 #include <EditionTree.hpp>
-#include "SLL.hpp"
+#include <giac/config.h>
+#include <giac/giac.h>
 
 #include <QObject>
 
@@ -19,7 +20,7 @@ public:
     Q_INVOKABLE QString evaluate(const QString &json, bool approx);
 
 private:
-    SLL::Context sll;
+    giac::context giac;
 };
 
 #endif // MATHCONTEXT_HPP

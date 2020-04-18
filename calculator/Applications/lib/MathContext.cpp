@@ -1,11 +1,10 @@
 #include "MathContext.hpp"
-#include "SLL.hpp"
 #include <QDebug>
 #include <QJsonDocument>
 #include <iostream>
 #include <string>
 
-MathContext::MathContext() : QObject(), sll()
+MathContext::MathContext() : QObject(), giac()
 {
 
 }
@@ -22,38 +21,43 @@ QString MathContext::toGiac(const QString &json)
 
 EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
 {
-    SLL::Status status = sll.exec(etree.getText());
-    status.value = sll.simplify(status.value);
+    /* TODO: Move this parameters to a suitable place */
+    constexpr bool pretty_print = true;
+    constexpr bool debug = false;
+
+    /* TODO: Distinguish result, variable definition and function definition to
+       produce different messages (this was previously done by SLL) */
+    auto value = giac::eval(giac::gen(etree.getText(), &giac), &giac);
+    value = giac::_simplify(value, &giac);
 
     EditionTree shell = EditionTree();
 
-    if (status.type == SLL::Status::RESULT) {
-        std::string str;
-        if (!approx) {
-            if (SLL::giac_conv)
-                copyExprAtCursor(status.value, shell); // convertion from giac version
-            else
-                str = sll.str(status.value); // no translation for debug
-        } else {
-            if (SLL::giac_conv) {
-                SLL::Term approx = sll.approx(status.value, 10);
-                copyExprAtCursor(approx, shell);
-            } else
-                str = sll.str(sll.approx(status.value, 10)); // no translation for debug
-        }
-        if (!SLL::giac_conv)
-            shell.editStr(str);
-        if (SLL::debug)
-            std::cout << "--------- GOT: '";
-        if (SLL::debug)
-            std::cout << shell.getText() << "'" << std::endl;
-    } else if (status.type == SLL::Status::SET_VARIABLE) {
-        std::string msg = "variable " + status.name + " defined";
-        shell.editStr(msg);
-    } else if (status.type == SLL::Status::SET_FUNCTION) {
-        std::string msg = "function " + status.name + " defined";
-        shell.editStr(msg);
+    /* For a variable definition, we would have...
+         shell.editStr("variable " + name + " defined");
+       Currently Giac returns the value */
+
+    std::string str;
+    if (!approx) {
+        if (pretty_print)
+            copyExprAtCursor(value, shell);
+        else
+            str = value.print(NULL);
+    } else {
+        /* TODO: Approximation precision */
+        auto approx = giac::_evalf(value, &giac);
+
+        if (pretty_print)
+            copyExprAtCursor(approx, shell);
+        else
+            str = approx.print(NULL);
     }
+
+    if (!pretty_print)
+        shell.editStr(str);
+    if (debug)
+        std::cout << "--------- GOT: '";
+    if (debug)
+        std::cout << shell.getText() << "'" << std::endl;
 
     return shell;
 }
