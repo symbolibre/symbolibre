@@ -2,6 +2,10 @@ function op(o) {
     return {type: "op", op: o}
 }
 
+function variable(o) {
+    return {type: "var", name: o}
+}
+
 function node(type, children) {
     return {type: type, content: children}
 }

@@ -8,6 +8,7 @@ LIBS += -lgiac -lgmp \
 
 HEADERS  = EditionArea.hpp \
 		   Operator.hpp \
+		   Variable.hpp \
 		   Paren.hpp \ 
 		   Frac.hpp \
 		   Root.hpp \
@@ -22,6 +23,7 @@ HEADERS  = EditionArea.hpp \
 
 SOURCES  = EditionArea.cpp \
 		   Operator.cpp \
+		   Variable.cpp \
 		   Paren.cpp \
 		   Root.cpp \
 		   Frac.cpp \

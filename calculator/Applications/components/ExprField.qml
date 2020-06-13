@@ -65,8 +65,14 @@ FocusScope {
                 if(event.key === Qt.Key_Minus)     insert(ET.op("-"));
 
                 /* Raw input keys */
-                if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z)
+                if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z && event.text) {
                     insertText(event.text);
+                    // FIXME giac interprets (A)(B) as a function call, so this is disabled for now
+                    /*if(event.text.toLowerCase() === event.text)
+                      insertText(event.text);
+                    else
+                      insert(ET.variable(event.text));*/
+                }
 
                 if(event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
                     insertText(event.text);

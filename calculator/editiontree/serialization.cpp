@@ -9,6 +9,7 @@
 #include "Power.hpp"
 #include "Root.hpp"
 #include "Sigma.hpp"
+#include "Variable.hpp"
 
 #include <QDebug>
 #include <QJsonArray>
@@ -36,6 +37,11 @@ QJsonArray serializeFlow(const Flow &flow, bool cursor)
             children.append(QJsonObject({
             qMakePair(QString("type"), QString("op")),
             qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
+
+        else if (auto var = dynamic_cast<Variable *>(node.get()))
+            children.append(QJsonObject({
+            qMakePair(QString("type"), QString("var")),
+            qMakePair(QString("name"), var->getName())}));
 
         else if (auto paren = dynamic_cast<Paren *>(node.get()))
             children.append(QJsonObject({
@@ -87,6 +93,9 @@ EditionNode *deserializeInternalNode(QJsonObject node)
             return nullptr;
         }
     }
+
+    else if (name == "var")
+        return new Variable(node["name"].toString());
 
     else if (name == "lparen")
         return new Paren(LPAREN);
