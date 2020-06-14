@@ -107,7 +107,7 @@ FocusScope {
                 else if (event.key === Qt.Key_F12)
                     insertText("tan");
                 if (event.key === Qt.Key_F13)
-                    insertText("pi");
+                    insertText("π");
 
                 // pow, exponential
                 if (event.key === Qt.Key_F16 && (event.modifiers & Qt.ShiftModifier))

@@ -11,5 +11,6 @@
     <menu id="trig" title="Trigonométrie">
         <entry title="cos">["cos"]</entry>
         <entry title="sin">["sin"]</entry>
+        <entry title="π" doc="pi">["π"]</entry>
     </menu>
 </catalog>
