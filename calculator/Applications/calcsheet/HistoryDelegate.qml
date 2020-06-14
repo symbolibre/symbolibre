@@ -12,7 +12,7 @@ FocusScope {
         spacing: 0
         Rectangle {
             color: "white"
-            width: parent.width
+            Layout.fillWidth: true
             Layout.preferredHeight: sourceExpr.implicitHeight
             Layout.maximumHeight: 120
             Expr {
@@ -34,7 +34,7 @@ FocusScope {
 
         Rectangle {
             color: "lightgray"
-            width: parent.width
+            Layout.fillWidth: true
             Layout.preferredHeight: resultExpr.implicitHeight
             Layout.maximumHeight: 120
             Expr {
