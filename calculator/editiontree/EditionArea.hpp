@@ -2,24 +2,31 @@
 #define EDITIONAREA_HPP
 
 #include "EditionNode.hpp"
-#include <string>
+#include <QString>
 #include <memory>
 
 /**
  * Edition areas are the only node where text can be written.
- * It is a leaf node that contains a mere string.
+ *
+ * EditionArea is a leaf node that contains a mere QString.
  * They are found in one and only one location:
  * even-numbered children of Flow nodes.
+ *
+ * It uses QTextLayout to compute its dimensions and the position of its cursor,
+ * and QTextBoundaryFinder to determine grapheme boundaries in a Unicode text.
  */
 class EditionArea : public EditionNode
 {
 protected:
-    std::string text;
+    QString text;
     int cursor_pos;
 
 public:
     /** Returns the text contained by the node */
     std::string getText(void) const;
+
+    /** Sets the text contained by the node to 'str' */
+    void setText(QString str);
 
     /** Returns the position of the cursor */
     int getCursorPos(void) const;
@@ -27,11 +34,8 @@ public:
     /** Sets the positon of the cursor */
     void setCursorPos(int pos);
 
-    /** Sets the text contained by the node to 'str' */
-    void set_to(std::string str);
-
     /** Appends 'str' to the text contained by the node */
-    void append(std::string str);
+    void append(QString str);
 
     /**
      * Cuts the whole portion of text that is contained after
@@ -43,7 +47,7 @@ public:
 
 public:
 
-    EditionArea(std::string text = "", int cursor_pos = 0);
+    EditionArea(QString text = QString(), int cursor_pos = 0);
 
     void ascii(int shift, bool contains_cursor) override;
     bool dropCursor(movedir dir) override;

@@ -1,5 +1,6 @@
 #include "EditionArea.hpp"
 #include <QString>
+#include <QTextBoundaryFinder>
 #include <QTextLayout>
 #include <algorithm>
 
@@ -8,15 +9,16 @@
 /* ****************************************************************** */
 
 
-EditionArea::EditionArea(std::string text, int cursor_pos) : EditionNode(),
-    text(text), cursor_pos(cursor_pos)
+EditionArea::EditionArea(QString text, int cursor_pos) : EditionNode(),
+    text(text),
+    cursor_pos(cursor_pos)
 {
 
 }
 
 std::string EditionArea::getText(void) const
 {
-    return text;
+    return text.toStdString();
 }
 
 int EditionArea::getCursorPos(void) const
@@ -26,23 +28,23 @@ int EditionArea::getCursorPos(void) const
 
 void EditionArea::setCursorPos(int pos)
 {
-    if (pos >= 0 && pos <= text.size())
-        cursor_pos = pos;
+    cursor_pos = pos;
 }
 
-void EditionArea::set_to(std::string str)
+void EditionArea::setText(QString str)
 {
-    text = std::move(str);
+    text = str;
 }
-void EditionArea::append(std::string str)
+
+void EditionArea::append(QString str)
 {
     text.insert(text.size(), str);
 }
 
 void EditionArea::cutAtCursor(std::string &cut)
 {
-    cut = text.substr(cursor_pos, text.size() - cursor_pos);
-    text.erase(cursor_pos, text.size() - cursor_pos);
+    cut = text.right(text.size() - cursor_pos).toStdString();
+    text.truncate(cursor_pos);
 }
 
 void EditionArea::ascii(int shift, bool cc)
@@ -52,21 +54,18 @@ void EditionArea::ascii(int shift, bool cc)
         std::cout << "  ";
     if (cc) {
         std::cout << " └*\"";
-        for (int i = 0; i < cursor_pos; i++)
-            std::cout << text[i];
+        std::cout << text.left(cursor_pos).toStdString();
         std::cout << "▒" ;
-        for (int i = cursor_pos; i < (int)text.size(); i++)
-            std::cout << text[i];
+        std::cout << text.right(text.size() - cursor_pos).toStdString();
         std::cout << "\"\n";
     } else
-        std::cout << " └ \"" << text << "\"\n";
+        std::cout << " └ \"" << text.toStdString() << "\"\n";
 }
 
 bool EditionArea::dropCursor(movedir dir)
 {
-    /* I could do a switch, but the syntax is ugly on my text editor. */
     if (dir == MRIGHT || dir == MDOWN)
-        cursor_pos = text.size();
+        cursor_pos = text.size() - 1;
     else if (dir == MLEFT  || dir == MUP)
         cursor_pos = 0;
 
@@ -75,8 +74,9 @@ bool EditionArea::dropCursor(movedir dir)
 
 bool EditionArea::empty(void) const
 {
-    return text.size() == 0;
+    return text.isEmpty();
 }
+
 void EditionArea::clear(void)
 {
     cursor_pos = 0;
@@ -87,6 +87,7 @@ bool EditionArea::reachedRight(void)
 {
     return cursor_pos == (int) text.size();
 }
+
 bool EditionArea::reachedLeft(void)
 {
     return cursor_pos == 0;
@@ -96,47 +97,54 @@ bool EditionArea::editMoveRight(void)
 {
     if (reachedRight())
         return false;
-    else
-        cursor_pos ++;
-    return true; /* And... this is not ambiguous :-) */
+
+    auto cursor = QTextBoundaryFinder(QTextBoundaryFinder::Grapheme, text);
+    cursor.setPosition(cursor_pos);
+    cursor_pos = cursor.toNextBoundary();
+    return true;
 }
 
 bool EditionArea::editMoveLeft(void)
 {
     if (reachedLeft())
         return false;
-    else
-        cursor_pos --;
+
+    auto cursor = QTextBoundaryFinder(QTextBoundaryFinder::Grapheme, text);
+    cursor.setPosition(cursor_pos);
+    cursor_pos = cursor.toPreviousBoundary();
     return true;
 }
 
 bool EditionArea::editMoveUp(void)
 {
-    // FIXME why?
-    cursor_pos = text.size();
+    cursor_pos = 0;
     return false;
 }
 
 bool EditionArea::editMoveDown(void)
 {
-    cursor_pos = 0;
+    cursor_pos = text.size() - 1;
     return false;
 }
 
 bool EditionArea::editDelete(void)
 {
-    if (cursor_pos) {
-        cursor_pos--;
-        text.erase(cursor_pos, 1);
-        return true;
-    } else
-        return false; /* nothing deleted */
+    if (!cursor_pos)
+        return false;
+
+    auto cursor = QTextBoundaryFinder(QTextBoundaryFinder::Grapheme, text);
+    cursor.setPosition(cursor_pos);
+    const int start_pos = cursor.toPreviousBoundary();
+    text.remove(start_pos, cursor_pos - start_pos);
+    cursor_pos = start_pos;
+    return true;
 }
 
 void EditionArea::editString(const std::string &str)
 {
-    text.insert(cursor_pos, str);
-    cursor_pos += str.size();
+    const auto qstr = QString::fromStdString(str);
+    text.insert(cursor_pos, qstr);
+    cursor_pos += qstr.size();
 }
 
 bool EditionArea::insert(EditionNode *newnode)
@@ -153,7 +161,7 @@ bool EditionArea::insert(EditionNode *newnode)
 
 void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    QTextLayout layout(QString::fromStdString(text), painter.font());
+    QTextLayout layout(text, painter.font());
     layout.beginLayout();
     layout.createLine();
     layout.endLayout();
@@ -168,13 +176,12 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
 {
     QRect brect = QRect(x, y, width, height);
 
-    QTextLayout layout(QString::fromStdString(text), painter.font());
+    QTextLayout layout(text, painter.font());
     layout.beginLayout();
     layout.createLine();
     layout.endLayout();
     layout.draw(&painter, brect.topLeft());
 
-    /* About printing the cursor: */
     if (cursor)
         layout.drawCursor(&painter, brect.topLeft(), cursor_pos, 1);
 }

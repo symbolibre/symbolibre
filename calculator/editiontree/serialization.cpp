@@ -138,11 +138,11 @@ Flow deserializeFlow(const QJsonArray &json)
     for (auto child : json) {
         if (isEditionArea) {
             if (child.isString()) {
-                flow.flow.push_back(std::make_unique<EditionArea>(child.toString().toStdString()));
+                flow.flow.push_back(std::make_unique<EditionArea>(child.toString()));
             }
 
             else if (child.isObject() && child.toObject()["type"] == "selected_text") {
-                const auto text = child.toObject()["text"].toString().toStdString();
+                const auto text = child.toObject()["text"].toString();
                 const auto cursor_pos = child.toObject()["cursor"].toInt();
                 flow.flow.push_back(std::make_unique<EditionArea>(text, cursor_pos));
                 flow.edited_node = --flow.flow.end();

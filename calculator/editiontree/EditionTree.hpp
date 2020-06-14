@@ -73,7 +73,7 @@ public:
 
     void append(std::string str)
     {
-        return root.getActiveNode()->append(std::move(str));
+        return root.getActiveNode()->append(QString::fromStdString(str));
     }
 
     bool dropCursor(movedir dir)

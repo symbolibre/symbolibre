@@ -19,8 +19,7 @@ Flow::Flow(std::string strinit) : EditionNode(),
     flow(), edited_node(flow.end())
 {
     /* The flow is initialized with an edition area. */
-    auto new_text = std::make_unique<EditionArea>();
-    new_text->set_to(std::move(strinit));
+    auto new_text = std::make_unique<EditionArea>(QString::fromStdString(strinit));
     edited_node = flow.insert(flow.begin(), std::move(new_text));
 }
 
@@ -136,7 +135,7 @@ bool Flow::editDelete(void)
     const auto it_area_right = edited_node;
     const auto *area_right = dynamic_cast<EditionArea *>(it_area_right->get());
     assert(area_right);
-    std::string right_str = area_right->getText();
+    auto right_str = area_right->getText();
 
     // we don't delete anything if there is nothing at the left of the cursor
     if (empty())
@@ -154,7 +153,7 @@ bool Flow::editDelete(void)
     // we merge the edition areas at the left and at the right of the removed node
     flow.erase(it_area_right);
     area_left->setCursorPos(area_left->getText().size());
-    area_left->append(right_str);
+    area_left->append(QString::fromStdString(right_str));
     return true;
 }
 
@@ -195,13 +194,13 @@ bool Flow::insert(EditionNode *newnode)
         target_ed_area->cutAtCursor(right);
         auto right_ed_area = dynamic_cast<EditionArea *>(newflow->flow.back().get());
         assert(right_ed_area);
-        right_ed_area->append(std::move(right));
+        right_ed_area->append(QString::fromStdString(right));
 
         // merge the right text areas
         const int length_before = target_ed_area->getText().size();
         auto left_ed_area = dynamic_cast<EditionArea *>(newflow->flow.front().get());
         assert(left_ed_area);
-        target_ed_area->append(left_ed_area->getText());
+        target_ed_area->append(QString::fromStdString(left_ed_area->getText()));
         target_ed_area->setCursorPos(left_ed_area->getCursorPos() + length_before);
         newflow->flow.pop_front();
 
@@ -236,8 +235,7 @@ bool Flow::insert(EditionNode *newnode)
     target_ed_area->cutAtCursor(right_str);
     ++edited_node;
 
-    auto new_text  = std::make_unique<EditionArea>();
-    new_text->set_to(right_str);
+    auto new_text = std::make_unique<EditionArea>(QString::fromStdString(right_str));
 
     edited_node = ++flow.insert(edited_node,
                                 std::unique_ptr<EditionNode>(newnode));
