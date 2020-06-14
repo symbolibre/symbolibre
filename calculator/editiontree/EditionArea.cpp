@@ -65,7 +65,7 @@ void EditionArea::ascii(int shift, bool cc)
 bool EditionArea::dropCursor(movedir dir)
 {
     if (dir == MRIGHT || dir == MDOWN)
-        cursor_pos = text.size() - 1;
+        cursor_pos = text.size();
     else if (dir == MLEFT  || dir == MUP)
         cursor_pos = 0;
 
@@ -123,7 +123,7 @@ bool EditionArea::editMoveUp(void)
 
 bool EditionArea::editMoveDown(void)
 {
-    cursor_pos = text.size() - 1;
+    cursor_pos = text.size();
     return false;
 }
 
