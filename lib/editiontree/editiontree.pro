@@ -31,6 +31,6 @@ SOURCES  = EditionArea.cpp \
 		   Flow.cpp \
 		   fromGiacGen.cpp \
 		   InternalEditionNode.cpp \
-		   ETBox.cpp 
+		   EditionTree.cpp
 
 
