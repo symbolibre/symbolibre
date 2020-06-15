@@ -2,16 +2,18 @@
 
 Calculator applications, mainly math-related.
 
-## Building
+## Building the applications
 
-First build GraphViewer.
+```
+qmake -recursive
+make
+```
 
-   % cd GraphViewer
-   % qmake
-   % make
+Out-of-tree builds are not supported for now.
 
-Then you can build the applications proper.
+## Running the applications
 
-   % cd calculator
-   % qmake -recursive
-   % make
+```
+cd apps/calcsheet
+LD_LIBRARY_PATH=../../lib ./calcsheet
+```

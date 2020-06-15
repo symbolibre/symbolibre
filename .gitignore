@@ -12,3 +12,4 @@ moc_*
 qrc_qml.cpp
 qmake_qmake_immediate.qrc
 qrc_qmake_qmake_immediate.cpp
+build
