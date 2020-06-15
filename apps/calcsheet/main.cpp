@@ -3,10 +3,11 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
-#include "FileSystemContext.hpp"
-#include "MathContext.hpp"
-#include "keyboard/keycode.hpp"
-#include "keyboard/VirtualKeyboardContext.hpp"
+#include <symbolibre/config.hpp>
+#include <symbolibre/FileSystemContext.hpp>
+#include <symbolibre/MathContext.hpp>
+#include <symbolibre/keyboard/keycode.hpp>
+#include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     FileSystemContext fs;
 
     QQmlEngine engine;
+    engine.addImportPath(SL_QML_DIR);
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("keyboard", &vk);
     context->setContextProperty("math", &math);
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile("./main.qml"));
+    QQmlComponent component(&engine, QUrl::fromLocalFile(QString(SL_QML_DIR) + "/calcsheet/main.qml"));
     if (component.status() != QQmlComponent::Ready) {
         qCritical() << component.errors();
         return 1;

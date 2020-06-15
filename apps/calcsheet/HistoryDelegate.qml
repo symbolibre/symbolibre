@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.11
 import etBox 1.0
-import "../../lib/editiontree"
+import org.symbolibre.expr 1.0
 
 FocusScope {
     width: parent.width

@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.XmlListModel 2.0
+import "../config"
 
 RowLayout {
     id: root
@@ -25,7 +26,7 @@ RowLayout {
 
         model: XmlListModel {
             id: xmlModel
-            source: "../../data/catalog/" + root.catalogId + ".xml"
+            source: SLConfig.dataDir + "/catalog/" + root.catalogId + ".xml"
             query: "/catalog/menu[@id=\"" + currentMenu + "\"]/entry"
             XmlRole { name: "title"; query: "./@title/string()" }
             XmlRole { name: "doc"; query: "./@doc/string()" }
@@ -88,7 +89,7 @@ RowLayout {
 
         function getCatalogDoc(id) {
             var req = new XMLHttpRequest();
-            req.open("GET", "../../data/catalog/" + root.catalogId + "/" + String(id) + ".html", false);
+            req.open("GET", SLConfig.dataDir + "/catalog/" + root.catalogId + "/" + String(id) + ".html", false);
             req.send();
             return req.responseText;
         }

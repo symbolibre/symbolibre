@@ -1,8 +1,8 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
-import "../../lib/controls"
-import "../../lib/catalog"
+import org.symbolibre.controls 1.0
+import org.symbolibre.catalog 1.0
 
 SLWindow {
     id: window

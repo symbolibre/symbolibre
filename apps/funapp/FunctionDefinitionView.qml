@@ -11,7 +11,7 @@ FocusScope {
         Component.onCompleted: {
             var data = fs.readFile(fs.dataDir() + "/functions.json");
             if (!data)
-                data = fs.readFile("./functions_default.json");
+                data = fs.readFile(":/functions_default.json");
             var json = JSON.parse(data);
             for (var item of json.functions)
                 fmodel.append(item);

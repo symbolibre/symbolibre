@@ -1,0 +1,7 @@
+import QtQuick 2.0
+pragma Singleton
+
+QtObject {
+    id: slconfig
+    property string dataDir: "@CMAKE_INSTALL_PREFIX@/@SL_DATA_INSTALL_DIR@"
+}

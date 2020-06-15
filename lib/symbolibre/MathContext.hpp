@@ -1,7 +1,7 @@
 #ifndef MATHCONTEXT_HPP
 #define MATHCONTEXT_HPP
 
-#include <editiontree.hpp>
+#include "editiontree.hpp"
 #include <giac/config.h>
 #include <giac/giac.h>
 

@@ -2,7 +2,7 @@
 #define CUSTOMPLOTITEM_H
 
 #include <QtQuick>
-#include "keyboard/keycode.hpp"
+#include "../keyboard/keycode.hpp"
 #include "curveitem.h"
 
 class QCustomPlot;

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>functions_default.json</file>
+    </qresource>
+</RCC>

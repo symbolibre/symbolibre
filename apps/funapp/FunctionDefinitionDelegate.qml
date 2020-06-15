@@ -1,8 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
-import "../../lib/controls"
-import "../../lib/editiontree"
+import org.symbolibre.controls 1.0
+import org.symbolibre.expr 1.0
 
 FocusScope {
     property alias active: active

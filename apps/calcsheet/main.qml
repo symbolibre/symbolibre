@@ -3,10 +3,10 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
 import QtQuick.Window 2.2
 import SLKeyCode 1.0
-import "../../lib/keyboard"
-import "../../lib/controls"
-import "../../lib/catalog"
-import "../../lib/editiontree"
+import org.symbolibre.keyboard 1.0
+import org.symbolibre.controls 1.0
+import org.symbolibre.catalog 1.0
+import org.symbolibre.expr 1.0
 
 SLWindow {
     id: window
