@@ -18,7 +18,7 @@ SLWindow {
     ListModel {
         id: historyModel
         Component.onCompleted: {
-            var json = JSON.parse(fs.readFile("./history.json"));
+            var json = JSON.parse(fs.readFile(fs.dataDir() + "/history.json"));
             for (var item of json)
                 historyModel.append(item);
         }
@@ -26,7 +26,7 @@ SLWindow {
             var json = [];
             for (let i = 0; i < historyModel.count; i++)
                 json.push(historyModel.get(i));
-            fs.writeFile("./history.json", JSON.stringify(json));
+            fs.writeFile(fs.dataDir() + "/history.json", JSON.stringify(json));
         }
     }
 

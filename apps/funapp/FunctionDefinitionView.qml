@@ -9,7 +9,7 @@ FocusScope {
     ListModel {
         id: fmodel
         Component.onCompleted: {
-            var data = fs.readFile("./functions.json");
+            var data = fs.readFile(fs.dataDir() + "/functions.json");
             if (!data)
                 data = fs.readFile("./functions_default.json");
             var json = JSON.parse(data);
@@ -20,7 +20,7 @@ FocusScope {
             var json = {functions: []};
             for (let i = 0; i < fmodel.count; i++)
                 json.functions.push(fmodel.get(i));
-            fs.writeFile("./functions.json", JSON.stringify(json));
+            fs.writeFile(fs.dataDir() + "/functions.json", JSON.stringify(json));
         }
     }
 
