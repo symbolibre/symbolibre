@@ -2,7 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.XmlListModel 2.0
-import "../config"
+import org.symbolibre.config 1.0
+import org.symbolibre.util 1.0
 
 RowLayout {
     id: root
@@ -88,10 +89,7 @@ RowLayout {
         textFormat: TextEdit.RichText
 
         function getCatalogDoc(id) {
-            var req = new XMLHttpRequest();
-            req.open("GET", SLConfig.dataDir + "/catalog/" + root.catalogId + "/" + String(id) + ".html", false);
-            req.send();
-            return req.responseText;
+            return Fs.readFile(SLConfig.dataDir + "/catalog/" + root.catalogId + "/" + String(id) + ".html");
         }
     }
 }
