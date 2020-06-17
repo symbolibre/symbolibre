@@ -10,7 +10,7 @@ class VirtualKeyboardContext : public QObject
 public:
     VirtualKeyboardContext();
 
-    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged);
+    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
 
     bool isActive() const
     {

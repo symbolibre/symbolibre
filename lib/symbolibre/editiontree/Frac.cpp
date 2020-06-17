@@ -78,7 +78,7 @@ void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
 
     width  = std::max(children[idx_num].width, children[idx_den].width);
     if (width == 0)
-        width = metrics.width(QChar('0'));
+        width = metrics.horizontalAdvance(QChar('0'));
 
     width += FRAC_SPACE;
     height = FRAC_UP_SPACE + FRAC_DOWN_SPACE +

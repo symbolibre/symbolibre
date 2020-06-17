@@ -105,7 +105,7 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 
     width = std::max({sigma_width, children[idx_lbound].width, children[idx_rbound].width});
     if (width == 0)
-        width = metrics.width(QChar('0'));
+        width = metrics.horizontalAdvance(QChar('0'));
 
     height = sigma_height + children[idx_rbound].height + children[idx_lbound].height;
     center_height = sigma_height / 2 + children[idx_rbound].height;

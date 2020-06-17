@@ -221,7 +221,7 @@ void SLQuickExpr::keyPressEvent(QKeyEvent *event)
         event->ignore();
 }
 
-void SLQuickExpr::mousePressEvent(QMouseEvent *event)
+void SLQuickExpr::mousePressEvent(QMouseEvent * /*event*/)
 {
     forceActiveFocus();
 }

@@ -54,7 +54,7 @@ public:
         SLK_PI, SLK_SQUARE, SLK_EXP, SLK_LN, SLK_LOG,
         SLK_POW10,
     };
-    Q_ENUMS(keycode);
+    Q_ENUMS(keycode)
 
     static void declareQML()
     {
