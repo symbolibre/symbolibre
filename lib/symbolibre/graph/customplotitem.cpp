@@ -84,6 +84,11 @@ void CustomPlotItem::setRange(const QRectF &range)
     emit viewChanged(m_view);
 }
 
+void CustomPlotItem::setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax)
+{
+    setRange(QRectF(xmin, ymin, xmax - xmin, ymax - ymin));
+}
+
 void CustomPlotItem::moveWindow(QPoint offset)
 {
     //move the window, keep ratio of size, just add an offset

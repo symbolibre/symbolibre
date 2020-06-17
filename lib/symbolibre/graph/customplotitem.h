@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
     Q_INVOKABLE void setRange(const QRectF &range);
+    Q_INVOKABLE void setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax);
     Q_INVOKABLE void moveWindow(QPoint offset);
     Q_INVOKABLE void moveWindow(int x, int y);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);

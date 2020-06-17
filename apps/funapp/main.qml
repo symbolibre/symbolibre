@@ -67,7 +67,7 @@ SLWindow {
                 focus: true
                 functions: def.functions
                 clip: true
-                onExit: mainMenu.forceActiveFocus()
+                Keys.onReturnPressed: mainMenu.forceActiveFocus()
                 onVisibleChanged: {
                     if (visible) {
                         setRange(menu.xmin, menu.xmax, menu.ymin, menu.ymax)
