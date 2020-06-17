@@ -17,11 +17,11 @@ qt5_add_resources(funapp_SOURCES
     "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
 )
 
-add_executable(funapp ${funapp_SOURCES})
-target_link_libraries(funapp
+add_executable(symbolibre-funapp ${funapp_SOURCES})
+target_link_libraries(symbolibre-funapp
     ${slmath_LIBRARY}
     ${QT_DEPS}
     Qt::Widgets
 )
-install(TARGETS funapp DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS symbolibre-funapp DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${funapp_QML_SOURCES} DESTINATION ${SL_QML_INSTALL_DIR}/funapp)
