@@ -24,6 +24,14 @@ set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 14)
 
+if(NOT("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+    if(MSVC)
+        add_compile_options(/W4)
+    else()
+        add_compile_options(-Wall -Wextra -Wpedantic)
+    endif()
+endif()
+
 find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick)
 find_package(QCustomPlot REQUIRED)
 find_package(Giac REQUIRED)
