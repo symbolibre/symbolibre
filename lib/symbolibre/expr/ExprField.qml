@@ -1,20 +1,20 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.2
 import SLKeyCode 1.0
-import etBox 1.0
+import org.symbolibre.expr 1.0
 import "editiontree.js" as ET
 
 // adapted from CalcSheet
 
 FocusScope {
     id: root
-    implicitWidth: etbox.implicitWidth + 4
-    implicitHeight: etbox.implicitHeight + 4
-    property alias text: etbox.text
-    property alias json: etbox.json
+    implicitWidth: expr.implicitWidth + 4
+    implicitHeight: expr.implicitHeight + 4
+    property alias text: expr.text
+    property alias json: expr.json
 
     function insertJson(json) {
-        return etbox.insertJson(json);
+        return expr.insertJson(json);
     }
 
     function clear() {
@@ -28,8 +28,8 @@ FocusScope {
         color: palette.base
         border.color: root.activeFocus ? palette.highlight : palette.mid
 
-        ETBox {
-            id: etbox
+        Expr {
+            id: expr
             focus: true
             x: parent.x + 2
             y: parent.y + 2
@@ -44,19 +44,9 @@ FocusScope {
                     insertJson(JSON.stringify([text]))
                 }
 
-                /* Arrow keys */
-                if(event.key === Qt.Key_Left)
-                    event.accepted = etbox.moveCursorLeft();
-                if(event.key === Qt.Key_Right)
-                    event.accepted = etbox.moveCursorRight();
-                if(event.key === Qt.Key_Up)
-                    event.accepted = etbox.moveCursorUp();
-                if(event.key === Qt.Key_Down)
-                    event.accepted = etbox.moveCursorDown();
-
                 /* Special keys */
-                if(event.key === Qt.Key_Backspace) etbox.deleteChar();
-                if(event.key === Qt.Key_Delete) etbox.deleteChar();
+                if(event.key === Qt.Key_Backspace) expr.deleteChar();
+                if(event.key === Qt.Key_Delete) expr.deleteChar();
 
                 /* Operator keys */
                 if(event.key === Qt.Key_Asterisk)  insert(ET.op("*"));

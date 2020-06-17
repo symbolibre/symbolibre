@@ -1,9 +1,9 @@
-#include "EditionTree.hpp"
+#include "SLQuickExpr.hpp"
 
 #include <QDebug>
 #include <QJsonDocument>
 
-ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
+SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
     expr(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
     cursorBlink(true), cursorTimer(this)
 {
@@ -18,22 +18,22 @@ ETBox::ETBox(QQuickItem *parent) : QQuickPaintedItem(parent),
     // QTextLayout forces QPainter::RasterOp_NotDestination composition mode,
     // which does not behave correctly when the background is transparent
     setFillColor(Qt::white);
-    connect(this, &ETBox::fillColorChanged, [&]() {
+    connect(this, &SLQuickExpr::fillColorChanged, [&]() {
         update();
         if (fillColor().alpha() != 255)
-            qWarning() << "transparent fill colors are not supported by ETBox";
+            qWarning() << "transparent fill colors are not supported by SLQuickExpr";
     });
     setOpaquePainting(true);
 }
 
-QString ETBox::json() const
+QString SLQuickExpr::json() const
 {
     QJsonDocument doc;
     doc.setArray(expr.serialize(true));
     return doc.toJson(QJsonDocument::Compact);
 }
 
-void ETBox::setJson(const QString &json)
+void SLQuickExpr::setJson(const QString &json)
 {
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     if (!doc.isArray())
@@ -44,7 +44,7 @@ void ETBox::setJson(const QString &json)
     updateResetCursor();
 }
 
-void ETBox::insertJson(const QString &json)
+void SLQuickExpr::insertJson(const QString &json)
 {
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     if (doc.isArray())
@@ -66,7 +66,7 @@ void ETBox::insertJson(const QString &json)
     updateResetCursor();
 }
 
-bool ETBox::moveCursorLeft()
+bool SLQuickExpr::moveCursorLeft()
 {
     updateResetCursor();
     bool ret = expr.editMoveLeft();
@@ -75,7 +75,7 @@ bool ETBox::moveCursorLeft()
     return ret;
 }
 
-bool ETBox::moveCursorRight()
+bool SLQuickExpr::moveCursorRight()
 {
     updateResetCursor();
     bool ret = expr.editMoveRight();
@@ -84,7 +84,7 @@ bool ETBox::moveCursorRight()
     return ret;
 }
 
-bool ETBox::moveCursorUp()
+bool SLQuickExpr::moveCursorUp()
 {
     updateResetCursor();
     bool ret = expr.editMoveUp();
@@ -93,7 +93,7 @@ bool ETBox::moveCursorUp()
     return ret;
 }
 
-bool ETBox::moveCursorDown()
+bool SLQuickExpr::moveCursorDown()
 {
     updateResetCursor();
     bool ret = expr.editMoveDown();
@@ -102,7 +102,7 @@ bool ETBox::moveCursorDown()
     return ret;
 }
 
-bool ETBox::deleteChar()
+bool SLQuickExpr::deleteChar()
 {
     updateResetCursor();
     bool ret = expr.editDelete();
@@ -113,7 +113,7 @@ bool ETBox::deleteChar()
     return ret;
 }
 
-bool ETBox::clear()
+bool SLQuickExpr::clear()
 {
     updateResetCursor();
     bool ret = expr.editClear();
@@ -122,7 +122,7 @@ bool ETBox::clear()
     return ret;
 }
 
-void ETBox::setColor(QColor color)
+void SLQuickExpr::setColor(QColor color)
 {
     textColor = color;
     update();
@@ -130,19 +130,19 @@ void ETBox::setColor(QColor color)
     emit colorChanged(color);
 }
 
-void ETBox::setHorizontalAlignment(HorizontalAlignment align)
+void SLQuickExpr::setHorizontalAlignment(HorizontalAlignment align)
 {
     halign = align;
     update();
 }
 
-void ETBox::setVerticalAlignment(VerticalAlignment align)
+void SLQuickExpr::setVerticalAlignment(VerticalAlignment align)
 {
     valign = align;
     update();
 }
 
-void ETBox::updateResetCursor()
+void SLQuickExpr::updateResetCursor()
 {
     update();
     cursorBlink = true;
@@ -152,7 +152,7 @@ void ETBox::updateResetCursor()
         cursorTimer.stop();
 }
 
-void ETBox::paint(QPainter *painter)
+void SLQuickExpr::paint(QPainter *painter)
 {
     QFont font = QFont("dejavu sans mono");
     font.setStyleHint(QFont::Monospace);
@@ -196,3 +196,32 @@ void ETBox::paint(QPainter *painter)
     expr.draw(x, y, *painter, hasActiveFocus() && cursorBlink);
 }
 
+void SLQuickExpr::keyPressEvent(QKeyEvent *event)
+{
+    bool accepted = false;
+    switch (event->key()) {
+
+    case Qt::Key_Left:
+        accepted = moveCursorLeft();
+        break;
+
+    case Qt::Key_Up:
+        accepted = moveCursorUp();
+        break;
+
+    case Qt::Key_Right:
+        accepted = moveCursorRight();
+        break;
+
+    case Qt::Key_Down:
+        accepted = moveCursorDown();
+        break;
+    }
+    if (!accepted)
+        event->ignore();
+}
+
+void SLQuickExpr::mousePressEvent(QMouseEvent *event)
+{
+    forceActiveFocus();
+}

@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.11
-import etBox 1.0
 import org.symbolibre.expr 1.0
 
 FocusScope {
@@ -18,7 +17,7 @@ FocusScope {
             Expr {
                 id: sourceExpr
                 height: parent.height
-                horizontalAlignment: ETBox.AlignLeft
+                horizontalAlignment: Expr.AlignLeft
                 fillColor: activeFocus ? "lightblue" : "white"
                 json: model.sourceJson
                 KeyNavigation.down: resultExpr
@@ -41,7 +40,7 @@ FocusScope {
                 id: resultExpr
                 height: parent.height
                 anchors.right: parent.right
-                horizontalAlignment: ETBox.AlignRight
+                horizontalAlignment: Expr.AlignRight
                 fillColor: activeFocus ? "lightblue" : "lightgray"
                 json: model.resultJson
                 focus: true

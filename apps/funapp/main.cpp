@@ -9,14 +9,12 @@
 #include <symbolibre/FileSystemContext.hpp>
 #include <symbolibre/MathContext.hpp>
 #include <symbolibre/keyboard/keycode.hpp>
-#include <symbolibre/editiontree.hpp>
 
 
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv); //QGuiApplication
-    qmlRegisterType<ETBox>("etBox", 1, 0, "ETBox");
     KeyCode::declareQML();
 
     FileSystemContext fs;

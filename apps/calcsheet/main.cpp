@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<ETBox>("etBox", 1, 0, "ETBox");
     KeyCode::declareQML();
     VirtualKeyboardContext vk;
     MathContext math;

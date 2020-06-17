@@ -1,6 +1,7 @@
 add_subdirectory(catalog)
 add_subdirectory(controls)
 add_subdirectory(editiontree)
+add_subdirectory(expr)
 add_subdirectory(graph)
 add_subdirectory(keyboard)
 

@@ -1,6 +1,5 @@
 set(editiontree_SOURCES
     EditionArea.cpp
-    EditionTree.cpp
     Flow.cpp
     Frac.cpp
     fromGiacGen.cpp
@@ -31,11 +30,6 @@ set(editiontree_HEADERS
     Variable.hpp
     visitors.hpp
 )
-set(editiontree_QML_SOURCES
-    Expr.qml
-    ExprField.qml
-    editiontree.js
-)
 
 add_library(editiontree OBJECT ${editiontree_SOURCES})
 target_link_libraries(editiontree
@@ -46,8 +40,4 @@ target_link_libraries(editiontree
 install(
     FILES ${editiontree_HEADERS}
     DESTINATION ${SL_INCLUDE_INSTALL_DIR}/editiontree
-)
-install(
-    FILES qmldir ${editiontree_QML_SOURCES}
-    DESTINATION ${SL_QML_INSTALL_DIR}/org/symbolibre/expr
 )
