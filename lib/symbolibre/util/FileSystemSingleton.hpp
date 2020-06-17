@@ -1,12 +1,15 @@
-#ifndef FILESYSTEMCONTEXT_HPP
-#define FILESYSTEMCONTEXT_HPP
+#ifndef FILESYSTEMSINGLETON_HPP
+#define FILESYSTEMSINGLETON_HPP
 
 #include <QObject>
+#include <QQmlEngine>
 #include <QString>
 
-class FileSystemContext : public QObject
+class FileSystemSingleton : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
     Q_INVOKABLE QString readFile(const QString &path) const;
@@ -14,4 +17,4 @@ public:
     Q_INVOKABLE QString dataDir() const;
 };
 
-#endif // FILESYSTEMCONTEXT_HPP
+#endif // FILESYSTEMSINGLETON_HPP

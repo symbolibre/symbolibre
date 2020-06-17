@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
 import QtQuick.Window 2.2
 import SLKeyCode 1.0
+import org.symbolibre.util 1.0
 import org.symbolibre.keyboard 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.catalog 1.0
@@ -18,7 +19,7 @@ SLWindow {
     ListModel {
         id: historyModel
         Component.onCompleted: {
-            var json = JSON.parse(fs.readFile(fs.dataDir() + "/history.json"));
+            var json = JSON.parse(Fs.readFile(Fs.dataDir() + "/history.json"));
             for (var item of json)
                 historyModel.append(item);
         }
@@ -26,7 +27,7 @@ SLWindow {
             var json = [];
             for (let i = 0; i < historyModel.count; i++)
                 json.push(historyModel.get(i));
-            fs.writeFile(fs.dataDir() + "/history.json", JSON.stringify(json));
+            Fs.writeFile(Fs.dataDir() + "/history.json", JSON.stringify(json));
         }
     }
 

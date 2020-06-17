@@ -4,17 +4,16 @@ add_subdirectory(editiontree)
 add_subdirectory(expr)
 add_subdirectory(graph)
 add_subdirectory(keyboard)
+add_subdirectory(util)
 
 configure_file(config.hpp.in config.hpp)
 configure_file(config.qml.in config.qml)
 
 set(slmath_SOURCES
-    FileSystemContext.cpp
     MathContext.cpp
 )
 set(slmath_HEADERS
     editiontree.hpp
-    FileSystemContext.hpp
     MathContext.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
 )
