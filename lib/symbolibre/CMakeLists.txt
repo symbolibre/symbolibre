@@ -24,7 +24,6 @@ set(slmath_QML_SOURCES
 add_library(${slmath_LIBRARY} SHARED ${slmath_SOURCES}
 )
 target_link_libraries(${slmath_LIBRARY} PUBLIC
-    graph
     keyboard
     editiontree
     Giac::Giac

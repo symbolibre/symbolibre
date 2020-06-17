@@ -25,11 +25,6 @@ public:
     const QRectF &view() const;
     QPointF cursorPos() const;
 
-    static void declareQML()
-    {
-        qmlRegisterType<CustomPlotItem>("SLCustomPlotItem", 1, 0, "CustomPlotItem");
-    }
-
 public slots:
     void setSelectedCurve(QString curve);
 

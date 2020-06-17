@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import SLCustomPlotItem 1.0
+import org.symbolibre.graph 1.0
 
 Item {
 
@@ -13,7 +13,7 @@ Item {
     // Send a signal saying that range changed. Send when lose focus
 
 
-    CustomPlotItem { // Should not be aliased, the interface should be enough
+    GraphView { // Should not be aliased, the interface should be enough
         id : plotItem
         anchors.fill: parent
     }

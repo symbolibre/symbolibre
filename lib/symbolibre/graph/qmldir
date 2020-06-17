@@ -1,0 +1,2 @@
+module org.symbolibre.graph
+plugin graphplugin
