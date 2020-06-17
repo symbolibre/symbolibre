@@ -1,0 +1,3 @@
+[submodule "theme"]
+	path = theme
+	url = git@gitlab.aliens-lyon.fr:symbolibre/symbolibre-theme.git
