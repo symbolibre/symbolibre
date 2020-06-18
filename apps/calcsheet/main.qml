@@ -47,6 +47,7 @@ SLWindow {
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
         // FIXME find a way to align to bottom without reversing the model
         ListView {
             id: history
@@ -90,12 +91,20 @@ SLWindow {
             Component.onCompleted: forceActiveFocus()
             KeyNavigation.up: history.count ? history : null
         }
+
+        // the virtual keyboard is loaded lazily
+        Loader {
+            id: keyboardLoader
+            Layout.fillWidth: true
+            Layout.preferredHeight: keyboard.active ? 240 : 0
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            sourceComponent: keyboard.active ? keyboardComponent : null
+        }
     }
 
-    Loader {
-        id: keyboardLoader
-        source: keyboard.active ? "qrc:/keyboard/SLKeyBoard.qml" : ""
-        x: 0
-        y: 220
+    Component {
+        id: keyboardComponent
+        SLKeyBoard {
+        }
     }
 }

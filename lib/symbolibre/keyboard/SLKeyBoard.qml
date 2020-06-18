@@ -1,7 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import SLKeyCode 1.0
-import "qrc:/keyboard"
 
 SLKeyBoardForm {
     id: keyboard
