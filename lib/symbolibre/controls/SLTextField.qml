@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.12
 import QtQuick.Controls 2.2
 
 TextField {
@@ -11,6 +11,14 @@ TextField {
     background: Rectangle {
         border.color : parent.editFocus || parent.activeFocus ? parent.borderColor : "#a0a0a0"
         border.width: parent.editFocus ? 3 : parent.activeFocus ? 2 : 1
+    }
+
+    TapHandler {
+        acceptedButtons: Qt.AllButtons
+        onTapped: {
+            forceActiveFocus();
+            editFocus = true;
+        }
     }
 
     Keys.onReturnPressed: {

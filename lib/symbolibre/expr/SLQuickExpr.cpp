@@ -10,6 +10,7 @@ SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
     setImplicitHeight(FONT_SIZE);
     setImplicitWidth(1);
+    setAcceptedMouseButtons(Qt::AllButtons);
     connect(&cursorTimer, &QTimer::timeout, [&]() {
         cursorBlink = !cursorBlink;
         update();
