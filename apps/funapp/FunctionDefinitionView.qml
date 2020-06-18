@@ -13,14 +13,23 @@ FocusScope {
             if (!data)
                 data = Fs.readFile(":/functions_default.json");
             var json = JSON.parse(data);
-            for (var item of json.functions)
+            for (var item of json.functions) {
+                item.expr = JSON.stringify(item.expr);
                 fmodel.append(item);
+            }
         }
         Component.onDestruction: {
             var json = {functions: []};
-            for (let i = 0; i < fmodel.count; i++)
-                json.functions.push(fmodel.get(i));
-            Fs.writeFile(Fs.dataDir() + "/functions.json", JSON.stringify(json));
+            for (let i = 0; i < fmodel.count; i++) {
+                // get returns a QObject that does not support arbitrary assignments
+                // so the deep copy turns it into a plain js object
+                var f = JSON.parse(JSON.stringify(fmodel.get(i)));
+                // f.expr is a JSON string stored in a js object about to be stringified
+                // if we did not parse it here, it would end up stringified twice
+                f.expr = JSON.parse(f.expr);
+                json.functions.push(f);
+            }
+            Fs.writeFile(Fs.dataDir() + "/functions.json", JSON.stringify(json, null, 1));
         }
     }
 
