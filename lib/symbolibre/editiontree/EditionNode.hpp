@@ -86,7 +86,7 @@ public:
     /** Returns a string that is python-parsable. Beware that this
      * function is sub-optimal FIXME why?
      */
-    virtual std::string getText(void) const = 0;
+    virtual QString getText(void) const = 0;
 
     /** A function called when the cursor enters the node oriented in the
      * direction 'dir'.

@@ -13,9 +13,9 @@ void Variable::ascii(int shift, bool cc)
     std::cout << " └" << (cc ? '*' : ' ') << "VARIABLE " << name.toStdString() << '\n';
 }
 
-std::string Variable::getText(void) const
+QString Variable::getText(void) const
 {
-    return "(" + name.toStdString() + ")";
+    return "(" + name + ")";
 }
 
 bool Variable::dropCursor(movedir)

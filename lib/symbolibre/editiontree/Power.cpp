@@ -25,9 +25,9 @@ void Power::ascii(int shift, bool cc)
     children[0].ascii(shift + 1, cc);
 }
 
-std::string Power::getText(void) const
+QString Power::getText(void) const
 {
-    std::string str = "^(";
+    QString str = "^(";
     str.insert(str.size(), children[0].getText());
     str.push_back(')');
     return str;

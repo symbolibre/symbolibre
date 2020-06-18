@@ -26,17 +26,17 @@ QJsonArray serializeFlow(const Flow &flow, bool cursor)
             if (cursor && flow.edited_node->get() == node.get())
                 children.append(QJsonObject({
                 qMakePair(QString("type"), QString("selected_text")),
-                qMakePair(QString("text"), QString::fromStdString(area->getText())),
+                qMakePair(QString("text"), area->getText()),
                 qMakePair(QString("cursor"), area->getCursorPos())
             }));
             else
-                children.append(QJsonValue(QString::fromStdString(area->getText())));
+                children.append(QJsonValue(area->getText()));
         }
 
         else if (auto op = dynamic_cast<Operator *>(node.get()))
             children.append(QJsonObject({
             qMakePair(QString("type"), QString("op")),
-            qMakePair(QString("op"), QString::fromStdString(op->getText()))}));
+            qMakePair(QString("op"), op->getText())}));
 
         else if (auto var = dynamic_cast<Variable *>(node.get()))
             children.append(QJsonObject({

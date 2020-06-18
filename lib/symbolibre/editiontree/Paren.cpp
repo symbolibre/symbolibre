@@ -19,9 +19,9 @@ void Paren::ascii(int shift, bool)
         std::cout << " └ PAREN )\n";
 }
 
-std::string Paren::getText(void) const
+QString Paren::getText(void) const
 {
-    std::string str;
+    QString str;
     if (ptype == LPAREN)
         str = "(";
     else

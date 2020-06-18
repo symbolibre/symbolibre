@@ -23,7 +23,7 @@ public:
 
     QString text() const
     {
-        return QString::fromStdString(expr.getText());
+        return expr.getText();
     }
 
     QString json() const;

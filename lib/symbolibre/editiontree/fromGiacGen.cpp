@@ -39,8 +39,7 @@ void atInt(int a, EditionTree &shell, EXT_GIAC_CONTEXT)
             shell.editChar((giac::calc_mode(contextptr) == 38) ? '-' : '-');
         a = -a;
     }
-    std::string number = std::to_string(a);
-    shell.editStr(number);
+    shell.editStr(std::to_string(a));
     return;
 }
 

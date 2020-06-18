@@ -28,13 +28,13 @@ private:
     FlowIterator edited_node;
 
 public:
-    Flow(std::string strinit = "");
+    Flow(QString strinit = "");
     Flow(Flow &&other);
     Flow &operator=(Flow &&other);
 
     void ascii(int shift, bool contains_cursor) override;
 
-    std::string getText(void) const override;
+    QString getText(void) const override;
 
     bool dropCursor(movedir dir) override;
 

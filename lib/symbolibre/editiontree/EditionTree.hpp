@@ -28,7 +28,7 @@ public:
     Flow root;
 
 public:
-    EditionTree(std::string text = "") : root(text), lastEdition(0) {}
+    EditionTree(QString text = "") : root(text), lastEdition(0) {}
     EditionTree(const QJsonArray &json) :
         root(deserializeFlow(json)), lastEdition(0) {}
 
@@ -61,7 +61,7 @@ public:
         return root.ascii(0, draw_cursor);
     }
 
-    std::string getText(void) const
+    QString getText(void) const
     {
         return root.getText();
     }
@@ -71,9 +71,9 @@ public:
         return lastEdition;
     }
 
-    void append(std::string str)
+    void append(QString str)
     {
-        return root.getActiveNode()->append(QString::fromStdString(str));
+        return root.getActiveNode()->append(str);
     }
 
     bool dropCursor(movedir dir)
@@ -123,12 +123,22 @@ public:
 
     void editChar(char symbol)
     {
-        root.getActiveNode()->editString(std::string(1, symbol));
+        root.getActiveNode()->editString(QString(1, symbol));
+    }
+
+    void editStr(const QString &str)
+    {
+        root.getActiveNode()->editString(str);
     }
 
     void editStr(const std::string &str)
     {
-        root.getActiveNode()->editString(str);
+        editStr(QString::fromStdString(str));
+    }
+
+    void editStr(const char *str)
+    {
+        editStr(QString(str));
     }
 
     bool editOperator(char achar, QString qs)

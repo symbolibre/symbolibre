@@ -34,9 +34,9 @@ void Sigma::ascii(int shift, bool cc)
     children[idx_rbound].ascii(shift + 2, cc && (active_child_idx == idx_rbound));
 }
 
-std::string Sigma::getText(void) const
+QString Sigma::getText(void) const
 {
-    std::string str = "sum(";
+    QString str = "sum(";
     str.insert(str.size(), children[idx_lbound].getText());
     str.insert(str.size(), ",");
     str.insert(str.size(), children[idx_rbound].getText());

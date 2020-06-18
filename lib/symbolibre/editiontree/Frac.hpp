@@ -19,12 +19,12 @@ class Frac : public InternalEditionNode
 public:
     enum {idx_num = 0, idx_den = 1};
 
-    Frac(std::string strnum = "");
+    Frac(QString strnum = "");
 
     QString getNodeType() const override;
 
     void ascii(int shift, bool contains_cursor) override;
-    std::string getText(void) const override;
+    QString getText(void) const override;
 
     bool dropCursor(movedir dir) override;
 

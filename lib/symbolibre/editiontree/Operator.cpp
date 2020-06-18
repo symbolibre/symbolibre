@@ -14,9 +14,9 @@ void Operator::ascii(int shift, bool cc)
     std::cout << " └" << (cc ? '*' : ' ') << "OPERATOR " << achar << '\n';
 }
 
-std::string Operator::getText(void) const
+QString Operator::getText(void) const
 {
-    return std::string(1, achar);
+    return QString(1, achar);
 }
 
 bool Operator::dropCursor(movedir)

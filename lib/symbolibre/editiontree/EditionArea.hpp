@@ -23,7 +23,7 @@ protected:
 
 public:
     /** Returns the text contained by the node */
-    std::string getText(void) const;
+    QString getText(void) const;
 
     /** Sets the text contained by the node to 'str' */
     void setText(QString str);
@@ -42,7 +42,7 @@ public:
      * the cursor, cursor's position included, and store the cut
      * substring into 'cut'
      */
-    void cutAtCursor(std::string &cut);
+    void cutAtCursor(QString &cut);
 
 
 public:
@@ -62,7 +62,7 @@ public:
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;
     bool editDelete(void) override;
-    void editString(const std::string &str);
+    void editString(const QString &str);
     bool insert(EditionNode *newnode) override;
 
     EditionArea *getActiveNode(void)

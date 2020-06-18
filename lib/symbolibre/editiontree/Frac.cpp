@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 
-Frac::Frac(std::string strnum) : InternalEditionNode(2)
+Frac::Frac(QString strnum) : InternalEditionNode(2)
 {
     children[0] = Flow(strnum);
 }
@@ -23,10 +23,10 @@ void Frac::ascii(int shift, bool cc)
     children[idx_den].ascii(shift + 1, cc && active_child_idx == idx_den);
 }
 
-std::string Frac::getText(void) const
+QString Frac::getText(void) const
 /* FIXME : awfull complexity */
 {
-    std::string str = "(";
+    QString str = "(";
     str.insert(str.size(), children[idx_num].getText());
     str.insert(str.size(), ")/(");
     str.insert(str.size(), children[idx_den].getText());

@@ -20,7 +20,7 @@ public:
     }
 
     void ascii(int shift, bool contains_cursor) override;
-    std::string getText(void) const override;
+    QString getText(void) const override;
     bool dropCursor(movedir dir) override;
     bool empty(void) const override;
 

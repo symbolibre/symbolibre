@@ -15,11 +15,11 @@
 /* **********************       FLOW NODE      ********************** */
 /* ****************************************************************** */
 
-Flow::Flow(std::string strinit) : EditionNode(),
+Flow::Flow(QString strinit) : EditionNode(),
     flow(), edited_node(flow.end())
 {
     /* The flow is initialized with an edition area. */
-    auto new_text = std::make_unique<EditionArea>(QString::fromStdString(strinit));
+    auto new_text = std::make_unique<EditionArea>(strinit);
     edited_node = flow.insert(flow.begin(), std::move(new_text));
 }
 
@@ -47,10 +47,10 @@ void Flow::ascii(int shift, bool cc)
         (*it)->ascii(shift + 1, cc && it == edited_node);
 }
 
-std::string Flow::getText(void) const
+QString Flow::getText(void) const
 /* FIXME : Bad complexity */
 {
-    std::string str;
+    QString str;
     for (auto it = flow.begin(); it != flow.end(); it++)
         str.insert(str.size(), (*it)->getText());
     return str;
@@ -153,7 +153,7 @@ bool Flow::editDelete(void)
     // we merge the edition areas at the left and at the right of the removed node
     flow.erase(it_area_right);
     area_left->setCursorPos(area_left->getText().size());
-    area_left->append(QString::fromStdString(right_str));
+    area_left->append(right_str);
     return true;
 }
 
@@ -190,17 +190,17 @@ bool Flow::insert(EditionNode *newnode)
             new_edited_node = newflow->edited_node;
 
         // merge the left text areas
-        std::string right;
+        QString right;
         target_ed_area->cutAtCursor(right);
         auto right_ed_area = dynamic_cast<EditionArea *>(newflow->flow.back().get());
         assert(right_ed_area);
-        right_ed_area->append(QString::fromStdString(right));
+        right_ed_area->append(right);
 
         // merge the right text areas
         const int length_before = target_ed_area->getText().size();
         auto left_ed_area = dynamic_cast<EditionArea *>(newflow->flow.front().get());
         assert(left_ed_area);
-        target_ed_area->append(QString::fromStdString(left_ed_area->getText()));
+        target_ed_area->append(left_ed_area->getText());
         target_ed_area->setCursorPos(left_ed_area->getCursorPos() + length_before);
         newflow->flow.pop_front();
 
@@ -215,7 +215,7 @@ bool Flow::insert(EditionNode *newnode)
     // Special absorbing case of fractions
     auto frac = dynamic_cast<Frac *>(newnode);
     if (frac && !target_ed_area->empty() && target_ed_area->reachedRight()) {
-        std::string numerator = target_ed_area->getText();
+        QString numerator = target_ed_area->getText();
         target_ed_area->clear();
         ++edited_node;
 
@@ -231,11 +231,11 @@ bool Flow::insert(EditionNode *newnode)
     }
 
     /* This code could be reduced, but would be harder to understand */
-    std::string right_str;
+    QString right_str;
     target_ed_area->cutAtCursor(right_str);
     ++edited_node;
 
-    auto new_text = std::make_unique<EditionArea>(QString::fromStdString(right_str));
+    auto new_text = std::make_unique<EditionArea>(right_str);
 
     edited_node = ++flow.insert(edited_node,
                                 std::unique_ptr<EditionNode>(newnode));

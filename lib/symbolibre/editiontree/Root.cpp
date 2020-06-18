@@ -25,9 +25,9 @@ void Root::ascii(int shift, bool cc)
     children[0].ascii(shift + 1, cc);
 }
 
-std::string Root::getText(void) const
+QString Root::getText(void) const
 {
-    std::string str = "sqrt(";
+    QString str = "sqrt(";
     str.insert(str.size(), children[0].getText());
     str.push_back(')');
     return str;

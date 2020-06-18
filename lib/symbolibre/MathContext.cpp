@@ -16,7 +16,7 @@ QString MathContext::toGiac(const QString &json)
         qDebug() << "bad editiontree json given to toGiac()";
         return "";
     }
-    return QString::fromStdString(EditionTree(doc.array()).getText());
+    return EditionTree(doc.array()).getText();
 }
 
 EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
@@ -27,7 +27,7 @@ EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
 
     /* TODO: Distinguish result, variable definition and function definition to
        produce different messages (this was previously done by SLL) */
-    auto value = giac::eval(giac::gen(etree.getText(), &giac), &giac);
+    auto value = giac::eval(giac::gen(etree.getText().toStdString(), &giac), &giac);
     value = giac::_simplify(value, &giac);
 
     EditionTree shell = EditionTree();
@@ -57,7 +57,7 @@ EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
     if (debug)
         std::cout << "--------- GOT: '";
     if (debug)
-        std::cout << shell.getText() << "'" << std::endl;
+        std::cout << shell.getText().toStdString() << "'" << std::endl;
 
     return shell;
 }

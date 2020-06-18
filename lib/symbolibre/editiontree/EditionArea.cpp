@@ -16,9 +16,9 @@ EditionArea::EditionArea(QString text, int cursor_pos) : EditionNode(),
 
 }
 
-std::string EditionArea::getText(void) const
+QString EditionArea::getText(void) const
 {
-    return text.toStdString();
+    return text;
 }
 
 int EditionArea::getCursorPos(void) const
@@ -41,9 +41,9 @@ void EditionArea::append(QString str)
     text.insert(text.size(), str);
 }
 
-void EditionArea::cutAtCursor(std::string &cut)
+void EditionArea::cutAtCursor(QString &cut)
 {
-    cut = text.right(text.size() - cursor_pos).toStdString();
+    cut = text.right(text.size() - cursor_pos);
     text.truncate(cursor_pos);
 }
 
@@ -140,11 +140,10 @@ bool EditionArea::editDelete(void)
     return true;
 }
 
-void EditionArea::editString(const std::string &str)
+void EditionArea::editString(const QString &str)
 {
-    const auto qstr = QString::fromStdString(str);
-    text.insert(cursor_pos, qstr);
-    cursor_pos += qstr.size();
+    text.insert(cursor_pos, str);
+    cursor_pos += str.size();
 }
 
 bool EditionArea::insert(EditionNode *newnode)
