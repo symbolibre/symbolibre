@@ -71,6 +71,6 @@ QString MathContext::evaluate(const QString &json, bool approx)
     }
     const EditionTree et(doc.array());
     EditionTree result = evaluate(et, approx);
-    doc.setArray(result.serialize(true));
-    return doc.toJson();
+    doc.setArray(result.serialize(false));
+    return doc.toJson(QJsonDocument::Compact);
 }
