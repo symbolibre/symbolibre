@@ -6,6 +6,7 @@ project(symbolibre-math
     HOMEPAGE_URL "https://symbolibre.org"
 )
 
+include(CTest)
 include(GNUInstallDirs)
 include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
@@ -32,9 +33,13 @@ if(NOT("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
     endif()
 endif()
 
-find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick)
+find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick OPTIONAL_COMPONENTS Test)
 find_package(QCustomPlot REQUIRED)
 find_package(Giac REQUIRED)
+
+if(BUILD_TESTING AND NOT(${Qt5Test_FOUND}))
+    message(SEND_ERROR "Tests enabled but Qt5Test not found")
+endif()
 
 feature_summary(WHAT ALL)
 
@@ -44,3 +49,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/lib)
 add_subdirectory(theme)
 add_subdirectory(lib)
 add_subdirectory(apps)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
