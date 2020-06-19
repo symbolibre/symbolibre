@@ -52,31 +52,19 @@ void Paren::computeDimensions(QPainter &painter, int /**/, int /**/)
         br = metrics.boundingRect(QString(")"));
 
     width  = br.width() + PAREN_SPACE;
-    height = std::max(FONT_SIZE, br.height());
+    height = std::max(metrics.height(), br.height());
     center_height = height / 2; // FIXME ?
 }
 
 void Paren::draw(int x, int y, QPainter &painter, bool)
 {
     QRect brect = QRect(x, y, width, height);
-
-    /*painter.setPen(Qt::green);
-    painter.drawRect(brect);
-    painter.setPen(Qt::black);*/
-
-    //std::cerr << "Paren height:" << height << "\n";
-
-    QFont font = painter.font();
-    int font_size = font.pixelSize();
-    if (font_size < 0)
-        font_size = FONT_SIZE;
+    const int font_size = painter.fontInfo().pixelSize();
 
     if (height <= (int)(2 * font_size))
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter,
                          ((ptype == LPAREN ? "(" : ")")));
-    else if (ptype == LPAREN)
-        /* Assume that font is at FONT_SIZE px size */
-    {
+    else if (ptype == LPAREN) {
         int par_height = std::min(font_size, y + height - font_size / 2);
         brect = QRect(x, y, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎛");
@@ -89,9 +77,7 @@ void Paren::draw(int x, int y, QPainter &painter, bool)
             brect = QRect(x, y0, width, std::min(font_size, y1 - y0));
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
         }
-    } else if (ptype == RPAREN)
-        /* Assume that font is at FONT_SIZE px size */
-    {
+    } else if (ptype == RPAREN) {
         int par_height = std::min(font_size, y + height - font_size / 2);
         brect = QRect(x, y, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎞");

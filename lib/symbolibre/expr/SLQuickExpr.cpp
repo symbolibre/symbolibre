@@ -9,10 +9,9 @@ SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
 {
     mFont.setStyleHint(QFont::Monospace);
     mFont.setHintingPreference(QFont::PreferFullHinting);
-    mFont.setPixelSize(FONT_SIZE);
 
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
-    setImplicitHeight(mFont.pixelSize());
+    setImplicitHeight(QFontInfo(mFont).pixelSize());
     setImplicitWidth(1);
     setAcceptedMouseButtons(Qt::AllButtons);
     connect(&cursorTimer, &QTimer::timeout, [&]() {

@@ -34,7 +34,7 @@ void Variable::computeDimensions(QPainter &painter, int /**/, int /**/)
     QRect br = metrics.boundingRect(name);
 
     width  = br.width();
-    height = std::max(FONT_SIZE, br.height());
+    height = std::max(metrics.height(), br.height());
     center_height = height / 2; // FIXME?
 }
 

@@ -85,22 +85,15 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
     children[idx_lbound].computeDimensions(painter, 0, 0);
     children[idx_rbound].computeDimensions(painter, 0, 0);
 
-    //QFont font = QFont("dejavu sans mono");
-    //font.setStyleHint(QFont::Monospace);
-    //font.setHintingPreference(QFont::PreferFullHinting);
-    QFont font = painter.font();
-    font.setPixelSize(FONT_SIZE * 2);
-    font.setFamily("dejavu math tex gyre");
-    painter.setFont(font);
+    QFont font = painter.font(), largeFont = painter.font();
+    largeFont.setPointSize(painter.fontInfo().pointSize() * 2);
+    painter.setFont(largeFont);
 
     QFontMetrics metrics = painter.fontMetrics();
     QRect br = metrics.boundingRect(QString("∑"));
     sigma_height = br.height();
-    font.setPixelSize(FONT_SIZE);
     sigma_width = br.width();
 
-    font.setPixelSize(FONT_SIZE);
-    font.setFamily("deja vu sans mono");
     painter.setFont(font);
 
     width = std::max({sigma_width, children[idx_lbound].width, children[idx_rbound].width});
@@ -113,15 +106,9 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    // painter.setPen(Qt::red);
-    // painter.drawRect(brect);
-    //
-    // painter.setPen(Qt::black);
-    int y_mid = y + center_height;
-
     /* Lower bound */
     int x_lbound = x + (width - children[idx_lbound].width) / 2;
-    int y_lbound = y_mid + sigma_height / 2;
+    int y_lbound = y + center_height + sigma_height / 2;
     children[idx_lbound].draw(x_lbound, y_lbound, painter,
                               cursor && (active_child_idx == idx_lbound));
 
@@ -134,16 +121,14 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
                               cursor && (active_child_idx == idx_rbound));
 
     /* Sigma */
-    QFont font = painter.font();
-    font.setPixelSize(FONT_SIZE * 2);
-    font.setFamily("dejavu math tex gyre");
-    painter.setFont(font);
+    QFont font = painter.font(), largeFont = painter.font();
+    largeFont.setPointSize(painter.fontInfo().pointSize() * 2);
+    painter.setFont(largeFont);
 
     QRect bsigma = QRect(x + (width - sigma_width) / 2,
-                         y_mid - sigma_height / 2, sigma_width, sigma_height);
+                         y + children[idx_rbound].height, sigma_width, sigma_height);
     painter.drawText(bsigma, Qt::AlignHCenter | Qt::AlignVCenter, QString("∑"));
-    font.setPixelSize(FONT_SIZE);
-    font.setFamily("dejavu sans Monospace");
+
     painter.setFont(font);
 }
 

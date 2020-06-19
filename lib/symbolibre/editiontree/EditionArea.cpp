@@ -167,7 +167,7 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
     QRect br = layout.boundingRect().toAlignedRect();
 
     width  = br.width() + 1; // the +1 makes some room at the end for the cursor
-    height = std::max(FONT_SIZE, br.height());
+    height = std::max(painter.fontMetrics().height(), br.height());
     center_height = height / 2; // FIXME ascent
 }
 
