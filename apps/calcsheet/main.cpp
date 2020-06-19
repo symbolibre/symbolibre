@@ -10,6 +10,9 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    auto font(app.font());
+    font.setPixelSize(13);
+    app.setFont(font);
 
     VirtualKeyboardContext vk;
     MathContext math;

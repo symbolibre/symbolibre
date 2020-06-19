@@ -2,8 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 ApplicationWindow {
-    font.pixelSize: 13
-
     palette.window: "white"
     palette.windowText: "black"
     palette.base: "white"
@@ -19,5 +17,4 @@ ApplicationWindow {
     palette.midlight: "#4e8fc1"
     palette.dark: "#053d68"
     palette.mid: "#074e84"
-
 }

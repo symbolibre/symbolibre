@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv); //QGuiApplication
+    auto font(app.font());
+    font.setPixelSize(13);
+    app.setFont(font);
 
     MathContext math;
 
