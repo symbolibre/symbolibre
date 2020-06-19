@@ -55,12 +55,6 @@ public:
         SLK_POW10,
     };
     Q_ENUMS(keycode)
-
-    static void declareQML()
-    {
-        qmlRegisterType<KeyCode>("SLKeyCode", 1, 0, "KeyCode");
-    }
-
 };
 
 #endif // KEYCODE_H

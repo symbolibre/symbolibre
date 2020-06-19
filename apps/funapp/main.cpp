@@ -7,14 +7,12 @@
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/MathContext.hpp>
-#include <symbolibre/keyboard/keycode.hpp>
 
 
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv); //QGuiApplication
-    KeyCode::declareQML();
 
     MathContext math;
 

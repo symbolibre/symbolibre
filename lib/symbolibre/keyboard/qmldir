@@ -1,2 +1,4 @@
 module org.symbolibre.keyboard
+plugin keyboardplugin
 SLKeyBoard 1.0 SLKeyBoard.qml
+internal SLKeyBoardForm SLKeyBoardForm.ui.qml

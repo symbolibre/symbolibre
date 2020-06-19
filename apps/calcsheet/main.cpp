@@ -5,14 +5,12 @@
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/MathContext.hpp>
-#include <symbolibre/keyboard/keycode.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    KeyCode::declareQML();
     VirtualKeyboardContext vk;
     MathContext math;
 

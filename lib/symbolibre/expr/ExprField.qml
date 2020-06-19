@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import SLKeyCode 1.0
 import org.symbolibre.expr 1.0
 import "editiontree.js" as ET
 
