@@ -6,10 +6,13 @@
 # binaries
 a.out
 # Qt project files and meta-object compiler files
-*.pro.user
+*.user
 moc_*
 .qmake.stash
 qrc_qml.cpp
 qmake_qmake_immediate.qrc
 qrc_qmake_qmake_immediate.cpp
+# KDevelop
+.kdev4
+# cmake build directory
 build
