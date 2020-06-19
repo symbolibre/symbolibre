@@ -1,5 +1,6 @@
 #include "Power.hpp"
 #include "Flow.hpp"
+#include "FontResizer.hpp"
 #include <iostream>
 
 
@@ -45,7 +46,10 @@ bool Power::empty(void) const
 
 void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascent)
 {
-    children[0].computeDimensions(painter, 0, 0);
+    {
+        FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);
+        children[0].computeDimensions(painter, 0, 0);
+    }
     width         = children[0].width;
 
     const auto &metrics = painter.fontMetrics();
@@ -60,7 +64,7 @@ void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascen
 
 void Power::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    /* Draw the expression */
+    FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);
     children[0].draw(x, y, painter, cursor);
 }
 

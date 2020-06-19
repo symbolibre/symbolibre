@@ -83,11 +83,16 @@ bool Sigma::editMoveDown(void)
 
 void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
-    children[idx_lbound].computeDimensions(painter, 0, 0);
-    children[idx_rbound].computeDimensions(painter, 0, 0);
+    const auto pointSize = painter.fontInfo().pointSize();
 
     {
-        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 2);
+        const auto f = FontResizer(painter, pointSize * 2 / 3);
+        children[idx_lbound].computeDimensions(painter, 0, 0);
+        children[idx_rbound].computeDimensions(painter, 0, 0);
+    }
+
+    {
+        const auto f = FontResizer(painter, pointSize * 3 / 2);
 
         QFontMetrics metrics = painter.fontMetrics();
         QRect br = metrics.boundingRect(QString("∑"));
@@ -103,26 +108,31 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    /* Lower bound */
-    int x_lbound = x + (width - children[idx_lbound].width) / 2;
-    int y_lbound = y + ascent;
-    children[idx_lbound].draw(x_lbound, y_lbound, painter,
-                              cursor && (active_child_idx == idx_lbound));
+    const auto pointSize = painter.fontInfo().pointSize();
 
+    {
+        FontResizer f(painter, pointSize * 2 / 3);
 
-    /* Upper bound */
-    int x_rbound = x + (width - children[idx_rbound].width) / 2;
-    int y_rbound = y;
+        /* Lower bound */
+        int x_lbound = x + (width - children[idx_lbound].width) / 2;
+        int y_lbound = y + ascent;
+        children[idx_lbound].draw(x_lbound, y_lbound, painter,
+                                  cursor && (active_child_idx == idx_lbound));
 
-    children[idx_rbound].draw(x_rbound, y_rbound, painter,
-                              cursor && (active_child_idx == idx_rbound));
+        /* Upper bound */
+        int x_rbound = x + (width - children[idx_rbound].width) / 2;
+        int y_rbound = y;
+        children[idx_rbound].draw(x_rbound, y_rbound, painter,
+                                  cursor && (active_child_idx == idx_rbound));
+    }
 
     /* Sigma */
     {
-        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 2);
+        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 3 / 2);
 
+        // FIXME why is +1 needed here?
         QRect bsigma = QRect(x + (width - sigma_width) / 2,
-                             y + children[idx_rbound].height, sigma_width, sigma_height);
+                             y + children[idx_rbound].height, sigma_width, sigma_height + 1);
         painter.drawText(bsigma, Qt::AlignHCenter | Qt::AlignVCenter, QString("∑"));
     }
 }
