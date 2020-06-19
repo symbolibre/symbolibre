@@ -41,6 +41,7 @@ FocusScope {
         ExprField {
             id: exprfield
             Layout.fillWidth: true
+            Layout.maximumHeight: 120
             json: model.expr
             onJsonChanged: model.expr = json
             focus: true
