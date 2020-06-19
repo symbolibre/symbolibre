@@ -14,6 +14,7 @@ class SLQuickExpr : public QQuickPaintedItem
     Q_PROPERTY(qreal implicitHeight READ implicitHeight NOTIFY implicitHeightChanged)
     Q_PROPERTY(QString text READ text NOTIFY exprChanged STORED false)
     Q_PROPERTY(QString json READ json WRITE setJson NOTIFY exprChanged)
+    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment)
     Q_PROPERTY(VerticalAlignment verticalAlignment READ verticalAlignment WRITE setVerticalAlignment)
@@ -31,6 +32,12 @@ public:
 
     /* Painting functions */
     void paint(QPainter *painter) override;
+
+    const QFont &font() const
+    {
+        return mFont;
+    }
+    void setFont(const QFont &font);
 
     QColor color() const
     {
@@ -62,6 +69,7 @@ signals:
     void exprChanged();
     void cursorPosChanged();
     void colorChanged(QColor color);
+    void fontChanged(const QFont &font);
 
 public slots:
     void insertJson(const QString &json);
@@ -81,6 +89,7 @@ protected:
 
 private:
     EditionTree expr;
+    QFont mFont;
     QColor textColor;
     HorizontalAlignment halign;
     VerticalAlignment valign;

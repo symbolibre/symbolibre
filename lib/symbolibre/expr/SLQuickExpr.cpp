@@ -4,11 +4,15 @@
 #include <QJsonDocument>
 
 SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
-    expr(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
+    expr(), mFont(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
     cursorBlink(true), cursorTimer(this)
 {
+    mFont.setStyleHint(QFont::Monospace);
+    mFont.setHintingPreference(QFont::PreferFullHinting);
+    mFont.setPixelSize(FONT_SIZE);
+
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
-    setImplicitHeight(FONT_SIZE);
+    setImplicitHeight(mFont.pixelSize());
     setImplicitWidth(1);
     setAcceptedMouseButtons(Qt::AllButtons);
     connect(&cursorTimer, &QTimer::timeout, [&]() {
@@ -123,10 +127,16 @@ bool SLQuickExpr::clear()
     return ret;
 }
 
+void SLQuickExpr::setFont(const QFont &font)
+{
+    mFont = font;
+    updateResetCursor();
+    emit fontChanged(mFont);
+}
+
 void SLQuickExpr::setColor(QColor color)
 {
     textColor = color;
-    update();
     updateResetCursor();
     emit colorChanged(color);
 }
@@ -155,11 +165,7 @@ void SLQuickExpr::updateResetCursor()
 
 void SLQuickExpr::paint(QPainter *painter)
 {
-    QFont font = QFont("dejavu sans mono");
-    font.setStyleHint(QFont::Monospace);
-    font.setHintingPreference(QFont::PreferFullHinting);
-    font.setPixelSize(FONT_SIZE);
-    painter->setFont(font);
+    painter->setFont(mFont);
     painter->setPen(textColor);
 
     expr.computeDimensions(*painter);
