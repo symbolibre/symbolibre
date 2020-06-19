@@ -1,5 +1,6 @@
 #include "Sigma.hpp"
 #include "Flow.hpp"
+#include "FontResizer.hpp"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -85,20 +86,16 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
     children[idx_lbound].computeDimensions(painter, 0, 0);
     children[idx_rbound].computeDimensions(painter, 0, 0);
 
-    QFont font = painter.font(), largeFont = painter.font();
-    largeFont.setPointSize(painter.fontInfo().pointSize() * 2);
-    painter.setFont(largeFont);
+    {
+        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 2);
 
-    QFontMetrics metrics = painter.fontMetrics();
-    QRect br = metrics.boundingRect(QString("∑"));
-    sigma_height = br.height();
-    sigma_width = br.width();
-
-    painter.setFont(font);
+        QFontMetrics metrics = painter.fontMetrics();
+        QRect br = metrics.boundingRect(QString("∑"));
+        sigma_height = br.height();
+        sigma_width = br.width();
+    }
 
     width = std::max({sigma_width, children[idx_lbound].width, children[idx_rbound].width});
-    if (width == 0)
-        width = metrics.horizontalAdvance(QChar('0'));
 
     height = sigma_height + children[idx_rbound].height + children[idx_lbound].height;
     ascent = sigma_height + children[idx_rbound].height;
@@ -121,15 +118,13 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
                               cursor && (active_child_idx == idx_rbound));
 
     /* Sigma */
-    QFont font = painter.font(), largeFont = painter.font();
-    largeFont.setPointSize(painter.fontInfo().pointSize() * 2);
-    painter.setFont(largeFont);
+    {
+        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 2);
 
-    QRect bsigma = QRect(x + (width - sigma_width) / 2,
-                         y + children[idx_rbound].height, sigma_width, sigma_height);
-    painter.drawText(bsigma, Qt::AlignHCenter | Qt::AlignVCenter, QString("∑"));
-
-    painter.setFont(font);
+        QRect bsigma = QRect(x + (width - sigma_width) / 2,
+                             y + children[idx_rbound].height, sigma_width, sigma_height);
+        painter.drawText(bsigma, Qt::AlignHCenter | Qt::AlignVCenter, QString("∑"));
+    }
 }
 
 

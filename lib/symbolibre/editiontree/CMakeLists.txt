@@ -1,6 +1,7 @@
 set(editiontree_SOURCES
     EditionArea.cpp
     Flow.cpp
+    FontResizer.cpp
     Frac.cpp
     fromGiacGen.cpp
     InternalEditionNode.cpp
