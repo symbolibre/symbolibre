@@ -1,7 +1,7 @@
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.11
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.12
 import org.symbolibre.util 1.0
 
 FocusScope {
