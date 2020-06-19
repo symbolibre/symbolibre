@@ -29,7 +29,7 @@ public:
     bool empty(void) const override;
 
     void computeDimensions(QPainter &painter,
-                           int lheight, int lcenterheight) override;
+                           int lheight, int lascent) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 };
 

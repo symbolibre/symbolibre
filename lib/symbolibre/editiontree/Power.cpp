@@ -43,7 +43,7 @@ bool Power::empty(void) const
     return children[0].empty();
 }
 
-void Power::computeDimensions(QPainter &painter, int prev_height, int prev_cheight)
+void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascent)
 {
     children[0].computeDimensions(painter, 0, 0);
     width         = children[0].width;
@@ -51,10 +51,10 @@ void Power::computeDimensions(QPainter &painter, int prev_height, int prev_cheig
     const auto &metrics = painter.fontMetrics();
     if (prev_height) {
         height = children[0].height + prev_height - metrics.ascent() / 2;
-        center_height = children[0].height + prev_cheight - metrics.ascent() / 2;
+        ascent = children[0].height + prev_ascent - metrics.ascent() / 2;
     } else {
         height = children[0].height + metrics.height() - metrics.ascent() / 2;
-        center_height = children[0].height + metrics.ascent() / 2;
+        ascent = children[0].height + metrics.ascent() / 2;
     }
 }
 

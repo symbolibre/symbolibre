@@ -85,8 +85,8 @@ void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
              std::max(min_height, children[idx_num].height) +
              std::max(min_height, children[idx_den].height);
     // FIXME is there a better way to align the fraction?
-    center_height = FRAC_UP_SPACE +
-                    std::max(min_height, children[idx_num].height) + metrics.ascent() / 3;
+    ascent = FRAC_UP_SPACE +
+             std::max(min_height, children[idx_num].height) + metrics.ascent() / 3;
 }
 
 void Frac::draw(int x, int y, QPainter &painter, bool cursor)
@@ -123,7 +123,7 @@ QPoint Frac::getCursorCoordinates(void)
     } else {
         QPoint posInChild = children[idx_den].getCursorCoordinates();
         size_t xPos = posInChild.x() + (width - children[idx_den].width) / 2;
-        size_t yPos = posInChild.y() + height - center_height + FRAC_UP_SPACE;
+        size_t yPos = posInChild.y() + height - ascent + FRAC_UP_SPACE;
         return QPoint(xPos, yPos);
     }
 }

@@ -274,9 +274,9 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     width         = 0;
     height        = 0;
-    center_height = 0;
+    ascent = 0;
     int last_height  = 0;
-    int last_cheight = 0;
+    int last_ascent = 0;
 
     auto it = flow.begin();
     /* Empty case: a box will be drawn */
@@ -288,7 +288,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
 
         width  = br.width();
         height = std::max(metrics.height(), br.height());
-        center_height = metrics.ascent();
+        ascent = metrics.ascent();
         return;
     }
 
@@ -299,30 +299,30 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             if (it != flow.begin() && (*it)->empty())
                 it --;
             int left_height        = (*it)->height;
-            int left_center_height = (*it)->center_height;
+            int left_ascent = (*it)->ascent;
 
             it++; /* go back to the parenthesis */
             if (it != flow.end() && (*it)->empty())
                 it ++;
 
             /* Compute parenthesis' size: only 'width' is important */
-            (*it)->computeDimensions(painter, last_height, last_cheight);
+            (*it)->computeDimensions(painter, last_height, last_ascent);
             (*it)->height        = left_height;
-            (*it)->center_height = left_center_height;
+            (*it)->ascent = left_ascent;
             int it_width  = (*it)->width;
             int it_height = (*it)->height;
-            int it_center = (*it)->center_height;
+            int it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
-                last_cheight = it_center;
+                last_ascent = it_ascent;
             }
 
             /* Update flow box */
             width += it_width; /* only 1 parenthesis: RPAREN ) */
-            height = std::max(center_height, it_center)
-                     + std::max(height - center_height, it_height - it_center);
-            center_height = std::max(center_height, it_center);
+            height = std::max(ascent, it_ascent)
+                     + std::max(height - ascent, it_height - it_ascent);
+            ascent = std::max(ascent, it_ascent);
 
             it ++; /* pass the parenthesis */
         } else if (paren && paren->getParenType() == LPAREN) {
@@ -331,21 +331,21 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes: we keep 'width' only */
-            (*it)->computeDimensions(painter, last_height, last_cheight);
+            (*it)->computeDimensions(painter, last_height, last_ascent);
             (*it)->height        = sub_box.height;
-            (*it)->center_height = sub_box.center_height;
+            (*it)->ascent = sub_box.ascent;
             if (new_it != flow.end()) { /* RPAREN (if exists) */
-                (*new_it)->computeDimensions(painter, last_height, last_cheight);
+                (*new_it)->computeDimensions(painter, last_height, last_ascent);
                 (*new_it)->height        = sub_box.height;
-                (*new_it)->center_height = sub_box.center_height;
+                (*new_it)->ascent = sub_box.ascent;
             }
             int it_width  = (*it)->width;
             int it_height = (*it)->height;
-            int it_center = (*it)->center_height;
+            int it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
-                last_cheight = it_center;
+                last_ascent = it_ascent;
             }
 
             /* Updating flow box */
@@ -354,9 +354,9 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             else
                 width += 1 * it_width;
             width += sub_box.width;
-            height = std::max(center_height, it_center)
-                     + std::max(height - center_height, it_height - it_center);
-            center_height = std::max(center_height, it_center);
+            height = std::max(ascent, it_ascent)
+                     + std::max(height - ascent, it_height - it_ascent);
+            ascent = std::max(ascent, it_ascent);
 
             /* Annoying part: skip the parenthesis (and possibly the RPAREN */
             if (new_it != flow.end())
@@ -365,20 +365,20 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
                 it = new_it;
         } else {
             /* general case: Easy */
-            (*it)->computeDimensions(painter, last_height, last_cheight);
+            (*it)->computeDimensions(painter, last_height, last_ascent);
             int it_width  = (*it)->width;
             int it_height = (*it)->height;
-            int it_center = (*it)->center_height;
+            int it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
-                last_cheight = it_center;
+                last_ascent = it_ascent;
             }
 
             width += it_width;
-            height = std::max(center_height, it_center)
-                     + std::max(height - center_height, it_height - it_center);
-            center_height = std::max(center_height, it_center);
+            height = std::max(ascent, it_ascent)
+                     + std::max(height - ascent, it_height - it_ascent);
+            ascent = std::max(ascent, it_ascent);
 
             it++;
         }
@@ -413,7 +413,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
 
     for (auto it = flow.begin(); it != flow.end(); it++) {
         int it_y = y /*+ height - (*it)->height*/
-                   + center_height - (*it)->center_height;
+                   + ascent - (*it)->ascent;
         (*it)->draw(x, it_y, painter, it == edited_node && cursor);
         x += (*it)->width;
 
@@ -424,12 +424,12 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
 
 centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
 {
-    /* FIXME It is kind of cheating, but par_rect.x stands for the center_height */
+    /* FIXME It is kind of cheating, but par_rect.x stands for the ascent */
     centeredBox par_box;
-    par_box.height = par_box.width = par_box.center_height = 0;
+    par_box.height = par_box.width = par_box.ascent = 0;
 
     int last_height  = 0;
-    int last_cheight = 0;
+    int last_ascent = 0;
 
     while (current_node != flow.end()) {
         auto paren = dynamic_cast<Paren *>(current_node->get());
@@ -443,19 +443,19 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
             struct centeredBox sub_box = parenArea(++new_it, painter);
 
             /* Compute parenthesis' sizes */
-            (*current_node)->computeDimensions(painter, last_height, last_cheight);
+            (*current_node)->computeDimensions(painter, last_height, last_ascent);
             /* only 'width' is OK */
             /* Dirty there : adjusting size of the parenthesis 'at hands' */
             (*current_node)->height        = sub_box.height;
-            (*current_node)->center_height = sub_box.center_height;
+            (*current_node)->ascent = sub_box.ascent;
             if (new_it != flow.end()) {
-                (*new_it)->computeDimensions(painter, last_height, last_cheight);
+                (*new_it)->computeDimensions(painter, last_height, last_ascent);
                 (*new_it)->height        = sub_box.height;
-                (*new_it)->center_height = sub_box.center_height;
+                (*new_it)->ascent = sub_box.ascent;
             }
             int it_width  = (*current_node)->width;
             int it_height = last_height  = (*current_node)->height;
-            int it_center = last_cheight = (*current_node)->center_height;
+            int it_ascent = last_ascent = (*current_node)->ascent;
 
             /* We add the width of the parenthesis */
             /* For that we count them: new_it == flow.end() iff the right paren
@@ -465,11 +465,11 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
             else
                 par_box.width += 1 * it_width;
             par_box.width += sub_box.width; /* Adding length of right box */
-            /* Computing height & center_height: usual formulas */
-            par_box.height = std::max(par_box.center_height, it_center)
-                             + std::max(par_box.height - par_box.center_height,
-                                        it_height - it_center);
-            par_box.center_height = std::max(par_box.center_height, it_center);
+            /* Computing height & ascent: usual formulas */
+            par_box.height = std::max(par_box.ascent, it_ascent)
+                             + std::max(par_box.height - par_box.ascent,
+                                        it_height - it_ascent);
+            par_box.ascent = std::max(par_box.ascent, it_ascent);
 
             /* Annoying adjustments */
             if (new_it != flow.end())
@@ -477,16 +477,16 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
             else
                 current_node = new_it;
         } else { /* Default case: copy past from computeDimensions*/
-            (*current_node)->computeDimensions(painter, last_height, last_cheight);
+            (*current_node)->computeDimensions(painter, last_height, last_ascent);
             int it_width  = (*current_node)->width;
             int it_height = last_height  = (*current_node)->height;
-            int it_center = last_cheight = (*current_node)->center_height;
+            int it_ascent = last_ascent = (*current_node)->ascent;
 
             par_box.width += it_width;
-            par_box.height = std::max(par_box.center_height, it_center)
-                             + std::max(par_box.height - par_box.center_height,
-                                        it_height - it_center);
-            par_box.center_height = std::max(par_box.center_height, it_center);
+            par_box.height = std::max(par_box.ascent, it_ascent)
+                             + std::max(par_box.height - par_box.ascent,
+                                        it_height - it_ascent);
+            par_box.ascent = std::max(par_box.ascent, it_ascent);
 
             current_node ++;
         }
@@ -521,7 +521,7 @@ QPoint Flow::getCursorCoordinates(void)
 
     QPoint posInChild = (*edited_node)->getCursorCoordinates();
     size_t yPos = height - (*edited_node)->height
-                  - center_height + (*edited_node)->center_height;
+                  - ascent + (*edited_node)->ascent;
     xPos += posInChild.x();
     yPos += posInChild.y();
     return QPoint(xPos, yPos);

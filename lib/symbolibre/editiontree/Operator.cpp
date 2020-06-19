@@ -36,7 +36,7 @@ void Operator::computeDimensions(QPainter &painter, int /**/, int /**/)
 
     width  = br.width();
     height = std::max(metrics.height(), br.height());
-    center_height = metrics.ascent();
+    ascent = metrics.ascent();
 }
 
 void Operator::draw(int x, int y, QPainter &painter, bool)

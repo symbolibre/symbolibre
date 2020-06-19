@@ -194,10 +194,10 @@ void SLQuickExpr::paint(QPainter *painter)
             y = height() - expr.getHeight();
         else
             y = height() / 2 - expr.getHeight() / 2;
-    } else if (expr.getHeight() - expr.getCenterHeight() < (int) height() / 2)
-        y = height() / 2 + expr.getCenterHeight() - expr.getHeight();
+    } else if (expr.getHeight() - expr.getAscent() < (int) height() / 2)
+        y = height() / 2 + expr.getAscent() - expr.getHeight();
     else
-        y = height() / 2 + expr.getCenterHeight() - expr.getHeight() - p.y();
+        y = height() / 2 + expr.getAscent() - expr.getHeight() - p.y();
 
     expr.draw(x, y, *painter, hasActiveFocus() && cursorBlink);
 }

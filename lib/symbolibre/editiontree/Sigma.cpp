@@ -101,14 +101,14 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
         width = metrics.horizontalAdvance(QChar('0'));
 
     height = sigma_height + children[idx_rbound].height + children[idx_lbound].height;
-    center_height = sigma_height + children[idx_rbound].height;
+    ascent = sigma_height + children[idx_rbound].height;
 }
 
 void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 {
     /* Lower bound */
     int x_lbound = x + (width - children[idx_lbound].width) / 2;
-    int y_lbound = y + center_height;
+    int y_lbound = y + ascent;
     children[idx_lbound].draw(x_lbound, y_lbound, painter,
                               cursor && (active_child_idx == idx_lbound));
 

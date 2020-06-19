@@ -58,12 +58,12 @@ public:
     int width;
     /** The height of the node */
     int height;
-    /** FIXME document this */
-    int center_height;
+    /** The distance from the top of the node to its baseline */
+    int ascent;
 
 public:
     /** Constructor */
-    EditionNode() : width(0), height(0), center_height(0) {}
+    EditionNode() : width(0), height(0), ascent(0) {}
     virtual ~EditionNode() = default;
 
     // FIXME needs Flow::flow to be a vector
@@ -170,7 +170,7 @@ public:
 
     /**
      * Computes the information necessary to draw the expression.
-     * It updates 'width', 'height', 'center_height' for all nodes in the
+     * It updates 'width', 'height', 'ascent' for all nodes in the
      * tree.
      * The complexity is linear in the number of nodes.
      * \param painter the painter that will be used

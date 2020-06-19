@@ -51,9 +51,9 @@ public:
     {
         return root.height;
     }
-    int getCenterHeight() const
+    int getAscent() const
     {
-        return root.center_height;
+        return root.ascent;
     }
 
     void ascii(bool draw_cursor)
@@ -202,9 +202,9 @@ public:
         return root.getActiveNode();
     }
 
-    void computeDimensions(QPainter &painter, int lheight, int lcenterheight)
+    void computeDimensions(QPainter &painter, int lheight, int lascent)
     {
-        return root.computeDimensions(painter, lheight, lcenterheight);
+        return root.computeDimensions(painter, lheight, lascent);
     }
 
     void computeDimensions(QPainter &painter)

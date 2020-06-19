@@ -167,7 +167,7 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 
     width  = line.naturalTextWidth() + 1; // the +1 makes some room at the end for the cursor
     height = line.height();
-    center_height = line.ascent();
+    ascent = line.ascent();
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)

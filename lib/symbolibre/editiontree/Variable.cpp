@@ -35,7 +35,7 @@ void Variable::computeDimensions(QPainter &painter, int /**/, int /**/)
 
     width  = br.width();
     height = std::max(metrics.height(), br.height());
-    center_height = metrics.ascent();
+    ascent = metrics.ascent();
 }
 
 void Variable::draw(int x, int y, QPainter &painter, bool)

@@ -7,7 +7,7 @@
 struct centeredBox {
     int width;
     int height;
-    int center_height;
+    int ascent;
 };
 
 /**
@@ -60,7 +60,7 @@ public:
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
-                           int lheight, int lcenterheight) override;
+                           int lheight, int lascent) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
 
     /** Returns the box size that the paren at cur_node-- grap. */
