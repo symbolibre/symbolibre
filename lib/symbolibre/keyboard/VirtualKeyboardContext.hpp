@@ -19,11 +19,6 @@ public:
 
     Q_INVOKABLE void setActive(bool state);
 
-    static void declareQML()
-    {
-        qmlRegisterType<VirtualKeyboardContext>("org.symbolibre", 1, 0, "VirtualKeyboardContext");
-    }
-
 public slots:
     void virtualKeyPress(int key, int modifiers, QString text);
 

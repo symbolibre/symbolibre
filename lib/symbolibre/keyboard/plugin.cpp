@@ -1,4 +1,5 @@
 #include "keycode.hpp"
+#include "VirtualKeyboardContext.hpp"
 #include <QQmlExtensionPlugin>
 
 class GraphQmlPlugin : public QQmlExtensionPlugin
@@ -10,6 +11,8 @@ public:
     {
         Q_ASSERT(uri == QString("org.symbolibre.keyboard"));
         qmlRegisterType<KeyCode>(uri, 1, 0, "KeyCode");
+        qmlRegisterType<VirtualKeyboardContext>("org.symbolibre.keyboard", 1, 0,
+                                                "VirtualKeyboardContext");
     }
 };
 
