@@ -84,8 +84,9 @@ void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
     height = FRAC_UP_SPACE + FRAC_DOWN_SPACE +
              std::max(min_height, children[idx_num].height) +
              std::max(min_height, children[idx_den].height);
-    center_height = FRAC_DOWN_SPACE +
-                    std::max(min_height, children[idx_den].height);
+    // FIXME is there a better way to align the fraction?
+    center_height = FRAC_UP_SPACE +
+                    std::max(min_height, children[idx_num].height) + metrics.ascent() / 3;
 }
 
 void Frac::draw(int x, int y, QPainter &painter, bool cursor)
@@ -101,12 +102,12 @@ void Frac::draw(int x, int y, QPainter &painter, bool cursor)
     children[idx_num].draw(x_numerator, y, painter, cursor && active_child_idx == idx_num);
 
     /* frac line */
-    int y_line = y + height - center_height;
+    int y_line = y + children[idx_num].height + FRAC_UP_SPACE;
     painter.drawLine(x + FRAC_SPACE / 2, y_line, x - FRAC_SPACE / 2 + width - 1, y_line);
 
     /* Denominator */
     int x_denominator = x + (width - children[idx_den].width) / 2;
-    int y_denominator = y + height - center_height + FRAC_UP_SPACE;
+    int y_denominator = y_line + FRAC_DOWN_SPACE;
 
     children[idx_den].draw(x_denominator, y_denominator, painter,
                            cursor && active_child_idx == idx_den);

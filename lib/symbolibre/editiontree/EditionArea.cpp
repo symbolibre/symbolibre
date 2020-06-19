@@ -162,13 +162,12 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 {
     QTextLayout layout(text, painter.font());
     layout.beginLayout();
-    layout.createLine();
+    auto line = layout.createLine();
     layout.endLayout();
-    QRect br = layout.boundingRect().toAlignedRect();
 
-    width  = br.width() + 1; // the +1 makes some room at the end for the cursor
-    height = std::max(painter.fontMetrics().height(), br.height());
-    center_height = height / 2; // FIXME ascent
+    width  = line.naturalTextWidth() + 1; // the +1 makes some room at the end for the cursor
+    height = line.height();
+    center_height = line.ascent();
 }
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)

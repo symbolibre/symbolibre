@@ -52,7 +52,7 @@ void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
     rootWidth     = painter.fontInfo().pixelSize() * 2 / 3;
     width         = children[0].width  + rootWidth + 2 * ROOT_VSPACE;
     height        = children[0].height + ROOT_HSPACE;
-    center_height = children[0].center_height;
+    center_height = children[0].center_height + ROOT_HSPACE;
 }
 
 void Root::draw(int x, int y, QPainter &painter, bool cursor)

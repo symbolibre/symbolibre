@@ -288,7 +288,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
 
         width  = br.width();
         height = std::max(metrics.height(), br.height());
-        center_height = height / 2; // FIXME?
+        center_height = metrics.ascent();
         return;
     }
 
@@ -412,8 +412,8 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
     }
 
     for (auto it = flow.begin(); it != flow.end(); it++) {
-        int it_y = y + height - (*it)->height
-                   - center_height + (*it)->center_height;
+        int it_y = y /*+ height - (*it)->height*/
+                   + center_height - (*it)->center_height;
         (*it)->draw(x, it_y, painter, it == edited_node && cursor);
         x += (*it)->width;
 

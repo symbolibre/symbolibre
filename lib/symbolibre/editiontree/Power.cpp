@@ -46,13 +46,16 @@ bool Power::empty(void) const
 void Power::computeDimensions(QPainter &painter, int prev_height, int prev_cheight)
 {
     children[0].computeDimensions(painter, 0, 0);
+    width         = children[0].width;
 
-    /* Right now, there is no adjustment */
-    width         = children[0].width  ;
-    height        = children[0].height
-                    + std::max(0, prev_height - children[0].center_height - prev_cheight);
-    center_height = 0;
-    // Here is the trick - FIXME because it is not robust.
+    const auto &metrics = painter.fontMetrics();
+    if (prev_height) {
+        height = children[0].height + prev_height - metrics.ascent() / 2;
+        center_height = children[0].height + prev_cheight - metrics.ascent() / 2;
+    } else {
+        height = children[0].height + metrics.height() - metrics.ascent() / 2;
+        center_height = children[0].height + metrics.ascent() / 2;
+    }
 }
 
 void Power::draw(int x, int y, QPainter &painter, bool cursor)
