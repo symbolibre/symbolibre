@@ -19,7 +19,7 @@ FocusScope {
                 height: parent.height
                 horizontalAlignment: Expr.AlignLeft
                 fillColor: activeFocus ? "lightblue" : "white"
-                json: model.sourceJson
+                json: model.source
                 KeyNavigation.down: resultExpr
                 Keys.onPressed: {
                     if (event.key == Qt.Key_Return) {
@@ -42,7 +42,7 @@ FocusScope {
                 anchors.right: parent.right
                 horizontalAlignment: Expr.AlignRight
                 fillColor: activeFocus ? "lightblue" : "lightgray"
-                json: model.resultJson
+                json: model.result
                 focus: true
                 Keys.onPressed: {
                     if (event.key == Qt.Key_Return) {

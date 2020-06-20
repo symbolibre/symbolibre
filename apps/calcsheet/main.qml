@@ -18,14 +18,22 @@ SLWindow {
         id: historyModel
         Component.onCompleted: {
             var json = JSON.parse(Fs.readFile(Fs.dataDir() + "/history.json"));
-            for (var item of json)
-                historyModel.append(item);
+            for (var item of json) {
+                historyModel.append({
+                    source: JSON.stringify(item.source),
+                    result: JSON.stringify(item.result)
+                });
+            }
         }
         Component.onDestruction: {
             var json = [];
-            for (let i = 0; i < historyModel.count; i++)
-                json.push(historyModel.get(i));
-            Fs.writeFile(Fs.dataDir() + "/history.json", JSON.stringify(json));
+            for (let i = 0; i < historyModel.count; i++) {
+                json.push({
+                    source: JSON.parse(historyModel.get(i).source),
+                    result: JSON.parse(historyModel.get(i).result)
+                });
+            }
+            Fs.writeFile(Fs.dataDir() + "/history.json", JSON.stringify(json, null, 1));
         }
     }
 
@@ -70,8 +78,8 @@ SLWindow {
             Keys.onPressed: {
                 if (event.key == Qt.Key_Return && text != "") {
                     historyModel.insert(0, {
-                        "sourceJson": expr.json,
-                        "resultJson": math.evaluate(expr.json, false)
+                        "source": expr.json,
+                        "result": math.evaluate(expr.json, false)
                     });
                     expr.clear();
                     history.currentIndex = 0;
