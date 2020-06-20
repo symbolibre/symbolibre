@@ -9,7 +9,7 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
     <file>qtquickcontrols2.conf</file>
     </qresource></RCC>"
 )
-qt5_add_resources(funapp_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc")
+qt5_add_resources(calcsheet_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc")
 
 add_executable(symbolibre-calcsheet ${calcsheet_SOURCES})
 target_link_libraries(symbolibre-calcsheet
