@@ -25,7 +25,7 @@ target_link_libraries(keyboard
 
 add_library(keyboardplugin SHARED ${keyboardplugin_SOURCES})
 target_link_libraries(keyboardplugin
-    ${slmath_LIBRARY}
+    Symbolibre::Symbolibre
 )
 
 install(FILES ${keyboard_HEADERS} DESTINATION ${SL_INCLUDE_INSTALL_DIR}/keyboard)

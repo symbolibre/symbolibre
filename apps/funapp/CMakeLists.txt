@@ -19,7 +19,7 @@ qt5_add_resources(funapp_SOURCES
 
 add_executable(symbolibre-funapp ${funapp_SOURCES})
 target_link_libraries(symbolibre-funapp
-    ${slmath_LIBRARY}
+    Symbolibre::Symbolibre
     ${QT_DEPS}
     Qt::Widgets
 )

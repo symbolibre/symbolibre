@@ -1,12 +1,11 @@
 set(expr_SOURCES plugin.cpp SLQuickExpr.cpp)
 set(expr_QML_SOURCES
-    #Expr.qml
     ExprField.qml
     editiontree.js
 )
 
 add_library(exprplugin SHARED ${expr_SOURCES})
-target_link_libraries(exprplugin ${slmath_LIBRARY})
+target_link_libraries(exprplugin Symbolibre::Symbolibre)
 
 install(
     TARGETS exprplugin

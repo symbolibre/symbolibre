@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(symbolibre-math
+project(Symbolibre
     VERSION 0.1
     DESCRIPTION "Calculator software"
     HOMEPAGE_URL "https://symbolibre.org"
@@ -12,7 +12,7 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick OPTIONAL_COMPONENTS Test)
+find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick Widgets OPTIONAL_COMPONENTS Test)
 find_package(QCustomPlot REQUIRED)
 find_package(Giac REQUIRED)
 
@@ -22,7 +22,6 @@ endif()
 set(USE_CUSTOM_QML_PATH ON CACHE BOOL
     "Install QML modules in a Symbolibre-specific location")
 
-set(slmath_LIBRARY symbolibre)
 set(SL_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/symbolibre)
 set(SL_DATA_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/symbolibre)
 set(SL_THEME_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/symbolibre/theme)
@@ -62,8 +61,9 @@ else()
     if(NOT(SL_FULL_QML_INSTALL_DIR MATCHES "^${CMAKE_INSTALL_PREFIX}"))
         message(WARNING "QML modules will be installed outside the install prefix.")
     endif()
+    message(STATUS "QML modules will be installed to ${SL_FULL_QML_INSTALL_DIR}")
+    # FIXME should be a relative path
     set(SL_QML_INSTALL_DIR ${SL_FULL_QML_INSTALL_DIR})
-    message(STATUS "QML modules will be installed to ${SL_QML_INSTALL_DIR}")
 endif()
 
 set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
@@ -92,3 +92,5 @@ add_subdirectory(apps)
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
+
+add_subdirectory(cmake)

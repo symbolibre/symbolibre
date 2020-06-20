@@ -13,7 +13,7 @@ qt5_add_resources(funapp_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc")
 
 add_executable(symbolibre-calcsheet ${calcsheet_SOURCES})
 target_link_libraries(symbolibre-calcsheet
-    ${slmath_LIBRARY}
+    Symbolibre::Symbolibre
     ${QT_DEPS}
 )
 install(TARGETS symbolibre-calcsheet DESTINATION ${CMAKE_INSTALL_BINDIR})
