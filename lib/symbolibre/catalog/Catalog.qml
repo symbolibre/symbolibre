@@ -27,7 +27,7 @@ RowLayout {
 
         model: XmlListModel {
             id: xmlModel
-            source: SLConfig.dataDir + "/catalog/" + root.catalogId + ".xml"
+            source: Fs.staticDataDir() + "/catalog/" + root.catalogId + ".xml"
             query: "/catalog/menu[@id=\"" + currentMenu + "\"]/entry"
             XmlRole { name: "title"; query: "./@title/string()" }
             XmlRole { name: "doc"; query: "./@doc/string()" }
@@ -89,7 +89,7 @@ RowLayout {
         textFormat: TextEdit.RichText
 
         function getCatalogDoc(id) {
-            return Fs.readFile(SLConfig.dataDir + "/catalog/" + root.catalogId + "/" + String(id) + ".html");
+            return Fs.readFile(Fs.staticDataDir() + "/catalog/" + root.catalogId + "/" + String(id) + ".html");
         }
     }
 }

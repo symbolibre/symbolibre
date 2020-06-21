@@ -7,7 +7,6 @@ add_subdirectory(keyboard)
 add_subdirectory(util)
 
 configure_file(config.hpp.in config.hpp)
-configure_file(config.qml.in config.qml)
 
 set(symbolibre_SOURCES
     MathContext.cpp
@@ -16,9 +15,6 @@ set(symbolibre_HEADERS
     editiontree.hpp
     MathContext.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
-)
-set(symbolibre_QML_SOURCES
-    ${CMAKE_CURRENT_BINARY_DIR}/config.qml
 )
 
 add_library(Symbolibre SHARED ${symbolibre_SOURCES})
@@ -35,5 +31,3 @@ install(TARGETS Symbolibre DESTINATION ${CMAKE_INSTALL_LIBDIR}
 install(EXPORT SymbolibreTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Symbolibre
     NAMESPACE Symbolibre::)
 install(FILES ${symbolibre_HEADERS} DESTINATION ${SL_INCLUDE_INSTALL_DIR})
-install(FILES qmldir ${symbolibre_QML_SOURCES}
-    DESTINATION ${SL_QML_INSTALL_DIR}/org/symbolibre/config)

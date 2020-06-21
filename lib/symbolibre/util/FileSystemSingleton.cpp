@@ -1,4 +1,5 @@
 #include "FileSystemSingleton.hpp"
+#include "symbolibre/config.hpp"
 
 #include <QDir>
 #include <QFile>
@@ -18,7 +19,12 @@ void FileSystemSingleton::writeFile(const QString &path, const QString &content)
     file.write(content.toUtf8());
 }
 
-QString FileSystemSingleton::dataDir() const
+QString FileSystemSingleton::staticDataDir() const
+{
+    return SL_DATA_DIR;
+}
+
+QString FileSystemSingleton::readWriteDataDir() const
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/symbolibre");
     dir.mkpath(".");
