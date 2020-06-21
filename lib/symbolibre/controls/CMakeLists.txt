@@ -1,5 +1,4 @@
 set(controls_QML_SOURCES
-    SLCheckBox.qml
     SLStackLayout.qml
     SLTabBar.qml
     SLTextField.qml

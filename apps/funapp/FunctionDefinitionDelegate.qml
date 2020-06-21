@@ -14,7 +14,7 @@ FocusScope {
     RowLayout {
         id: row
         anchors.fill: parent
-        SLCheckBox {
+        CheckBox {
             id: active
             checked: model.active
             KeyNavigation.right: exprfield
