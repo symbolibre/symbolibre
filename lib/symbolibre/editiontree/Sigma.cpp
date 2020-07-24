@@ -108,6 +108,8 @@ void Sigma::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 {
+    InternalEditionNode::draw(x, y, painter, cursor);
+
     const auto pointSize = painter.fontInfo().pointSize();
 
     {
@@ -128,7 +130,7 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
 
     /* Sigma */
     {
-        const auto f = FontResizer(painter, painter.fontInfo().pointSize() * 3 / 2);
+        FontResizer f(painter, pointSize * 3 / 2);
 
         // FIXME why is +1 needed here?
         QRect bsigma = QRect(x + (width - sigma_width) / 2,

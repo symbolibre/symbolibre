@@ -58,6 +58,8 @@ void Paren::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Paren::draw(int x, int y, QPainter &painter, bool)
 {
+    EditionNode::draw(x, y, painter, false);
+
     QRect brect = QRect(x, y, width, height);
     const int font_size = painter.fontInfo().pixelSize();
 

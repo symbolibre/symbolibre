@@ -41,7 +41,8 @@ void Operator::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Operator::draw(int x, int y, QPainter &painter, bool)
 {
-    QRect brect = QRect(x, y, width, height);
+    EditionNode::draw(x, y, painter, false);
 
+    QRect brect = QRect(x, y, width, height);
     painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, qstring);
 }

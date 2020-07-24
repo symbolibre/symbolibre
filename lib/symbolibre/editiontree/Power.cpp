@@ -64,6 +64,7 @@ void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascen
 
 void Power::draw(int x, int y, QPainter &painter, bool cursor)
 {
+    InternalEditionNode::draw(x, y, painter, cursor);
     FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);
     children[0].draw(x, y, painter, cursor);
 }

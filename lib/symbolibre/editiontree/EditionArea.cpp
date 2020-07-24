@@ -172,6 +172,7 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
 {
+    EditionNode::draw(x, y, painter, cursor);
     QRect brect = QRect(x, y, width, height);
 
     QTextLayout layout(text, painter.font());

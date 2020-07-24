@@ -60,10 +60,13 @@ public:
     int height;
     /** The distance from the top of the node to its baseline */
     int ascent;
+private:
+    /** The position of the node */
+    QPoint mPos;
 
 public:
     /** Constructor */
-    EditionNode() : width(0), height(0), ascent(0) {}
+    EditionNode() : width(0), height(0), ascent(0), mPos() {}
     virtual ~EditionNode() = default;
 
     // FIXME needs Flow::flow to be a vector
@@ -184,7 +187,10 @@ public:
      * \param y the top of the drawing area.
      * \param cursor true to draw the cursor
      */
-    virtual void draw(int x, int y, QPainter &painter, bool cursor) = 0;
+    virtual void draw(int x, int y, QPainter & /*painter*/, bool /*cursor*/)
+    {
+        mPos = QPoint(x, y);
+    }
 
     /**
      * Return the coordinates of the top of the cursor, (0, 0) corresponding

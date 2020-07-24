@@ -40,6 +40,7 @@ void Variable::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Variable::draw(int x, int y, QPainter &painter, bool)
 {
+    EditionNode::draw(x, y, painter, false);
     QRect brect = QRect(x, y, width, height);
     painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, name);
 }

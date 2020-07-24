@@ -57,6 +57,8 @@ void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Root::draw(int x, int y, QPainter &painter, bool cursor)
 {
+    InternalEditionNode::draw(x, y, painter, cursor);
+
     /* Draw the top bar */
     painter.drawLine(x + rootWidth - 1, y, x + width - ROOT_VSPACE, y);
 

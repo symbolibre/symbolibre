@@ -392,12 +392,7 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
 
 void Flow::draw(int x, int y, QPainter &painter, bool cursor)
 {
-    //QRect brect = QRect(x, y, width, height);
-
-    //painter.setPen(Qt::red);
-    //painter.drawRect(brect);
-
-    //painter.setPen(Qt::black);
+    EditionNode::draw(x, y, painter, cursor);
 
     if (empty()) {
         // draw a box, or the cursor if selected
@@ -412,8 +407,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
     }
 
     for (auto it = flow.begin(); it != flow.end(); it++) {
-        int it_y = y /*+ height - (*it)->height*/
-                   + ascent - (*it)->ascent;
+        int it_y = y + ascent - (*it)->ascent;
         (*it)->draw(x, it_y, painter, it == edited_node && cursor);
         x += (*it)->width;
 
