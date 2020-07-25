@@ -176,6 +176,18 @@ void SLQuickExpr::paint(QPainter *painter)
         return;
 
     QPoint p = expr.getCursorCoordinates();
+
+    // expr.draw() updates the position of the cursor
+    // but we need to know the position of the cursor before drawing
+    // in order to set the viewport if the expression does not fit completely
+    // so we draw the expression twice as a workaround
+    // FIXME we could compute node relative positions in computeDimensions()
+    if (expr.getWidth() > width() || expr.getHeight() > height()) {
+        expr.draw(0, 0, *painter, hasActiveFocus() && cursorBlink);
+        painter->eraseRect(painter->viewport());
+        p = expr.getCursorCoordinates();
+    }
+
     int x, y;
     if (expr.getWidth() <= width()) {
         if (halign == AlignLeft)
@@ -184,8 +196,9 @@ void SLQuickExpr::paint(QPainter *painter)
             x = width() - expr.getWidth();
         else
             x = width() / 2 - expr.getWidth() / 2;
-    } else
-        x = - (expr.getWidth() - p.x());
+    } else {
+        x = width() / 2 - p.x();
+    }
 
     if (expr.getHeight() <= height()) {
         if (valign == AlignTop)
@@ -194,12 +207,12 @@ void SLQuickExpr::paint(QPainter *painter)
             y = height() - expr.getHeight();
         else
             y = height() / 2 - expr.getHeight() / 2;
-    } else if (expr.getHeight() - expr.getAscent() < (int) height() / 2)
-        y = height() / 2 + expr.getAscent() - expr.getHeight();
-    else
-        y = height() / 2 + expr.getAscent() - expr.getHeight() - p.y();
+    } else {
+        y = height() / 2 - p.y();
+    }
 
-    expr.draw(x, y, *painter, hasActiveFocus() && cursorBlink);
+    painter->translate(x, y);
+    expr.draw(0, 0, *painter, hasActiveFocus() && cursorBlink);
 }
 
 void SLQuickExpr::keyPressEvent(QKeyEvent *event)
