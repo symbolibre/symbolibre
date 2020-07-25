@@ -217,9 +217,9 @@ public:
         return root.draw(x, y, painter, cursor);
     }
 
-    QPoint getCursorCoordinates(void)
+    QPoint getCursorCoordinates()
     {
-        return root.getCursorCoordinates();
+        return getActiveNode()->getCursorCoordinates();
     }
 
 private:

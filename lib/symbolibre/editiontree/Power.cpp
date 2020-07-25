@@ -68,8 +68,3 @@ void Power::draw(int x, int y, QPainter &painter, bool cursor)
     FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);
     children[0].draw(x, y, painter, cursor);
 }
-
-QPoint Power::getCursorCoordinates(void)
-{
-    return children[0].getCursorCoordinates();
-}

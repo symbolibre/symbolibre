@@ -73,6 +73,11 @@ public:
     EditionNode(const EditionNode &) = delete;
     EditionNode(EditionNode &&) = default;
 
+    QPoint getPos() const
+    {
+        return mPos;
+    }
+
     /** Accepts a visitor. \see ActiveEditionNodeVisitor */
     virtual bool accept(ActiveEditionNodeVisitor &v)
     {
@@ -190,15 +195,6 @@ public:
     virtual void draw(int x, int y, QPainter & /*painter*/, bool /*cursor*/)
     {
         mPos = QPoint(x, y);
-    }
-
-    /**
-     * Return the coordinates of the top of the cursor, (0, 0) corresponding
-     * to the top left corner of the formula.
-     */
-    virtual QPoint getCursorCoordinates(void)
-    {
-        return QPoint(0, 0);
     }
 };
 

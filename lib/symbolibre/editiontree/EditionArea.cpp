@@ -11,7 +11,8 @@
 
 EditionArea::EditionArea(QString text, int cursor_pos) : EditionNode(),
     text(text),
-    cursor_pos(cursor_pos)
+    cursor_pos(cursor_pos),
+    mCursorCoords()
 {
 
 }
@@ -177,19 +178,17 @@ void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
 
     QTextLayout layout(text, painter.font());
     layout.beginLayout();
-    layout.createLine();
+    auto line = layout.createLine();
     layout.endLayout();
     layout.draw(&painter, brect.topLeft());
+    mCursorCoords = QPoint(getPos().x() + line.cursorToX(&cursor_pos), getPos().y() + line.ascent());
 
-    if (cursor)
+    if (cursor) {
         layout.drawCursor(&painter, brect.topLeft(), cursor_pos, 1);
+    }
 }
 
-QPoint EditionArea::getCursorCoordinates(void)
+QPoint EditionArea::getCursorCoordinates() const
 {
-    /* Need the font to be monospace */
-    size_t len  = text.length();
-    size_t xPos = len ? width / len * cursor_pos : 0;
-    size_t yPos = 0;
-    return QPoint(xPos, yPos);
+    return mCursorCoords;
 }

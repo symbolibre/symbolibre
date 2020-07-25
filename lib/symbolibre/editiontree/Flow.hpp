@@ -69,8 +69,6 @@ public:
     /** return the number of non-empty nodes within the flow. */
     int numberNonEmpty(void);
 
-    QPoint getCursorCoordinates(void);
-
 };
 
 #endif // FLOW_HPP

@@ -37,7 +37,6 @@ public:
     void computeDimensions(QPainter &painter,
                            int lheight, int lascent) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
-    QPoint getCursorCoordinates(void) override;
 };
 
 #endif // FRAC_HPP

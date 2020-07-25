@@ -74,11 +74,3 @@ void Root::draw(int x, int y, QPainter &painter, bool cursor)
     children[0].draw(x + rootWidth + ROOT_VSPACE,
                      y + ROOT_HSPACE, painter, cursor);
 }
-
-QPoint Root::getCursorCoordinates(void)
-{
-    QPoint posInChild = children[0].getCursorCoordinates();
-    size_t xPos = posInChild.x() + rootWidth + ROOT_VSPACE;
-    size_t yPos = posInChild.y() + ROOT_HSPACE;
-    return QPoint(xPos, yPos);
-}

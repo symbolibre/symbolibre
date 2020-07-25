@@ -20,6 +20,7 @@ class EditionArea : public EditionNode
 protected:
     QString text;
     int cursor_pos;
+    QPoint mCursorCoords;
 
 public:
     /** Returns the text contained by the node */
@@ -33,6 +34,8 @@ public:
 
     /** Sets the positon of the cursor */
     void setCursorPos(int pos);
+
+    QPoint getCursorCoordinates() const;
 
     /** Appends 'str' to the text contained by the node */
     void append(QString str);
@@ -73,8 +76,6 @@ public:
     void computeDimensions(QPainter &painter,
                            int lheight, int lascent) override;
     void draw(int x, int y, QPainter &painter, bool cursor) override;
-
-    QPoint getCursorCoordinates(void) override;
 };
 
 #endif // EDITIONAREA_HPP

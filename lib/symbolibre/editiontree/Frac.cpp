@@ -100,18 +100,3 @@ void Frac::draw(int x, int y, QPainter &painter, bool cursor)
     children[idx_den].draw(x_denominator, y_denominator, painter,
                            cursor && active_child_idx == idx_den);
 }
-
-QPoint Frac::getCursorCoordinates(void)
-{
-    if (active_child_idx == idx_num) {
-        QPoint posInChild = children[idx_num].getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - children[idx_num].width) / 2;
-        size_t yPos = posInChild.y();
-        return QPoint(xPos, yPos);
-    } else {
-        QPoint posInChild = children[idx_den].getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - children[idx_den].width) / 2;
-        size_t yPos = posInChild.y() + height - ascent + FRAC_UP_SPACE;
-        return QPoint(xPos, yPos);
-    }
-}

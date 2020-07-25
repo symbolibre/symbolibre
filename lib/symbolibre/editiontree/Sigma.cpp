@@ -138,20 +138,3 @@ void Sigma::draw(int x, int y, QPainter &painter, bool cursor)
         painter.drawText(bsigma, Qt::AlignHCenter | Qt::AlignVCenter, QString("∑"));
     }
 }
-
-
-QPoint Sigma::getCursorCoordinates(void)
-{
-    if (active_child_idx == idx_rbound) {
-        QPoint posInChild = children[idx_rbound].getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - children[idx_rbound].width) / 2;
-        size_t yPos = posInChild.y();
-        return QPoint(xPos, yPos);
-    } else {
-        QPoint posInChild = children[idx_lbound].getCursorCoordinates();
-        size_t xPos = posInChild.x() + (width - children[idx_lbound].width) / 2;
-        size_t yPos = children[idx_rbound].height + sigma_height + posInChild.y();
-        return QPoint(xPos, yPos);
-    }
-    return QPoint(0, 0);
-}

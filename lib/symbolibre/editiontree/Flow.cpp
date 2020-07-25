@@ -403,12 +403,11 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
         } else {
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, QString("□"));
         }
-        return;
     }
 
     for (auto it = flow.begin(); it != flow.end(); it++) {
         int it_y = y + ascent - (*it)->ascent;
-        (*it)->draw(x, it_y, painter, it == edited_node && cursor);
+        (*it)->draw(x, it_y, painter, it == edited_node && cursor && !empty());
         x += (*it)->width;
 
         if (!(*it)->empty())
@@ -497,26 +496,4 @@ int Flow::numberNonEmpty(void)
         if (!(*it)->empty())
             n++;
     return n;
-}
-
-QPoint Flow::getCursorCoordinates(void)
-{
-    size_t xPos = 0;
-
-    auto it = flow.begin();
-    while (it != flow.end()) {
-        if (it == edited_node)
-            break;
-        xPos += (*it)->width;
-        if (!(*it)->empty())
-            xPos += INTERSPACE;
-        it++;
-    }
-
-    QPoint posInChild = (*edited_node)->getCursorCoordinates();
-    size_t yPos = height - (*edited_node)->height
-                  - ascent + (*edited_node)->ascent;
-    xPos += posInChild.x();
-    yPos += posInChild.y();
-    return QPoint(xPos, yPos);
 }
