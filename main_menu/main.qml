@@ -63,8 +63,6 @@ Window {
             cellWidth: 74; cellHeight: 86
 
             property int page: 0
-            property int index: 0
-            currentIndex: index
 
             model: listmodels[page].model
             delegate: buttonDelegate
@@ -75,35 +73,35 @@ Window {
             focus: true
 
             Keys.onRightPressed: {
-                if((index == 3 || index == 7) && (page < 2) && (listmodels[page+1].model.count > 0)) {
+                if((currentIndex == 3 || currentIndex == 7) && (page < 2) && (listmodels[page+1].model.count > 0)) {
                     page++
-                    index -= 3
-                    if(index >= listmodels[page].model.count) {
-                        index -= 4
+                    currentIndex -= 3
+                    if(currentIndex >= listmodels[page].model.count) {
+                        currentIndex -= 4
                     }
-                } else if((index != 3) && (index != 7) && (count > index+1)) {
-                    index++
+                } else if((currentIndex != 3) && (currentIndex != 7) && (count > currentIndex+1)) {
+                    currentIndex++
                 }
             }
 
             Keys.onLeftPressed: {
-                if((index == 0 || index == 4) && (page > 0)) {
+                if((currentIndex == 0 || currentIndex == 4) && (page > 0)) {
                     page--
-                    index += 3
-                } else if((index != 0) && (index != 4)) {
-                    index--
+                    currentIndex += 3
+                } else if((currentIndex != 0) && (currentIndex != 4)) {
+                    currentIndex--
                 }
             }
 
             Keys.onUpPressed: {
-                if(index > 3) {
-                    index -= 4
+                if(currentIndex > 3) {
+                    currentIndex -= 4
                 }
             }
 
             Keys.onDownPressed: {
-                if(index < 8 && count > index+4) {
-                    index += 4
+                if(currentIndex < 8 && count > currentIndex+4) {
+                    currentIndex += 4
                 }
             }
         }
