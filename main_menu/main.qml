@@ -7,12 +7,6 @@ Window {
     width: 320
     height: 220
 
-    maximumHeight: height
-    maximumWidth: width
-
-    minimumHeight: height
-    minimumWidth: width
-
     title: qsTr("Main Menu")
 
     Rectangle {
@@ -43,22 +37,18 @@ Window {
                         wrapMode: Text.WordWrap
                         width: grid.cellWidth
                         horizontalAlignment: Text.AlignHCenter
-                        //verticalAlignment: Text.AlignVCenter
                         antialiasing: true
                     }
                 }
-                Keys.onPressed: if (event.key === Qt.Key_Return) { launcher.launch(model.command) }
+                Keys.onReturnPressed: launcher.launch(model.command)
             }
         }
 
         Component {
             id: highlightBar
             Rectangle {
-                width: 74; height: 86
                 color: "lightsteelblue"
                 radius: 5
-                y: grid.currentItem ? grid.currentItem.y - 8 : 0
-                x: grid.currentItem ? grid.currentItem.x : 0;
             }
         }
 
@@ -79,20 +69,10 @@ Window {
             model: listmodels[page].model
             delegate: buttonDelegate
             highlight: highlightBar
-            highlightFollowsCurrentItem: false
+            highlightFollowsCurrentItem: true
             highlightMoveDuration: 0
 
             focus: true
-
-            /*ScrollBar.vertical: ScrollBar {
-                id: vbar
-                active: true
-                orientation: Qt.Vertical
-                anchors.top: col.top
-                anchors.right: col.right
-                anchors.bottom: col.bottom
-                policy: ScrollBar.AlwaysOn
-            }*/
 
             Keys.onRightPressed: {
                 if((index == 3 || index == 7) && (page < 2) && (listmodels[page+1].model.count > 0)) {
@@ -141,22 +121,10 @@ Window {
                     implicitWidth: 10
                     implicitHeight: 10
 
-                    radius: height/2
-                    color: "black"
-
-                    opacity: index === control.currentIndex ? 1.0 : 0.35
-
-                    Behavior on opacity {
-                        OpacityAnimator {
-                            duration: 100
-                        }
-                    }
+                    radius: height/3
+                    color: index === control.currentIndex ? "black" : "lightgray"
                 }
         }
-
-
-
-
     }
 
 }
