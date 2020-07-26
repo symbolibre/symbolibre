@@ -4,6 +4,7 @@ add_subdirectory(editiontree)
 add_subdirectory(expr)
 add_subdirectory(graph)
 add_subdirectory(keyboard)
+add_subdirectory(style)
 add_subdirectory(util)
 
 configure_file(config.hpp.in config.hpp)
