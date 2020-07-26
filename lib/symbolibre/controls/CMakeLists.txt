@@ -1,5 +1,9 @@
 set(controls_QML_SOURCES
+    SLFunctionBar.qml
+    SLFunctionKey.qml
     SLStackLayout.qml
+    SLStandardApplet.qml
+    SLStatusBar.qml
     SLTextField.qml
     SLWindow.qml
 )

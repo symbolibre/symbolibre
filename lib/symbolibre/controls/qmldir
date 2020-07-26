@@ -1,5 +1,9 @@
 module org.symbolibre.controls
 SLCheckBox 1.0 SLCheckBox.qml
+SLFunctionBar 1.0 SLFunctionBar.qml
+SLFunctionKey 1.0 SLFunctionKey.qml
 SLStackLayout 1.0 SLStackLayout.qml
+SLStandardApplet 1.0 SLStandardApplet.qml
+SLStatusBar 1.0 SLStatusBar.qml
 SLTextField 1.0 SLTextField.qml
 SLWindow 1.0 SLWindow.qml

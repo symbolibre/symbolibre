@@ -3,15 +3,15 @@ import QtQuick.Controls 2.5
 import org.symbolibre.controls 1.0
 import org.symbolibre.catalog 1.0
 
-Item {
-    id: appRoot
+SLStandardApplet {
+    id: app
 
     CatalogPopup {
         id: catalog
-        x: parent.x
-        y: parent.y + parent.height / 6
+        parent: Overlay.overlay
         width: parent.width
         height: parent.height * 2 / 3
+        anchors.centerIn: parent
         catalogId: "math_fr"
     }
     function openCatalog(callback) {
@@ -20,37 +20,36 @@ Item {
         catalog.open();
     }
 
-    TabBar {
-        id: mainMenu
-        x: 0
+    Popup {
+        id: windowRangePopup
+        parent: Overlay.overlay
         width: parent.width
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        Repeater {
-            model: ["Functions", "Window", "Graph"]
-            TabButton {
-                text: modelData
-            }
+        height: parent.height * 2 / 3
+        anchors.centerIn: parent
+        modal: true
+        focus: true
+
+        FunctionMenu {
+            id: menu
+            anchors.fill: parent
+            focus: true
+            property var functionBarModel:
+                [ "F1", "F2", "F3", "F4", qsTr("Valider")]
         }
-        KeyNavigation.down: stackLayout
     }
 
     SLStackLayout {
         id: stackLayout
-        clip: true
-        anchors.top: mainMenu.bottom
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        currentIndex: mainMenu.currentIndex
+        anchors.fill: parent
+        currentIndex: 0
 
         FunctionDefinitionView {
             id: def
             focus: true
-        }
 
-        FunctionMenu {
-            id: menu
+            property var functionBarModel:
+                ["F1", "F2", "F3", qsTr("Fenêtre"), qsTr("Graphe")]
+            property var statusBarLabel: "Saisie fonctions"
         }
 
         FocusScope {
@@ -110,7 +109,22 @@ Item {
                 anchors.bottomMargin: 0
                 text: "Y = " + String(graph.cursorPos.y.toPrecision(4))
             }
-        }
 
+            property var statusBarLabel: "Graphe"
+            property var functionBarModel:
+                ["F1", "F2", "F3", qsTr("Fenêtre"), qsTr("Saisie\nfonctions")]
+        }
+    }
+
+    Shortcut {
+        sequence: "F4"
+        onActivated: windowRangePopup.open();
+    }
+    Shortcut {
+        sequence: "F5"
+        onActivated: {
+            stackLayout.currentIndex ^= 1;
+            stackLayout.children[stackLayout.currentIndex].forceActiveFocus();
+        }
     }
 }

@@ -2,6 +2,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 ApplicationWindow {
+    font.family: "DejaVu Sans"
+    font.pixelSize: 12
+    font.hintingPreference: Font.PreferFullHinting
+
     palette.window: "white"
     palette.windowText: "black"
     palette.base: "white"

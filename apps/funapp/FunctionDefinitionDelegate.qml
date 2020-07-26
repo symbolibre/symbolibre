@@ -60,7 +60,7 @@ FocusScope {
             }
             Keys.onPressed: {
                 if (event.key == SLKey.F1)
-                    appRoot.openCatalog(function(str) {
+                    app.openCatalog(function(str) {
                         exprfield.insertJson(str);
                     });
             }

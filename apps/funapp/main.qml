@@ -4,17 +4,19 @@ import org.symbolibre.cas 1.0
 
 SLWindow {
     id: window
-
     visible: true
     width: 320
-    height: 220
-    title: qsTr("Quick Calculator")
+    height: 240
+    title: qsTr("symbolibre-funapp")
 
     MathContext {
         id: math
     }
 
     FunApp {
+        id: app
         anchors.fill: parent
     }
+
+    Component.onCompleted: app.forceActiveFocus();
 }
