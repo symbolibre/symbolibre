@@ -23,27 +23,18 @@ int main(int argc, char *argv[])
     QQmlComponent component(&engine, QUrl::fromLocalFile("JSONListModel.qml"));
     QObject* jsonListModel(component.create());
 
-    QDirIterator it("applications", QDirIterator::Subdirectories);
-    QRegExp rx("applications/*/application.json");
-    rx.setPatternSyntax(QRegExp::Wildcard);
     QString config("[");
 
-
-    std::vector<QString> apps;
-    while (it.hasNext()) {
-        QString path(it.next());
-        if(rx.exactMatch(path)) {
-            apps.push_back(path);
-        }
-    }
-    std::sort(apps.begin(), apps.end());
-
+    QDir appsDir("applications");
+    QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
 
     bool first = true;
 
     for(int i = 0; i < apps.size(); i++) {
 
-        QString &path = apps[i];
+        QFile file("applications/" + apps[i] + "/application.json");
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            continue;
 
         if(!first) {
             config += ",";
@@ -51,19 +42,16 @@ int main(int argc, char *argv[])
             first = false;
         }
 
-        QFile file(path);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return 1;
         QTextStream in(&file);
         QJsonDocument doc = QJsonDocument::fromJson(in.readAll().toUtf8());
         QJsonObject obj = doc.object();
         QString command = obj["command"].toString().trimmed();
-        path.chop(17);
-        obj["command"] = "cd " + path + " && " + command + "";
+        obj["command"] = "cd applications/" + apps[i] + " && " + command + "";
         QString icon = obj["icon"].toString().trimmed();
         if (icon[0] == '/') {
             obj["icon"] = "file:" + icon;
         } else {
-            obj["icon"] = "file:" + path + "/" + icon;
+            obj["icon"] = "file:applications/" + apps[i] + "/" + icon;
         }
         doc.setObject(obj);
         config += QString::fromUtf8(doc.toJson());
