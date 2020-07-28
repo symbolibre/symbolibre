@@ -64,46 +64,13 @@ Window {
 
             property int page: 0
 
-            model: listmodels[page].model
+            model: listmodels.model
             delegate: buttonDelegate
             highlight: highlightBar
             highlightFollowsCurrentItem: true
             highlightMoveDuration: 0
 
             focus: true
-
-            Keys.onRightPressed: {
-                if((currentIndex == 3 || currentIndex == 7) && (page < 2) && (listmodels[page+1].model.count > 0)) {
-                    page++
-                    currentIndex -= 3
-                    if(currentIndex >= listmodels[page].model.count) {
-                        currentIndex -= 4
-                    }
-                } else if((currentIndex != 3) && (currentIndex != 7) && (count > currentIndex+1)) {
-                    currentIndex++
-                }
-            }
-
-            Keys.onLeftPressed: {
-                if((currentIndex == 0 || currentIndex == 4) && (page > 0)) {
-                    page--
-                    currentIndex += 3
-                } else if((currentIndex != 0) && (currentIndex != 4)) {
-                    currentIndex--
-                }
-            }
-
-            Keys.onUpPressed: {
-                if(currentIndex > 3) {
-                    currentIndex -= 4
-                }
-            }
-
-            Keys.onDownPressed: {
-                if(currentIndex < 8 && count > currentIndex+4) {
-                    currentIndex += 4
-                }
-            }
         }
 
 
@@ -121,7 +88,7 @@ Window {
 
                     radius: height/3
                     color: index === control.currentIndex ? "black" : "lightgray"
-                }
+            }
         }
     }
 
