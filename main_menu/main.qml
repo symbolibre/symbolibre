@@ -9,87 +9,80 @@ Window {
 
     title: qsTr("Main Menu")
 
-    Rectangle {
-
-        id: rec
-        anchors.fill: parent
-
-        Component {
-            id: buttonDelegate
-            Item {
-                width: grid.cellWidth; height: grid.cellHeight
-                Column {
-                    anchors.fill: parent
-                    Image {
-                        id: image
-                        source: model.icon
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width:  48
-                        height: width
-                    }
-                    Text {
-                        id: caption
-                        height: 26
-                        text: model.caption
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 11
-                        font.family: "DejaVu Sans Mono"
-                        wrapMode: Text.WordWrap
-                        width: grid.cellWidth
-                        horizontalAlignment: Text.AlignHCenter
-                        antialiasing: true
-                    }
+    Component {
+        id: buttonDelegate
+        Item {
+            width: grid.cellWidth; height: grid.cellHeight
+            Column {
+                anchors.fill: parent
+                Image {
+                    id: image
+                    source: model.icon
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width:  48
+                    height: width
                 }
-                Keys.onReturnPressed: launcher.launch(model.command)
+                Text {
+                    id: caption
+                    height: 26
+                    text: model.caption
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pixelSize: 11
+                    font.family: "DejaVu Sans Mono"
+                    wrapMode: Text.WordWrap
+                    width: grid.cellWidth
+                    horizontalAlignment: Text.AlignHCenter
+                    antialiasing: true
+                }
             }
-        }
-
-        Component {
-            id: highlightBar
-            Rectangle {
-                color: "lightsteelblue"
-                radius: 5
-            }
-        }
-
-        GridView {
-            id: grid
-            anchors.rightMargin: 12
-            anchors.bottomMargin: 24
-            anchors.leftMargin: 12
-            anchors.topMargin: 24
-            anchors.fill: parent
-
-            cellWidth: 74; cellHeight: 86
-
-            property int page: 0
-
-            model: listmodels.model
-            delegate: buttonDelegate
-            highlight: highlightBar
-            highlightFollowsCurrentItem: true
-            highlightMoveDuration: 0
-
-            focus: true
-        }
-
-
-        PageIndicator {
-            id: control
-            count: 3
-            currentIndex: grid.page
-
-            anchors.bottom: rec.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            delegate: Rectangle {
-                    implicitWidth: 10
-                    implicitHeight: 10
-
-                    radius: height/3
-                    color: index === control.currentIndex ? "black" : "lightgray"
-            }
+            Keys.onReturnPressed: launcher.launch(model.command)
         }
     }
 
+    Component {
+        id: highlightBar
+        Rectangle {
+            color: "lightsteelblue"
+            radius: 5
+        }
+    }
+
+    GridView {
+        id: grid
+        anchors.rightMargin: 12
+        anchors.bottomMargin: 24
+        anchors.leftMargin: 12
+        anchors.topMargin: 24
+        anchors.fill: parent
+
+        cellWidth: 74; cellHeight: 86
+
+        property int page: 0
+
+        model: listmodels.model
+        delegate: buttonDelegate
+        highlight: highlightBar
+        highlightFollowsCurrentItem: true
+        highlightMoveDuration: 0
+
+        focus: true
+    }
+
+
+    PageIndicator {
+        id: control
+        count: 3
+        currentIndex: grid.page
+
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        delegate: Rectangle {
+                implicitWidth: 10
+                implicitHeight: 10
+
+                radius: height/3
+                color: index === control.currentIndex ? "black" : "lightgray"
+        }
+    }
 }
