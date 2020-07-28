@@ -17,7 +17,7 @@ Window {
                 anchors.fill: parent
                 Image {
                     id: image
-                    source: model.iconPath
+                    source: modelData.iconPath
                     anchors.horizontalCenter: parent.horizontalCenter
                     width:  48
                     height: width
@@ -25,7 +25,7 @@ Window {
                 Text {
                     id: caption
                     height: 26
-                    text: model.name
+                    text: modelData.name
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 11
                     font.family: "DejaVu Sans Mono"
@@ -35,7 +35,7 @@ Window {
                     antialiasing: true
                 }
             }
-            Keys.onReturnPressed: launcher.launch(model.command)
+            Keys.onReturnPressed: launcher.launch(modelData.command)
         }
     }
 
@@ -59,7 +59,7 @@ Window {
 
         property int page: 0
 
-        model: appsModel
+        model: launcher.appsModel
         delegate: buttonDelegate
         highlight: highlightBar
         highlightFollowsCurrentItem: true

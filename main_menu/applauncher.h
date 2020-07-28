@@ -14,6 +14,8 @@ class AppItem : public QObject
     Q_PROPERTY(QString iconPath MEMBER iconPath CONSTANT)
 
 public:
+    explicit AppItem(QObject *parent = nullptr);
+
     QString id;
     QString name;
     QString path;
@@ -23,13 +25,14 @@ public:
 class AppLauncher : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QList<QObject*> appsModel MEMBER mAppsModel CONSTANT)
+
 public:
     explicit AppLauncher(QObject *parent = nullptr);
     Q_INVOKABLE void launch(QString command);
 
-signals:
-
-public slots:
+private:
+    QList<QObject*> mAppsModel;
 };
 
 #endif // APPLAUNCHER_H
