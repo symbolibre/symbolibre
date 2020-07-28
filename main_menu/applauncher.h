@@ -4,6 +4,22 @@
 #include <QObject>
 #include <QProcess>
 
+
+class AppItem : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString id MEMBER id CONSTANT)
+    Q_PROPERTY(QString name MEMBER name CONSTANT)
+    Q_PROPERTY(QString path MEMBER path CONSTANT)
+    Q_PROPERTY(QString iconPath MEMBER iconPath CONSTANT)
+
+public:
+    QString id;
+    QString name;
+    QString path;
+    QString iconPath;
+};
+
 class AppLauncher : public QObject
 {
     Q_OBJECT

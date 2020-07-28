@@ -17,7 +17,7 @@ Window {
                 anchors.fill: parent
                 Image {
                     id: image
-                    source: model.icon
+                    source: model.iconPath
                     anchors.horizontalCenter: parent.horizontalCenter
                     width:  48
                     height: width
@@ -25,7 +25,7 @@ Window {
                 Text {
                     id: caption
                     height: 26
-                    text: model.caption
+                    text: model.name
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 11
                     font.family: "DejaVu Sans Mono"
@@ -59,7 +59,7 @@ Window {
 
         property int page: 0
 
-        model: listmodels.model
+        model: appsModel
         delegate: buttonDelegate
         highlight: highlightBar
         highlightFollowsCurrentItem: true

@@ -20,15 +20,11 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile("JSONListModel.qml"));
-    QObject* jsonListModel(component.create());
-
-    QString config("[");
-
     QDir appsDir("applications");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
+    QList<QObject*> appsModel;
 
-    bool first = true;
+    AppLauncher launcher;
 
     for(int i = 0; i < apps.size(); i++) {
 
@@ -36,34 +32,25 @@ int main(int argc, char *argv[])
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;
 
-        if(!first) {
-            config += ",";
-        } else {
-            first = false;
-        }
-
-        QTextStream in(&file);
-        QJsonDocument doc = QJsonDocument::fromJson(in.readAll().toUtf8());
+        auto doc = QJsonDocument::fromJson(file.readAll());
         QJsonObject obj = doc.object();
-        QString command = obj["command"].toString().trimmed();
-        obj["command"] = "cd applications/" + apps[i] + " && " + command + "";
+
+        auto appData = new AppItem; // FIXME leak
+        appData->name = obj["caption"].toString();
+        appData->path = obj["command"].toString().trimmed();
         QString icon = obj["icon"].toString().trimmed();
         if (icon[0] == '/') {
-            obj["icon"] = "file:" + icon;
+            appData->iconPath = "file:" + icon;
         } else {
-            obj["icon"] = "file:applications/" + apps[i] + "/" + icon;
+            appData->iconPath = "file:applications/" + apps[i] + "/" + icon;
         }
-        doc.setObject(obj);
-        config += QString::fromUtf8(doc.toJson());
+        appsModel.append(appData);
+
         file.close();
     }
-    config += "]";
-    jsonListModel->setProperty("json", config);
 
-    AppLauncher launcher;
     engine.rootContext()->setContextProperty("launcher", &launcher);
-    QVariant listmodels(QVariant::fromValue(jsonListModel));
-    engine.rootContext()->setContextProperty("listmodels", listmodels);
+    engine.rootContext()->setContextProperty("appsModel", QVariant::fromValue(appsModel));
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
@@ -71,4 +58,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-
