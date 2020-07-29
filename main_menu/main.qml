@@ -7,7 +7,19 @@ Window {
     width: 320
     height: 220
 
-    title: qsTr("Main Menu")
+    title: qsTr("Symbolibre Menu")
+
+    Dialog {
+        id: launchErrorDialog
+        anchors.centerIn: parent
+        modal: true
+        title: qsTr("Error")
+        standardButtons: Dialog.Ok
+        contentItem: Text {
+             text: qsTr("Unable to start the application")
+        }
+        onOpened: footer.standardButton(Dialog.Ok).forceActiveFocus()
+    }
 
     Component {
         id: buttonDelegate
@@ -35,7 +47,7 @@ Window {
                     antialiasing: true
                 }
             }
-            Keys.onReturnPressed: launcher.launch(modelData.command)
+            Keys.onReturnPressed: if (!launcher.launch(modelData)) launchErrorDialog.open()
         }
     }
 

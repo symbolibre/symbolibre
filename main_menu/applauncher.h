@@ -10,7 +10,7 @@ class AppItem : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id MEMBER id CONSTANT)
     Q_PROPERTY(QString name MEMBER name CONSTANT)
-    Q_PROPERTY(QString path MEMBER path CONSTANT)
+    Q_PROPERTY(QString executable MEMBER executable CONSTANT)
     Q_PROPERTY(QString iconPath MEMBER iconPath CONSTANT)
 
 public:
@@ -18,7 +18,7 @@ public:
 
     QString id;
     QString name;
-    QString path;
+    QString executable;
     QString iconPath;
 };
 
@@ -29,7 +29,7 @@ class AppLauncher : public QObject
 
 public:
     explicit AppLauncher(QObject *parent = nullptr);
-    Q_INVOKABLE void launch(QString command);
+    Q_INVOKABLE bool launch(AppItem *app);
 
 private:
     QList<QObject*> mAppsModel;

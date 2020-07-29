@@ -6,7 +6,7 @@
 #include <QStringList>
 
 AppItem::AppItem(QObject *parent) : QObject(parent),
-    id(), name(), path(), iconPath()
+    id(), name(), executable(), iconPath()
 {
 
 }
@@ -26,8 +26,9 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
         QJsonObject obj = doc.object();
 
         auto appData = new AppItem(this);
+        appData->id = apps[i];
         appData->name = obj["caption"].toString();
-        appData->path = obj["command"].toString().trimmed();
+        appData->executable = obj["command"].toString().trimmed();
         QString icon = obj["icon"].toString().trimmed();
         if (icon[0] == '/') {
             appData->iconPath = "file:" + icon;
@@ -40,7 +41,6 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
     }
 }
 
-void AppLauncher::launch(QString command) {
-    QProcess process;
-    process.startDetached("/bin/sh", QStringList()<< "-c" << command);
+bool AppLauncher::launch(AppItem *app) {
+    return QProcess::startDetached(app->executable, QStringList());
 }
