@@ -1,5 +1,5 @@
 {
-    "command": "./config_manager",
+    "command": "symbolibre-config",
     "caption": "Paramètres",
     "icon": "../../icons/parametres.png"
 }

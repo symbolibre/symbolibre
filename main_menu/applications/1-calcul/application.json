@@ -1,5 +1,5 @@
 {
-    "command": "./calcsheet",
+    "command": "symbolibre-calcsheet",
     "caption": "Calcul",
     "icon": "../../icons/calcul.png"
 }

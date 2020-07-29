@@ -1,5 +1,5 @@
 {
-    "command": "./funapp",
+    "command": "symbolibre-funapp",
     "caption": "Graphique",
     "icon": "../../icons/graphique.png"
 }

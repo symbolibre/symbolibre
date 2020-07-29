@@ -1,5 +1,5 @@
 {
-    "command": "./ide.app",
+    "command": "symbolibre-ide",
     "caption": "IDE",
     "icon": "../../icons/ide.png"
 }
