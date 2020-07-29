@@ -4,79 +4,61 @@ import QtQuick.Controls 2.2
 import org.symbolibre.controls 1.0
 
 SLWindow {
+    id: window
     visible: true
     width: 320
     height: 220
 
-    title: qsTr("Symbolibre Menu")
+    title: qsTr("Symbolibre")
 
     Dialog {
-        id: launchErrorDialog
+        id: backToMenuDialog
         anchors.centerIn: parent
         modal: true
-        title: qsTr("Error")
-        standardButtons: Dialog.Ok
+        title: qsTr("Quit")
+        standardButtons: Dialog.Ok | Dialog.Cancel
         contentItem: Text {
-             text: qsTr("Unable to start the application")
+            text: qsTr("Go back to the main menu?")
         }
-        onOpened: footer.standardButton(Dialog.Ok).forceActiveFocus()
+        onOpened: footer.standardButton(Dialog.Cancel).forceActiveFocus()
+        onAccepted: reloadMenu()
     }
 
-    Component {
-        id: buttonDelegate
-        Item {
-            width: grid.cellWidth; height: grid.cellHeight
-            Column {
-                anchors.fill: parent
-                Image {
-                    id: image
-                    source: modelData.iconPath
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width:  48
-                    height: width
-                }
-                Text {
-                    id: caption
-                    height: 26
-                    text: modelData.name
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 11
-                    font.family: "DejaVu Sans Mono"
-                    wrapMode: Text.WordWrap
-                    width: grid.cellWidth
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    antialiasing: true
-                }
-            }
-            Keys.onReturnPressed: if (!launcher.launch(modelData)) launchErrorDialog.open()
-        }
-    }
-
-    Component {
-        id: highlightBar
-        Rectangle {
-            color: palette.highlight
-            radius: 5
-        }
-    }
-
-    GridView {
-        id: grid
-        anchors.rightMargin: 12
-        anchors.bottomMargin: 24
-        anchors.leftMargin: 12
-        anchors.topMargin: 24
+    Item {
+        id: mainItem
         anchors.fill: parent
 
-        cellWidth: 74; cellHeight: 86
+        // FIXME why doesn't this work?
+        /*Component {
+           id: menuComponent
+           Menu {
 
-        model: launcher.appsModel
-        delegate: buttonDelegate
-        highlight: highlightBar
-        highlightFollowsCurrentItem: true
-        highlightMoveDuration: 0
+           }
+        }*/
 
-        focus: true
+        Loader {
+            id: appletLoader
+            anchors.fill: parent
+            focus: true
+            source: "Menu.qml"
+            onStatusChanged: {
+                if (status == Loader.Error || status == Loader.Null) {
+                    console.log("unable to load QML applet");
+                    reloadMenu();
+                    launchErrorDialog.open();
+                }
+            }
+        }
+
+        Keys.onPressed: {
+            if (event.key == Qt.Key_Home) {
+                backToMenuDialog.open();
+                event.accepted = true;
+            }
+        }
+    }
+
+    function reloadMenu() {
+        appletLoader.source = "Menu.qml";
     }
 }

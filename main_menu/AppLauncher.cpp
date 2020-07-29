@@ -10,7 +10,7 @@
 #include <QStringList>
 
 AppItem::AppItem(QObject *parent) : QObject(parent),
-    id(), name(), executable(), iconPath()
+    id(), name(), executable(), applet(), iconPath()
 {
 
 }
@@ -35,6 +35,7 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
         appData->id = apps[i];
         appData->name = obj["caption"].toString();
         appData->executable = obj["command"].toString().trimmed();
+        appData->applet = obj["applet"].toString().trimmed();
         QString icon = obj["icon"].toString().trimmed();
         appData->iconPath = appsDir.absoluteFilePath(apps[i] + "/icon.png");
         if (QDir::isAbsolutePath(icon)) {

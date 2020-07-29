@@ -11,6 +11,7 @@ class AppItem : public QObject
     Q_PROPERTY(QString id MEMBER id CONSTANT)
     Q_PROPERTY(QString name MEMBER name CONSTANT)
     Q_PROPERTY(QString executable MEMBER executable CONSTANT)
+    Q_PROPERTY(QString applet MEMBER applet CONSTANT)
     Q_PROPERTY(QString iconPath MEMBER iconPath CONSTANT)
 
 public:
@@ -19,6 +20,7 @@ public:
     QString id;
     QString name;
     QString executable;
+    QString applet;
     QString iconPath;
 };
 
