@@ -1,0 +1,5 @@
+{
+    "command": "./funapp",
+    "caption": "Graphique",
+    "icon": "../../icons/graphique.png"
+}

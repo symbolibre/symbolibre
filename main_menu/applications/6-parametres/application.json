@@ -1,0 +1,5 @@
+{
+    "command": "./config_manager",
+    "caption": "Paramètres",
+    "icon": "../../icons/parametres.png"
+}

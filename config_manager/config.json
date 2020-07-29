@@ -1,0 +1,10 @@
+{
+    "maths/angles": 1,
+    "maths/prettyprint": false,
+    "maths/rounding": false,
+    "maths/scientific-notation": false,
+    "sys/autoshutdown": 10,
+    "sys/lang": 0,
+    "sys/light": 0.5
+}
+

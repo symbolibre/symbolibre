@@ -1,0 +1,5 @@
+{
+    "command": "./ide.app",
+    "caption": "IDE",
+    "icon": "../../icons/ide.png"
+}
