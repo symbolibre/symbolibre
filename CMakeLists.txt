@@ -87,6 +87,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 add_subdirectory(theme)
 add_subdirectory(lib)
+add_subdirectory(main_menu)
 add_subdirectory(apps)
 
 if(BUILD_TESTING)
