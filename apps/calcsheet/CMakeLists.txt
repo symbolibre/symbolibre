@@ -1,5 +1,6 @@
 set(calcsheet_SOURCES main.cpp)
 set(calcsheet_QML_SOURCES
+    CalcSheet.qml
     HistoryDelegate.qml
     main.qml
 )
