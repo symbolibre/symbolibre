@@ -1,4 +1,4 @@
-#include "applauncher.h"
+#include "AppLauncher.hpp"
 
 #include <symbolibre/config.hpp>
 

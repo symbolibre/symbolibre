@@ -1,5 +1,5 @@
-#ifndef APPLAUNCHER_H
-#define APPLAUNCHER_H
+#ifndef SL_MENU_APPLAUNCHER_HPP
+#define SL_MENU_APPLAUNCHER_HPP
 
 #include <QObject>
 #include <QProcess>
@@ -35,4 +35,4 @@ private:
     QList<QObject*> mAppsModel;
 };
 
-#endif // APPLAUNCHER_H
+#endif // SL_MENU_APPLAUNCHER_HPP

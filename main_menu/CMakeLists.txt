@@ -1,5 +1,5 @@
 set(menu_SOURCES
-    applauncher.cpp
+    AppLauncher.cpp
     main.cpp
 )
 set(menu_QML_SOURCES
