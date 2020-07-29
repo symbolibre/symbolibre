@@ -1,8 +1,9 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
+import org.symbolibre.controls 1.0
 
-Window {
+SLWindow {
     visible: true
     width: 320
     height: 220
@@ -44,6 +45,7 @@ Window {
                     wrapMode: Text.WordWrap
                     width: grid.cellWidth
                     horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                     antialiasing: true
                 }
             }
@@ -54,7 +56,7 @@ Window {
     Component {
         id: highlightBar
         Rectangle {
-            color: "lightsteelblue"
+            color: palette.highlight
             radius: 5
         }
     }
@@ -69,8 +71,6 @@ Window {
 
         cellWidth: 74; cellHeight: 86
 
-        property int page: 0
-
         model: launcher.appsModel
         delegate: buttonDelegate
         highlight: highlightBar
@@ -78,23 +78,5 @@ Window {
         highlightMoveDuration: 0
 
         focus: true
-    }
-
-
-    PageIndicator {
-        id: control
-        count: 3
-        currentIndex: grid.page
-
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        delegate: Rectangle {
-                implicitWidth: 10
-                implicitHeight: 10
-
-                radius: height/3
-                color: index === control.currentIndex ? "black" : "lightgray"
-        }
     }
 }
