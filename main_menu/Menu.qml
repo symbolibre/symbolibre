@@ -28,12 +28,12 @@ GridView {
         parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
+        focus: true
         title: qsTr("Error")
         standardButtons: Dialog.Ok
         contentItem: Text {
             text: qsTr("Unable to start the application")
         }
-        onOpened: footer.standardButton(Dialog.Ok).forceActiveFocus()
     }
 
     Component {

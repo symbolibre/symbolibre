@@ -16,12 +16,12 @@ SLWindow {
         id: backToMenuDialog
         anchors.centerIn: parent
         modal: true
+        focus: true
         title: qsTr("Quit")
         standardButtons: Dialog.Ok | Dialog.Cancel
         contentItem: Text {
             text: qsTr("Go back to the main menu?")
         }
-        onOpened: footer.standardButton(Dialog.Cancel).forceActiveFocus()
         onAccepted: reloadMenu()
     }
 
