@@ -14,6 +14,8 @@ target_link_libraries(util PUBLIC ${QT_DEPS})
 add_library(utilplugin SHARED ${utilplugin_SOURCES})
 target_link_libraries(utilplugin PUBLIC ${QT_DEPS})
 
+install(FILES ${util_HEADERS}
+    DESTINATION ${SL_INCLUDE_INSTALL_DIR}/util)
 install(TARGETS utilplugin
     DESTINATION ${SL_QML_INSTALL_DIR}/org/symbolibre/util)
 install(FILES qmldir

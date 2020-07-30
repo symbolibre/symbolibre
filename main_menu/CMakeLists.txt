@@ -6,20 +6,12 @@ set(menu_QML_SOURCES
     main.qml
     Menu.qml
 )
-configure_file(qtquickcontrols2.conf.in qtquickcontrols2.conf)
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
-    "<RCC><qresource prefix=\"/\">
-    <file>qtquickcontrols2.conf</file>
-    </qresource></RCC>"
-)
-qt5_add_resources(menu_SOURCES
-    "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
-)
 
 add_executable(symbolibre-menu ${menu_SOURCES})
 target_link_libraries(symbolibre-menu
     Symbolibre::Symbolibre
     ${QT_DEPS}
+    Qt::QuickControls2
     Qt::Widgets
 )
 install(TARGETS symbolibre-menu DESTINATION ${CMAKE_INSTALL_BINDIR})

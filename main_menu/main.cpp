@@ -2,15 +2,19 @@
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickStyle>
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/MathContext.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
+#include <symbolibre/util/FileSystemSingleton.hpp>
 
 #include "AppLauncher.hpp"
 
 int main(int argc, char *argv[])
 {
+    using Fs = FileSystemSingleton;
+
     QApplication app(argc, argv);
     auto font(app.font());
     font.setPixelSize(13);
@@ -20,8 +24,10 @@ int main(int argc, char *argv[])
     VirtualKeyboardContext vk;
     MathContext math;
 
+    QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
+
     QQmlEngine engine;
-    engine.addImportPath(SL_QML_DIR);
+    engine.addImportPath(Fs::qmlDir());
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("launcher", &launcher);
     context->setContextProperty("keyboard", &vk);
@@ -29,7 +35,7 @@ int main(int argc, char *argv[])
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile(QString(SL_QML_DIR) + "/menu/main.qml"));
+    QQmlComponent component(&engine, QUrl::fromLocalFile(Fs::qmlDir() + "/menu/main.qml"));
     if (component.status() != QQmlComponent::Ready) {
         qCritical() << component.errors();
         return 1;

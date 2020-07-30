@@ -12,11 +12,13 @@ class FileSystemSingleton : public QObject
     QML_SINGLETON
 
 public:
-    Q_INVOKABLE QString readFile(const QString &path) const;
-    Q_INVOKABLE void writeFile(const QString &path, const QString &content) const;
+    Q_INVOKABLE static QString readFile(const QString &path);
+    Q_INVOKABLE static void writeFile(const QString &path, const QString &content);
 
-    Q_INVOKABLE QString staticDataDir() const;
-    Q_INVOKABLE QString readWriteDataDir() const;
+    Q_INVOKABLE static QString prefixDir();
+    Q_INVOKABLE static QString qmlDir();
+    Q_INVOKABLE static QString staticDataDir();
+    Q_INVOKABLE static QString readWriteDataDir();
 };
 
 #endif // FILESYSTEMSINGLETON_HPP

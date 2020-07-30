@@ -2,15 +2,18 @@
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickStyle>
 
 #include <iostream>
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/MathContext.hpp>
+#include <symbolibre/util/FileSystemSingleton.hpp>
 
 
 int main(int argc, char *argv[])
 {
+    using Fs = FileSystemSingleton;
 
     QApplication app(argc, argv); //QGuiApplication
     auto font(app.font());
@@ -19,12 +22,14 @@ int main(int argc, char *argv[])
 
     MathContext math;
 
+    QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
+
     QQmlEngine engine;
-    engine.addImportPath(SL_QML_DIR);
+    engine.addImportPath(Fs::qmlDir());
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("math", &math);
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile(QString(SL_QML_DIR) + "/funapp/main.qml"));
+    QQmlComponent component(&engine, QUrl::fromLocalFile(Fs::qmlDir() + "/funapp/main.qml"));
     if (component.status() != QQmlComponent::Ready) {
         qCritical() << component.errors();
         return 1;

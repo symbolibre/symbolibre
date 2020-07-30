@@ -7,21 +7,12 @@ set(funapp_QML_SOURCES
     GraphInterface.qml
     main.qml
 )
-configure_file(qtquickcontrols2.conf.in qtquickcontrols2.conf)
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
-    "<RCC><qresource prefix=\"/\">
-    <file>qtquickcontrols2.conf</file>
-    </qresource></RCC>"
-)
-qt5_add_resources(funapp_SOURCES
-    funapp.qrc
-    "${CMAKE_CURRENT_BINARY_DIR}/qqc2conf.qrc"
-)
 
 add_executable(symbolibre-funapp ${funapp_SOURCES})
 target_link_libraries(symbolibre-funapp
     Symbolibre::Symbolibre
     ${QT_DEPS}
+    Qt::QuickControls2
     Qt::Widgets
 )
 install(TARGETS symbolibre-funapp DESTINATION ${CMAKE_INSTALL_BINDIR})

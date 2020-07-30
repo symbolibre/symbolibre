@@ -62,10 +62,11 @@ else()
         message(WARNING "QML modules will be installed outside the install prefix.")
     endif()
     message(STATUS "QML modules will be installed to ${SL_FULL_QML_INSTALL_DIR}")
-    # FIXME should be a relative path
     set(SL_QML_INSTALL_DIR ${SL_FULL_QML_INSTALL_DIR})
 endif()
 
+# for config.hpp
+set(SL_CUSTOM_QML_DIR USE_CUSTOM_QML_PATH)
 if(UNIX)
     set(SL_TARGET_UNIX True)
 elseif(WIN32)

@@ -1,6 +1,7 @@
 #include "AppLauncher.hpp"
 
 #include <symbolibre/config.hpp>
+#include <symbolibre/util/FileSystemSingleton.hpp>
 
 #include <QDebug>
 #include <QDir>
@@ -17,7 +18,7 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
 {
-    QDir appsDir(QString(SL_DATA_DIR) + "/applications");
+    QDir appsDir(FileSystemSingleton::staticDataDir() + "/applications");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
 
     for(int i = 0; i < apps.size(); i++) {
