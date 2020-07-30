@@ -17,9 +17,11 @@ cmake ..
 make install
 ```
 
-This installs the symbolibre Qt Quick Controls 2 theme, the symbolibre library,
-the symbolibre QML plugins and the symbolibre-calcsheet and symbolibre-funapp
-apps.
+This installs:
+- the Symbolibre Qt Quick Controls 2 theme
+- the Symbolibre library
+- the symbolibre QML plugins
+- the symbolibre-menu, symbolibre-calcsheet, and symbolibre-funapp applications
 
-You may want to specify a custom installation directory to cmake using its
-`-D CMAKE_INSTALL_PREFIX=` option.
+You may want to specify a custom installation directory in the `cmake ..`
+invocation using the `-D CMAKE_INSTALL_PREFIX=` option.
