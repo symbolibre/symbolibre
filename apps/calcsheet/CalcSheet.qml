@@ -95,20 +95,5 @@ Item {
             Component.onCompleted: forceActiveFocus()
             KeyNavigation.up: history.count ? history : null
         }
-
-        // the virtual keyboard is loaded lazily
-        Loader {
-            id: keyboardLoader
-            Layout.fillWidth: true
-            Layout.preferredHeight: keyboard.active ? 240 : 0
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            sourceComponent: keyboard.active ? keyboardComponent : null
-        }
-    }
-
-    Component {
-        id: keyboardComponent
-        SLKeyBoard {
-        }
     }
 }

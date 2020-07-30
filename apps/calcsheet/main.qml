@@ -6,7 +6,7 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 220 + (keyboard.active ? 240 : 0)
+    height: 220
     title: qsTr("Quick Calculator")
 
     CalcSheet {
