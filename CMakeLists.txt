@@ -12,7 +12,7 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick Widgets OPTIONAL_COMPONENTS Test)
+find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick QuickControls2 Widgets OPTIONAL_COMPONENTS Test)
 find_package(QCustomPlot REQUIRED)
 find_package(Giac REQUIRED)
 
@@ -64,6 +64,12 @@ else()
     message(STATUS "QML modules will be installed to ${SL_FULL_QML_INSTALL_DIR}")
     # FIXME should be a relative path
     set(SL_QML_INSTALL_DIR ${SL_FULL_QML_INSTALL_DIR})
+endif()
+
+if(UNIX)
+    set(SL_TARGET_UNIX True)
+elseif(WIN32)
+    set(SL_TARGET_WIN32 True)
 endif()
 
 set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})

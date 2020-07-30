@@ -1,12 +1,17 @@
 set(util_SOURCES
     FileSystemSingleton.cpp
-    plugin.cpp
 )
 set(util_HEADERS
     FileSystemSingleton.hpp
 )
+set(utilplugin_SOURCES
+    plugin.cpp
+)
 
-add_library(utilplugin SHARED ${util_SOURCES})
+add_library(util OBJECT ${util_SOURCES})
+target_link_libraries(util PUBLIC ${QT_DEPS})
+
+add_library(utilplugin SHARED ${utilplugin_SOURCES})
 target_link_libraries(utilplugin PUBLIC ${QT_DEPS})
 
 install(TARGETS utilplugin

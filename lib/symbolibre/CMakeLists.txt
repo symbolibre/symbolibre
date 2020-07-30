@@ -20,7 +20,7 @@ set(symbolibre_HEADERS
 
 add_library(Symbolibre SHARED ${symbolibre_SOURCES})
 target_link_libraries(Symbolibre
-    PRIVATE keyboard editiontree
+    PRIVATE keyboard editiontree util
     PUBLIC Giac::Giac ${QT_DEPS}
 )
 target_include_directories(Symbolibre INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
