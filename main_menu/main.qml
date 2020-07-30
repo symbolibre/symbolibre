@@ -84,4 +84,22 @@ SLWindow {
     function reloadMenu() {
         appletLoader.source = "Menu.qml";
     }
+
+    Connections {
+        target: window.overlay
+        function onHeightChanged(height) {
+            updateOverlayHeight();
+        }
+    }
+
+    Connections {
+        target: mainItem
+        function onHeightChanged(height) {
+            updateOverlayHeight();
+        }
+    }
+
+    function updateOverlayHeight() {
+        window.overlay.height = mainItem.height;
+    }
 }
