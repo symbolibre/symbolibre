@@ -31,7 +31,7 @@ class AppLauncher : public QObject
 
 public:
     explicit AppLauncher(QObject *parent = nullptr);
-    Q_INVOKABLE bool launch(AppItem *app);
+    Q_INVOKABLE bool launch(const AppItem *app);
 
 private:
     QList<QObject*> mAppsModel;

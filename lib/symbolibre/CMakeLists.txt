@@ -11,17 +11,19 @@ configure_file(config.hpp.in config.hpp)
 
 set(symbolibre_SOURCES
     MathContext.cpp
+    symbolibreMain.cpp
 )
 set(symbolibre_HEADERS
     editiontree.hpp
     MathContext.hpp
+    symbolibreMain.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
 )
 
 add_library(Symbolibre SHARED ${symbolibre_SOURCES})
 target_link_libraries(Symbolibre
     PRIVATE keyboard editiontree util
-    PUBLIC Giac::Giac ${QT_DEPS}
+    PUBLIC Giac::Giac ${QT_DEPS} Qt::QuickControls2 Qt::Widgets
 )
 target_include_directories(Symbolibre INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
