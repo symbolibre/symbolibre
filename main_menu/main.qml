@@ -25,9 +25,12 @@ SLWindow {
         onAccepted: reloadMenu()
     }
 
-    ColumnLayout {
+    Item {
         id: mainItem
-        anchors.fill: parent
+        x: 0
+        width: parent.width
+        y: 0
+        height: parent.height - (keyboard.active ? 240 : 0)
 
         // FIXME why doesn't this work?
         /*Component {
@@ -39,8 +42,7 @@ SLWindow {
 
         Loader {
             id: appletLoader
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            anchors.fill: parent
             focus: true
             source: "Menu.qml"
             onStatusChanged: {
@@ -58,14 +60,6 @@ SLWindow {
             }
         }
 
-        // the virtual keyboard is loaded lazily
-        Loader {
-            id: keyboardLoader
-            Layout.fillWidth: true
-            Layout.preferredHeight: keyboard.active ? 240 : 0
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            sourceComponent: keyboard.active ? keyboardComponent : null
-        }
 
         Keys.onPressed: {
             if (event.key == Qt.Key_Home) {
@@ -73,6 +67,18 @@ SLWindow {
                 event.accepted = true;
             }
         }
+    }
+
+    // the virtual keyboard is loaded lazily
+    Loader {
+        id: keyboardLoader
+        parent: window.contentItem.parent // QQuickRootItem, parent of the overlay
+        x: 0
+        y: window.height - 240
+        width: window.width
+        height: 240
+        z: 1000002 // the overlay has a z of 1000001
+        sourceComponent: keyboard.active ? keyboardComponent : null
     }
 
     function reloadMenu() {
