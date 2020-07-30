@@ -1,6 +1,5 @@
 set(controls_QML_SOURCES
     SLStackLayout.qml
-    SLTabBar.qml
     SLTextField.qml
     SLWindow.qml
 )

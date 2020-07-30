@@ -20,7 +20,7 @@ Item {
         catalog.open();
     }
 
-    SLTabBar {
+    TabBar {
         id: mainMenu
         x: 0
         width: parent.width
