@@ -1,5 +1,6 @@
 set(funapp_SOURCES main.cpp)
 set(funapp_QML_SOURCES
+    FunApp.qml
     FunctionDefinitionDelegate.qml
     FunctionDefinitionView.qml
     FunctionMenu.qml

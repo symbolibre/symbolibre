@@ -59,7 +59,7 @@ FocusScope {
             }
             Keys.onPressed: {
                 if (event.key == Qt.Key_F1)
-                    window.openCatalog(function(str) {
+                    appRoot.openCatalog(function(str) {
                         exprfield.insertJson(str);
                     });
             }

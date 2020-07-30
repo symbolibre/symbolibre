@@ -1,5 +1,6 @@
 {
     "command": "symbolibre-funapp",
+    "applet": "funapp/FunApp.qml",
     "caption": "Fonctions",
     "icon": "../../icons/fonctions.png"
 }
