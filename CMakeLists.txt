@@ -20,17 +20,10 @@ if(BUILD_TESTING AND NOT(${Qt5Test_FOUND}))
     message(SEND_ERROR "Tests enabled but Qt5Test not found")
 endif()
 
-if(CMAKE_BUILD_TYPE MATCHES "Rel")
-    set(RELEASE_BUILD ON)
-    set(NOT_RELEASE_BUILD OFF)
-else()
-    set(RELEASE_BUILD OFF)
-    set(NOT_RELEASE_BUILD ON)
-endif()
-
+set(DEV_BUILD OFF CACHE BOOL "Developer build")
 set(USE_CUSTOM_QML_PATH ON CACHE BOOL
     "Install QML modules in a Symbolibre-specific location")
-set(SET_RPATH ${NOT_RELEASE_BUILD} CACHE BOOL
+set(SET_RPATH ${DEV_BUILD} CACHE BOOL
     "Set the RPATH of the applications to the install path of libSymbolibre")
 
 set(SL_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/symbolibre)
@@ -75,7 +68,7 @@ elseif(WIN32)
     set(SL_TARGET_WIN32 True)
 endif()
 
-if (SET_RPATH)
+if(SET_RPATH)
     set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
 endif()
 
@@ -83,7 +76,7 @@ set(QT_DEPS Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick)
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 14)
 
-if(NOT("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+if(DEV_BUILD)
     if(MSVC)
         add_compile_options(/W4)
     else()
