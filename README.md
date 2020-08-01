@@ -25,3 +25,14 @@ This installs:
 
 You may want to specify a custom installation directory in the `cmake ..`
 invocation using the `-D CMAKE_INSTALL_PREFIX=` option.
+
+### Additional CMake options
+
+If you choose a non-standard installation directory, you may want to add
+the `-D SET_RPATH=ON` option so that the installed binaries can locate the
+Symbolibre shared library.
+
+`-D USE_CUSTOM_QML_PATH=OFF` (default ON) installs the QML modules system-wide
+instead of in a custom location.
+
+`-D DEV_BUILD=ON` enables compiler warnings and enables the `SET_RPATH` option.
