@@ -1,11 +1,12 @@
 #include <QApplication>
+#include <QFont>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
+#include <QQmlComponent>
 #include <QQmlContext>
 #include <QQuickStyle>
 
 #include <symbolibre/config.hpp>
-#include <symbolibre/MathContext.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
@@ -22,7 +23,6 @@ int main(int argc, char *argv[])
 
     AppLauncher launcher;
     VirtualKeyboardContext vk;
-    MathContext math;
 
     QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
 
@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("launcher", &launcher);
     context->setContextProperty("keyboard", &vk);
-    context->setContextProperty("math", &math);
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 

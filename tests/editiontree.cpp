@@ -1,5 +1,5 @@
 #include <symbolibre/editiontree.hpp>
-#include <symbolibre/MathContext.hpp>
+#include <symbolibre/cas/MathContext.hpp>
 #include <QtTest>
 
 class EditionTreeTest : public QObject

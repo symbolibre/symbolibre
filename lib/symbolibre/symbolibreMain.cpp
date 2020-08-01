@@ -1,11 +1,12 @@
 #include <QApplication>
+#include <QFont>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
+#include <QQmlComponent>
 #include <QQmlContext>
 #include <QQuickStyle>
 
 #include <symbolibre/config.hpp>
-#include <symbolibre/MathContext.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
@@ -19,7 +20,6 @@ int symbolibreMain(int argc, char *argv[], QString componentPath)
     app.setFont(font);
 
     VirtualKeyboardContext vk;
-    MathContext math;
 
     QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
 
@@ -27,7 +27,6 @@ int symbolibreMain(int argc, char *argv[], QString componentPath)
     engine.addImportPath(Fs::qmlDir());
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("keyboard", &vk);
-    context->setContextProperty("math", &math);
 
     vk.setActive(argc >= 2 && strcmp(argv[1], "-keyboard") == 0);
 

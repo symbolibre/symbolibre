@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
+import org.symbolibre.cas 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
 
@@ -11,6 +12,10 @@ SLWindow {
     height: 220 + (keyboard.active ? 240 : 0)
 
     title: qsTr("Symbolibre")
+
+    MathContext {
+        id: math
+    }
 
     Dialog {
         id: backToMenuDialog
