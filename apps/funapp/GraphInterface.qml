@@ -6,6 +6,8 @@ GraphView {
 
     property ListModel functions
 
+    mathContext: math
+
     // Send a signal saying that range changed. Send when lose focus
     function plot() {
         var i = 0

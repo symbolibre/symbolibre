@@ -6,10 +6,12 @@
 #include "curveitem.h"
 
 class QCustomPlot;
+class MathContext;
 
 class CustomPlotItem : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_PROPERTY(MathContext *mathContext READ mathContext WRITE setMathContext NOTIFY mathContextChanged)
     Q_PROPERTY(QRectF view READ view WRITE setRange NOTIFY viewChanged)
     Q_PROPERTY(QPointF cursorPos READ cursorPos NOTIFY cursorPosChanged)
     Q_PROPERTY(QString selectedCurve READ selectedCurve WRITE setSelectedCurve NOTIFY selectedCurveChanged)
@@ -21,19 +23,24 @@ public:
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
 
+    MathContext * mathContext() const;
     QString selectedCurve() const;
     const QRectF &view() const;
     QPointF cursorPos() const;
 
 public slots:
+    void setMathContext(MathContext *ctx);
     void setSelectedCurve(QString curve);
 
 signals:
+    void mathContextChanged(MathContext *);
     void viewChanged(QRectF);
     void cursorPosChanged(QPointF);
     void selectedCurveChanged(QString);
 
 private:
+    MathContext *mMathContext;
+
     QCustomPlot m_CustomPlot;
 
     QRectF m_view;

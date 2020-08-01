@@ -71,6 +71,20 @@ void CustomPlotItem::plotGraph(QString nomGraph)
     m_CustomPlot.replot();
 }
 
+MathContext * CustomPlotItem::mathContext() const
+{
+    return mMathContext;
+}
+
+void CustomPlotItem::setMathContext(MathContext *ctx)
+{
+    if (ctx == mMathContext)
+        return;
+
+    mMathContext = ctx;
+    emit mathContextChanged(ctx);
+}
+
 void CustomPlotItem::setRange(const QRectF &range)
 {
     m_view = range;
