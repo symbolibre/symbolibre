@@ -7,6 +7,7 @@ GraphView {
     property ListModel functions
 
     mathContext: math
+    cursorAttached: true
 
     // Send a signal saying that range changed. Send when lose focus
     function plot() {
@@ -21,83 +22,45 @@ GraphView {
         }
     }
 
-    property string mode : "Cursor"
-
-    onModeChanged: {
-        if (mode == "Cursor") {
-            plotItem.setModeCursor()
-        }
-        if (mode == "Zoom") {
-            plotItem.setModeWindow()
-        }
-    }
-
     onActiveFocusChanged: {
-        if (!activeFocus) {
-            viewChanged(plotItem.view)
-        }
+        if (!activeFocus)
+            viewChanged(plotItem.view);
     }
 
     Keys.onPressed: {
+        event.accepted = true;
+
         if (event.key === Qt.Key_Right) {
-            if (mode == "Zoom") {
-                plotItem.moveWindow(1, 0)
-                event.accepted = true
-            }
-            if (mode == "Cursor") {
-                plotItem.moveCursor(1, 0)
-                event.accepted = true
-            }
-        }
+            if (!cursorAttached)
+                plotItem.moveWindow(1, 0);
+            else
+                plotItem.moveCursor(1, 0);
 
-        else if (event.key === Qt.Key_Left) {
-            if (mode == "Zoom") {
-                plotItem.moveWindow(-1, 0)
-                event.accepted = true
-            }
-            if (mode == "Cursor") {
-                plotItem.moveCursor(-1, 0)
-                event.accepted = true
-            }
-        }
+        } else if (event.key === Qt.Key_Left) {
+            if (!cursorAttached)
+                plotItem.moveWindow(-1, 0);
+            else
+                plotItem.moveCursor(-1, 0);
 
-        else if (event.key === Qt.Key_Up) {
-            if (mode == "Zoom") {
-                plotItem.moveWindow(0, 1)
-                event.accepted = true
-            }
-            if (mode == "Cursor") {
-                plotItem.moveCursor(0, 1)
-                event.accepted = true
-            }
-        }
+        } else if (event.key === Qt.Key_Up) {
+            if (!cursorAttached)
+                plotItem.moveWindow(0, 1);
+            else
+                plotItem.moveCursor(0, 1);
 
-        else if (event.key === Qt.Key_Down) {
-            if (mode == "Zoom") {
-                plotItem.moveWindow(0, -1)
-                event.accepted = true
-            }
-            if (mode == "Cursor") {
-                plotItem.moveCursor(0, -1)
-                event.accepted = true
-            }
-        }
+        } else if (event.key === Qt.Key_Down) {
+            if (!cursorAttached)
+                plotItem.moveWindow(0, -1);
+            else
+                plotItem.moveCursor(0, -1);
 
-        else if (event.key === Qt.Key_Plus) {
-            if (mode == "Zoom" || mode == "Cursor") {
-                plotItem.modifyZoom(0.5)
-                event.accepted = true
-            }
-        }
+        } else if (event.key === Qt.Key_Plus) {
+            plotItem.modifyZoom(0.5);
 
-        else if (event.key === Qt.Key_Minus) {
-            if (mode == "Zoom" || mode == "Cursor") {
-                plotItem.modifyZoom(2.0)
-                event.accepted = true
-            }
-        }
+        } else if (event.key === Qt.Key_Minus) {
+            plotItem.modifyZoom(2.0);
 
-        else {
+        } else {
             event.accepted = false
         }
     }

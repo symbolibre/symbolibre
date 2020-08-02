@@ -15,6 +15,8 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QRectF view READ view WRITE setRange NOTIFY viewChanged)
     Q_PROPERTY(QPointF cursorPos READ cursorPos NOTIFY cursorPosChanged)
     Q_PROPERTY(QString selectedCurve READ selectedCurve WRITE setSelectedCurve NOTIFY selectedCurveChanged)
+    Q_PROPERTY(bool cursorAttached
+        READ isCursorAttached WRITE setCursorAttached NOTIFY cursorAttachedChanged)
 
 public:
     CustomPlotItem(QQuickItem *parent = nullptr);
@@ -27,16 +29,19 @@ public:
     QString selectedCurve() const;
     const QRectF &view() const;
     QPointF cursorPos() const;
+    bool isCursorAttached() const;
 
 public slots:
     void setMathContext(MathContext *ctx);
     void setSelectedCurve(QString curve);
+    void setCursorAttached(bool attached);
 
 signals:
     void mathContextChanged(MathContext *);
     void viewChanged(QRectF);
     void cursorPosChanged(QPointF);
     void selectedCurveChanged(QString);
+    void cursorAttachedChanged(bool);
 
 private:
     MathContext *mMathContext;
@@ -45,6 +50,7 @@ private:
 
     QRectF m_view;
     QPointF m_cursorPos;
+    bool mCursorAttached;
 
     /* Scale of the axis to ensure smooth plot */
     double Xsca;
@@ -55,7 +61,6 @@ private:
     int cursorVisible;
     double cursorX;
     double cursorY;
-    int modeCursor;
 
     /* curves on the graph */
     QMap<QString, CurveItem> listGraph;
@@ -70,9 +75,6 @@ public:
     Q_INVOKABLE void moveWindow(int x, int y);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
     Q_INVOKABLE void modifyZoom(double value);
-    Q_INVOKABLE void setModeWindow();
-    Q_INVOKABLE void setModeCursor();
-    Q_INVOKABLE void switchModeCurWin();
 
 public slots:
     void clearGraph();

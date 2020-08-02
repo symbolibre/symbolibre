@@ -6,9 +6,8 @@
 
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0),
-    Xsca(4 * m_view.width() / 320), Ysca(4 * m_view.height() / 240),
-    cursor(new QCPItemTracer(&m_CustomPlot)), modeCursor(1),
-    listGraph(), nbCurves(0)
+    mCursorAttached(false), Xsca(4 * m_view.width() / 320), Ysca(4 * m_view.height() / 240),
+    cursor(new QCPItemTracer(&m_CustomPlot)), listGraph(), nbCurves(0)
 {
     cursor->setStyle(QCPItemTracer::tsPlus);
     cursor->setVisible(0);
@@ -83,14 +82,15 @@ void CustomPlotItem::setMathContext(MathContext *ctx)
 
 void CustomPlotItem::setRange(const QRectF &range)
 {
+    if (range == m_view)
+        return;
+
     m_view = range;
 
     Xsca = 4 * m_view.width() / 320;
     Ysca = 4 * m_view.height() / 240;
 
-    for (auto name : listGraph.keys()) {
-        plotGraph(name);
-    }
+    replot();
     emit viewChanged(m_view);
 }
 
@@ -126,9 +126,9 @@ void CustomPlotItem::moveWindow(QPoint offset)
 
     m_view.translate(offset.x()*Xsca, offset.y()*Ysca);
 
-    if (modeCursor == 0) {
+    if (!mCursorAttached) {
         cursor->position->setCoords(m_view.center());
-        cursor->setVisible(1);
+        cursor->setVisible(true);
         m_cursorPos = m_view.center();
         emit cursorPosChanged(m_cursorPos);
     }
@@ -287,28 +287,28 @@ void CustomPlotItem::recvInput(int input)
 {
     switch (input) {
     case KeyCode::SLK_UP:
-        if (modeCursor == 0) {
+        if (!mCursorAttached) {
             moveWindow(0, 1);
         } else {
             moveCursor(0, 1);
         }
         break;
     case KeyCode::SLK_DOWN:
-        if (modeCursor == 0) {
+        if (!mCursorAttached) {
             moveWindow(0, -1);
         } else {
             moveCursor(0, -1);
         }
         break;
     case KeyCode::SLK_LEFT:
-        if (modeCursor == 0) {
+        if (!mCursorAttached) {
             moveWindow(-1, 0);
         } else {
             moveCursor(-1, 0);
         }
         break;
     case KeyCode::SLK_RIGHT:
-        if (modeCursor == 0) {
+        if (!mCursorAttached) {
             moveWindow(1, 0);
         } else {
             moveCursor(1, 0);
@@ -405,28 +405,22 @@ void CustomPlotItem::setSelectedCurve(QString curve)
     }
 }
 
-void CustomPlotItem::setModeWindow()
+bool CustomPlotItem::isCursorAttached() const
 {
-    //now arrows move the window
-    modeCursor = 0;
-
-    // We free the cursor from the graph
-    cursor->setGraph(nullptr);
-    cursor->position->setCoords(m_view.center());
-    cursor->setVisible(1);
-    emit selectedCurveChanged(QString());
-    emit cursorPosChanged(m_cursorPos);
+    return mCursorAttached;
 }
 
-void CustomPlotItem::setModeCursor()
+void CustomPlotItem::setCursorAttached(bool attached)
 {
-    //now arrows move the cursor
-    modeCursor = 1;
-    cursor->setVisible(0);
-}
-
-void CustomPlotItem::switchModeCurWin()
-{
-    //switch between moving the window and the cursor
-    modeCursor = 1 - modeCursor;
+    if (attached == mCursorAttached)
+        return;
+    mCursorAttached = attached;
+    if (attached) {
+        cursor->setVisible(false);
+    } else {
+        cursor->setGraph(nullptr);
+        cursor->setVisible(true);
+        emit selectedCurveChanged(QString());
+    }
+    emit cursorAttachedChanged(attached);
 }

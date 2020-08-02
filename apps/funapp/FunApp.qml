@@ -78,7 +78,7 @@ Item {
 
             Label {
                 id: ftext
-                visible: graph.mode == "Cursor"
+                visible: graph.cursorAttached
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 height: 20
@@ -92,7 +92,7 @@ Item {
 
             Label {
                 id: xtext
-                visible: graph.mode == "Zoom"
+                visible: !graph.cursorAttached
                 anchors.bottom: parent.bottom
                 anchors.right: ytext.left
                 width: 75
@@ -102,7 +102,7 @@ Item {
             }
             Label {
                 id: ytext
-                visible: graph.mode == "Zoom"
+                visible: !graph.cursorAttached
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 width: 75
