@@ -31,34 +31,25 @@ GraphView {
         event.accepted = true;
 
         if (event.key === Qt.Key_Right) {
-            if (!cursorAttached)
-                plotItem.moveWindow(1, 0);
-            else
-                plotItem.moveCursor(1, 0);
+            plotItem.moveCursor(1, 0);
 
         } else if (event.key === Qt.Key_Left) {
-            if (!cursorAttached)
-                plotItem.moveWindow(-1, 0);
-            else
-                plotItem.moveCursor(-1, 0);
+            plotItem.moveCursor(-1, 0);
 
         } else if (event.key === Qt.Key_Up) {
-            if (!cursorAttached)
-                plotItem.moveWindow(0, 1);
-            else
-                plotItem.moveCursor(0, 1);
+            plotItem.moveCursor(0, 1);
 
         } else if (event.key === Qt.Key_Down) {
-            if (!cursorAttached)
-                plotItem.moveWindow(0, -1);
-            else
-                plotItem.moveCursor(0, -1);
+            plotItem.moveCursor(0, -1);
 
         } else if (event.key === Qt.Key_Plus) {
             plotItem.modifyZoom(0.5);
 
         } else if (event.key === Qt.Key_Minus) {
             plotItem.modifyZoom(2.0);
+
+        } else if (event.key === Qt.Key_F1) {
+            plotItem.cursorAttached = !plotItem.cursorAttached;
 
         } else {
             event.accepted = false

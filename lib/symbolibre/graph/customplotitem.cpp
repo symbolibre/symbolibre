@@ -143,12 +143,9 @@ void CustomPlotItem::moveWindow(int x, int y)
 
 void CustomPlotItem::moveCursor(int amtX, int amtY)
 {
-    //move cursor according to the amount given
-    if (listGraph.isEmpty()) {
-        std::cout << "No graph to attach the cursor !" << std::endl;
-        return;
-    }
-    cursor->setStyle(QCPItemTracer::tsPlus);
+    if (listGraph.isEmpty() || !mCursorAttached)
+        return moveWindow(amtX, amtY);
+
     if (!cursor->visible()) {
         m_cursorPos = m_view.center();
         QCPGraph *closest = cursor->graph();
@@ -363,7 +360,10 @@ void CustomPlotItem::setCursorAttached(bool attached)
     } else {
         cursor->setGraph(nullptr);
         cursor->setVisible(true);
+        cursor->position->setCoords(m_view.center());
+        m_cursorPos = m_view.center();
         emit selectedCurveChanged(QString());
+        emit cursorPosChanged(m_cursorPos);
     }
     emit cursorAttachedChanged(attached);
 }
