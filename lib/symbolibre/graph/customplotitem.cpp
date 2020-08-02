@@ -10,7 +10,7 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     cursor(new QCPItemTracer(&m_CustomPlot)), listGraph()
 {
     cursor->setStyle(QCPItemTracer::tsPlus);
-    cursor->setVisible(0);
+    cursor->setVisible(false);
 
     setFlag(QQuickItem::ItemHasContents, true);
 
@@ -248,7 +248,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         moveWindow(windowMove.x() / Xsca, windowMove.y() / Ysca);
     }
 
-    cursor->setVisible(1);
+    cursor->setVisible(true);
     emit cursorPosChanged(m_cursorPos);
 }
 
@@ -296,10 +296,9 @@ void CustomPlotItem::clearGraph()
 void CustomPlotItem::removeGraph(QString nomGraph)
 {
     if (listGraph.contains(nomGraph)) {
-        //if lié au cursor
         if (cursor->graph() == listGraph[nomGraph].graph) {
             cursor->setGraph(nullptr);
-            cursor->setVisible(0);
+            cursor->setVisible(false);
             emit selectedCurveChanged(QString());
         }
         m_CustomPlot.removeGraph(listGraph[nomGraph].graph);
