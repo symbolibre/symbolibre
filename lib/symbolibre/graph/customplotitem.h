@@ -30,6 +30,9 @@ public:
     QPointF cursorPos() const;
     bool isCursorAttached() const;
 
+    double xScale() const;
+    double yScale() const;
+
 public slots:
     void setMathContext(MathContext *ctx);
     void setSelectedCurve(QString curve);
@@ -48,12 +51,7 @@ private:
     QCustomPlot m_CustomPlot;
 
     QRectF m_view;
-    QPointF m_cursorPos;
     bool mCursorAttached;
-
-    /* Scale of the axis to ensure smooth plot */
-    double Xsca;
-    double Ysca;
 
     /* Position of the cursor */
     QCPItemTracer *cursor;

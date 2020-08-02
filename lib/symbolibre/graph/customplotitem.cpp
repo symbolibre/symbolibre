@@ -4,9 +4,8 @@
 #include <qcustomplot.h>
 
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
-    mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0),
-    mCursorAttached(false), Xsca(4 * m_view.width() / 320), Ysca(4 * m_view.height() / 240),
-    cursor(new QCPItemTracer(&m_CustomPlot)), listGraph()
+    mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20),
+    mCursorAttached(false), cursor(new QCPItemTracer(&m_CustomPlot)), listGraph()
 {
     cursor->setStyle(QCPItemTracer::tsPlus);
     cursor->setVisible(false);
@@ -51,7 +50,7 @@ void CustomPlotItem::plotGraph(QString nomGraph)
     double x = m_view.left();
     g.graph->addData(x, g.getValue(x, mMathContext));
     while (x <= m_view.right()) {
-        x += Xsca;
+        x += xScale();
         g.graph->addData(x, g.getValue(x, mMathContext));
     }
 
@@ -86,9 +85,6 @@ void CustomPlotItem::setRange(const QRectF &range)
 
     m_view = range;
 
-    Xsca = 4 * m_view.width() / 320;
-    Ysca = 4 * m_view.height() / 240;
-
     replot();
     emit viewChanged(m_view);
 }
@@ -105,31 +101,30 @@ void CustomPlotItem::moveWindow(QPoint offset)
         return;
 
     if (offset.x() > 320 || offset.x() < -320)
-        return setRange(m_view.translated(QPointF(offset.x() * Xsca, offset.y() * Ysca)));
+        return setRange(m_view.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
 
     foreach (CurveItem g, listGraph) {
         if (offset.x() > 0) {
             double x = m_view.right();
             for (int i = 0 ; i <= offset.x() ; i++) {
                 g.graph->addData(x, g.getValue(x, mMathContext));
-                x += Xsca;
+                x += xScale();
             }
         } else if (offset.x() < 0) {
             double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
                 g.graph->addData(x, g.getValue(x, mMathContext));
-                x -= Xsca;
+                x -= xScale();
             }
         }
     }
 
-    m_view.translate(offset.x()*Xsca, offset.y()*Ysca);
+    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
 
     if (!mCursorAttached) {
         cursor->position->setCoords(m_view.center());
         cursor->setVisible(true);
-        m_cursorPos = m_view.center();
-        emit cursorPosChanged(m_cursorPos);
+        emit cursorPosChanged(cursorPos());
     }
 
     emit viewChanged(m_view);
@@ -146,28 +141,26 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         return moveWindow(amtX, amtY);
 
     if (!cursor->visible()) {
-        m_cursorPos = m_view.center();
+        QPointF cursorPos(m_view.center());
         QCPGraph *closest = cursor->graph();
-        double yClo = listGraph.first().getValue(m_cursorPos.x(), mMathContext);
+        double yClo = listGraph.first().getValue(cursorPos.x(), mMathContext);
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x(), mMathContext);
-            if (std::abs(y - m_cursorPos.y()) <= std::abs(yClo - m_cursorPos.y())) {
+            y = g.getValue(cursorPos.x(), mMathContext);
+            if (std::abs(y - cursorPos.y()) <= std::abs(yClo - cursorPos.y())) {
                 closest = g.graph;
                 yClo = y;
             }
         }
         cursor->setGraph(closest);
-        cursor->setGraphKey(m_cursorPos.x());
+        cursor->setGraphKey(cursorPos.x());
         cursor->updatePosition();
-        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     }
 
     if (amtX != 0) {
-        cursor->setGraphKey(m_cursorPos.x() + amtX * Xsca);
+        cursor->setGraphKey(cursorPos().x() + amtX * xScale());
         cursor->updatePosition();
-        m_cursorPos = cursor->position->coords();
     }
 
     if (amtY > 0) {
@@ -178,8 +171,8 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yMin = std::numeric_limits<double>::max();
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x(), mMathContext);
-            if (y < yAbo && y > m_cursorPos.y()) {
+            y = g.getValue(cursorPos().x(), mMathContext);
+            if (y < yAbo && y > cursorPos().y()) {
                 above = g.graph;
                 yAbo = y;
             }
@@ -194,7 +187,6 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->setGraph(minig);
         }
         cursor->updatePosition();
-        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     } else if (amtY < 0) {
         //search curve just below
@@ -204,8 +196,8 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yMax = std::numeric_limits<double>::min();
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x(), mMathContext);
-            if (y > yBel && y < m_cursorPos.y()) {
+            y = g.getValue(cursorPos().x(), mMathContext);
+            if (y > yBel && y < cursorPos().y()) {
                 below = g.graph;
                 yBel = y;
             }
@@ -220,35 +212,34 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->setGraph(maxig);
         }
         cursor->updatePosition();
-        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     }
 
     QPointF windowMove;
     // center on cursor if too far away
-    if (!m_view.contains(m_cursorPos)) {
-        windowMove += m_cursorPos - m_view.center();
+    if (!m_view.contains(cursorPos())) {
+        windowMove += cursorPos() - m_view.center();
     } else {
         // enforce a margin of 10 pixels
-        if (m_cursorPos.x() > m_view.right() - 10 * Xsca) {
-            windowMove.rx() += m_cursorPos.x() + 10 * Xsca - m_view.right();
-        } else if (m_cursorPos.x() < m_view.left() + 10 * Xsca) {
-            windowMove.rx() += m_cursorPos.x() - 10 * Xsca - m_view.left();
+        if (cursorPos().x() > m_view.right() - 10 * xScale()) {
+            windowMove.rx() += cursorPos().x() + 10 * xScale() - m_view.right();
+        } else if (cursorPos().x() < m_view.left() + 10 * xScale()) {
+            windowMove.rx() += cursorPos().x() - 10 * xScale() - m_view.left();
         }
 
-        if (m_cursorPos.y() < m_view.top() + 10 * Ysca) {
-            windowMove.ry() += m_cursorPos.y() - 10 * Ysca - m_view.top();
-        } else if (m_cursorPos.y() > m_view.bottom() - 10 * Ysca) {
-            windowMove.ry() += m_cursorPos.y() + 10 * Ysca - m_view.bottom();
+        if (cursorPos().y() < m_view.top() + 10 * yScale()) {
+            windowMove.ry() += cursorPos().y() - 10 * yScale() - m_view.top();
+        } else if (cursorPos().y() > m_view.bottom() - 10 * yScale()) {
+            windowMove.ry() += cursorPos().y() + 10 * yScale() - m_view.bottom();
         }
     }
 
     if (!windowMove.isNull()) {
-        moveWindow(windowMove.x() / Xsca, windowMove.y() / Ysca);
+        moveWindow(windowMove.x() / xScale(), windowMove.y() / yScale());
     }
 
     cursor->setVisible(true);
-    emit cursorPosChanged(m_cursorPos);
+    emit cursorPosChanged(cursorPos());
 }
 
 void CustomPlotItem::modifyZoom(double value)
@@ -259,10 +250,7 @@ void CustomPlotItem::modifyZoom(double value)
     if (value > 1)
         m_view.moveCenter(center);
     else
-        m_view.moveCenter(m_cursorPos);
-
-    Xsca *= value;
-    Ysca *= value;
+        m_view.moveCenter(cursorPos());
 
     for (auto name : listGraph.keys()) {
         plotGraph(name);
@@ -312,7 +300,7 @@ const QRectF &CustomPlotItem::view() const
 
 QPointF CustomPlotItem::cursorPos() const
 {
-    return m_cursorPos;
+    return cursor->position->coords();
 }
 
 QString CustomPlotItem::selectedCurve() const
@@ -329,8 +317,7 @@ void CustomPlotItem::setSelectedCurve(QString curve)
     if (it != listGraph.end()) {
         cursor->setGraph(it->graph);
         cursor->updatePosition();
-        m_cursorPos = cursor->position->coords();
-        emit cursorPosChanged(m_cursorPos);
+        emit cursorPosChanged(cursorPos());
         emit selectedCurveChanged(curve);
     } else {
         cursor->setGraph(nullptr);
@@ -354,9 +341,18 @@ void CustomPlotItem::setCursorAttached(bool attached)
         cursor->setGraph(nullptr);
         cursor->setVisible(true);
         cursor->position->setCoords(m_view.center());
-        m_cursorPos = m_view.center();
         emit selectedCurveChanged(QString());
-        emit cursorPosChanged(m_cursorPos);
+        emit cursorPosChanged(cursor->position->coords());
     }
     emit cursorAttachedChanged(attached);
+}
+
+double CustomPlotItem::xScale() const
+{
+    return 4 * m_view.width() / 320;
+}
+
+double CustomPlotItem::yScale() const
+{
+    return 4 * m_view.height() / 240;
 }
