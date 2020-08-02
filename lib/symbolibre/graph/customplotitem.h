@@ -2,7 +2,6 @@
 #define CUSTOMPLOTITEM_H
 
 #include <QtQuick>
-#include "../keyboard/keycode.hpp"
 #include "curveitem.h"
 
 class QCustomPlot;
@@ -58,16 +57,11 @@ private:
 
     /* Position of the cursor */
     QCPItemTracer *cursor;
-    int cursorVisible;
-    double cursorX;
-    double cursorY;
 
     /* curves on the graph */
     QMap<QString, CurveItem> listGraph;
-    int nbCurves;
 
 public:
-    Q_INVOKABLE void recvInput(int input);
     Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
     Q_INVOKABLE void setRange(const QRectF &range);
     Q_INVOKABLE void setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax);
@@ -81,7 +75,6 @@ public slots:
 
 private slots:
     void updateCustomPlotSize();
-    void onCustomReplot();
     void removeGraph(QString nomGraph);
 };
 

@@ -7,7 +7,7 @@
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0),
     mCursorAttached(false), Xsca(4 * m_view.width() / 320), Ysca(4 * m_view.height() / 240),
-    cursor(new QCPItemTracer(&m_CustomPlot)), listGraph(), nbCurves(0)
+    cursor(new QCPItemTracer(&m_CustomPlot)), listGraph()
 {
     cursor->setStyle(QCPItemTracer::tsPlus);
     cursor->setVisible(0);
@@ -20,7 +20,7 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     updateCustomPlotSize();
     m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
     m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
-    connect(&m_CustomPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
+    connect(&m_CustomPlot, SIGNAL(afterReplot()), this, SLOT(update()));
     m_CustomPlot.replot();
 }
 
@@ -283,63 +283,12 @@ void CustomPlotItem::updateCustomPlotSize()
     m_CustomPlot.setViewport(QRect(0, 0, (int)width(), (int)height()));
 }
 
-void CustomPlotItem::recvInput(int input)
-{
-    switch (input) {
-    case KeyCode::SLK_UP:
-        if (!mCursorAttached) {
-            moveWindow(0, 1);
-        } else {
-            moveCursor(0, 1);
-        }
-        break;
-    case KeyCode::SLK_DOWN:
-        if (!mCursorAttached) {
-            moveWindow(0, -1);
-        } else {
-            moveCursor(0, -1);
-        }
-        break;
-    case KeyCode::SLK_LEFT:
-        if (!mCursorAttached) {
-            moveWindow(-1, 0);
-        } else {
-            moveCursor(-1, 0);
-        }
-        break;
-    case KeyCode::SLK_RIGHT:
-        if (!mCursorAttached) {
-            moveWindow(1, 0);
-        } else {
-            moveCursor(1, 0);
-        }
-        break;
-    case KeyCode::SLK_PLUS:
-        modifyZoom(.5);
-        break;
-    case KeyCode::SLK_MINUS:
-        modifyZoom(2);
-        break;
-    case KeyCode::SLK_CLEAR:
-        clearGraph();
-        setRange(QRectF(-10, -10, 20, 20));
-        break;
-    case KeyCode::SLK_ALPHA:
-        switchModeCurWin();
-        break;
-    default:
-        std::cerr << "Unsupported key " << input << std::endl;
-        break;
-    }
-}
-
 void CustomPlotItem::addGraph(QString id, QColor color)
 {
     if (listGraph.contains(id)) {
         listGraph[id].setColor(color);
     } else {
         listGraph[id] = CurveItem(id, m_CustomPlot.addGraph(), color);
-        nbCurves++;
     }
     plotGraph(id);
 }
@@ -362,13 +311,7 @@ void CustomPlotItem::removeGraph(QString nomGraph)
         }
         m_CustomPlot.removeGraph(listGraph[nomGraph].graph);
         listGraph.remove(nomGraph);
-        nbCurves--;
     }
-}
-
-void CustomPlotItem::onCustomReplot()
-{
-    update();
 }
 
 const QRectF &CustomPlotItem::view() const
