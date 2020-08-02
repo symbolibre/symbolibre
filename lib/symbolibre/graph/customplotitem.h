@@ -18,7 +18,6 @@ class CustomPlotItem : public QQuickPaintedItem
 
 public:
     CustomPlotItem(QQuickItem *parent = nullptr);
-    virtual ~CustomPlotItem();
 
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);

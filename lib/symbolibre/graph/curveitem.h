@@ -15,7 +15,6 @@ class CurveItem
 public:
     CurveItem() = default;
     CurveItem(QString name, QCPGraph *graphustule, QColor color);
-    virtual ~CurveItem();
 
     void clear();
     double getValue(double x, MathContext *ctx);

@@ -5,19 +5,13 @@
 #include <string>
 
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
-    m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0)
+    mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0),
+    Xsca(4 * m_view.width() / 320), Ysca(4 * m_view.height() / 240),
+    cursor(new QCPItemTracer(&m_CustomPlot)), modeCursor(1),
+    listGraph(), nbCurves(0)
 {
-    cursor = new QCPItemTracer(&m_CustomPlot);
     cursor->setStyle(QCPItemTracer::tsPlus);
     cursor->setVisible(0);
-    modeCursor = 1;
-
-    listGraph = {};
-
-    Xsca = 4 * m_view.width() / 320; // One point every other pixel
-    Ysca = 4 * m_view.height() / 240;
-
-    nbCurves = 0;
 
     setFlag(QQuickItem::ItemHasContents, true);
 
@@ -29,11 +23,6 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
     connect(&m_CustomPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
     m_CustomPlot.replot();
-}
-
-CustomPlotItem::~CustomPlotItem()
-{
-
 }
 
 void CustomPlotItem::paint(QPainter *painter)

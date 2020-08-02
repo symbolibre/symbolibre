@@ -8,11 +8,6 @@ CurveItem::CurveItem(QString name, QCPGraph *graphustule, QColor color) :
     graph->setPen(QPen(color));
 }
 
-CurveItem::~CurveItem()
-{
-
-}
-
 void CurveItem::clear()
 {
     graph->data()->clear();
