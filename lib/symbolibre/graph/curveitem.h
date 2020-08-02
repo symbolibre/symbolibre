@@ -8,20 +8,22 @@
 #include <giac/giac.h>
 #include "qcustomplot.h"
 
+class MathContext;
+
 class CurveItem
 {
 public:
     CurveItem() = default;
-    CurveItem(std::string form, QCPGraph *graphustule, QColor couleur);
+    CurveItem(QString name, QCPGraph *graphustule, QColor color);
     virtual ~CurveItem();
 
-    double getValue(double x);
-    void updateFormula(std::string form);
-    void updateColor(QColor couleur);
+    void clear();
+    double getValue(double x, MathContext *ctx);
+    void setColor(QColor color);
     QCPGraph *graph;
 
 private:
-    std::string formula;
+    QString name;
     giac::gen f;
     QColor color;
 };

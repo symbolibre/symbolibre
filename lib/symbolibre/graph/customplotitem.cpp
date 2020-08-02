@@ -62,13 +62,19 @@ void CustomPlotItem::plotGraph(QString nomGraph)
     g.graph->data()->clear();
 
     double x = m_view.left();
-    g.graph->addData(x, g.getValue(x));
+    g.graph->addData(x, g.getValue(x, mMathContext));
     while (x <= m_view.right()) {
         x += Xsca;
-        g.graph->addData(x, g.getValue(x));
+        g.graph->addData(x, g.getValue(x, mMathContext));
     }
 
     m_CustomPlot.replot();
+}
+
+void CustomPlotItem::replot()
+{
+    for (const QString &f : listGraph.keys())
+        plotGraph(f);
 }
 
 MathContext * CustomPlotItem::mathContext() const
@@ -82,6 +88,7 @@ void CustomPlotItem::setMathContext(MathContext *ctx)
         return;
 
     mMathContext = ctx;
+    replot();
     emit mathContextChanged(ctx);
 }
 
@@ -116,13 +123,13 @@ void CustomPlotItem::moveWindow(QPoint offset)
         if (offset.x() > 0) {
             double x = m_view.right();
             for (int i = 0 ; i <= offset.x() ; i++) {
-                g.graph->addData(x, g.getValue(x));
+                g.graph->addData(x, g.getValue(x, mMathContext));
                 x += Xsca;
             }
         } else if (offset.x() < 0) {
             double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
-                g.graph->addData(x, g.getValue(x));
+                g.graph->addData(x, g.getValue(x, mMathContext));
                 x -= Xsca;
             }
         }
@@ -156,10 +163,10 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
     if (!cursor->visible()) {
         m_cursorPos = m_view.center();
         QCPGraph *closest = cursor->graph();
-        double yClo = listGraph.first().getValue(m_cursorPos.x());
+        double yClo = listGraph.first().getValue(m_cursorPos.x(), mMathContext);
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x());
+            y = g.getValue(m_cursorPos.x(), mMathContext);
             if (std::abs(y - m_cursorPos.y()) <= std::abs(yClo - m_cursorPos.y())) {
                 closest = g.graph;
                 yClo = y;
@@ -188,7 +195,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yMin = DBL_MAX;
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x());
+            y = g.getValue(m_cursorPos.x(), mMathContext);
             if (y < yAbo && y > m_cursorPos.y()) {
                 above = g.graph;
                 yAbo = y;
@@ -215,7 +222,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yMax = -DBL_MAX;
         double y;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(m_cursorPos.x());
+            y = g.getValue(m_cursorPos.x(), mMathContext);
             if (y > yBel && y < m_cursorPos.y()) {
                 below = g.graph;
                 yBel = y;
@@ -337,30 +344,15 @@ void CustomPlotItem::recvInput(int input)
     }
 }
 
-void CustomPlotItem::addGraph(QString formula, QColor color)
+void CustomPlotItem::addGraph(QString id, QColor color)
 {
-    if (!formula.count()) {
-        std::cerr << "empty formula given to addGraph\n";
-        return;
-    }
-
-    if (formula[0] == QChar('-')) {
-        removeGraph(formula.remove(0, 1));
-        return;
-    }
-
-    QStringList decomp = formula.split("(x)=");
-    if (decomp.size() != 2) {
-        std::cerr << "FIXME non-trivial function'" << formula.toStdString() << "' in addGraph\n";
-        return;
-    }
-    if (listGraph.contains(decomp[0])) {
-        listGraph[decomp[0]].updateFormula(decomp[1].toStdString());
+    if (listGraph.contains(id)) {
+        listGraph[id].setColor(color);
     } else {
-        listGraph[decomp[0]] = CurveItem(decomp[1].toStdString(), m_CustomPlot.addGraph(), color);
+        listGraph[id] = CurveItem(id, m_CustomPlot.addGraph(), color);
         nbCurves++;
     }
-    plotGraph(decomp[0]);
+    plotGraph(id);
 }
 
 void CustomPlotItem::clearGraph()

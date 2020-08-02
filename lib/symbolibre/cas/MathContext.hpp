@@ -14,10 +14,14 @@ class MathContext : public QObject
 public:
     MathContext();
 
+    giac::context * giacContext() { return &giac; }
+
     Q_INVOKABLE QString toGiac(const QString &json);
 
-    EditionTree evaluate(const EditionTree &etree, bool approx);
-    Q_INVOKABLE QString evaluate(const QString &json, bool approx);
+    giac::gen giacEvalString(const QString &expr);
+    Q_INVOKABLE void evalString(const QString &expr);
+    EditionTree evalExpr(const EditionTree &etree, bool approx);
+    Q_INVOKABLE QString evalExpr(const QString &json, bool approx);
 
 private:
     giac::context giac;

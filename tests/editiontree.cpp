@@ -30,7 +30,7 @@ private slots:
         QFETCH(QString, input);
         QFETCH(QString, expected);
         MathContext ctx;
-        QCOMPARE(ctx.evaluate(input, false), expected.toUtf8());
+        QCOMPARE(ctx.evalExpr(input, false), expected.toUtf8());
     }
 
     void evaluation_data()

@@ -19,7 +19,17 @@ QString MathContext::toGiac(const QString &json)
     return EditionTree(doc.array()).getText();
 }
 
-EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
+giac::gen MathContext::giacEvalString(const QString &expr)
+{
+    return giac::eval(giac::gen(expr.toStdString(), &giac), &giac);
+}
+
+void MathContext::evalString(const QString &expr)
+{
+    giacEvalString(expr);
+}
+
+EditionTree MathContext::evalExpr(const EditionTree &etree, bool approx)
 {
     /* TODO: Move this parameters to a suitable place */
     constexpr bool pretty_print = true;
@@ -27,7 +37,7 @@ EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
 
     /* TODO: Distinguish result, variable definition and function definition to
        produce different messages (this was previously done by SLL) */
-    auto value = giac::eval(giac::gen(etree.getText().toStdString(), &giac), &giac);
+    auto value = giacEvalString(etree.getText());
     value = giac::_simplify(value, &giac);
 
     EditionTree shell = EditionTree();
@@ -62,7 +72,7 @@ EditionTree MathContext::evaluate(const EditionTree &etree, bool approx)
     return shell;
 }
 
-QString MathContext::evaluate(const QString &json, bool approx)
+QString MathContext::evalExpr(const QString &json, bool approx)
 {
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     if (!doc.isArray()) {
@@ -70,7 +80,7 @@ QString MathContext::evaluate(const QString &json, bool approx)
         return "";
     }
     const EditionTree et(doc.array());
-    EditionTree result = evaluate(et, approx);
+    EditionTree result = evalExpr(et, approx);
     doc.setArray(result.serialize(false));
     return doc.toJson(QJsonDocument::Compact);
 }

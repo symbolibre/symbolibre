@@ -77,7 +77,7 @@ Item {
                 if (event.key == Qt.Key_Return && text != "") {
                     historyModel.insert(0, {
                         "source": expr.json,
-                        "result": math.evaluate(expr.json, false)
+                        "result": math.evalExpr(expr.json, false)
                     });
                     expr.clear();
                     history.currentIndex = 0;

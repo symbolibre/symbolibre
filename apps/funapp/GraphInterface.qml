@@ -10,13 +10,13 @@ GraphView {
 
     // Send a signal saying that range changed. Send when lose focus
     function plot() {
+        plotItem.clearGraph();
         var i = 0
         for(i=0; i < functions.count; i++) {
-            if (functions.get(i).expr && functions.get(i).active) {
-                plotItem.addGraph(
-                    functions.get(i).name + "(x)=" +
-                    math.toGiac(functions.get(i).expr),
-                    functions.get(i).color)
+            const f = functions.get(i);
+            if (f.expr && f.active) {
+                math.evalString(f.name + "(x):=" + math.toGiac(f.expr));
+                plotItem.addGraph(f.name, f.color);
             }
         }
     }

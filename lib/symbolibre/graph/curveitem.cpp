@@ -1,47 +1,32 @@
 #include "curveitem.h"
 
-CurveItem::CurveItem(std::string form, QCPGraph *graphustule, QColor couleur)
-{
-    giac::context ct;
-    formula = form;
-    f = eval(giac::gen("x->" + form, &ct), &ct);
+#include "symbolibre/cas/MathContext.hpp"
 
-    graph = graphustule;
-    color = couleur;
-    graph->setPen(QPen(couleur));
+CurveItem::CurveItem(QString name, QCPGraph *graphustule, QColor color) :
+    name(name), graph(graphustule)
+{
+    graph->setPen(QPen(color));
 }
 
 CurveItem::~CurveItem()
 {
-    //delete f;
-    //delete graph;
+
 }
 
-double CurveItem::getValue(double x)
+void CurveItem::clear()
 {
-    giac::context ct;
-    giac::gen y = f(x, &ct);
-    double result;
-
-    if (y.type == giac::_DOUBLE_) {
-        result = y._DOUBLE_val;
-    } else {
-        result = (double) y.val;
-    }
-    return result;
-}
-
-void CurveItem::updateFormula(std::string form)
-{
-    giac::context ct;
-    formula = form;
-    f = eval(giac::gen("x->" + form, &ct), &ct);
-
     graph->data()->clear();
 }
 
-void CurveItem::updateColor(QColor couleur)
+double CurveItem::getValue(double x, MathContext *ctx)
 {
-    color = couleur;
-    graph->setPen(QPen(couleur));
+    giac::gen y = ctx->giacEvalString(name + "(" + QString::number(x) + ")");
+
+    //if (y.is_real(ctx->giacContext()))
+    return y.to_double(ctx->giacContext()); // returns NaN if y is not real
+}
+
+void CurveItem::setColor(QColor color)
+{
+    graph->setPen(QPen(color));
 }

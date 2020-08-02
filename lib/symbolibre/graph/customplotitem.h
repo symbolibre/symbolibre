@@ -22,6 +22,7 @@ public:
 
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
+    void replot();
 
     MathContext * mathContext() const;
     QString selectedCurve() const;
@@ -74,10 +75,12 @@ public:
     Q_INVOKABLE void setModeCursor();
     Q_INVOKABLE void switchModeCurWin();
 
+public slots:
+    void clearGraph();
+
 private slots:
     void updateCustomPlotSize();
     void onCustomReplot();
-    void clearGraph();
     void removeGraph(QString nomGraph);
 };
 
