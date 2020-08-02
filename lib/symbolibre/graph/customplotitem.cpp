@@ -161,16 +161,14 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         cursor->setGraph(closest);
         cursor->setGraphKey(m_cursorPos.x());
         cursor->updatePosition();
-        m_cursorPos.rx() = cursor->position->key();
-        m_cursorPos.ry() = cursor->position->value();
+        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     }
 
     if (amtX != 0) {
         cursor->setGraphKey(m_cursorPos.x() + amtX * Xsca);
         cursor->updatePosition();
-        m_cursorPos.setX(cursor->position->key());
-        m_cursorPos.setY(cursor->position->value());
+        m_cursorPos = cursor->position->coords();
     }
 
     if (amtY > 0) {
@@ -197,8 +195,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->setGraph(minig);
         }
         cursor->updatePosition();
-        m_cursorPos.rx() = cursor->position->key();
-        m_cursorPos.ry() = cursor->position->value();
+        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     } else if (amtY < 0) {
         //search curve just below
@@ -224,8 +221,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
             cursor->setGraph(maxig);
         }
         cursor->updatePosition();
-        m_cursorPos.rx() = cursor->position->key();
-        m_cursorPos.ry() = cursor->position->value();
+        m_cursorPos = cursor->position->coords();
         emit selectedCurveChanged(selectedCurve());
     }
 
@@ -335,8 +331,7 @@ void CustomPlotItem::setSelectedCurve(QString curve)
     if (it != listGraph.end()) {
         cursor->setGraph(it->graph);
         cursor->updatePosition();
-        m_cursorPos.rx() = cursor->position->key();
-        m_cursorPos.ry() = cursor->position->value();
+        m_cursorPos = cursor->position->coords();
         emit cursorPosChanged(m_cursorPos);
         emit selectedCurveChanged(curve);
     } else {
