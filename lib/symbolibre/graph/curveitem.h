@@ -1,12 +1,8 @@
 #ifndef CURVEITEM_H
 #define CURVEITEM_H
 
-#include <QtQuick>
-#include <string>
-#include <iostream>
-#include <giac/config.h>
+#include <qcustomplot.h>
 #include <giac/giac.h>
-#include "qcustomplot.h"
 
 class MathContext;
 

@@ -1,7 +1,7 @@
 #ifndef CUSTOMPLOTITEM_H
 #define CUSTOMPLOTITEM_H
 
-#include <QtQuick>
+#include <QQuickPaintedItem>
 #include "curveitem.h"
 
 class QCustomPlot;

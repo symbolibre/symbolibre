@@ -1,8 +1,7 @@
 #include "customplotitem.h"
-#include "qcustomplot.h"
-#include <QDebug>
-#include <iostream>
-#include <string>
+
+#include <limits>
+#include <qcustomplot.h>
 
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20), m_cursorPos(0, 0),
@@ -175,8 +174,8 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         // search curve just above
         QCPGraph *above = cursor->graph();
         QCPGraph *minig = cursor->graph();
-        double yAbo = DBL_MAX;
-        double yMin = DBL_MAX;
+        double yAbo = std::numeric_limits<double>::max();
+        double yMin = std::numeric_limits<double>::max();
         double y;
         foreach (CurveItem g, listGraph) {
             y = g.getValue(m_cursorPos.x(), mMathContext);
@@ -201,8 +200,8 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         //search curve just below
         QCPGraph *below = cursor->graph();
         QCPGraph *maxig = cursor->graph();
-        double yBel = -DBL_MAX;
-        double yMax = -DBL_MAX;
+        double yBel = std::numeric_limits<double>::min();
+        double yMax = std::numeric_limits<double>::min();
         double y;
         foreach (CurveItem g, listGraph) {
             y = g.getValue(m_cursorPos.x(), mMathContext);
