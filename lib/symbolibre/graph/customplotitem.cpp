@@ -99,6 +99,8 @@ void CustomPlotItem::moveWindow(QPoint offset)
     if (offset.x() > 320 || offset.x() < -320)
         return setRange(m_view.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
 
+    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
+
     foreach (QCPGraph *g, listGraph) {
         if (offset.x() > 0) {
             double x = m_view.right();
@@ -106,16 +108,17 @@ void CustomPlotItem::moveWindow(QPoint offset)
                 g->addData(x, getValue(g->name(), x));
                 x += xScale();
             }
+            g->data()->removeBefore(m_view.left());
         } else if (offset.x() < 0) {
             double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
                 g->addData(x, getValue(g->name(), x));
                 x -= xScale();
             }
+            g->data()->removeAfter(m_view.right());
         }
     }
 
-    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
     m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
     m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
     redraw();
