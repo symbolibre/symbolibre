@@ -47,16 +47,13 @@ signals:
 private:
     MathContext *mMathContext;
 
-    QCustomPlot m_CustomPlot;
+    QCustomPlot mPlot;
+    QMap<QString, QCPGraph*> mGraphs;
+    QCPItemTracer *mCursor;
 
-    QRectF m_view;
+    QRectF mView;
     bool mCursorAttached;
 
-    /* Position of the cursor */
-    QCPItemTracer *cursor;
-
-    /* curves on the graph */
-    QMap<QString, QCPGraph*> listGraph;
 
 public:
     Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
