@@ -1,10 +1,8 @@
 set(graph_SOURCES
-    curveitem.cpp
     customplotitem.cpp
     plugin.cpp
 )
 set(graph_HEADERS
-    curveitem.h
     customplotitem.h
 )
 

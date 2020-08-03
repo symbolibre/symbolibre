@@ -2,9 +2,8 @@
 #define CUSTOMPLOTITEM_H
 
 #include <QQuickPaintedItem>
-#include "curveitem.h"
+#include <qcustomplot.h>
 
-class QCustomPlot;
 class MathContext;
 
 class CustomPlotItem : public QQuickPaintedItem
@@ -57,7 +56,7 @@ private:
     QCPItemTracer *cursor;
 
     /* curves on the graph */
-    QMap<QString, CurveItem> listGraph;
+    QMap<QString, QCPGraph*> listGraph;
 
 public:
     Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
@@ -77,6 +76,7 @@ private slots:
 
 private:
     void redraw();
+    double getValue(const QString &f, double x);
 };
 
 #endif // CUSTOMPLOTITEM_H

@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <qcustomplot.h>
+#include "symbolibre/cas/MathContext.hpp"
 
 CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     mMathContext(nullptr), m_CustomPlot(), m_view(-10, -10, 20, 20),
@@ -30,21 +31,21 @@ void CustomPlotItem::paint(QPainter *painter)
     painter->drawPixmap(QPoint(), picture);
 }
 
-void CustomPlotItem::plotGraph(QString nomGraph)
+void CustomPlotItem::plotGraph(QString f)
 {
     /* take the name of graph to plot
      * reset the display
      * compute the new points
      * plot the updated graph
      */
-    auto g = listGraph[nomGraph];
-    g.graph->data()->clear();
+    auto g = listGraph[f];
+    g->data()->clear();
 
     double x = m_view.left();
-    g.graph->addData(x, g.getValue(x, mMathContext));
+    g->addData(x, getValue(f, x));
     while (x <= m_view.right()) {
         x += xScale();
-        g.graph->addData(x, g.getValue(x, mMathContext));
+        g->addData(x, getValue(f, x));
     }
 
     redraw();
@@ -98,17 +99,17 @@ void CustomPlotItem::moveWindow(QPoint offset)
     if (offset.x() > 320 || offset.x() < -320)
         return setRange(m_view.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
 
-    foreach (CurveItem g, listGraph) {
+    foreach (QCPGraph *g, listGraph) {
         if (offset.x() > 0) {
             double x = m_view.right();
             for (int i = 0 ; i <= offset.x() ; i++) {
-                g.graph->addData(x, g.getValue(x, mMathContext));
+                g->addData(x, getValue(g->name(), x));
                 x += xScale();
             }
         } else if (offset.x() < 0) {
             double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
-                g.graph->addData(x, g.getValue(x, mMathContext));
+                g->addData(x, getValue(g->name(), x));
                 x -= xScale();
             }
         }
@@ -141,12 +142,12 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
     if (!cursor->visible()) {
         QPointF cursorPos(m_view.center());
         QCPGraph *closest = cursor->graph();
-        double yClo = listGraph.first().getValue(cursorPos.x(), mMathContext);
+        double yClo = getValue(listGraph.first()->name(), cursorPos.x());
         double y;
-        foreach (CurveItem g, listGraph) {
-            y = g.getValue(cursorPos.x(), mMathContext);
+        foreach (QCPGraph *g, listGraph) {
+            y = getValue(g->name(), cursorPos.x());
             if (std::abs(y - cursorPos.y()) <= std::abs(yClo - cursorPos.y())) {
-                closest = g.graph;
+                closest = g;
                 yClo = y;
             }
         }
@@ -170,22 +171,22 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yAbo = std::numeric_limits<double>::max();
         double yMin = std::numeric_limits<double>::max();
         bool firstAfter = false;
-        foreach (CurveItem g, listGraph) {
-            if (g.graph == cursor->graph()) {
+        foreach (QCPGraph *g, listGraph) {
+            if (g == cursor->graph()) {
                 firstAfter = true;
                 continue;
             }
-            const double y = g.getValue(cursorPos().x(), mMathContext);
+            const double y = getValue(g->name(), cursorPos().x());
             if (y < yAbo && y > cursorPos().y()) {
-                above = g.graph;
+                above = g;
                 yAbo = y;
             } else if (y == cursorPos().y() && firstAfter) {
                 firstAfter = false;
-                above = g.graph;
+                above = g;
                 yAbo = y;
             }
             if (y < yMin) {
-                minig = g.graph;
+                minig = g;
                 yMin = y;
             }
         }
@@ -203,18 +204,18 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         double yBel = -std::numeric_limits<double>::max();
         double yMax = -std::numeric_limits<double>::max();
         bool before = true;
-        foreach (CurveItem g, listGraph) {
-            if (g.graph == cursor->graph()) {
+        foreach (QCPGraph *g, listGraph) {
+            if (g == cursor->graph()) {
                 before = false;
                 continue;
             }
-            const double y = g.getValue(cursorPos().x(), mMathContext);
+            const double y = getValue(g->name(), cursorPos().x());
             if ((y > yBel && y < cursorPos().y()) || (y == cursorPos().y() && before)) {
-                below = g.graph;
+                below = g;
                 yBel = y;
             }
             if (y >= yMax) {
-                maxig = g.graph;
+                maxig = g;
                 yMax = y;
             }
         }
@@ -285,9 +286,12 @@ void CustomPlotItem::updateCustomPlotSize()
 void CustomPlotItem::addGraph(QString id, QColor color)
 {
     if (listGraph.contains(id)) {
-        listGraph[id].setColor(color);
+        listGraph[id]->setPen(color);
     } else {
-        listGraph[id] = CurveItem(id, m_CustomPlot.addGraph(), color);
+        auto g = m_CustomPlot.addGraph();
+        g->setPen(color);
+        g->setName(id);
+        listGraph[id] = g;
     }
     plotGraph(id);
 }
@@ -299,16 +303,16 @@ void CustomPlotItem::clearGraph()
     }
 }
 
-void CustomPlotItem::removeGraph(QString nomGraph)
+void CustomPlotItem::removeGraph(QString name)
 {
-    if (listGraph.contains(nomGraph)) {
-        if (cursor->graph() == listGraph[nomGraph].graph) {
+    if (listGraph.contains(name)) {
+        if (cursor->graph() == listGraph[name]) {
             cursor->setGraph(nullptr);
             cursor->setVisible(false);
             emit selectedCurveChanged(QString());
         }
-        m_CustomPlot.removeGraph(listGraph[nomGraph].graph);
-        listGraph.remove(nomGraph);
+        m_CustomPlot.removeGraph(listGraph[name]);
+        listGraph.remove(name);
     }
 }
 
@@ -324,9 +328,9 @@ QPointF CustomPlotItem::cursorPos() const
 
 QString CustomPlotItem::selectedCurve() const
 {
-    for (auto it = listGraph.begin(); it != listGraph.end(); ++it)
-        if (it.value().graph == cursor->graph())
-            return it.key();
+    if (cursor->graph())
+        return cursor->graph()->name();
+
     return "";
 }
 
@@ -334,7 +338,7 @@ void CustomPlotItem::setSelectedCurve(QString curve)
 {
     auto it = listGraph.find(curve);
     if (it != listGraph.end()) {
-        cursor->setGraph(it->graph);
+        cursor->setGraph(it.value());
         cursor->updatePosition();
         emit cursorPosChanged(cursorPos());
         emit selectedCurveChanged(curve);
@@ -381,4 +385,12 @@ double CustomPlotItem::yScale() const
 void CustomPlotItem::redraw()
 {
     m_CustomPlot.replot(QCustomPlot::rpQueuedReplot);
+}
+
+double CustomPlotItem::getValue(const QString &f, double x)
+{
+    giac::gen y = mMathContext->giacEvalString(f)(giac::gen(x), mMathContext->giacContext());
+
+    //if (y.is_real(mMathContext->giacContext()))
+    return y.to_double(mMathContext->giacContext()); // returns NaN if y is not real
 }
