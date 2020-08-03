@@ -43,10 +43,10 @@ GraphView {
             plotItem.moveCursor(0, -1);
 
         } else if (event.key === Qt.Key_Plus) {
-            plotItem.modifyZoom(0.5);
+            plotItem.zoomIn(2.);
 
         } else if (event.key === Qt.Key_Minus) {
-            plotItem.modifyZoom(2.0);
+            plotItem.zoomIn(.5);
 
         } else if (event.key === Qt.Key_F1) {
             plotItem.cursorAttached = !plotItem.cursorAttached;

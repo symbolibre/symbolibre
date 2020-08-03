@@ -256,19 +256,17 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
     emit cursorPosChanged(cursorPos());
 }
 
-void CustomPlotItem::modifyZoom(double value)
+void CustomPlotItem::zoomIn(double value)
 {
-    // change ratio, center stay the same -> modifies X/Y.min/max
-    const auto center = m_view.center();
-    m_view.setSize(m_view.size() * value);
-    if (value > 1)
-        m_view.moveCenter(center);
+    // change ratio, center stays the same -> modifies X/Y.min/max
+    QRectF view;
+    view.setSize(m_view.size() / value);
+    if (value < 1)
+        view.moveCenter(m_view.center());
     else
-        m_view.moveCenter(cursorPos());
+        view.moveCenter(cursorPos());
 
-    for (auto name : listGraph.keys()) {
-        plotGraph(name);
-    }
+    setRange(view);
 }
 
 void CustomPlotItem::updateCustomPlotSize()

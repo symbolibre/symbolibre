@@ -66,7 +66,7 @@ public:
     Q_INVOKABLE void moveWindow(QPoint offset);
     Q_INVOKABLE void moveWindow(int x, int y);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
-    Q_INVOKABLE void modifyZoom(double value);
+    Q_INVOKABLE void zoomIn(double value);
 
 public slots:
     void clearGraph();
