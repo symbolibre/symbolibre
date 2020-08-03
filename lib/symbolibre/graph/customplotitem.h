@@ -22,7 +22,7 @@ public:
 
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
-    void replot();
+    void replotGraphs();
 
     MathContext * mathContext() const;
     QString selectedCurve() const;
@@ -74,6 +74,9 @@ public slots:
 private slots:
     void updateCustomPlotSize();
     void removeGraph(QString nomGraph);
+
+private:
+    void redraw();
 };
 
 #endif // CUSTOMPLOTITEM_H

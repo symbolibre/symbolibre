@@ -19,21 +19,14 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
     m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
     connect(&m_CustomPlot, SIGNAL(afterReplot()), this, SLOT(update()));
-    m_CustomPlot.replot();
+    redraw();
 }
 
 void CustomPlotItem::paint(QPainter *painter)
 {
-    // update the Qpainter object
     QPixmap    picture(boundingRect().size().toSize());
     QCPPainter qcpPainter(&picture);
-
-    m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
-    m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
-    m_CustomPlot.replot();
-
     m_CustomPlot.toPainter(&qcpPainter);
-
     painter->drawPixmap(QPoint(), picture);
 }
 
@@ -54,10 +47,10 @@ void CustomPlotItem::plotGraph(QString nomGraph)
         g.graph->addData(x, g.getValue(x, mMathContext));
     }
 
-    m_CustomPlot.replot();
+    redraw();
 }
 
-void CustomPlotItem::replot()
+void CustomPlotItem::replotGraphs()
 {
     for (const QString &f : listGraph.keys())
         plotGraph(f);
@@ -74,7 +67,7 @@ void CustomPlotItem::setMathContext(MathContext *ctx)
         return;
 
     mMathContext = ctx;
-    replot();
+    replotGraphs();
     emit mathContextChanged(ctx);
 }
 
@@ -84,8 +77,10 @@ void CustomPlotItem::setRange(const QRectF &range)
         return;
 
     m_view = range;
+    m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
+    m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
 
-    replot();
+    replotGraphs();
     emit viewChanged(m_view);
 }
 
@@ -120,6 +115,9 @@ void CustomPlotItem::moveWindow(QPoint offset)
     }
 
     m_view.translate(offset.x()*xScale(), offset.y()*yScale());
+    m_CustomPlot.xAxis->setRange(m_view.left(), m_view.right());
+    m_CustomPlot.yAxis->setRange(m_view.top(), m_view.bottom());
+    redraw();
 
     if (!mCursorAttached) {
         cursor->position->setCoords(m_view.center());
@@ -254,6 +252,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
 
     cursor->setVisible(true);
     emit cursorPosChanged(cursorPos());
+    redraw();
 }
 
 void CustomPlotItem::zoomIn(double value)
@@ -271,8 +270,16 @@ void CustomPlotItem::zoomIn(double value)
 
 void CustomPlotItem::updateCustomPlotSize()
 {
-    m_CustomPlot.setGeometry(0, 0, width(), height());
-    m_CustomPlot.setViewport(QRect(0, 0, (int)width(), (int)height()));
+    // FIXME width() and height() are initially null
+    m_CustomPlot.setGeometry(0, 0, std::max(width(), 100.), std::max(height(), 100.));
+
+    // the geometry change does not trigger a viewport update immediately
+    m_CustomPlot.setViewport(m_CustomPlot.geometry());
+
+    // dimensions are only updated on replot
+    // m_CustomPlot.replot();
+
+    replotGraphs();
 }
 
 void CustomPlotItem::addGraph(QString id, QColor color)
@@ -335,6 +342,7 @@ void CustomPlotItem::setSelectedCurve(QString curve)
         cursor->setGraph(nullptr);
         emit selectedCurveChanged(QString());
     }
+    redraw();
 }
 
 bool CustomPlotItem::isCursorAttached() const
@@ -357,6 +365,7 @@ void CustomPlotItem::setCursorAttached(bool attached)
         emit cursorPosChanged(cursor->position->coords());
     }
     emit cursorAttachedChanged(attached);
+    redraw();
 }
 
 double CustomPlotItem::xScale() const
@@ -367,4 +376,9 @@ double CustomPlotItem::xScale() const
 double CustomPlotItem::yScale() const
 {
     return 4 * m_view.height() / 240;
+}
+
+void CustomPlotItem::redraw()
+{
+    m_CustomPlot.replot(QCustomPlot::rpQueuedReplot);
 }
