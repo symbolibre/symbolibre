@@ -1,4 +1,4 @@
-#include "customplotitem.h"
+#include "SLQuickGraph.hpp"
 #include <QQmlExtensionPlugin>
 
 class GraphQmlPlugin : public QQmlExtensionPlugin
@@ -9,7 +9,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.graph"));
-        qmlRegisterType<CustomPlotItem>(uri, 1, 0, "GraphView");
+        qmlRegisterType<SLQuickGraph>(uri, 1, 0, "GraphView");
     }
 };
 

@@ -1,10 +1,10 @@
-#include "customplotitem.h"
+#include "SLQuickGraph.hpp"
 
 #include <limits>
 #include <qcustomplot.h>
 #include "symbolibre/cas/MathContext.hpp"
 
-CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
+SLQuickGraph::SLQuickGraph(QQuickItem *parent) : QQuickPaintedItem(parent),
     mMathContext(nullptr), mPlot(), mGraphs(), mCursor(new QCPItemTracer(&mPlot)),
     mView(-10, -10, 20, 20), mCursorAttached(false)
 {
@@ -13,8 +13,8 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
 
     setFlag(QQuickItem::ItemHasContents, true);
 
-    connect(this, &QQuickPaintedItem::widthChanged, this, &CustomPlotItem::updateCustomPlotSize);
-    connect(this, &QQuickPaintedItem::heightChanged, this, &CustomPlotItem::updateCustomPlotSize);
+    connect(this, &QQuickPaintedItem::widthChanged, this, &SLQuickGraph::updateCustomPlotSize);
+    connect(this, &QQuickPaintedItem::heightChanged, this, &SLQuickGraph::updateCustomPlotSize);
 
     updateCustomPlotSize();
     mPlot.xAxis->setRange(mView.left(), mView.right());
@@ -23,7 +23,7 @@ CustomPlotItem::CustomPlotItem(QQuickItem *parent) : QQuickPaintedItem(parent),
     redraw();
 }
 
-void CustomPlotItem::paint(QPainter *painter)
+void SLQuickGraph::paint(QPainter *painter)
 {
     QPixmap    picture(boundingRect().size().toSize());
     QCPPainter qcpPainter(&picture);
@@ -31,7 +31,7 @@ void CustomPlotItem::paint(QPainter *painter)
     painter->drawPixmap(QPoint(), picture);
 }
 
-void CustomPlotItem::plotGraph(QString f)
+void SLQuickGraph::plotGraph(QString f)
 {
     /* take the name of graph to plot
      * reset the display
@@ -51,18 +51,18 @@ void CustomPlotItem::plotGraph(QString f)
     redraw();
 }
 
-void CustomPlotItem::replotGraphs()
+void SLQuickGraph::replotGraphs()
 {
     for (const QString &f : mGraphs.keys())
         plotGraph(f);
 }
 
-MathContext * CustomPlotItem::mathContext() const
+MathContext * SLQuickGraph::mathContext() const
 {
     return mMathContext;
 }
 
-void CustomPlotItem::setMathContext(MathContext *ctx)
+void SLQuickGraph::setMathContext(MathContext *ctx)
 {
     if (ctx == mMathContext)
         return;
@@ -72,7 +72,7 @@ void CustomPlotItem::setMathContext(MathContext *ctx)
     emit mathContextChanged(ctx);
 }
 
-void CustomPlotItem::setRange(const QRectF &range)
+void SLQuickGraph::setRange(const QRectF &range)
 {
     if (range == mView)
         return;
@@ -85,12 +85,12 @@ void CustomPlotItem::setRange(const QRectF &range)
     emit viewChanged(mView);
 }
 
-void CustomPlotItem::setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax)
+void SLQuickGraph::setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax)
 {
     setRange(QRectF(xmin, ymin, xmax - xmin, ymax - ymin));
 }
 
-void CustomPlotItem::moveWindow(QPoint offset)
+void SLQuickGraph::moveWindow(QPoint offset)
 {
     //move the window, keep ratio of size, just add an offset
     if (offset.isNull())
@@ -132,12 +132,12 @@ void CustomPlotItem::moveWindow(QPoint offset)
     emit viewChanged(mView);
 }
 
-void CustomPlotItem::moveWindow(int x, int y)
+void SLQuickGraph::moveWindow(int x, int y)
 {
     moveWindow(QPoint(x, y));
 }
 
-void CustomPlotItem::moveCursor(int amtX, int amtY)
+void SLQuickGraph::moveCursor(int amtX, int amtY)
 {
     if (mGraphs.isEmpty() || !mCursorAttached)
         return moveWindow(amtX, amtY);
@@ -259,7 +259,7 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
     redraw();
 }
 
-void CustomPlotItem::zoomIn(double value)
+void SLQuickGraph::zoomIn(double value)
 {
     // change ratio, center stays the same -> modifies X/Y.min/max
     QRectF view;
@@ -272,7 +272,7 @@ void CustomPlotItem::zoomIn(double value)
     setRange(view);
 }
 
-void CustomPlotItem::updateCustomPlotSize()
+void SLQuickGraph::updateCustomPlotSize()
 {
     // FIXME width() and height() are initially null
     mPlot.setGeometry(0, 0, std::max(width(), 100.), std::max(height(), 100.));
@@ -286,7 +286,7 @@ void CustomPlotItem::updateCustomPlotSize()
     replotGraphs();
 }
 
-void CustomPlotItem::addGraph(QString id, QColor color)
+void SLQuickGraph::addGraph(QString id, QColor color)
 {
     if (mGraphs.contains(id)) {
         mGraphs[id]->setPen(color);
@@ -299,14 +299,14 @@ void CustomPlotItem::addGraph(QString id, QColor color)
     plotGraph(id);
 }
 
-void CustomPlotItem::clearGraph()
+void SLQuickGraph::clearGraph()
 {
     for (auto name : mGraphs.keys()) {
         removeGraph(name);
     }
 }
 
-void CustomPlotItem::removeGraph(QString name)
+void SLQuickGraph::removeGraph(QString name)
 {
     if (mGraphs.contains(name)) {
         if (mCursor->graph() == mGraphs[name]) {
@@ -319,17 +319,17 @@ void CustomPlotItem::removeGraph(QString name)
     }
 }
 
-const QRectF &CustomPlotItem::view() const
+const QRectF &SLQuickGraph::view() const
 {
     return mView;
 }
 
-QPointF CustomPlotItem::cursorPos() const
+QPointF SLQuickGraph::cursorPos() const
 {
     return mCursor->position->coords();
 }
 
-QString CustomPlotItem::selectedCurve() const
+QString SLQuickGraph::selectedCurve() const
 {
     if (mCursor->graph())
         return mCursor->graph()->name();
@@ -337,7 +337,7 @@ QString CustomPlotItem::selectedCurve() const
     return "";
 }
 
-void CustomPlotItem::setSelectedCurve(QString curve)
+void SLQuickGraph::setSelectedCurve(QString curve)
 {
     auto it = mGraphs.find(curve);
     if (it != mGraphs.end()) {
@@ -352,12 +352,12 @@ void CustomPlotItem::setSelectedCurve(QString curve)
     redraw();
 }
 
-bool CustomPlotItem::isCursorAttached() const
+bool SLQuickGraph::isCursorAttached() const
 {
     return mCursorAttached;
 }
 
-void CustomPlotItem::setCursorAttached(bool attached)
+void SLQuickGraph::setCursorAttached(bool attached)
 {
     if (attached == mCursorAttached)
         return;
@@ -375,22 +375,22 @@ void CustomPlotItem::setCursorAttached(bool attached)
     redraw();
 }
 
-double CustomPlotItem::xScale() const
+double SLQuickGraph::xScale() const
 {
     return 4 * mView.width() / 320;
 }
 
-double CustomPlotItem::yScale() const
+double SLQuickGraph::yScale() const
 {
     return 4 * mView.height() / 240;
 }
 
-void CustomPlotItem::redraw()
+void SLQuickGraph::redraw()
 {
     mPlot.replot(QCustomPlot::rpQueuedReplot);
 }
 
-double CustomPlotItem::getValue(const QString &f, double x)
+double SLQuickGraph::getValue(const QString &f, double x)
 {
     giac::gen y = mMathContext->giacEvalString(f)(giac::gen(x), mMathContext->giacContext());
 

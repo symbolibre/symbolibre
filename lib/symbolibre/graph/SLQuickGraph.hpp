@@ -1,12 +1,12 @@
-#ifndef CUSTOMPLOTITEM_H
-#define CUSTOMPLOTITEM_H
+#ifndef SLQUICKGRAPH_HPP
+#define SLQUICKGRAPH_HPP
 
 #include <QQuickPaintedItem>
 #include <qcustomplot.h>
 
 class MathContext;
 
-class CustomPlotItem : public QQuickPaintedItem
+class SLQuickGraph : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(MathContext *mathContext READ mathContext WRITE setMathContext NOTIFY mathContextChanged)
@@ -17,7 +17,7 @@ class CustomPlotItem : public QQuickPaintedItem
         READ isCursorAttached WRITE setCursorAttached NOTIFY cursorAttachedChanged)
 
 public:
-    CustomPlotItem(QQuickItem *parent = nullptr);
+    SLQuickGraph(QQuickItem *parent = nullptr);
 
     void paint(QPainter *painter);
     void plotGraph(QString nomGraph);
@@ -76,4 +76,4 @@ private:
     double getValue(const QString &f, double x);
 };
 
-#endif // CUSTOMPLOTITEM_H
+#endif // SLQUICKGRAPH_HPP

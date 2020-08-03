@@ -1,9 +1,9 @@
 set(graph_SOURCES
-    customplotitem.cpp
+    SLQuickGraph.cpp
     plugin.cpp
 )
 set(graph_HEADERS
-    customplotitem.h
+    SLQuickGraph.hpp
 )
 
 add_library(graphplugin SHARED ${graph_SOURCES})
