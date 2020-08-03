@@ -165,14 +165,24 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
 
     if (amtY > 0) {
         // search curve just above
+        // in case of equality, they are ordered by name (their key in listGraph)
+        // the boolean firstAfter serves this purpose
         QCPGraph *above = cursor->graph();
         QCPGraph *minig = cursor->graph();
         double yAbo = std::numeric_limits<double>::max();
         double yMin = std::numeric_limits<double>::max();
-        double y;
+        bool firstAfter = false;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(cursorPos().x(), mMathContext);
+            if (g.graph == cursor->graph()) {
+                firstAfter = true;
+                continue;
+            }
+            const double y = g.getValue(cursorPos().x(), mMathContext);
             if (y < yAbo && y > cursorPos().y()) {
+                above = g.graph;
+                yAbo = y;
+            } else if (y == cursorPos().y() && firstAfter) {
+                firstAfter = false;
                 above = g.graph;
                 yAbo = y;
             }
@@ -192,16 +202,20 @@ void CustomPlotItem::moveCursor(int amtX, int amtY)
         //search curve just below
         QCPGraph *below = cursor->graph();
         QCPGraph *maxig = cursor->graph();
-        double yBel = std::numeric_limits<double>::min();
-        double yMax = std::numeric_limits<double>::min();
-        double y;
+        double yBel = -std::numeric_limits<double>::max();
+        double yMax = -std::numeric_limits<double>::max();
+        bool before = true;
         foreach (CurveItem g, listGraph) {
-            y = g.getValue(cursorPos().x(), mMathContext);
-            if (y > yBel && y < cursorPos().y()) {
+            if (g.graph == cursor->graph()) {
+                before = false;
+                continue;
+            }
+            const double y = g.getValue(cursorPos().x(), mMathContext);
+            if ((y > yBel && y < cursorPos().y()) || (y == cursorPos().y() && before)) {
                 below = g.graph;
                 yBel = y;
             }
-            if (y > yMax) {
+            if (y >= yMax) {
                 maxig = g.graph;
                 yMax = y;
             }
