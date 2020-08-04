@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import org.symbolibre.expr 1.0
+import org.symbolibre.keyboard 1.0
 import "editiontree.js" as ET
 
 // adapted from CalcSheet
@@ -45,7 +46,8 @@ FocusScope {
 
                 /* Special keys */
                 if(event.key === Qt.Key_Backspace) expr.deleteChar();
-                if(event.key === Qt.Key_Delete) expr.deleteChar();
+                else if(event.key === Qt.Key_Delete) expr.deleteChar();
+                else if(event.key === SLKey.Delete) expr.deleteChar();
 
                 /* Operator keys */
                 if(event.key === Qt.Key_Asterisk)  insert(ET.op("*"));
@@ -78,39 +80,29 @@ FocusScope {
                    event.key === Qt.Key_Space)
                    insertText(event.text);
 
-                /* New keys */ // TODO : dispatch when debugged
+                // Math keys
 
-                if (event.key === Qt.Key_F15 && (event.modifiers & Qt.ShiftModifier))
+                if (event.key === SLKey.Sqrt)
                     insert(ET.sqrt([""]));
 
-                if (event.key === Qt.Key_F10 && (event.modifiers & Qt.ShiftModifier))
-                    insertText("asin");
-                else if (event.key === Qt.Key_F10)
-                    insertText("sin");
-                if (event.key === Qt.Key_F11 && (event.modifiers & Qt.ShiftModifier))
-                    insertText("acos");
-                else if (event.key === Qt.Key_F11)
-                    insertText("cos");
-                if (event.key === Qt.Key_F12 && (event.modifiers & Qt.ShiftModifier))
-                    insertText("atan");
-                else if (event.key === Qt.Key_F12)
-                    insertText("tan");
-                if (event.key === Qt.Key_F13)
+                else if (event.key === SLKey.Sin)
+                    insertText("sin(");
+                else if (event.key === SLKey.Cos)
+                    insertText("cos(");
+                else if (event.key === SLKey.Tan)
+                    insertText("tan(");
+                if (event.key === SLKey.Pi)
                     insertText("π");
 
                 // pow, exponential
-                if (event.key === Qt.Key_F16 && (event.modifiers & Qt.ShiftModifier))
-                    insertText("ln");
-                else if (event.key === Qt.Key_F16)
+                if (event.key === SLKey.LogE)
+                    insertText("ln(");
+                else if (event.key === SLKey.Exp)
                     insert(["e", ET.set_cursor(ET.pow([""])), ""]);
-                if (event.key === Qt.Key_F17 && (event.modifiers & Qt.ShiftModifier))
-                    insertText("log");
-                else if (event.key === Qt.Key_F17)
+                if (event.key === SLKey.Log10)
+                    insertText("log(");
+                else if (event.key === SLKey.Pow)
                     insert(ET.set_cursor(ET.pow([""])));
-                if(event.key === Qt.Key_sterling)
-                    insert(ET.set_cursor(ET.pow([""])));
-                if (event.key === Qt.Key_F21)
-                    insert(["10", ET.set_cursor(ET.pow([""])), ""]);
             }
         }
     }

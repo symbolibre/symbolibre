@@ -74,7 +74,7 @@ Item {
             Layout.fillWidth: true
             Layout.maximumHeight: 120
             Keys.onPressed: {
-                if (event.key == Qt.Key_Return && text != "") {
+                if (event.key == SLKey.Enter && text != "") {
                     historyModel.insert(0, {
                         "source": expr.json,
                         "result": math.evalExpr(expr.json, false)
@@ -85,7 +85,7 @@ Item {
                         historyModel.remove(historyModel.count - 1);
                     event.accepted = true;
                 }
-                if (event.key == Qt.Key_F1) {
+                if (event.key == SLKey.F1) {
                     appRoot.openCatalog(function(str) {
                         expr.insertJson(str);
                     });

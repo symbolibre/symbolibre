@@ -67,7 +67,7 @@ SLWindow {
 
 
         Keys.onPressed: {
-            if (event.key == Qt.Key_Home) {
+            if (event.key == SLKey.Home) {
                 backToMenuDialog.open();
                 event.accepted = true;
             }

@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import org.symbolibre.expr 1.0
+import org.symbolibre.keyboard 1.0
 
 FocusScope {
     width: parent.width
@@ -22,7 +23,7 @@ FocusScope {
                 json: model.source
                 KeyNavigation.down: resultExpr
                 Keys.onPressed: {
-                    if (event.key == Qt.Key_Return) {
+                    if (event.key == SLKey.Enter) {
                         expr.json = json;
                         expr.forceActiveFocus();
                         event.accepted = true;
@@ -45,7 +46,7 @@ FocusScope {
                 json: model.result
                 focus: true
                 Keys.onPressed: {
-                    if (event.key == Qt.Key_Return) {
+                    if (event.key == SLKey.Enter) {
                         expr.json = json;
                         expr.forceActiveFocus();
                         event.accepted = true;
@@ -55,7 +56,7 @@ FocusScope {
         }
     }
     Keys.onPressed: {
-        if (event.key == Qt.Key_Delete) {
+        if (event.key == SLKey.Delete) {
             historyModel.remove(index);
             event.accepted = true;
         }

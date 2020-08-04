@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import org.symbolibre.controls 1.0
+import org.symbolibre.keyboard 1.0
 
 GridView {
     id: grid
@@ -21,7 +22,7 @@ GridView {
     focus: true
 
     // we intercept the home key here so that it does not open the dialog to back to the menu
-    Keys.onPressed: if (event.key == Qt.Key_Home) event.accepted = true
+    Keys.onPressed: if (event.key == SLKey.Home) event.accepted = true
 
     Dialog {
         id: launchErrorDialog

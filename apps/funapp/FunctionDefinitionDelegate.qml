@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import org.symbolibre.controls 1.0
 import org.symbolibre.expr 1.0
+import org.symbolibre.keyboard 1.0
 
 FocusScope {
     property alias active: active
@@ -58,7 +59,7 @@ FocusScope {
                 }
             }
             Keys.onPressed: {
-                if (event.key == Qt.Key_F1)
+                if (event.key == SLKey.F1)
                     appRoot.openCatalog(function(str) {
                         exprfield.insertJson(str);
                     });

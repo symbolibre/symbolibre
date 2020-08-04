@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import org.symbolibre.graph 1.0
+import org.symbolibre.keyboard 1.0
 
 GraphView {
     id: plotItem
@@ -48,7 +49,7 @@ GraphView {
         } else if (event.key === Qt.Key_Minus) {
             plotItem.zoomIn(.5);
 
-        } else if (event.key === Qt.Key_F1) {
+        } else if (event.key === SLKey.F1) {
             plotItem.cursorAttached = !plotItem.cursorAttached;
 
         } else {
