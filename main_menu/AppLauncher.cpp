@@ -50,6 +50,6 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
     }
 }
 
-bool AppLauncher::launch(const AppItem *app) {
+bool AppLauncher::launch(AppItem *app) {
     return QProcess::startDetached(app->executable, QStringList());
 }
