@@ -1,18 +1,14 @@
 set(keyboard_SOURCES
-    keycode.cpp
+    SLKey.cpp
     VirtualKeyboardContext.cpp
 )
 set(keyboard_HEADERS
-    keycode.hpp
+    SLKey.hpp
     VirtualKeyboardContext.hpp
 )
 set(keyboard_QML_SOURCES
-    CalcButtonForm.ui.qml
-    CalcButton.qml
-    SLKeyBoardForm.ui.qml
-    SLKeyBoard.qml
-    SpecialButtonForm.ui.qml
-    SpecialButton.qml
+    Keyboard.qml
+    KeyButton.qml
 )
 set(keyboardplugin_SOURCES
     plugin.cpp

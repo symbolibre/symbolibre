@@ -9,7 +9,7 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 220 + (keyboard.active ? 240 : 0)
+    height: 220 + (keyboard.active ? 320 : 0)
 
     title: qsTr("Symbolibre")
 
@@ -35,7 +35,7 @@ SLWindow {
         x: 0
         width: parent.width
         y: 0
-        height: parent.height - (keyboard.active ? 240 : 0)
+        height: parent.height - (keyboard.active ? 320 : 0)
 
         // FIXME why doesn't this work?
         /*Component {
@@ -61,7 +61,7 @@ SLWindow {
 
         Component {
             id: keyboardComponent
-            SLKeyBoard {
+            Keyboard {
             }
         }
 
@@ -79,9 +79,9 @@ SLWindow {
         id: keyboardLoader
         parent: window.contentItem.parent // QQuickRootItem, parent of the overlay
         x: 0
-        y: window.height - 240
+        y: window.height - 320
         width: window.width
-        height: 240
+        height: 320
         z: 1000002 // the overlay has a z of 1000001
         sourceComponent: keyboard.active ? keyboardComponent : null
     }
