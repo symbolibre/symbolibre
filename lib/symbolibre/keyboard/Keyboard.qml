@@ -4,8 +4,11 @@ import QtQuick.Controls 2.5
 import org.symbolibre.keyboard 1.0
 
 Rectangle {
-    id: root
+    id: keyboardRoot
     color: "darkgray"
+
+    property bool shiftPressed: shiftKey.pressed
+    property bool alphaPressed: alphaKey.pressed
 
     GridLayout {
         anchors.centerIn: parent
@@ -29,9 +32,10 @@ Rectangle {
             mathKey: SLKey.F5
         }
 
-        KeyButton {
-            backgroundColor: "blue"
-            mathKey: SLKey.Shift
+        ModifierButton {
+            id: shiftKey
+            textColor: "lightblue"
+            key: SLKey.Shift
         }
         KeyButton {
             mathKey: SLKey.Home
@@ -75,9 +79,10 @@ Rectangle {
             }
         }
 
-        KeyButton {
-            backgroundColor: "blue"
-            mathKey: SLKey.Alpha
+        ModifierButton {
+            id: alphaKey
+            textColor: "red"
+            key: SLKey.Alpha
         }
         KeyButton {
             mathKey: SLKey.Back

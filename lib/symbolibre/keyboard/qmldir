@@ -2,3 +2,4 @@ module org.symbolibre.keyboard
 plugin keyboardplugin
 Keyboard 1.0 Keyboard.qml
 KeyButton 1.0 KeyButton.qml
+ModifierButton 1.0 ModifierButton.qml

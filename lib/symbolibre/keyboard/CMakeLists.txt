@@ -9,6 +9,7 @@ set(keyboard_HEADERS
 set(keyboard_QML_SOURCES
     Keyboard.qml
     KeyButton.qml
+    ModifierButton.qml
 )
 set(keyboardplugin_SOURCES
     plugin.cpp
