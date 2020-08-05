@@ -87,6 +87,11 @@ SLWindow {
         sourceComponent: keyboard.active ? keyboardComponent : null
     }
 
+    Shortcut {
+        sequence: "Alt+K"
+        onActivated: keyboard.active = !keyboard.active;
+    }
+
     function reloadMenu() {
         appletLoader.source = "Menu.qml";
     }
