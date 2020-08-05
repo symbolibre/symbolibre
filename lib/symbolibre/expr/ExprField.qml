@@ -4,8 +4,6 @@ import org.symbolibre.expr 1.0
 import org.symbolibre.keyboard 1.0
 import "editiontree.js" as ET
 
-// adapted from CalcSheet
-
 FocusScope {
     id: root
     implicitWidth: expr.implicitWidth + 4
@@ -44,19 +42,31 @@ FocusScope {
                     insertJson(JSON.stringify([text]))
                 }
 
-                /* Special keys */
-                if(event.key === Qt.Key_Backspace) expr.deleteChar();
-                else if(event.key === Qt.Key_Delete) expr.deleteChar();
-                else if(event.key === SLKey.Delete) expr.deleteChar();
+                // Special keys
+                if (event.modifiers !== Qt.NoModifier && event.modifiers !== Qt.ShiftModifier)
+                    return;
 
-                /* Operator keys */
-                if(event.key === Qt.Key_Asterisk)  insert(ET.op("*"));
-                if(event.key === Qt.Key_Slash)     insert(ET.frac([""],[""]));
-                if(event.key === Qt.Key_Plus)      insert(ET.op("+"));
-                if(event.key === Qt.Key_Minus)     insert(ET.op("-"));
+                // Enter, Return
+                if (event.text.includes("\n") || event.text.includes("\r"))
+                    return;
 
-                /* Raw input keys */
-                if(event.key >= Qt.Key_A && event.key <= Qt.Key_Z && event.text) {
+                if (event.key === Qt.Key_Backspace)   expr.deleteChar();
+                else if (event.key === Qt.Key_Delete) expr.deleteChar();
+                else if (event.key === SLKey.Delete)  expr.deleteChar();
+
+                else if (event.key === Qt.Key_ParenLeft)  insert(ET.lparen());
+                else if (event.key === Qt.Key_ParenRight) insert(ET.rparen());
+
+                else if(event.key === Qt.Key_Equal) insertText(":=");
+
+                // Operators
+                else if (event.key === Qt.Key_Asterisk) insert(ET.op("*"));
+                else if (event.key === Qt.Key_Slash)    insert(ET.frac([""],[""]));
+                else if (event.key === Qt.Key_Plus)     insert(ET.op("+"));
+                else if (event.key === Qt.Key_Minus)    insert(ET.op("-"));
+
+                // Variables (alphabetic keys) */
+                else if (event.key >= Qt.Key_A && event.key <= Qt.Key_Z) {
                     insertText(event.text);
                     // FIXME giac interprets (A)(B) as a function call, so this is disabled for now
                     /*if(event.text.toLowerCase() === event.text)
@@ -65,44 +75,35 @@ FocusScope {
                       insert(ET.variable(event.text));*/
                 }
 
-                if(event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
-                    insertText(event.text);
-
-                /* Punctuation */
-                if(event.key === Qt.Key_ParenLeft)  insert(ET.lparen());
-                if(event.key === Qt.Key_ParenRight) insert(ET.rparen());
-
-                if(event.key === Qt.Key_Equal)
-                    insertText(":=");
-
-                if(event.key === Qt.Key_Comma ||
-                   event.key === Qt.Key_Period ||
-                   event.key === Qt.Key_Space)
-                   insertText(event.text);
-
-                // Math keys
-
-                if (event.key === SLKey.Sqrt)
-                    insert(ET.sqrt([""]));
-
+                // Trigonometry
                 else if (event.key === SLKey.Sin)
                     insertText("sin(");
                 else if (event.key === SLKey.Cos)
                     insertText("cos(");
                 else if (event.key === SLKey.Tan)
                     insertText("tan(");
-                if (event.key === SLKey.Pi)
-                    insertText("π");
 
-                // pow, exponential
-                if (event.key === SLKey.LogE)
+                // Exponentiation
+                else if (event.key === SLKey.Square)
+                    insert(["", ET.pow(["2"]), ET.set_cursor("")]);
+                else if (event.key === SLKey.Sqrt)
+                    insert(ET.sqrt([""]));
+                else if (event.key === SLKey.LogE)
                     insertText("ln(");
                 else if (event.key === SLKey.Exp)
                     insert(["e", ET.set_cursor(ET.pow([""])), ""]);
-                if (event.key === SLKey.Log10)
+                else if (event.key === SLKey.Log10)
                     insertText("log(");
                 else if (event.key === SLKey.Pow)
                     insert(ET.set_cursor(ET.pow([""])));
+
+                else if (event.text)
+                    insertText(event.text);
+
+                else
+                    return;
+
+                event.accepted = true;
             }
         }
     }
