@@ -36,6 +36,7 @@ SLWindow {
         width: parent.width
         y: 0
         height: parent.height - (keyboard.active ? 320 : 0)
+        clip: keyboard.active
 
         // FIXME why doesn't this work?
         /*Component {
