@@ -19,7 +19,7 @@ SLWindow {
 
     Dialog {
         id: backToMenuDialog
-        anchors.centerIn: parent
+        anchors.centerIn: Overlay.overlay
         modal: true
         focus: true
         title: qsTr("Quit")
