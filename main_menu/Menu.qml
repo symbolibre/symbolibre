@@ -64,7 +64,15 @@ GridView {
                     antialiasing: true
                 }
             }
-            Keys.onReturnPressed: {
+
+            TapHandler {
+                onPressedChanged: if (pressed) grid.currentIndex = index
+                onTapped: launch()
+            }
+
+            Keys.onReturnPressed: launch()
+
+            function launch() {
                 if (modelData.applet)
                     appletLoader.setSource("../" + modelData.applet);
                 else if (!launcher.launch(modelData))
