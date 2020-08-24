@@ -51,8 +51,7 @@ RowLayout {
             function back() {
                 if (listView.history.length) currentMenu = listView.history.pop()
             }
-            onPressed: confirm()
-            Keys.onReturnPressed: confirm()
+            onClicked: confirm()
             Keys.onRightPressed: confirm()
             Keys.onBackPressed: back()
             Keys.onLeftPressed: back()
