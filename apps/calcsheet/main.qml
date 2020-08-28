@@ -7,7 +7,7 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 220
+    height: 240
     title: qsTr("Quick Calculator")
 
     MathContext {

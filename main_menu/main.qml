@@ -9,7 +9,7 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 220 + (keyboard.active ? 320 : 0)
+    height: 240 + (keyboard.active ? 320 : 0)
 
     title: qsTr("Symbolibre")
 
