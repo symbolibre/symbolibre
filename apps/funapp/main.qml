@@ -17,6 +17,4 @@ SLWindow {
         id: app
         anchors.fill: parent
     }
-
-    Component.onCompleted: app.forceActiveFocus();
 }

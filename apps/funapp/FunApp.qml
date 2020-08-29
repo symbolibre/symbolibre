@@ -5,12 +5,13 @@ import org.symbolibre.catalog 1.0
 
 SLStandardApplet {
     id: app
+    property var overlayHeight: height - functionBar.height
 
     CatalogPopup {
         id: catalog
         parent: Overlay.overlay
         width: parent.width
-        height: parent.height * 2 / 3
+        height: parent.height * 3 / 4
         anchors.centerIn: parent
         catalogId: "math_fr"
     }
@@ -24,7 +25,7 @@ SLStandardApplet {
         id: windowRangePopup
         parent: Overlay.overlay
         width: parent.width
-        height: parent.height * 2 / 3
+        height: parent.height * 3 / 4
         anchors.centerIn: parent
         modal: true
         focus: true

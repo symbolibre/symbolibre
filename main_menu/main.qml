@@ -58,6 +58,7 @@ SLWindow {
                     launchErrorDialog.open();
                 }
             }
+            onLoaded: updateOverlayHeight();
         }
 
         Component {
@@ -111,6 +112,7 @@ SLWindow {
     }
 
     function updateOverlayHeight() {
-        window.overlay.height = mainItem.height;
+        var h = appletLoader.item.overlayHeight;
+        window.overlay.height = (h === undefined) ? mainItem.height : h;
     }
 }

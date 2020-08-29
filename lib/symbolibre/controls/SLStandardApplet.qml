@@ -4,9 +4,11 @@ import QtQuick.Controls 2.5
 Page {
     property alias functionBar: functionBar
     property alias statusBar: statusBar
+    focus: true
 
     footer: SLFunctionBar {
         id: functionBar
+        parent: window.contentItem.parent
         z: 1000002
 
         barmodel: {
