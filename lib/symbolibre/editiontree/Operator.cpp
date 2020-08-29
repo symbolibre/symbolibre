@@ -29,20 +29,20 @@ bool Operator::empty(void) const
     return false;
 }
 
-void Operator::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Operator::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
-    QFontMetrics metrics = painter.fontMetrics();
-    QRect br = metrics.boundingRect(qstring);
+    QFontMetricsF metrics(painter.font());
+    QRectF br = metrics.boundingRect(qstring);
 
     width  = br.width();
     height = std::max(metrics.height(), br.height());
     ascent = metrics.ascent();
 }
 
-void Operator::draw(int x, int y, QPainter &painter, bool)
+void Operator::draw(qreal x, qreal y, QPainter &painter, bool)
 {
     EditionNode::draw(x, y, painter, false);
 
-    QRect brect = QRect(x, y, width, height);
+    QRectF brect = QRectF(x, y, width, height);
     painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, qstring);
 }

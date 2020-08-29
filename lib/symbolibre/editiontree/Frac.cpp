@@ -67,12 +67,12 @@ bool Frac::editMoveDown(void)
     return true;
 }
 
-void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Frac::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
     children[idx_num].computeDimensions(painter, 0, 0);
     children[idx_den].computeDimensions(painter, 0, 0);
 
-    QFontMetrics metrics = painter.fontMetrics();
+    QFontMetricsF metrics(painter.font());
 
     width  = std::max(children[idx_num].width, children[idx_den].width);
 
@@ -83,19 +83,19 @@ void Frac::computeDimensions(QPainter &painter, int /**/, int /**/)
     ascent = FRAC_UP_SPACE + children[idx_num].height + metrics.ascent() / 3;
 }
 
-void Frac::draw(int x, int y, QPainter &painter, bool cursor)
+void Frac::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 {
     // Numerator
-    int x_numerator = x + (width - children[idx_num].width) / 2;
+    qreal x_numerator = x + (width - children[idx_num].width) / 2;
     children[idx_num].draw(x_numerator, y, painter, cursor && active_child_idx == idx_num);
 
     // frac line
-    int y_line = y + children[idx_num].height + FRAC_UP_SPACE;
+    qreal y_line = y + children[idx_num].height + FRAC_UP_SPACE;
     painter.drawLine(x, y_line, x + width - 1, y_line);
 
     // Denominator
-    int x_denominator = x + (width - children[idx_den].width) / 2;
-    int y_denominator = y_line + FRAC_DOWN_SPACE;
+    qreal x_denominator = x + (width - children[idx_den].width) / 2;
+    qreal y_denominator = y_line + FRAC_DOWN_SPACE;
 
     children[idx_den].draw(x_denominator, y_denominator, painter,
                            cursor && active_child_idx == idx_den);

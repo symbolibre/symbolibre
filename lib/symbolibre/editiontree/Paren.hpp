@@ -25,8 +25,8 @@ public:
     bool empty(void) const override;
 
     void computeDimensions(QPainter &painter,
-                           int lheight, int lascent) override;
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
+                           qreal lheight, qreal lascent) override;
+    void draw(qreal x, qreal y, QPainter &painter, bool cursor) override;
 };
 
 #endif // PAREN_HPP

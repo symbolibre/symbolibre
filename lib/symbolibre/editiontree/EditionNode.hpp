@@ -25,14 +25,14 @@
  * - edition areas: leaves which contain a single string.
  * - semantic nodes: these nodes are the axis to beautify the expression; these
  * are fractions, parenthesis, square roots, integrals...
- * - flows: these are undefinitely long chains of edition areas and
+ * - flows: these are infinitely long chains of edition areas and
  * semantic nodes that correspond to a line block.
  *
  * An edition tree has also a *cursor*. The cursor points exclusively to an
  * edition area that is the one being currently edited. Thus, any input will
  * modify the structure at this specific edition area.
  *
- * Here are some properties that an edition tree satifies:
+ * Here are some properties that an edition tree satisfies:
  * 1. flows begin and end with edition areas,
  * 2. flows contain nodes and edition areas, nodes contain flows, edition
  * areas are terminal,
@@ -55,14 +55,14 @@ class EditionNode
 {
 public:
     /** The width of the node */
-    int width;
+    qreal width;
     /** The height of the node */
-    int height;
+    qreal height;
     /** The distance from the top of the node to its baseline */
-    int ascent;
+    qreal ascent;
 private:
     /** The position of the node */
-    QPoint mPos;
+    QPointF mPos;
 
 public:
     /** Constructor */
@@ -73,7 +73,7 @@ public:
     EditionNode(const EditionNode &) = delete;
     EditionNode(EditionNode &&) = default;
 
-    QPoint getPos() const
+    QPointF getPos() const
     {
         return mPos;
     }
@@ -184,7 +184,7 @@ public:
      * \param painter the painter that will be used
      * to call 'draw' method then.
      */
-    virtual void computeDimensions(QPainter &painter, int, int) = 0;
+    virtual void computeDimensions(QPainter &painter, qreal, qreal) = 0;
 
     /**
      * Draw the formula.
@@ -192,9 +192,9 @@ public:
      * \param y the top of the drawing area.
      * \param cursor true to draw the cursor
      */
-    virtual void draw(int x, int y, QPainter & /*painter*/, bool /*cursor*/)
+    virtual void draw(qreal x, qreal y, QPainter & /*painter*/,bool /*cursor*/)
     {
-        mPos = QPoint(x, y);
+        mPos = QPointF(x, y);
     }
 };
 

@@ -159,7 +159,7 @@ bool EditionArea::insert(EditionNode *newnode)
     return false;
 }
 
-void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
+void EditionArea::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
     QTextLayout layout(text, painter.font());
     layout.beginLayout();
@@ -171,10 +171,10 @@ void EditionArea::computeDimensions(QPainter &painter, int /**/, int /**/)
     ascent = line.ascent();
 }
 
-void EditionArea::draw(int x, int y, QPainter &painter, bool cursor)
+void EditionArea::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 {
     EditionNode::draw(x, y, painter, cursor);
-    QRect brect = QRect(x, y, width, height);
+    QRectF brect = QRectF(x, y, width, height);
 
     QTextLayout layout(text, painter.font());
     layout.beginLayout();

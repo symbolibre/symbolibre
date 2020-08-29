@@ -43,7 +43,7 @@ bool Root::empty(void) const
     return children[0].empty();
 }
 
-void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Root::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
     children[0].computeDimensions(painter, 0, 0);
 
@@ -55,7 +55,7 @@ void Root::computeDimensions(QPainter &painter, int /**/, int /**/)
     ascent = children[0].ascent + ROOT_HSPACE;
 }
 
-void Root::draw(int x, int y, QPainter &painter, bool cursor)
+void Root::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 {
     InternalEditionNode::draw(x, y, painter, cursor);
 

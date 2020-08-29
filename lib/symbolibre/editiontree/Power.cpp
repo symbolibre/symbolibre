@@ -44,7 +44,7 @@ bool Power::empty(void) const
     return children[0].empty();
 }
 
-void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascent)
+void Power::computeDimensions(QPainter &painter, qreal prev_height, qreal prev_ascent)
 {
     {
         FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);
@@ -52,7 +52,7 @@ void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascen
     }
     width         = children[0].width;
 
-    const auto &metrics = painter.fontMetrics();
+    QFontMetricsF metrics(painter.font());
     if (prev_height) {
         height = children[0].height + prev_height - metrics.ascent() / 2;
         ascent = children[0].height + prev_ascent - metrics.ascent() / 2;
@@ -62,7 +62,7 @@ void Power::computeDimensions(QPainter &painter, int prev_height, int prev_ascen
     }
 }
 
-void Power::draw(int x, int y, QPainter &painter, bool cursor)
+void Power::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 {
     InternalEditionNode::draw(x, y, painter, cursor);
     FontResizer f(painter, painter.fontInfo().pointSize() * 2 / 3);

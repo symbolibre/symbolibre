@@ -43,15 +43,15 @@ public:
         lastEdition = 0;
     }
 
-    int getWidth() const
+    qreal getWidth() const
     {
         return root.width;
     }
-    int getHeight() const
+    qreal getHeight() const
     {
         return root.height;
     }
-    int getAscent() const
+    qreal getAscent() const
     {
         return root.ascent;
     }
@@ -202,7 +202,7 @@ public:
         return root.getActiveNode();
     }
 
-    void computeDimensions(QPainter &painter, int lheight, int lascent)
+    void computeDimensions(QPainter &painter, qreal lheight, qreal lascent)
     {
         return root.computeDimensions(painter, lheight, lascent);
     }
@@ -212,7 +212,7 @@ public:
         return root.computeDimensions(painter, 0, 0);
     }
 
-    void draw(int x, int y, QPainter &painter, bool cursor)
+    void draw(qreal x, qreal y, QPainter &painter, bool cursor)
     {
         return root.draw(x, y, painter, cursor);
     }

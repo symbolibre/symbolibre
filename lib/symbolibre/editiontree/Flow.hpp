@@ -5,9 +5,9 @@
 
 /* This structure is for convenience. */
 struct centeredBox {
-    int width;
-    int height;
-    int ascent;
+    qreal width;
+    qreal height;
+    qreal ascent;
 };
 
 /**
@@ -60,8 +60,8 @@ public:
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
-                           int lheight, int lascent) override;
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
+                           qreal lheight, qreal lascent) override;
+    void draw(qreal x, qreal y, QPainter &painter, bool cursor) override;
 
     /** Returns the box size that the paren at cur_node-- grap. */
     centeredBox parenArea(FlowIterator &cur_node, QPainter &painter);

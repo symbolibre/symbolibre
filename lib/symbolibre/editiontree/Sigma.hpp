@@ -18,8 +18,8 @@
 class Sigma : public InternalEditionNode
 {
 public:
-    int sigma_height;
-    int sigma_width;
+    qreal sigma_height;
+    qreal sigma_width;
 
     enum {idx_lbound = 0, idx_rbound = 1};
 
@@ -40,8 +40,8 @@ public:
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
-                           int lheight, int lascent) override;
-    void draw(int x, int y, QPainter &painter, bool cursor) override;
+                           qreal lheight, qreal lascent) override;
+    void draw(qreal x, qreal y, QPainter &painter, bool cursor) override;
 };
 
 #endif // SIGMA_HPP

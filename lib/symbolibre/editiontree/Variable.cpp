@@ -28,19 +28,19 @@ bool Variable::empty(void) const
     return false;
 }
 
-void Variable::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Variable::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
-    QFontMetrics metrics = painter.fontMetrics();
-    QRect br = metrics.boundingRect(name);
+    QFontMetricsF metrics(painter.font());
+    QRectF br = metrics.boundingRect(name);
 
     width  = br.width();
     height = std::max(metrics.height(), br.height());
     ascent = metrics.ascent();
 }
 
-void Variable::draw(int x, int y, QPainter &painter, bool)
+void Variable::draw(qreal x, qreal y, QPainter &painter, bool)
 {
     EditionNode::draw(x, y, painter, false);
-    QRect brect = QRect(x, y, width, height);
+    QRectF brect = QRectF(x, y, width, height);
     painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, name);
 }

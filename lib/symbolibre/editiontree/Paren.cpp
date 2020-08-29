@@ -41,11 +41,11 @@ bool Paren::empty(void) const
 }
 
 /* Dimensions */
-void Paren::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Paren::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 {
     // FIXME : adjust size
-    QFontMetrics metrics = painter.fontMetrics();
-    QRect br;
+    QFontMetricsF metrics(painter.font());
+    QRectF br;
     if (ptype == LPAREN)
         br = metrics.boundingRect(QString("("));
     else
@@ -56,39 +56,39 @@ void Paren::computeDimensions(QPainter &painter, int /**/, int /**/)
     ascent = metrics.ascent();
 }
 
-void Paren::draw(int x, int y, QPainter &painter, bool)
+void Paren::draw(qreal x, qreal y, QPainter &painter, bool)
 {
     EditionNode::draw(x, y, painter, false);
 
-    QRect brect = QRect(x, y, width, height);
-    const int font_size = painter.fontInfo().pixelSize();
+    QRectF brect = QRectF(x, y, width, height);
+    const qreal font_size = painter.fontInfo().pixelSize();
 
-    if (height <= (int)(2 * font_size))
+    if (height <= 2 * font_size)
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter,
                          ((ptype == LPAREN ? "(" : ")")));
     else if (ptype == LPAREN) {
-        int par_height = std::min(font_size, y + height - font_size / 2);
+        qreal par_height = std::min(font_size, y + height - font_size / 2);
         brect = QRect(x, y, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎛");
 
-        int y1 = y + height - par_height;
+        qreal y1 = y + height - par_height;
         brect = QRect(x, y1, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, "⎝");
 
-        for (int y0 = y + font_size; y0 < y1; y0 += font_size) {
+        for (qreal y0 = y + font_size; y0 < y1; y0 += font_size) {
             brect = QRect(x, y0, width, std::min(font_size, y1 - y0));
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎜");
         }
     } else if (ptype == RPAREN) {
-        int par_height = std::min(font_size, y + height - font_size / 2);
+        qreal par_height = std::min(font_size, y + height - font_size / 2);
         brect = QRect(x, y, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignTop, "⎞");
 
-        int y1 = y + height - par_height;
+        qreal y1 = y + height - par_height;
         brect = QRect(x, y1, width, par_height);
         painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom, "⎠");
 
-        for (int y0 = y + font_size; y0 < y1; y0 += font_size) {
+        for (qreal y0 = y + font_size; y0 < y1; y0 += font_size) {
             brect = QRect(x, y0, width, std::min(font_size, y1 - y0));
             painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter, "⎟");
         }

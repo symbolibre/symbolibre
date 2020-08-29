@@ -169,7 +169,7 @@ bool Flow::editClear(void)
 
 bool Flow::insert(EditionNode *newnode)
 {
-    /* since no child succeeded to insert the node, the edited node is obsviously
+    /* since no child succeeded to insert the node, the edited node is obviously
      * an edition area, so we have to split it into two and insert between the two
      * edition areas. */
 
@@ -267,7 +267,7 @@ EditionArea *Flow::getActiveNode(void)
     return getActiveChild()->getActiveNode();
 }
 
-void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
+void Flow::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 /* This function could seem complicated but it is not.
  * It is just taking care of those poor parentheses that cannot compute
  * their dimensions without knowledge of their surroundings. */
@@ -275,16 +275,16 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
     width         = 0;
     height        = 0;
     ascent = 0;
-    int last_height  = 0;
-    int last_ascent = 0;
+    qreal last_height  = 0;
+    qreal last_ascent = 0;
 
     auto it = flow.begin();
     /* Empty case: a box will be drawn */
     if (empty()) {
         (*it)->computeDimensions(painter, 0, 0); // useless
 
-        QFontMetrics metrics = painter.fontMetrics();
-        QRect br = metrics.boundingRect(QString("□"));
+        QFontMetricsF metrics(painter.font());
+        QRectF br = metrics.boundingRect(QString("□"));
 
         width  = br.width();
         height = std::max(metrics.height(), br.height());
@@ -298,8 +298,8 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             it--; /* go back before the parenthesis: get the dimensions of the block */
             if (it != flow.begin() && (*it)->empty())
                 it --;
-            int left_height        = (*it)->height;
-            int left_ascent = (*it)->ascent;
+            qreal left_height        = (*it)->height;
+            qreal left_ascent = (*it)->ascent;
 
             it++; /* go back to the parenthesis */
             if (it != flow.end() && (*it)->empty())
@@ -309,9 +309,9 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
             (*it)->computeDimensions(painter, last_height, last_ascent);
             (*it)->height        = left_height;
             (*it)->ascent = left_ascent;
-            int it_width  = (*it)->width;
-            int it_height = (*it)->height;
-            int it_ascent = (*it)->ascent;
+            qreal it_width  = (*it)->width;
+            qreal it_height = (*it)->height;
+            qreal it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
@@ -339,9 +339,9 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
                 (*new_it)->height        = sub_box.height;
                 (*new_it)->ascent = sub_box.ascent;
             }
-            int it_width  = (*it)->width;
-            int it_height = (*it)->height;
-            int it_ascent = (*it)->ascent;
+            qreal it_width  = (*it)->width;
+            qreal it_height = (*it)->height;
+            qreal it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
@@ -366,9 +366,9 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
         } else {
             /* general case: Easy */
             (*it)->computeDimensions(painter, last_height, last_ascent);
-            int it_width  = (*it)->width;
-            int it_height = (*it)->height;
-            int it_ascent = (*it)->ascent;
+            qreal it_width  = (*it)->width;
+            qreal it_height = (*it)->height;
+            qreal it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
                 last_height  = it_height;
@@ -390,13 +390,13 @@ void Flow::computeDimensions(QPainter &painter, int /**/, int /**/)
         width += INTERSPACE * nonEmpty;
 }
 
-void Flow::draw(int x, int y, QPainter &painter, bool cursor)
+void Flow::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 {
     EditionNode::draw(x, y, painter, cursor);
 
     if (empty()) {
         // draw a box, or the cursor if selected
-        QRect brect = QRect(x, y, width, height);
+        QRectF brect = QRectF(x, y, width, height);
         if (cursor) {
             const auto metrics = painter.fontMetrics();
             painter.drawLine(x + width / 2, y, x + width / 2, y + metrics.height());
@@ -406,7 +406,7 @@ void Flow::draw(int x, int y, QPainter &painter, bool cursor)
     }
 
     for (auto it = flow.begin(); it != flow.end(); it++) {
-        int it_y = y + ascent - (*it)->ascent;
+        qreal it_y = y + ascent - (*it)->ascent;
         (*it)->draw(x, it_y, painter, it == edited_node && cursor && !empty());
         x += (*it)->width;
 
@@ -421,8 +421,8 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
     centeredBox par_box;
     par_box.height = par_box.width = par_box.ascent = 0;
 
-    int last_height  = 0;
-    int last_ascent = 0;
+    qreal last_height  = 0;
+    qreal last_ascent = 0;
 
     while (current_node != flow.end()) {
         auto paren = dynamic_cast<Paren *>(current_node->get());
@@ -446,9 +446,9 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
                 (*new_it)->height        = sub_box.height;
                 (*new_it)->ascent = sub_box.ascent;
             }
-            int it_width  = (*current_node)->width;
-            int it_height = last_height  = (*current_node)->height;
-            int it_ascent = last_ascent = (*current_node)->ascent;
+            qreal it_width  = (*current_node)->width;
+            qreal it_height = last_height  = (*current_node)->height;
+            qreal it_ascent = last_ascent = (*current_node)->ascent;
 
             /* We add the width of the parenthesis */
             /* For that we count them: new_it == flow.end() iff the right paren
@@ -471,9 +471,9 @@ centeredBox Flow::parenArea(FlowIterator &current_node, QPainter &painter)
                 current_node = new_it;
         } else { /* Default case: copy past from computeDimensions*/
             (*current_node)->computeDimensions(painter, last_height, last_ascent);
-            int it_width  = (*current_node)->width;
-            int it_height = last_height  = (*current_node)->height;
-            int it_ascent = last_ascent = (*current_node)->ascent;
+            qreal it_width  = (*current_node)->width;
+            qreal it_height = last_height  = (*current_node)->height;
+            qreal it_ascent = last_ascent = (*current_node)->ascent;
 
             par_box.width += it_width;
             par_box.height = std::max(par_box.ascent, it_ascent)
