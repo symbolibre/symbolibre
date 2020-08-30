@@ -11,9 +11,6 @@ Rectangle {
     Text {
         id: t
         anchors.fill: parent
-
-        font.family: window.font.family
-        font.hintingPreference: window.font.hintingPreference
         font.pixelSize: 10
 
         horizontalAlignment: Text.AlignHCenter

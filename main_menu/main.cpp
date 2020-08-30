@@ -5,6 +5,7 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QQuickWindow>
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
@@ -18,7 +19,10 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     auto font(app.font());
-    font.setPixelSize(13);
+    font.setPixelSize(12);
+    font.setFamily("DejaVu Sans");
+    font.setHintingPreference(QFont::PreferFullHinting);
+    font.setStyleStrategy(QFont::NoSubpixelAntialias);
     app.setFont(font);
 
     AppLauncher launcher;
@@ -41,6 +45,9 @@ int main(int argc, char *argv[])
     }
     auto *window = component.create(context);
     context->setParent(window);
+
+    QQuickWindow *w = dynamic_cast<QQuickWindow *>(window);
+    w->setTextRenderType(QQuickWindow::NativeTextRendering);
 
     return app.exec();
 }

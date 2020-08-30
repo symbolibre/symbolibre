@@ -56,12 +56,10 @@ GridView {
                     text: modelData.name
                     anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 11
-                    font.family: "DejaVu Sans Mono"
                     wrapMode: Text.WordWrap
                     width: grid.cellWidth
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    antialiasing: true
                 }
             }
 

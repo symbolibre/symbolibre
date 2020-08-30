@@ -10,9 +10,7 @@ Rectangle {
 
     Row {
         Text {
-            font.family: "DejaVu Sans"
-            font.hintingPreference: Font.PreferFullHinting
-            font.pixelSize: 12
+            font.pixelSize: 13
             font.bold: true
             text: label
 
