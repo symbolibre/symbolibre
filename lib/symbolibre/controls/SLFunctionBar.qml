@@ -4,20 +4,23 @@ import QtQuick.Controls 2.5
 Row {
     height: 26
 
-    property var colors: [
-        window.palette.mid,
-        window.palette.mid,
-        window.palette.mid,
-        window.palette.mid,
-        window.palette.mid
-    ]
+    // Make sure an empty bar model is always set, instead of "undefined"
     property var barmodel: undefined
+    property var defmodel: SLFunctionBarModel {}
 
-    Repeater {
-        model: 5
-        SLFunctionKey {
-            color: colors[index]
-            text: barmodel[index]
-        }
+    SLFunctionKey {
+        model: (barmodel || defmodel).f1
+    }
+    SLFunctionKey {
+        model: (barmodel || defmodel).f2
+    }
+    SLFunctionKey {
+        model: (barmodel || defmodel).f3
+    }
+    SLFunctionKey {
+        model: (barmodel || defmodel).f4
+    }
+    SLFunctionKey {
+        model: (barmodel || defmodel).f5
     }
 }

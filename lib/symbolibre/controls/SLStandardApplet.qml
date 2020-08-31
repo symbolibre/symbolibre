@@ -19,7 +19,6 @@ Page {
                 }
                 item = item.parent;
             }
-            return ["", "", "", "", ""];
         }
     }
 

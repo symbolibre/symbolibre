@@ -34,8 +34,11 @@ SLStandardApplet {
             id: menu
             anchors.fill: parent
             focus: true
-            property var functionBarModel:
-                [ "F1", "F2", "F3", "F4", qsTr("Valider")]
+            property var functionBarModel: SLFunctionBarModel {
+                f5: SLFunctionKeyModel {
+                    text: qsTr("Valider")
+                }
+            }
         }
     }
 
@@ -48,8 +51,14 @@ SLStandardApplet {
             id: def
             focus: true
 
-            property var functionBarModel:
-                ["F1", "F2", "F3", qsTr("Fenêtre"), qsTr("Graphe")]
+            property var functionBarModel: SLFunctionBarModel {
+                f4: SLFunctionKeyModel {
+                    text: qsTr("Fenêtre")
+                }
+                f5: SLFunctionKeyModel {
+                    text: qsTr("Graphe")
+                }
+            }
             property var statusBarLabel: "Saisie fonctions"
         }
 
@@ -112,8 +121,14 @@ SLStandardApplet {
             }
 
             property var statusBarLabel: "Graphe"
-            property var functionBarModel:
-                ["F1", "F2", "F3", qsTr("Fenêtre"), qsTr("Saisie\nfonctions")]
+            property var functionBarModel: SLFunctionBarModel {
+                f4: SLFunctionKeyModel {
+                    text: qsTr("Fenêtre")
+                }
+                f5: SLFunctionKeyModel {
+                    text: qsTr("Saisie\nfonctions")
+                }
+            }
         }
     }
 
