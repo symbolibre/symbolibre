@@ -36,7 +36,7 @@ SLStandardApplet {
             focus: true
             property var functionBarModel: SLFunctionBarModel {
                 f5: SLFunctionKeyModel {
-                    text: qsTr("Valider")
+                    text: qsTr("Confirm")
                 }
             }
         }
@@ -53,13 +53,13 @@ SLStandardApplet {
 
             property var functionBarModel: SLFunctionBarModel {
                 f4: SLFunctionKeyModel {
-                    text: qsTr("Fenêtre")
+                    text: qsTr("Window")
                 }
                 f5: SLFunctionKeyModel {
-                    text: qsTr("Graphe")
+                    text: qsTr("Graph")
                 }
             }
-            property var statusBarLabel: "Saisie fonctions"
+            property var statusBarLabel: "Function input"
         }
 
         FocusScope {
@@ -123,10 +123,10 @@ SLStandardApplet {
             property var statusBarLabel: "Graphe"
             property var functionBarModel: SLFunctionBarModel {
                 f4: SLFunctionKeyModel {
-                    text: qsTr("Fenêtre")
+                    text: qsTr("Window")
                 }
                 f5: SLFunctionKeyModel {
-                    text: qsTr("Saisie\nfonctions")
+                    text: qsTr("Function\ninput")
                 }
             }
         }
