@@ -123,28 +123,21 @@ class SourceEditor: public QObject
     Q_PROPERTY(QString filePath
         READ filePath NOTIFY filePathChanged)
 
-    /** Canonical extension for files written in the currently selected
-        language. This value depends *only* on the currently selected language
-        and may not be the extension of the file. It is primarily useful to
-        give default names when saving under a new file name. **/
-    Q_PROPERTY(QString langExtension
-        READ langExtension NOTIFY docLanguageChanged)
+    /**
+     * Name, canonical extension and interpreter of the currently selected
+     * language.
+     */
+    Q_PROPERTY(LanguageData *languageData
+        READ languageData NOTIFY languageDataChanged)
 
-    Q_PROPERTY(int docLanguage READ docLanguage WRITE setDocLanguage NOTIFY docLanguageChanged)
-
-    Q_PROPERTY(Process *process READ process WRITE setProcess NOTIFY processChanged)
-
-    Q_PROPERTY(LanguagesModel *languageModel READ languageModel WRITE setLanguageModel NOTIFY languageModelChanged)
-
-    Q_PROPERTY(snippetMap_t snippets READ snippets WRITE setSnippets NOTIFY snippetsChanged)
+    Q_PROPERTY(snippetMap_t snippets READ snippets NOTIFY languageDataChanged)
 
 public:
     explicit SourceEditor(QWidget *parent = nullptr);
 
     /* QML accessors */
-    QString langExtension() const;
+    LanguageData *languageData() const;
     QString filePath() const;
-    int docLanguage() const;
 
     /* QML mutators */
     void setFontSize(int size);
@@ -152,20 +145,13 @@ public:
 
     QString syntaxDefinitionName(void) const;
 
-    LanguagesModel *languageModel() const;
-    void setLanguageModel(LanguagesModel *langModel);
-
-    Process *process() const;
-    void setProcess(Process *newProcess);
-
     snippetMap_t snippets();
-    void setSnippets(snippetMap_t);
 
     /** Insert a snippet at the current cursor position. **/
     Q_INVOKABLE int insertSnippet(QString key);
 
 public Q_SLOTS:
-    /** Load a new file into the editor. The previous file is discarded
+    /** Load a file into the editor. The previous file is discarded
         regardless of whether is had unsaved contents. The syntax highlighter
         is initialized from the file's extension. **/
     void load(const QString &filePath);
@@ -174,26 +160,18 @@ public Q_SLOTS:
         for both Save and Save As. Always writes as UTF-8. **/
     void saveAs(const QString &filePath);
 
-    void setDocLanguage(int language);
-    void setDocLanguageFromExtension(QString fileExt);
-    bool wasAlreadySaved(void);
-    void startHighlighter(void);
     void execute();
 
 Q_SIGNALS:
     /* QML property update signals */
     void documentChanged();
+    void languageDataChanged(LanguageData *lang);
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();
 
     void fontSizeChanged();
     void filePathChanged();
-
-    void docLanguageChanged();
-    void languageModelChanged();
-    void processChanged();
-    void snippetsChanged();
 
     /** A new file has been loaded into the editor. **/
     void loaded(const QString &text);
@@ -218,8 +196,8 @@ private:
     QString m_filePath;
 
     /* Current language and language model */
-    int m_docLanguage;
-    LanguagesModel *m_languageModel;
+    LanguagesModel m_languages;
+    LanguageData *m_languageData;
 
     /* Highlighting context */
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;

@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     qmlRegisterType<SourceEditor>("SourceEditor", 1, 0, "SourceEditor");
-    qmlRegisterType<LanguagesModel>("org.symbolibre.languagesModel", 1, 0, "LanguagesModel");
+    qmlRegisterType<LanguageData>("SourceEditor", 1, 0, "LanguageData");
     qmlRegisterType<SnippetsModel>("org.symbolibre.snippetsModel", 1, 0, "SnippetsModel");
     qRegisterMetaType<snippetMap_t>("snippetMap_t");
 

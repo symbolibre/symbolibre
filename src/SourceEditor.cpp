@@ -60,12 +60,6 @@
 SourceEditor::SourceEditor(QWidget *parent)
     : QObject(parent)
 {
-    /* Whenever the file path changes, the language model is also supposed to
-       change. (Opening new files and saving with new extensions can all
-       reasonably change the language.) */
-    connect(this, &SourceEditor::filePathChanged,
-            this, &SourceEditor::docLanguageChanged);
-
     m_document = nullptr;
     m_cursorPosition = -1;
     m_selectionStart = 0;
@@ -74,10 +68,23 @@ SourceEditor::SourceEditor(QWidget *parent)
     /* Overridden by setting the [fontSize] attribute from QML */
     setFontSize(13);
 
-    setDocLanguage(0);
-    setLanguageModel(nullptr);
+    m_languageData = &m_languages.getLanguageFromName("Text");
 
-    m_highlighter = nullptr;
+    m_repository.addCustomSearchPath("syntax-highlighting/data");
+    m_repository.addCustomSearchPath("syntax-files");
+    m_repository.addCustomSearchPath("../src/syntax-files");
+
+    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(this);
+    const auto theme = m_repository.theme("Solarized Light");
+    if (!theme.isValid()){
+        qInfo() << "Theme for syntax highlighting is not valid\n";
+        return;
+    }
+    m_highlighter->setTheme(theme);
+    connect(this, &SourceEditor::documentChanged, [&]() {
+        m_highlighter->setDocument(textDocument());
+    });
+
     m_process = new Process(parent);
 }
 
@@ -108,12 +115,9 @@ void SourceEditor::setFontSize(int size)
     emit fontSizeChanged();
 }
 
-QString SourceEditor::langExtension() const
+LanguageData *SourceEditor::languageData() const
 {
-    if (m_languageModel == nullptr)
-        return QString(".txt");
-
-    return m_languageModel->getExtensionFromId(docLanguage());
+    return m_languageData;
 }
 
 QString SourceEditor::filePath() const
@@ -121,78 +125,9 @@ QString SourceEditor::filePath() const
     return m_filePath;
 }
 
-int SourceEditor::docLanguage() const
-{
-    return m_docLanguage;
-}
-
-void SourceEditor::setDocLanguage(int lang)
-{
-    if (lang == docLanguage())
-        return;
-
-    m_docLanguage = lang;
-    emit docLanguageChanged();
-    emit filePathChanged();
-
-    return;
-}
-
-void SourceEditor::setDocLanguageFromExtension(QString fileExt)
-{
-    int newDocLanguage = 0;
-
-    newDocLanguage = m_languageModel->getIdFromExtension(fileExt);
-
-    setDocLanguage(newDocLanguage);
-}
-
-
-/* Returns the name required by the KSyntaxHighlighter to correctly identify
-   our file type, and to use the proper syntax KSyntaxHighlighting::Definition
-   to highlight it. */
-QString SourceEditor::syntaxDefinitionName(void) const
-{
-    return m_languageModel->getColorationFromId(docLanguage());
-}
-
-LanguagesModel *SourceEditor::languageModel() const
-{
-    return m_languageModel;
-}
-
-void SourceEditor::setLanguageModel(LanguagesModel *langModel)
-{
-    if (m_languageModel == langModel)
-        return;
-
-    m_languageModel = langModel;
-    emit languageModelChanged();
-}
-
-
-Process *SourceEditor::process() const
-{
-    return m_process;
-}
-
-void SourceEditor::setProcess(Process *newProcess)
-{
-    if (m_process == newProcess)
-        return;
-
-    m_process = newProcess;
-    emit processChanged();
-}
-
 snippetMap_t SourceEditor::snippets()
 {
-    return m_languageModel->getSnippetsFromId(docLanguage());
-}
-
-void SourceEditor::setSnippets(snippetMap_t)
-{
-    /* TODO: SourceEditor::setSnippets() probably shouldn't be empty */
+    return m_languageData->snippets;
 }
 
 int SourceEditor::insertSnippet(QString key)
@@ -200,7 +135,7 @@ int SourceEditor::insertSnippet(QString key)
     /* TODO: If the selection is non-empty, it is correctly deleted but the
        TODO: cursor is placed after the snippet instead of in the middle. */
 
-    QString snipp = ((m_languageModel->getSnippetsFromId(docLanguage())))[key];
+    QString snipp = m_languageData->snippets[key];
     int old_position = m_cursorPosition;
     int pos_in_snipp = snipp.indexOf("*");
     snipp.remove("*");
@@ -226,7 +161,7 @@ void SourceEditor::execute()
     out << textDocument()->toPlainText();
     tempfile.close();
 
-    QString cmd = languageModel()->getCmdFromId(docLanguage());
+    QString cmd = m_languageData->command;
     QString file = m_filePath;
     QStringList args;
     args << cmd << "./temp";
@@ -253,46 +188,15 @@ void SourceEditor::load(const QString &filePath)
     m_filePath = local;
     emit filePathChanged();
 
-    setDocLanguageFromExtension(QFileInfo(local).suffix());
-
-    const QString defName = syntaxDefinitionName();
-
-    const auto def = m_repository.definitionForName(defName);
-    if (def.isValid()) {
-            m_highlighter->setDefinition(def);
-            m_highlighter->rehighlight();
-    }
-    else {
-        qInfo() << "Invalid syntax highlighting definition: '" << defName
-            << "' not found\n";
-    }
-}
-
-void SourceEditor::startHighlighter(void)
-{
-    m_repository.addCustomSearchPath("syntax-highlighting/data");
-    m_repository.addCustomSearchPath("syntax-files");
-    m_repository.addCustomSearchPath("../src/syntax-files");
-    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(textDocument());
-
-    const QString defName = syntaxDefinitionName();
-
-    const auto def = m_repository.definitionForName(defName);
-    if (!def.isValid()){
-        qInfo() << "Definition for syntax highlighting is not valid : the name " << defName << " was not found\n";
-        return;
-    }
-
-    const auto theme = m_repository.theme("Solarized Light");
-    if (!theme.isValid()){
-        qInfo() << "Theme for syntax highlighting is not valid\n";
-        return;
-    }
-
+    const auto def = m_repository.definitionForFileName(filePath);
     m_highlighter->setDefinition(def);
-
-    m_highlighter->setTheme(theme);
     m_highlighter->rehighlight();
+    if (def.isValid()) {
+        m_languageData = &m_languages.getLanguageFromName(def.name());
+    } else {
+        m_languageData = &m_languages.getLanguageFromName("Text");
+    }
+    emit languageDataChanged(m_languageData);
 }
 
 void SourceEditor::saveAs(const QString &filePath)
@@ -318,11 +222,6 @@ void SourceEditor::saveAs(const QString &filePath)
 
     m_filePath = filePath;
     emit filePathChanged();
-}
-
-bool SourceEditor::wasAlreadySaved(void)
-{
-    return !filePath().isEmpty();
 }
 
 QTextCursor SourceEditor::textCursor() const

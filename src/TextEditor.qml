@@ -6,7 +6,6 @@ import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
 import SourceEditor 1.0
-import org.symbolibre.languagesModel 1.0
 import org.symbolibre.snippetsModel 1.0
 
 TextEditorForm {
@@ -15,13 +14,7 @@ TextEditorForm {
     property string filePath: document.filePath
     property alias  document: document
 
-     LanguagesModel {
-        id: langModel
-     }
-
-     SnippetsModel {
-         id: snippetModel
-     }
+    snippselection.model: SnippetsModel { snippets: document.snippets }
 
      FolderListModel {
          id: fileExplorerViewModel
@@ -46,7 +39,6 @@ TextEditorForm {
         id: document
         document: textArea.textDocument
 
-        languageModel: langModel
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
@@ -67,16 +59,12 @@ TextEditorForm {
     //Language Selection Popup
 
 
-    langselection.model: langModel
+    langselection.model: ["Python", "Plain text"]
     langselection.delegate: ItemDelegate {
         width: parent.width
-        text: model.languageName
+        text: modelData
         highlighted: ListView.isCurrentItem
     }
-
-    // Snippet
-
-    snippselection.model: snippetModel
 
     // File Explorer
 
@@ -103,8 +91,7 @@ TextEditorForm {
 
         if (popup.activeFocus)
         {
-            editor.document.setDocLanguage(langselection.currentIndex)
-            editor.document.startHighlighter()
+            editor.document.setLanguage(langselection.currentText) // TODO
             popup.close()
             textArea.forceActiveFocus()
         }
@@ -130,8 +117,6 @@ TextEditorForm {
                 langselection.forceActiveFocus()
             }
             else if (newOpenSelection.currentIndex == 1){
-                editor.document.setDocLanguage(2)
-                editor.document.startHighlighter()
                 popupStart.close()
                 popupFileExplorer.open()
                 fileExplorerView.forceActiveFocus()
@@ -153,7 +138,7 @@ TextEditorForm {
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        defaultSuffix: document.langExtension
+        defaultSuffix: document.languageData.extension
         //nameFilters: openDialog.nameFilters
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation) + "/" + document.filePathDefault
         onAccepted: document.saveAs(file)
@@ -187,7 +172,6 @@ TextEditorForm {
     Shortcut {
         sequence: "F1"
         onActivated: {
-            snippetModel.snippets = document.snippets
             popupSnippets.open()
             snippselection.forceActiveFocus()
         }
