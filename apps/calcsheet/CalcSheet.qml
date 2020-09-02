@@ -36,7 +36,7 @@ Item {
 
     CatalogPopup {
         id: catalog
-        parent: Overlay.overlay
+        anchors.centerIn: Overlay.overlay
         x: parent.x
         y: parent.y + parent.height / 6
         width: parent.width

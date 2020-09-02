@@ -5,14 +5,12 @@ import org.symbolibre.catalog 1.0
 
 SLStandardApplet {
     id: app
-    property var overlayHeight: height - functionBar.height
 
     CatalogPopup {
         id: catalog
-        parent: Overlay.overlay
         width: parent.width
         height: parent.height * 3 / 4
-        anchors.centerIn: parent
+        anchors.centerIn: Overlay.overlay
         catalogId: "math_fr"
     }
     function openCatalog(callback) {
@@ -21,13 +19,10 @@ SLStandardApplet {
         catalog.open();
     }
 
-    Popup {
+    SLPopup {
         id: windowRangePopup
-        parent: Overlay.overlay
-        width: parent.width
+        width: parent.width - 20
         height: parent.height * 3 / 4
-        anchors.centerIn: parent
-        modal: true
         focus: true
 
         FunctionMenu {
@@ -46,6 +41,7 @@ SLStandardApplet {
         id: stackLayout
         anchors.fill: parent
         currentIndex: 0
+        clip: true
 
         FunctionDefinitionView {
             id: def
@@ -59,7 +55,6 @@ SLStandardApplet {
                     text: qsTr("Graph")
                 }
             }
-            property var statusBarLabel: "Function input"
         }
 
         FocusScope {
@@ -120,7 +115,6 @@ SLStandardApplet {
                 text: "Y = " + String(graph.cursorPos.y.toPrecision(4))
             }
 
-            property var statusBarLabel: "Graphe"
             property var functionBarModel: SLFunctionBarModel {
                 f4: SLFunctionKeyModel {
                     text: qsTr("Window")

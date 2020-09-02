@@ -26,7 +26,6 @@ GridView {
 
     Dialog {
         id: launchErrorDialog
-        parent: Overlay.overlay
         anchors.centerIn: parent
         modal: true
         focus: true
@@ -35,6 +34,7 @@ GridView {
         contentItem: Text {
             text: qsTr("Unable to start the application")
         }
+        onClosed: grid.focus = true
     }
 
     Component {

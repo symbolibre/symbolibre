@@ -3,13 +3,13 @@ import QtQuick.Controls 2.5
 
 Page {
     property alias functionBar: functionBar
-    property alias statusBar: statusBar
+    property var overlayParent: coveringItem
+    height: parent.height
     focus: true
 
     footer: SLFunctionBar {
         id: functionBar
-        parent: window.contentItem.parent
-        z: 1000002
+        width: parent.width
 
         barmodel: {
             var item = window.activeFocusItem;
@@ -22,17 +22,10 @@ Page {
         }
     }
 
-    header: SLStatusBar {
-        id: statusBar
-        label: {
-            var item = window.activeFocusItem;
-            while (item) {
-                if (item.statusBarLabel) {
-                    return item.statusBarLabel;
-                }
-                item = item.parent;
-            }
-            return "(status)";
-        }
+    Item {
+        id: coveringItem
+        anchors.fill: parent
+        // This item needs to be above the application's main widget
+        z: 10
     }
 }

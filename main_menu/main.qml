@@ -9,9 +9,17 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 240 + (keyboard.active ? 320 : 0)
-
+    height: 240 + (keyboard.active ? keyboardLoader.height : 0)
     title: qsTr("Symbolibre")
+
+    // Move the overlay from the top-level window to the loaded application or
+    // one of its subcomponents; this way, the status bar and keyboard are not
+    // covered when opening popups.
+    overlay.parent: appletLoader.item.overlayParent || appletLoader
+    // The overlay is normally resized with the window. Mentioning window size
+    // here reevaluates the binding during resize and forces the overlay height
+    // to be that of its parent.
+    overlay.height: 0*window.width + 0*window.height + overlay.parent.height
 
     MathContext {
         id: math
@@ -30,62 +38,56 @@ SLWindow {
         onAccepted: reloadMenu()
     }
 
-    Item {
-        id: mainItem
-        x: 0
-        width: parent.width
-        y: 0
-        height: parent.height - (keyboard.active ? 320 : 0)
-        clip: keyboard.active
-
-        // FIXME why doesn't this work?
-        /*Component {
-           id: menuComponent
-           Menu {
-
-           }
-        }*/
-
-        Loader {
-            id: appletLoader
-            anchors.fill: parent
-            focus: true
-            source: "Menu.qml"
-            onStatusChanged: {
-                if (status == Loader.Error || status == Loader.Null) {
-                    console.log("unable to load QML applet");
-                    reloadMenu();
-                    launchErrorDialog.open();
-                }
-            }
-            onLoaded: updateOverlayHeight();
-        }
-
-        Component {
-            id: keyboardComponent
-            Keyboard {
-            }
-        }
-
-
-        Keys.onPressed: {
-            if (event.key == SLKey.Home) {
-                backToMenuDialog.open();
-                event.accepted = true;
-            }
+    Component {
+        id: keyboardComponent
+        Keyboard {
         }
     }
 
-    // the virtual keyboard is loaded lazily
-    Loader {
-        id: keyboardLoader
-        parent: window.contentItem.parent // QQuickRootItem, parent of the overlay
-        x: 0
-        y: window.height - 320
-        width: window.width
-        height: 320
-        z: 1000002 // the overlay has a z of 1000001
-        sourceComponent: keyboard.active ? keyboardComponent : null
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        SLStatusBar {
+            Layout.fillWidth: true
+            id: statusBar
+        }
+
+        Item {
+            id: mainItem
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+
+            Loader {
+                id: appletLoader
+                anchors.fill: parent
+                focus: true
+                source: "Menu.qml"
+                onStatusChanged: {
+                    if (status == Loader.Error || status == Loader.Null) {
+                        console.log("unable to load QML applet");
+                        reloadMenu();
+                        launchErrorDialog.open();
+                    }
+                }
+            }
+
+            Keys.onPressed: {
+                if (event.key == SLKey.Home) {
+                    backToMenuDialog.open();
+                    event.accepted = true;
+                }
+            }
+        }
+
+        // the virtual keyboard is loaded lazily
+        Loader {
+            id: keyboardLoader
+            Layout.fillWidth: true
+            Layout.preferredHeight: keyboard.active ? 320 : 0
+            sourceComponent: keyboard.active ? keyboardComponent : null
+        }
     }
 
     Shortcut {
@@ -95,24 +97,5 @@ SLWindow {
 
     function reloadMenu() {
         appletLoader.source = "Menu.qml";
-    }
-
-    Connections {
-        target: window.overlay
-        function onHeightChanged(height) {
-            updateOverlayHeight();
-        }
-    }
-
-    Connections {
-        target: mainItem
-        function onHeightChanged(height) {
-            updateOverlayHeight();
-        }
-    }
-
-    function updateOverlayHeight() {
-        var h = appletLoader.item.overlayHeight;
-        window.overlay.height = (h === undefined) ? mainItem.height : h;
     }
 }

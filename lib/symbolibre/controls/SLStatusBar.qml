@@ -2,11 +2,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 Rectangle {
-    x: 0
     width: parent.width
     height: 18
 
-    color: window.palette.base
+    color: window.palette.alternateBase
     property string label: "(Status Bar)"
 
     Row {
