@@ -5,6 +5,8 @@
 #include <QQmlFileSelector>
 #include <QApplication>
 
+#include <symbolibre/util/FileSystemSingleton.hpp>
+
 #include "SourceEditor.h"
 #include "languagesmodel.h"
 
@@ -29,7 +31,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     QQmlFileSelector::get(&engine)->setExtraSelectors(selectors);
 
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(FileSystemSingleton::qmlDir() + "/ide/main.qml");
 
 
     if (engine.rootObjects().isEmpty())

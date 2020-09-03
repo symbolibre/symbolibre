@@ -57,6 +57,8 @@
 #include <QTextDocument>
 #include <QDebug>
 
+#include <symbolibre/util/FileSystemSingleton.hpp>
+
 SourceEditor::SourceEditor(QWidget *parent)
     : QObject(parent)
 {
@@ -68,11 +70,9 @@ SourceEditor::SourceEditor(QWidget *parent)
     /* Overridden by setting the [fontSize] attribute from QML */
     setFontSize(13);
 
-    m_languageData = &m_languages.getLanguageFromName("Text");
+    m_languageData = &m_languages.getLanguageFromName("Plain text");
 
-    m_repository.addCustomSearchPath("syntax-highlighting/data");
-    m_repository.addCustomSearchPath("syntax-files");
-    m_repository.addCustomSearchPath("../src/syntax-files");
+    m_repository.addCustomSearchPath(FileSystemSingleton::staticDataDir() + "/ide/syntax-files");
 
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(this);
     const auto theme = m_repository.theme("Solarized Light");
