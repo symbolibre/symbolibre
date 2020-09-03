@@ -57,6 +57,7 @@
 #include <QTextDocument>
 #include <QQuickTextDocument>
 #include <QPlainTextEdit>
+#include <QProcess>
 
 #include <syntaxhighlighter.h>
 #include <repository.h>
@@ -64,7 +65,6 @@
 #include <theme.h>
 
 #include "languagesmodel.h"
-#include "process.h"
 
 /** SourceEditor is a wrapper around a text document in the source code editor.
     It binds code to language definitions and performs syntax highlighting,
@@ -203,7 +203,7 @@ private:
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
 
-    Process *m_process;
+    QProcess m_process;
 };
 
 #endif /* SOURCEEDITOR_H */

@@ -7,7 +7,6 @@
 
 #include "SourceEditor.h"
 #include "languagesmodel.h"
-#include "process.h"
 
 int main(int argc, char *argv[])
 {

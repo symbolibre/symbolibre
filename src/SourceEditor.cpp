@@ -84,8 +84,6 @@ SourceEditor::SourceEditor(QWidget *parent)
     connect(this, &SourceEditor::documentChanged, [&]() {
         m_highlighter->setDocument(textDocument());
     });
-
-    m_process = new Process(parent);
 }
 
 void SourceEditor::setFontSize(int size)
@@ -149,9 +147,6 @@ int SourceEditor::insertSnippet(QString key)
 
 void SourceEditor::execute()
 {
-    if (m_process == nullptr)
-        return;
-
     /* TODO: Save the file to execute somewhere else (or pipe it) */
     QFile tempfile("temp");
     if (!tempfile.open(QFile::ReadWrite | QFile::Truncate | QFile::Text))
@@ -166,7 +161,7 @@ void SourceEditor::execute()
     QStringList args;
     args << cmd << "./temp";
 
-    m_process->start("./term/term", args);
+    m_process.start("./term/term", args);
 }
 
 void SourceEditor::load(const QString &filePath)
