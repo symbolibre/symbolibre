@@ -14,9 +14,9 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-    qmlRegisterType<SourceEditor>("SourceEditor", 1, 0, "SourceEditor");
-    qmlRegisterType<LanguageData>("SourceEditor", 1, 0, "LanguageData");
-    qmlRegisterType<SnippetsModel>("org.symbolibre.snippetsModel", 1, 0, "SnippetsModel");
+    qmlRegisterType<SourceEditor>("org.symbolibre.editor", 1, 0, "SourceEditor");
+    qmlRegisterType<LanguageData>("org.symbolibre.editor", 1, 0, "LanguageData");
+    qmlRegisterType<SnippetsModel>("org.symbolibre.editor", 1, 0, "SnippetsModel");
     qRegisterMetaType<snippetMap_t>("snippetMap_t");
 
     QStringList selectors;
