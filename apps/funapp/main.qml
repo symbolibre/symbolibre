@@ -6,7 +6,7 @@ SLWindow {
     id: window
     visible: true
     width: 320
-    height: 240
+    height: 222
     title: qsTr("symbolibre-funapp")
 
     MathContext {

@@ -37,10 +37,8 @@ Item {
     CatalogPopup {
         id: catalog
         anchors.centerIn: Overlay.overlay
-        x: parent.x
-        y: parent.y + parent.height / 6
-        width: parent.width
-        height: parent.height * 2 / 3
+        width: parent.width - 20
+        height: parent.height - 20
         catalogId: "math_fr"
     }
     function openCatalog(callback) {

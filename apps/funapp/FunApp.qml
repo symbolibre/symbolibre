@@ -8,8 +8,8 @@ SLStandardApplet {
 
     CatalogPopup {
         id: catalog
-        width: parent.width
-        height: parent.height * 3 / 4
+        width: parent.width - 20
+        height: parent.height - 20
         anchors.centerIn: Overlay.overlay
         catalogId: "math_fr"
     }
@@ -22,7 +22,7 @@ SLStandardApplet {
     SLPopup {
         id: windowRangePopup
         width: parent.width - 20
-        height: parent.height * 3 / 4
+        height: parent.height - 20
         focus: true
 
         FunctionMenu {

@@ -6,9 +6,9 @@ import org.symbolibre.keyboard 1.0
 GridView {
     id: grid
     anchors.rightMargin: 12
-    anchors.bottomMargin: 24
+    anchors.bottomMargin: 12
     anchors.leftMargin: 12
-    anchors.topMargin: 24
+    anchors.topMargin: 12
     anchors.fill: parent
 
     cellWidth: 74; cellHeight: 86
