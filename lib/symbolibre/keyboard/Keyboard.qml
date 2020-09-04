@@ -34,7 +34,7 @@ Rectangle {
 
         ModifierButton {
             id: shiftKey
-            textColor: "lightblue"
+            textColor: "#a0c0ff"
             key: SLKey.Shift
         }
         KeyButton {
@@ -81,7 +81,7 @@ Rectangle {
 
         ModifierButton {
             id: alphaKey
-            textColor: "red"
+            textColor: "#ff4040"
             key: SLKey.Alpha
         }
         KeyButton {

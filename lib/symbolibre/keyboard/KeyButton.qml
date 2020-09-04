@@ -8,7 +8,7 @@ Rectangle {
     property int mathKey
     property int progKey
     property int alphaKey
-    property color backgroundColor: "black"
+    property color backgroundColor: "#101010"
     readonly property bool alphaMode: keyboardRoot.alphaPressed && alphaKey
     readonly property bool progMode: progKey && !alphaMode && keyboardRoot.shiftPressed
     readonly property bool mathMode: !alphaMode && !progMode
@@ -24,6 +24,7 @@ Rectangle {
         text: mathKey ? SLKey.label(mathKey) : ""
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 2
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize:
             mathMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize
@@ -34,12 +35,12 @@ Rectangle {
 
     Text {
         id: progText
-        color: "lightblue"
+        color: "#a0c0ff"
         text: progKey ? SLKey.label(progKey) : ""
         anchors.left: parent.left
-        anchors.leftMargin: 2
+        anchors.leftMargin: 3
         anchors.top: parent.top
-        anchors.topMargin: 3
+        anchors.topMargin: 2
         font.pixelSize:
             progMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize
         Behavior on font.pixelSize {
@@ -49,7 +50,7 @@ Rectangle {
 
     Text {
         id: alphaText
-        color: "red"
+        color: "#ff4040"
         text: {
             alphaKey
                 ? ((keyboardRoot.shiftPressed && alphaMode)
@@ -60,7 +61,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 3
         anchors.right: parent.right
-        anchors.rightMargin: 2
+        anchors.rightMargin: 3
         horizontalAlignment: Text.AlignRight
         font.pixelSize:
             alphaMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize

@@ -6,7 +6,7 @@ Rectangle {
     id: root
 
     property int key
-    property color backgroundColor: "black"
+    property color backgroundColor: "#101010"
     property color textColor: "white"
     property bool pressed: false
 

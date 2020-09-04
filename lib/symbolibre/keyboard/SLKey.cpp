@@ -16,13 +16,13 @@ QString SLKey::text(int k)
         return "i";
 
     case Cos:
-        return "cos(";
+        return "cos";
 
     case Sin:
-        return "sin(";
+        return "sin";
 
     case Tan:
-        return "tan(";
+        return "tan";
 
     case Square:
         return "\u00B2";
@@ -31,10 +31,10 @@ QString SLKey::text(int k)
         return "\u221A";
 
     case LogE:
-        return "ln(";
+        return "ln";
 
     case Log10:
-        return "log(";
+        return "log";
 
     case Exp:
         return "e^";//"\u212F^";
@@ -55,10 +55,10 @@ QString SLKey::text(int k)
         return "while";
 
     case Input:
-        return "input(";
+        return "input";
 
     case Print:
-        return "print(";
+        return "print";
     }
 
     // ASCII
