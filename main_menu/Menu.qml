@@ -71,8 +71,10 @@ GridView {
             Keys.onReturnPressed: launch()
 
             function launch() {
-                if (modelData.applet)
+                if (modelData.applet) {
                     appletLoader.setSource("../" + modelData.applet);
+                    statusBar.label = modelData.name;
+                }
                 else if (!launcher.launch(modelData))
                     launchErrorDialog.open();
             }

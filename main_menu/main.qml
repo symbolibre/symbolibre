@@ -49,8 +49,9 @@ SLWindow {
         spacing: 0
 
         SLStatusBar {
-            Layout.fillWidth: true
             id: statusBar
+            Layout.fillWidth: true
+            label: qsTr("Symbolibre menu")
         }
 
         Item {
@@ -97,5 +98,6 @@ SLWindow {
 
     function reloadMenu() {
         appletLoader.source = "Menu.qml";
+        statusBar.label = qsTr("Symbolibre menu");
     }
 }
