@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalog>
+    <menu id="root" title="Python">
+        <entry title="if"/>
+        <entry title="else"/>
+        <entry title="for"/>
+        <entry title="while"/>
+        <entry title="input"/>
+        <entry title="print"/>
+    </menu>
+</catalog>

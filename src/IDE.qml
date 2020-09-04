@@ -4,11 +4,21 @@ import QtQuick.Layouts 1.12
 import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
+import org.symbolibre.catalog 1.0
 import org.symbolibre.editor 1.0
 import org.symbolibre.keyboard 1.0
 
 Item {
     // Edition
+
+    CatalogPopup {
+        id: catalog
+        width: parent.width - 1
+        height: parent.height - 1
+        anchors.centerIn: Overlay.overlay
+        catalogId: "python_fr"
+        callback: insertSnippet
+    }
 
     SourceEditor {
         id: document
@@ -230,29 +240,6 @@ Item {
     }
 
     Popup {
-        id: popupSnippets
-        anchors.centerIn: Overlay.overlay
-        width: 180
-
-        modal: true
-        focus: true
-
-        ComboBox {
-            id: snippselection
-            width: parent.width
-            focus: true
-            editable: false
-            model: SnippetsModel { snippets: document.snippets }
-            currentIndex: 1
-            textRole: qsTr("snippetKey")
-            Keys.onReturnPressed: {
-                textArea.cursorPosition = document.insertSnippet(currentText);
-                popupSnippets.close();
-            }
-        }
-    }
-
-    Popup {
         id: popupStart
         anchors.centerIn: Overlay.overlay
 
@@ -298,7 +285,8 @@ Item {
     Shortcut {
         sequence: "F1"
         onActivated: {
-            popupSnippets.open()
+            catalog.setMenu("root");
+            catalog.open();
         }
     }
 

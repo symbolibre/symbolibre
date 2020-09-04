@@ -11,8 +11,6 @@ public:
         Q_ASSERT(uri == QString("org.symbolibre.editor"));
         qmlRegisterType<SourceEditor>(uri, 1, 0, "SourceEditor");
         qmlRegisterType<LanguageData>(uri, 1, 0, "LanguageData");
-        qmlRegisterType<SnippetsModel>(uri, 1, 0, "SnippetsModel");
-        qRegisterMetaType<snippetMap_t>("snippetMap_t");
     }
 };
 

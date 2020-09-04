@@ -130,8 +130,6 @@ class SourceEditor: public QObject
     Q_PROPERTY(LanguageData *languageData
         READ languageData NOTIFY languageDataChanged)
 
-    Q_PROPERTY(snippetMap_t snippets READ snippets NOTIFY languageDataChanged)
-
 public:
     explicit SourceEditor(QWidget *parent = nullptr);
 
