@@ -1,6 +1,7 @@
 import QtQuick 2.12
 
 Rectangle {
+    id: key
     property alias text: t.text
     property var model
 
@@ -22,5 +23,10 @@ Rectangle {
         /* Alternative for bottom alignment:
         verticalAlignment: Text.AlignBottom
         bottomPadding: 1 */
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onPressed: key.parent.activated(model.action);
     }
 }

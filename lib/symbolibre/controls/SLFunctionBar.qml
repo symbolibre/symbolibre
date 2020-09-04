@@ -8,6 +8,9 @@ Row {
     property var barmodel: undefined
     property var defmodel: SLFunctionBarModel {}
 
+    // When a function key is clicked or touched
+    signal activated(var action)
+
     SLFunctionKey {
         model: (barmodel || defmodel).f1
     }

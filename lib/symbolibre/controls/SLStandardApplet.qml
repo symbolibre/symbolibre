@@ -61,4 +61,12 @@ Page {
         onActivated:
             if(functionBar.barmodel.f5.action) functionBar.barmodel.f5.action();
     }
+
+    // Also receive clicks on function keys
+    Connections {
+        target: functionBar
+        function onActivated(action) {
+            if(action) action();
+        }
+    }
 }
