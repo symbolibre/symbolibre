@@ -72,7 +72,7 @@ SourceEditor::SourceEditor(QWidget *parent)
 
     m_languageData = &m_languages.getLanguageFromName("Plain text");
 
-    m_repository.addCustomSearchPath(FileSystemSingleton::staticDataDir() + "/ide/syntax-files");
+    m_repository.addCustomSearchPath(Fs::staticDataDir() + "/ide/syntax-files");
 
     m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(this);
     const auto theme = m_repository.theme("Solarized Light");

@@ -23,5 +23,7 @@ install(TARGETS ideplugin
 install(FILES qmldir
     DESTINATION ${Symbolibre_QML_DIR}/org/symbolibre/editor)
 install(FILES ${ide_QML_SOURCES} DESTINATION ${Symbolibre_QML_DIR}/ide)
+
+install(FILES languages.json DESTINATION ${Symbolibre_DATA_DIR}/ide)
 install(DIRECTORY syntax-files DESTINATION ${Symbolibre_DATA_DIR}/ide)
 install(DIRECTORY catalog DESTINATION ${Symbolibre_DATA_DIR})

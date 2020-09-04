@@ -3,6 +3,8 @@
 #include <iostream>
 #include <QDebug>
 
+#include <symbolibre/util/FileSystemSingleton.hpp>
+
 LanguageData::LanguageData(QObject *parent) : QObject(parent)
 {
 
@@ -12,7 +14,7 @@ LanguagesModel::LanguagesModel()
 {
     QJsonObject json;
 
-    QFile loadFile("ide.conf");
+    QFile loadFile(Fs::staticDataDir() + "/ide/languages.json");
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open save file.");
