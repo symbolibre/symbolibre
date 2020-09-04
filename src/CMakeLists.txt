@@ -9,15 +9,18 @@ find_package(KF5SyntaxHighlighting REQUIRED)
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 14)
 
-set(ide_SOURCES main.cpp languagesmodel.cpp SourceEditor.cpp)
-set(ide_QML_SOURCES main.qml TextEditor.qml)
+set(ideplugin_SOURCES languagesmodel.cpp plugin.cpp SourceEditor.cpp)
+set(ide_QML_SOURCES main.qml IDE.qml)
 
-add_executable(symbolibre-ide ${ide_SOURCES})
-target_link_libraries(symbolibre-ide
+add_library(ideplugin SHARED ${ideplugin_SOURCES})
+target_link_libraries(ideplugin
     Symbolibre::Symbolibre
     KF5::SyntaxHighlighting
 )
 
-install(TARGETS symbolibre-ide DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS ideplugin
+    DESTINATION ${Symbolibre_QML_DIR}/org/symbolibre/editor)
+install(FILES qmldir
+    DESTINATION ${Symbolibre_QML_DIR}/org/symbolibre/editor)
 install(FILES ${ide_QML_SOURCES} DESTINATION ${Symbolibre_QML_DIR}/ide)
 install(DIRECTORY syntax-files DESTINATION ${Symbolibre_DATA_DIR}/ide)
