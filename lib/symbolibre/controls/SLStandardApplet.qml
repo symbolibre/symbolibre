@@ -7,17 +7,24 @@ Page {
     height: parent.height
     focus: true
 
-    footer: SLFunctionBar {
-        id: functionBar
+    footer: Rectangle {
         width: parent.width
+        height: functionBar.height
+        color: window.palette.mid
 
-        barmodel: {
-            var item = window.activeFocusItem;
-            while (item) {
-                if (item.functionBarModel) {
-                    return item.functionBarModel;
+        SLFunctionBar {
+            id: functionBar
+            width: 320
+            anchors.centerIn: parent
+
+            barmodel: {
+                var item = window.activeFocusItem;
+                while (item) {
+                    if (item.functionBarModel) {
+                        return item.functionBarModel;
+                    }
+                    item = item.parent;
                 }
-                item = item.parent;
             }
         }
     }
