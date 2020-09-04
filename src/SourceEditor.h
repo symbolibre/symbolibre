@@ -143,10 +143,8 @@ public:
 
     QString syntaxDefinitionName(void) const;
 
-    snippetMap_t snippets();
-
     /** Insert a snippet at the current cursor position. **/
-    Q_INVOKABLE int insertSnippet(QString key);
+    Q_INVOKABLE int insertSnippet(QString snippet);
 
 public Q_SLOTS:
     /** Load a file into the editor. The previous file is discarded

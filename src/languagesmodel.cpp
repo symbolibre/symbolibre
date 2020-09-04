@@ -36,12 +36,6 @@ LanguagesModel::LanguagesModel()
             lang->name = langName;
             lang->command = language["cmd"].toString();
             lang->extension = language["extension"].toString();
-
-            auto snippets_dics = language["snippets"].toObject();
-
-            for (auto snipp : snippets_dics.keys())
-                lang->snippets[snipp] = snippets_dics[snipp].toString();
-
         }
     }
     if (!m_languages.contains("Plain text")) {

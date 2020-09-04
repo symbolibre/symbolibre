@@ -123,22 +123,16 @@ QString SourceEditor::filePath() const
     return m_filePath;
 }
 
-snippetMap_t SourceEditor::snippets()
-{
-    return m_languageData->snippets;
-}
-
-int SourceEditor::insertSnippet(QString key)
+int SourceEditor::insertSnippet(QString snippet)
 {
     /* TODO: If the selection is non-empty, it is correctly deleted but the
        TODO: cursor is placed after the snippet instead of in the middle. */
 
-    QString snipp = m_languageData->snippets[key];
     int old_position = m_cursorPosition;
-    int pos_in_snipp = snipp.indexOf("*");
-    snipp.remove("*");
+    int pos_in_snipp = snippet.indexOf("*");
+    snippet.remove("*");
 
-    textCursor().insertText(snipp);
+    textCursor().insertText(snippet);
     if (pos_in_snipp > -1)
         m_cursorPosition = old_position + pos_in_snipp;
 

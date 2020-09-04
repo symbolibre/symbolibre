@@ -28,7 +28,6 @@ public:
     QString name;
     QString extension;
     QString command;
-    QMap<QString, QString> snippets;
 };
 
 class LanguagesModel : public QObject
