@@ -43,9 +43,10 @@ RowLayout {
                 if (model.jump != "") {
                     listView.history.push(currentMenu);
                     currentMenu = model.jump;
-                }
-                if (model.insert != "") {
+                } else if (model.insert != "") {
                     entrySelected(model.insert);
+                } else {
+                    entrySelected(model.title);
                 }
             }
             function back() {
