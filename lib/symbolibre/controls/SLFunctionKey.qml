@@ -2,7 +2,6 @@ import QtQuick 2.12
 import org.symbolibre.style 1.0
 
 Rectangle {
-    id: key
     property alias text: t.text
     property var model
 
@@ -28,6 +27,6 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        onPressed: key.parent.activated(model.action);
+        onPressed: model.activated()
     }
 }

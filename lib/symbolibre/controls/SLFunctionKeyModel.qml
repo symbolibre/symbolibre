@@ -5,6 +5,6 @@ QtObject {
     property var text
     // Tab's background color (TODO: use an enumerated role)
     property var color
-    // Callback function
-    property var action
+    // Signal when activated by F* key or click
+    signal activated()
 }

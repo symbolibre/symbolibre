@@ -32,9 +32,7 @@ SLStandardApplet {
             property var functionBarModel: SLFunctionBarModel {
                 f5: SLFunctionKeyModel {
                     text: qsTr("Confirm")
-                    action: function() {
-                        windowRangePopup.close();
-                    }
+                    onActivated: windowRangePopup.close();
                 }
             }
         }
@@ -53,13 +51,11 @@ SLStandardApplet {
             property var functionBarModel: SLFunctionBarModel {
                 f4: SLFunctionKeyModel {
                     text: qsTr("Window")
-                    action: function() {
-                        windowRangePopup.open();
-                    }
+                    onActivated: windowRangePopup.open();
                 }
                 f5: SLFunctionKeyModel {
                     text: qsTr("Graph")
-                    action: function() {
+                    onActivated: {
                         stackLayout.currentIndex = 1;
                         stackLayout.children[1].forceActiveFocus();
                     }
@@ -128,13 +124,11 @@ SLStandardApplet {
             property var functionBarModel: SLFunctionBarModel {
                 f4: SLFunctionKeyModel {
                     text: qsTr("Window")
-                    action: function() {
-                        windowRangePopup.open();
-                    }
+                    onActivated: windowRangePopup.open();
                 }
                 f5: SLFunctionKeyModel {
                     text: qsTr("Function\ninput")
-                    action: function() {
+                    onActivated: function() {
                         stackLayout.currentIndex = 0;
                         stackLayout.children[0].forceActiveFocus();
                     }
