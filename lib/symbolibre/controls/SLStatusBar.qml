@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import org.symbolibre.style 1.0
 
 Rectangle {
     width: parent.width
@@ -10,7 +11,7 @@ Rectangle {
 
     Row {
         Text {
-            font.pixelSize: 13
+            font.pixelSize: SLStyle.defaultPixelSize
             font.bold: true
             text: label
 

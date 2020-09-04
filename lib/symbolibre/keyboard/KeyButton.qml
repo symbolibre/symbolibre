@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.style 1.0
 
 Rectangle {
     id: root
@@ -24,7 +25,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: mathMode ? 14 : 10
+        font.pixelSize:
+            mathMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize
         Behavior on font.pixelSize {
             NumberAnimation { duration: 200 }
         }
@@ -38,7 +40,8 @@ Rectangle {
         anchors.leftMargin: 2
         anchors.top: parent.top
         anchors.topMargin: 3
-        font.pixelSize: progMode ? 14 : 10
+        font.pixelSize:
+            progMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize
         Behavior on font.pixelSize {
             NumberAnimation { duration: 200 }
         }
@@ -59,7 +62,8 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 2
         horizontalAlignment: Text.AlignRight
-        font.pixelSize: alphaMode ? 14 : 10
+        font.pixelSize:
+            alphaMode ? SLStyle.defaultPixelSize : SLStyle.smallPixelSize
         Behavior on font.pixelSize {
             NumberAnimation { duration: 200 }
         }

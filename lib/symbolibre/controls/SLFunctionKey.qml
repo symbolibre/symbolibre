@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import org.symbolibre.style 1.0
 
 Rectangle {
     id: key
@@ -12,7 +13,7 @@ Rectangle {
     Text {
         id: t
         anchors.fill: parent
-        font.pixelSize: 10
+        font.pixelSize: SLStyle.smallPixelSize
 
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

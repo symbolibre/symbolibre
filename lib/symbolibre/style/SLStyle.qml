@@ -2,5 +2,7 @@ import QtQuick 2.12
 pragma Singleton
 
 QtObject {
-    property int defaultPixelSize: 11
+    property int largePixelSize: 14
+    property int defaultPixelSize: 12
+    property int smallPixelSize: 10
 }

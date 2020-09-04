@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.style 1.0
 
 Rectangle {
     id: root
@@ -20,7 +21,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 13
+        font.pixelSize: SLStyle.largePixelSize
     }
 
     TapHandler {
