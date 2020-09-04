@@ -21,4 +21,6 @@ public:
     Q_INVOKABLE static QString readWriteDataDir();
 };
 
+using Fs = FileSystemSingleton;
+
 #endif // FILESYSTEMSINGLETON_HPP

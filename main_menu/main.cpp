@@ -15,8 +15,6 @@
 
 int main(int argc, char *argv[])
 {
-    using Fs = FileSystemSingleton;
-
     QApplication app(argc, argv);
     auto font(app.font());
     font.setPixelSize(12);

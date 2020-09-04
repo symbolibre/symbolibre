@@ -18,7 +18,7 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
 {
-    QDir appsDir(FileSystemSingleton::staticDataDir() + "/applications");
+    QDir appsDir(Fs::staticDataDir() + "/applications");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
 
     for(int i = 0; i < apps.size(); i++) {

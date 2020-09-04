@@ -12,8 +12,6 @@
 
 int symbolibreMain(int argc, char *argv[], QString componentPath)
 {
-    using Fs = FileSystemSingleton;
-
     QApplication app(argc, argv);
     auto font(app.font());
     font.setPixelSize(13);
