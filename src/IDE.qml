@@ -5,6 +5,7 @@ import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
 import org.symbolibre.editor 1.0
+import org.symbolibre.keyboard 1.0
 
 Item {
     // Edition
@@ -106,6 +107,33 @@ Item {
             font.family: "Deja Vu Sans Mono"
             font.pixelSize: document.fontSize
             font.hintingPreference: Font.PreferFullHinting
+
+            Keys.onPressed: {
+                switch (event.key) {
+                    case SLKey.If:
+                        insertSnippet("if");
+                        break;
+                    case SLKey.Else:
+                        insertSnippet("else");
+                        break;
+                    case SLKey.For:
+                        insertSnippet("for");
+                        break;
+                    case SLKey.While:
+                        insertSnippet("while");
+                        break;
+                    case SLKey.Input:
+                        insertSnippet("input");
+                        break;
+                    case SLKey.Print:
+                        insertSnippet("print");
+                        break;
+
+                    default:
+                        return;
+                }
+                event.accepted = true;
+            }
         }
 
         ScrollBar.vertical: vertScrollBar
@@ -288,34 +316,12 @@ Item {
     }
 
     Shortcut {
-        sequence: "F5"
-        onActivated: textArea.cursorPosition = document.insertSnippet("if")
-    }
-    Shortcut {
-        sequence: "Shift+F5"
-        onActivated: textArea.cursorPosition = document.insertSnippet("else")
-    }
-
-    Shortcut {
-        sequence: "F6"
-        onActivated: textArea.cursorPosition = document.insertSnippet("for")
-    }
-    Shortcut {
-        sequence: "Shift+F6"
-        onActivated: textArea.cursorPosition = document.insertSnippet("while")
-    }
-
-    Shortcut {
-        sequence: "F7"
-        onActivated: textArea.cursorPosition = document.insertSnippet("print")
-    }
-    Shortcut {
-        sequence: "Shift+F7"
-        onActivated: textArea.cursorPosition = document.insertSnippet("input")
-    }
-
-    Shortcut {
         sequence: "Shift+Backspace"
         onActivated: textArea.undo()
     }
+
+    function insertSnippet(key) {
+        textArea.cursorPosition = document.insertSnippet(key);
+    }
+
 }
