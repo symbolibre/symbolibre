@@ -19,10 +19,12 @@ SLStandardApplet {
         catalog.open();
     }
 
-    SLPopup {
+    Popup {
         id: windowRangePopup
         width: parent.width - 20
         height: parent.height - 20
+        anchors.centerIn: Overlay.overlay
+        modal: true
         focus: true
 
         FunctionMenu {

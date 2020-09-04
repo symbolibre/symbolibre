@@ -3,7 +3,6 @@ set(controls_QML_SOURCES
     SLFunctionKey.qml
     SLFunctionBarModel.qml
     SLFunctionKeyModel.qml
-    SLPopup.qml
     SLStackLayout.qml
     SLStandardApplet.qml
     SLStatusBar.qml

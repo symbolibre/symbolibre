@@ -3,7 +3,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import org.symbolibre.controls 1.0
 
-SLPopup {
+Popup {
     id: popup
     modal: true
     focus: true
