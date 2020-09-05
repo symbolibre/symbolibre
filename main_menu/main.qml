@@ -16,10 +16,19 @@ SLWindow {
     // one of its subcomponents; this way, the status bar and keyboard are not
     // covered when opening popups.
     overlay.parent: appletLoader.item.overlayParent || appletLoader
-    // The overlay is normally resized with the window. Mentioning window size
-    // here reevaluates the binding during resize and forces the overlay height
-    // to be that of its parent.
-    overlay.height: 0*window.width + 0*window.height + overlay.parent.height
+    overlay.height: overlay.parent.height
+
+    // The overlay is automatically resized with the window, so monitor changes
+    // to make sure we always override this behavior
+    Connections {
+        target: overlay
+        function onHeightChanged(height) {
+            overlay.height = overlay.parent.height;
+        }
+        function onParentChanged(parent) {
+            overlay.height = overlay.parent.height;
+        }
+    }
 
     MathContext {
         id: math
