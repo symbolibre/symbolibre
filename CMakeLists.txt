@@ -21,6 +21,7 @@ if(BUILD_TESTING AND NOT(${Qt5Test_FOUND}))
 endif()
 
 set(DEV_BUILD OFF CACHE BOOL "Developer build")
+set(BUILD_APPS ON CACHE BOOL "Build Symbolibre applications")
 set(USE_CUSTOM_QML_PATH ON CACHE BOOL
     "Install QML modules in a Symbolibre-specific location")
 set(SET_RPATH ${DEV_BUILD} CACHE BOOL
@@ -92,7 +93,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/lib)
 add_subdirectory(theme)
 add_subdirectory(lib)
 add_subdirectory(main_menu)
-add_subdirectory(apps)
+if(BUILD_APPS)
+    # signal the applications that they do not need to find_package(Symbolibre)
+    set(SYMBOLIBRE_BUILD True)
+    # set variables just like SymbolibreConfig
+    set(Symbolibre_QML_DIR ${SL_QML_INSTALL_DIR})
+    set(Symbolibre_DATA_DIR ${SL_DATA_INSTALL_DIR})
+
+    add_subdirectory(apps)
+endif()
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

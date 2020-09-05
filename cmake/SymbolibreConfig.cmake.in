@@ -18,9 +18,8 @@ set(Symbolibre_LIBRARIES Symbolibre::Symbolibre)
 set_and_check(Symbolibre_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
 
 set(Symbolibre_CUSTOM_QML_PATH @USE_CUSTOM_QML_PATH@)
-if(Symbolibre_CUSTOM_QML_PATH)
-    set_and_check(Symbolibre_QML_DIR "@PACKAGE_SL_QML_INSTALL_DIR@")
-endif()
+# may be an absolute path if CUSTOM_QML_PATH is off
+set_and_check(Symbolibre_QML_DIR "@PACKAGE_SL_QML_INSTALL_DIR@")
 set_and_check(Symbolibre_DATA_DIR "@PACKAGE_SL_DATA_INSTALL_DIR@")
 
 check_required_components(Symbolibre)
