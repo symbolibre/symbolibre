@@ -53,9 +53,11 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QQuickTextDocument>
+#include <QTemporaryFile>
 #include <QTextCharFormat>
 #include <QTextDocument>
 #include <QDebug>
+#include <qtermwidget5/qtermwidget.h>
 
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
@@ -141,21 +143,26 @@ int SourceEditor::insertSnippet(QString snippet)
 
 void SourceEditor::execute()
 {
-    /* TODO: Save the file to execute somewhere else (or pipe it) */
-    QFile tempfile("temp");
-    if (!tempfile.open(QFile::ReadWrite | QFile::Truncate | QFile::Text))
-           return;
+    // We create a Qt Widgets window for the terminal
+    // FIXME we should set an appropriate font
+    auto *term = new QTermWidget(false, nullptr);
+    connect(term, &QTermWidget::finished, term, &QTermWidget::close);
+    term->setAttribute(Qt::WA_DeleteOnClose);
+    term->resize(320, 222);
+    term->setScrollBarPosition(QTermWidget::NoScrollBar);
 
-    QTextStream out(&tempfile);
-    out << textDocument()->toPlainText();
-    tempfile.close();
+    auto *tempFile = new QTemporaryFile("symbolibre-ide", term);
+    if (!tempFile->open())
+       return;
+    QTextStream out(tempFile);
+    out << textDocument()->toRawText();
+    tempFile->close();
 
-    QString cmd = m_languageData->command;
-    QString file = m_filePath;
-    QStringList args;
-    args << cmd << "./temp";
+    term->setShellProgram(m_languageData->command);
+    term->setArgs(QStringList() << tempFile->fileName());
+    term->startShellProgram();
 
-    m_process.start("./term/term", args);
+    term->show();
 }
 
 void SourceEditor::load(const QString &filePath)

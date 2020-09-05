@@ -57,7 +57,6 @@
 #include <QTextDocument>
 #include <QQuickTextDocument>
 #include <QPlainTextEdit>
-#include <QProcess>
 
 #include <syntaxhighlighter.h>
 #include <repository.h>
@@ -198,8 +197,6 @@ private:
     /* Highlighting context */
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
-
-    QProcess m_process;
 };
 
 #endif /* SOURCEEDITOR_H */
