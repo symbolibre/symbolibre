@@ -29,6 +29,12 @@ SLWindow {
             overlay.height = overlay.parent.height;
         }
     }
+    Connections {
+        target: window
+        function onHeightChanged(height) {
+            overlay.height = overlay.parent.height;
+        }
+    }
 
     MathContext {
         id: math
