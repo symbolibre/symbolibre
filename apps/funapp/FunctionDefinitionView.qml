@@ -11,7 +11,7 @@ FocusScope {
         Component.onCompleted: {
             var data = Fs.readFile(Fs.readWriteDataDir() + "/functions.json");
             if (!data)
-                data = Fs.readFile(":/functions_default.json");
+                data = Fs.readFile(Fs.qmlDir() + "/funapp/functions_default.json");
             var json = JSON.parse(data);
             for (var item of json.functions) {
                 item.expr = JSON.stringify(item.expr);

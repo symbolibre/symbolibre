@@ -7,6 +7,7 @@ set(funapp_QML_SOURCES
     GraphInterface.qml
     main.qml
 )
+set(funapp_DATA functions_default.json)
 
 add_executable(symbolibre-funapp ${funapp_SOURCES})
 target_link_libraries(symbolibre-funapp
@@ -14,4 +15,4 @@ target_link_libraries(symbolibre-funapp
     ${QT_DEPS}
 )
 install(TARGETS symbolibre-funapp DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES ${funapp_QML_SOURCES} DESTINATION ${SL_QML_INSTALL_DIR}/funapp)
+install(FILES ${funapp_QML_SOURCES} ${funapp_DATA} DESTINATION ${SL_QML_INSTALL_DIR}/funapp)
