@@ -82,9 +82,8 @@ SLWindow {
                 source: "Menu.qml"
                 onStatusChanged: {
                     if (status == Loader.Error || status == Loader.Null) {
-                        console.log("unable to load QML applet");
+                        window.showError(qsTr("Unable to start the QML applet"));
                         reloadMenu();
-                        launchErrorDialog.open();
                     }
                 }
             }

@@ -24,18 +24,6 @@ GridView {
     // we intercept the home key here so that it does not open the dialog to back to the menu
     Keys.onPressed: if (event.key == SLKey.Home) event.accepted = true
 
-    Dialog {
-        id: launchErrorDialog
-        anchors.centerIn: parent
-        modal: true
-        focus: true
-        title: qsTr("Error")
-        standardButtons: Dialog.Ok
-        contentItem: Text {
-            text: qsTr("Unable to start the application")
-        }
-    }
-
     Component {
         id: buttonDelegate
         Item {
@@ -73,9 +61,9 @@ GridView {
                 if (modelData.applet) {
                     appletLoader.setSource("../" + modelData.applet);
                     statusBar.label = modelData.name;
+                } else if (!launcher.launch(modelData)) {
+                    window.showError(qsTr("Unable to start the application"));
                 }
-                else if (!launcher.launch(modelData))
-                    launchErrorDialog.open();
             }
         }
     }
