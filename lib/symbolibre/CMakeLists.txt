@@ -10,16 +10,12 @@ add_subdirectory(util)
 
 configure_file(config.hpp.in config.hpp)
 
-set(symbolibre_SOURCES
-    symbolibreMain.cpp
-)
 set(symbolibre_HEADERS
     editiontree.hpp
-    symbolibreMain.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
 )
 
-add_library(Symbolibre SHARED ${symbolibre_SOURCES})
+add_library(Symbolibre SHARED)
 target_link_libraries(Symbolibre
     PRIVATE keyboard cas editiontree util
     PUBLIC Giac::Giac ${QT_DEPS} Qt::QuickControls2 Qt::Widgets
