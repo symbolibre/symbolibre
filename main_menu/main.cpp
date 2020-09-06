@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     parser.addPositionalArgument("applet",
         QObject::tr("The applet to run (defaults to the main menu)"), "[applet]");
+    parser.addOption({"list-apps", QObject::tr("List the installed applications and exit")});
     parser.addOption({{"k","keyboard"}, QObject::tr("Show the virtual keyboard")});
     parser.addHelpOption();
     parser.process(app);
@@ -41,6 +42,13 @@ int main(int argc, char *argv[])
     VirtualKeyboardContext vk;
     vk.setActive(parser.isSet("keyboard"));
 
+    if (parser.isSet("list-apps")) {
+        for (auto *obj : launcher.apps()) {
+            auto *app = qobject_cast<AppItem *>(obj);
+            qInfo("%ls", qUtf16Printable(app->id));
+        }
+        return EXIT_SUCCESS;
+    }
     if (parser.positionalArguments().size() == 1) {
         QString appletId = parser.positionalArguments().front();
         const auto *app = launcher.app(appletId);
