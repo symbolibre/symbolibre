@@ -33,7 +33,9 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
         QJsonObject obj = doc.object();
 
         auto appData = new AppItem(this);
-        appData->id = apps[i];
+        appData->id = obj["id"].toString();
+        if (appData->id.isEmpty())
+            appData->id = apps[i];
         appData->name = obj["caption"].toString();
         appData->executable = obj["command"].toString().trimmed();
         appData->applet = obj["applet"].toString().trimmed();
@@ -50,6 +52,17 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
     }
 }
 
-bool AppLauncher::launch(AppItem *app) {
+const AppItem *AppLauncher::app(const QString &id) const
+{
+    for (auto obj : mAppsModel) {
+        auto app = qobject_cast<const AppItem *>(obj);
+        if (app->id == id)
+            return app;
+    }
+    return nullptr;
+}
+
+bool AppLauncher::launch(AppItem *app)
+{
     return QProcess::startDetached(app->executable, QStringList());
 }
