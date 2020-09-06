@@ -52,19 +52,10 @@ GridView {
 
             TapHandler {
                 onPressedChanged: if (pressed) grid.currentIndex = index
-                onTapped: launch()
+                onTapped: window.launch(modelData)
             }
 
-            Keys.onReturnPressed: launch()
-
-            function launch() {
-                if (modelData.applet) {
-                    appletLoader.setSource("../" + modelData.applet);
-                    statusBar.label = modelData.name;
-                } else if (!launcher.launch(modelData)) {
-                    window.showError(qsTr("Unable to start the application"));
-                }
-            }
+            Keys.onReturnPressed: window.launch(modelData)
         }
     }
 

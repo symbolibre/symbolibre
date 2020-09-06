@@ -12,6 +12,8 @@ SLWindow {
     height: 240 + (keyboard.active ? keyboardLoader.height : 0)
     title: qsTr("Symbolibre")
 
+    required property string initialApplet
+
     // Move the overlay from the top-level window to the loaded application or
     // one of its subcomponents; this way, the status bar and keyboard are not
     // covered when opening popups.
@@ -66,7 +68,7 @@ SLWindow {
         SLStatusBar {
             id: statusBar
             Layout.fillWidth: true
-            label: qsTr("Symbolibre menu")
+            label: "Symbolibre"
         }
 
         Item {
@@ -79,7 +81,7 @@ SLWindow {
                 id: appletLoader
                 anchors.fill: parent
                 focus: true
-                source: "Menu.qml"
+                source: window.initialApplet ? "../" + window.initialApplet : "Menu.qml"
                 onStatusChanged: {
                     if (status == Loader.Error || status == Loader.Null) {
                         window.showError(qsTr("Unable to start the QML applet"));
@@ -112,6 +114,15 @@ SLWindow {
 
     function reloadMenu() {
         appletLoader.source = "Menu.qml";
-        statusBar.label = qsTr("Symbolibre menu");
+        statusBar.label = "Symbolibre";
+    }
+
+    function launch(app) {
+        if (app.applet) {
+            appletLoader.setSource("../" + app.applet);
+            statusBar.label = app.name;
+        } else if (!launcher.launch(app)) {
+            window.showError(qsTr("Unable to start the application"));
+        }
     }
 }
