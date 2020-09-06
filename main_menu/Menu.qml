@@ -34,7 +34,6 @@ GridView {
         contentItem: Text {
             text: qsTr("Unable to start the application")
         }
-        onClosed: grid.focus = true
     }
 
     Component {
