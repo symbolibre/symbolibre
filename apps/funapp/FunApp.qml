@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import org.symbolibre.applet 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.catalog 1.0
 
@@ -31,11 +32,9 @@ SLStandardApplet {
             id: menu
             anchors.fill: parent
             focus: true
-            property var functionBarModel: SLFunctionBarModel {
-                f5: SLFunctionKeyModel {
-                    text: qsTr("Confirm")
-                    onActivated: windowRangePopup.close();
-                }
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Confirm")
+                onActivated: windowRangePopup.close()
             }
         }
     }
@@ -50,17 +49,15 @@ SLStandardApplet {
             id: def
             focus: true
 
-            property var functionBarModel: SLFunctionBarModel {
-                f4: SLFunctionKeyModel {
-                    text: qsTr("Window")
-                    onActivated: windowRangePopup.open();
-                }
-                f5: SLFunctionKeyModel {
-                    text: qsTr("Graph")
-                    onActivated: {
-                        stackLayout.currentIndex = 1;
-                        stackLayout.children[1].forceActiveFocus();
-                    }
+            FunctionBar.f4: FunctionKeyModel {
+                text: qsTr("Window")
+                onActivated: windowRangePopup.open()
+            }
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Graph")
+                onActivated: {
+                    stackLayout.currentIndex = 1;
+                    stackLayout.children[1].forceActiveFocus();
                 }
             }
         }
@@ -123,17 +120,15 @@ SLStandardApplet {
                 text: "Y = " + String(graph.cursorPos.y.toPrecision(4))
             }
 
-            property var functionBarModel: SLFunctionBarModel {
-                f4: SLFunctionKeyModel {
-                    text: qsTr("Window")
-                    onActivated: windowRangePopup.open();
-                }
-                f5: SLFunctionKeyModel {
-                    text: qsTr("Function\ninput")
-                    onActivated: function() {
-                        stackLayout.currentIndex = 0;
-                        stackLayout.children[0].forceActiveFocus();
-                    }
+            FunctionBar.f4: FunctionKeyModel {
+                text: qsTr("Window")
+                onActivated: windowRangePopup.open();
+            }
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Function\ninput")
+                onActivated: {
+                    stackLayout.currentIndex = 0;
+                    stackLayout.children[0].forceActiveFocus();
                 }
             }
         }

@@ -11,6 +11,7 @@
 #include <symbolibre/config.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
 #include <symbolibre/util/FileSystemSingleton.hpp>
+#include <symbolibre/applet/FunctionBarAttached.hpp>
 
 #include "AppLauncher.hpp"
 

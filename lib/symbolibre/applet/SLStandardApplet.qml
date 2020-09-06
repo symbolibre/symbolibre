@@ -1,11 +1,19 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
+import org.symbolibre.applet 1.0
+
 Page {
-    property alias functionBar: functionBar
+    id: root
     property var overlayParent: coveringItem
     height: parent.height
     focus: true
+    property var w: window
+
+    AppletHelper {
+        id: appletHelper
+        window: root.w
+    }
 
     footer: Rectangle {
         width: parent.width
@@ -14,18 +22,8 @@ Page {
 
         SLFunctionBar {
             id: functionBar
-            width: 320
             anchors.centerIn: parent
-
-            barmodel: {
-                var item = window.activeFocusItem;
-                while (item) {
-                    if (item.functionBarModel) {
-                        return item.functionBarModel;
-                    }
-                    item = item.parent;
-                }
-            }
+            barModel: appletHelper.functionBarModel
         }
     }
 
@@ -41,26 +39,26 @@ Page {
     Shortcut {
         sequence: "F1"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barmodel.f1.activated()
+        onActivated: functionBar.barModel.f1.activated()
     }
     Shortcut {
         sequence: "F2"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barmodel.f2.activated()
+        onActivated: functionBar.barModel.f2.activated()
     }
     Shortcut {
         sequence: "F3"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barmodel.f3.activated()
+        onActivated: functionBar.barModel.f3.activated()
     }
     Shortcut {
         sequence: "F4"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barmodel.f4.activated()
+        onActivated: functionBar.barModel.f4.activated()
     }
     Shortcut {
         sequence: "F5"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barmodel.f5.activated()
+        onActivated: functionBar.barModel.f5.activated()
     }
 }

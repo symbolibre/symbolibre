@@ -1,3 +1,4 @@
+add_subdirectory(applet)
 add_subdirectory(cas)
 add_subdirectory(catalog)
 add_subdirectory(controls)
@@ -17,7 +18,7 @@ set(symbolibre_HEADERS
 
 add_library(Symbolibre SHARED)
 target_link_libraries(Symbolibre
-    PRIVATE keyboard cas editiontree util
+    PRIVATE applet keyboard cas editiontree util
     PUBLIC Giac::Giac ${QT_DEPS} Qt::QuickControls2 Qt::Widgets
 )
 target_include_directories(Symbolibre INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
