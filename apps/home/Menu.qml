@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.util 1.0
 
 GridView {
     id: grid
@@ -32,7 +33,7 @@ GridView {
                 anchors.fill: parent
                 Image {
                     id: image
-                    source: modelData.iconPath
+                    source: Fs.staticDataDir() + "/icons/" + (modelData.iconPath || "symbolibre.png")
                     anchors.horizontalCenter: parent.horizontalCenter
                     width:  48
                     height: width

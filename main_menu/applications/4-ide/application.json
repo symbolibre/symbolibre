@@ -1,6 +1,0 @@
-{
-    "id": "ide",
-    "applet": "ide/IDE.qml",
-    "caption": "IDE",
-    "icon": "../../icons/ide.png"
-}

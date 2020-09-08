@@ -18,10 +18,14 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
 {
-    QDir appsDir(Fs::staticDataDir() + "/applications");
+    QDir appsDir(Fs::staticDataDir() + "/apps");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
 
     for(int i = 0; i < apps.size(); i++) {
+
+        // TODO a 'hidden' boolean in the json would be more flexible
+        if (apps[i] == "home")
+            continue;
 
         QFile file(appsDir.absoluteFilePath(apps[i] + "/application.json"));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -39,13 +43,7 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
         appData->name = obj["caption"].toString();
         appData->executable = obj["command"].toString().trimmed();
         appData->applet = obj["applet"].toString().trimmed();
-        QString icon = obj["icon"].toString().trimmed();
-        appData->iconPath = appsDir.absoluteFilePath(apps[i] + "/icon.png");
-        if (QDir::isAbsolutePath(icon)) {
-            appData->iconPath = icon;
-        } else {
-            appData->iconPath = appsDir.absoluteFilePath(apps[i] + "/" + icon);
-        }
+        appData->iconPath = obj["icon"].toString().trimmed();
         mAppsModel.append(appData);
 
         file.close();

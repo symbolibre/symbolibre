@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("keyboard", &vk);
 
 
-    QQmlComponent component(&engine, QUrl::fromLocalFile(Fs::qmlDir() + "/menu/main.qml"));
+    QQmlComponent component(&engine, QUrl::fromLocalFile(Fs::qmlDir() + "/shell/main.qml"));
     if (component.status() != QQmlComponent::Ready) {
         qCritical() << component.errors();
         return 1;

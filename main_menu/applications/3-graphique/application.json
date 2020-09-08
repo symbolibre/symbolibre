@@ -1,6 +1,0 @@
-{
-    "id": "funapp",
-    "applet": "funapp/FunApp.qml",
-    "caption": "Graphique",
-    "icon": "../../icons/graphique.png"
-}

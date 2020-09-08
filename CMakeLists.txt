@@ -27,9 +27,13 @@ set(USE_CUSTOM_QML_PATH ON CACHE BOOL
 set(SET_RPATH ${DEV_BUILD} CACHE BOOL
     "Set the RPATH of the applications to the install path of libSymbolibre")
 
+# signal the applications that they do not need to find_package(Symbolibre)
+set(SYMBOLIBRE_BUILD True)
+
 set(SL_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/symbolibre)
 set(SL_DATA_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/symbolibre)
 set(SL_THEME_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/symbolibre/theme)
+set(SL_APPLETS_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/symbolibre/apps)
 
 if(USE_CUSTOM_QML_PATH)
     set(SL_QML_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/symbolibre/qml)
@@ -85,6 +89,11 @@ if(DEV_BUILD)
     endif()
 endif()
 
+# set variables just like SymbolibreConfig
+set(Symbolibre_QML_DIR ${SL_QML_INSTALL_DIR})
+set(Symbolibre_DATA_DIR ${SL_DATA_INSTALL_DIR})
+set(Symbolibre_APPLETS_DIR ${SL_APPLETS_INSTALL_DIR})
+
 feature_summary(WHAT ALL)
 
 include_directories(lib)
@@ -92,19 +101,14 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 add_subdirectory(theme)
 add_subdirectory(lib)
-add_subdirectory(main_menu)
-if(BUILD_APPS)
-    # signal the applications that they do not need to find_package(Symbolibre)
-    set(SYMBOLIBRE_BUILD True)
-    # set variables just like SymbolibreConfig
-    set(Symbolibre_QML_DIR ${SL_QML_INSTALL_DIR})
-    set(Symbolibre_DATA_DIR ${SL_DATA_INSTALL_DIR})
+add_subdirectory(shell)
 
-    add_subdirectory(apps)
-endif()
+add_subdirectory(apps)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
 add_subdirectory(cmake)
+
+install(DIRECTORY icons DESTINATION ${SL_DATA_INSTALL_DIR})

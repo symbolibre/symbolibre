@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 import org.symbolibre.cas 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.util 1.0
 
 SLWindow {
     id: window
@@ -13,6 +14,7 @@ SLWindow {
     title: qsTr("Symbolibre")
 
     required property string initialApplet
+    readonly property string appsDir: Fs.staticDataDir() + "/apps"
 
     // Move the overlay from the top-level window to the loaded application or
     // one of its subcomponents; this way, the status bar and keyboard are not
@@ -81,7 +83,7 @@ SLWindow {
                 id: appletLoader
                 anchors.fill: parent
                 focus: true
-                source: window.initialApplet ? "../" + window.initialApplet : "Menu.qml"
+                source: appsDir + "/" + (window.initialApplet || "home/Menu.qml")
                 onStatusChanged: {
                     if (status == Loader.Error || status == Loader.Null) {
                         reloadMenu();
@@ -113,13 +115,13 @@ SLWindow {
     }
 
     function reloadMenu() {
-        appletLoader.source = "Menu.qml";
+        appletLoader.source = appsDir + "/home/Menu.qml";
         statusBar.label = "Symbolibre";
     }
 
     function launch(app) {
         if (app.applet) {
-            appletLoader.setSource("../" + app.applet);
+            appletLoader.setSource(appsDir + "/" + app.applet);
             statusBar.label = app.name;
         } else if (!launcher.launch(app)) {
             window.showError(qsTr("Unable to start the application"));

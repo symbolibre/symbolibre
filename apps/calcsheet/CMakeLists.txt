@@ -13,4 +13,5 @@ set(calcsheet_QML_SOURCES
     HistoryDelegate.qml
 )
 
-install(FILES ${calcsheet_QML_SOURCES} DESTINATION ${Symbolibre_QML_DIR}/calcsheet)
+install(FILES application.json ${calcsheet_QML_SOURCES}
+    DESTINATION ${Symbolibre_APPLETS_DIR}/calcsheet)

@@ -2,5 +2,5 @@
     "id": "calcsheet",
     "applet": "calcsheet/CalcSheet.qml",
     "caption": "Calcul",
-    "icon": "../../icons/calcul.png"
+    "icon": "calcul.png"
 }

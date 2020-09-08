@@ -1,0 +1,1 @@
+install(FILES Menu.qml DESTINATION ${SL_APPLETS_INSTALL_DIR}/home)

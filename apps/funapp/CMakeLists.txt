@@ -17,5 +17,6 @@ set(funapp_QML_SOURCES
 )
 set(funapp_DATA functions_default.json)
 
-install(FILES ${funapp_QML_SOURCES} DESTINATION ${Symbolibre_QML_DIR}/funapp)
+install(FILES application.json ${funapp_QML_SOURCES}
+    DESTINATION ${Symbolibre_APPLETS_DIR}/funapp)
 install(FILES ${funapp_DATA} DESTINATION ${Symbolibre_DATA_DIR}/funapp)

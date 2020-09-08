@@ -1,6 +1,0 @@
-{
-    "id": "settings",
-    "command": "symbolibre-config",
-    "caption": "Paramètres",
-    "icon": "../../icons/parametres.png"
-}
