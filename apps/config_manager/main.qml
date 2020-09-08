@@ -16,7 +16,7 @@ Window {
     minimumHeight: height
     minimumWidth: width
 
-    title: qsTr("Paramètres")
+    title: qsTr("Settings")
 
     ColumnLayout {
         id: column

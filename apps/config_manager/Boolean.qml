@@ -15,7 +15,7 @@ Row {
         id: onoff
         width: 160
         height: 32
-        text: qsTr("")
+        text: ""
     }
 
     Keys.onLeftPressed: {
