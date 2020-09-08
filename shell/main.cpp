@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QFont>
+#include <QPalette>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlComponent>
@@ -34,6 +35,23 @@ int main(int argc, char *argv[])
     font.setHintingPreference(QFont::PreferFullHinting);
     font.setStyleStrategy(QFont::NoSubpixelAntialias);
     app.setFont(font);
+
+    QPalette palette;
+    palette.setColor(QPalette::Window,          "white");
+    palette.setColor(QPalette::WindowText,      "black");
+    palette.setColor(QPalette::Base,            "white");
+    palette.setColor(QPalette::AlternateBase,   "lightgray");
+    palette.setColor(QPalette::Text,            "black");
+    palette.setColor(QPalette::ButtonText,      "white");
+    palette.setColor(QPalette::BrightText,      "white");
+    palette.setColor(QPalette::Highlight,       "#4080c0");
+    palette.setColor(QPalette::HighlightedText, "white");
+    palette.setColor(QPalette::Button,          "#2b79b5");
+    palette.setColor(QPalette::Light,           "#0a67af");
+    palette.setColor(QPalette::Midlight,        "#4e8fc1");
+    palette.setColor(QPalette::Dark,            "#053d68");
+    palette.setColor(QPalette::Mid,             "#074e84");
+    app.setPalette(palette);
 
     QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
 
