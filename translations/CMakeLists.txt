@@ -1,4 +1,4 @@
-set(TRANSLATIONS )
+set(TRANSLATIONS fr)
 
 foreach(LANG ${TRANSLATIONS})
     set(TSFILE ${CMAKE_CURRENT_SOURCE_DIR}/symbolibre.${LANG}.ts)
