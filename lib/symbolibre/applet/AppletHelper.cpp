@@ -5,7 +5,7 @@
 
 #include "FunctionBarAttached.hpp"
 
-AppletHelper::AppletHelper() : QObject()
+AppletHelper::AppletHelper() : QObject(), m_functionBar(nullptr), m_window(nullptr)
 {
 
 }
