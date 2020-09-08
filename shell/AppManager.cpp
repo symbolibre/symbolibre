@@ -3,6 +3,7 @@
 #include <symbolibre/config.hpp>
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
@@ -16,7 +17,7 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 }
 
-AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel()
+AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_translator()
 {
     QDir appsDir(Fs::staticDataDir() + "/apps");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
@@ -60,7 +61,15 @@ const AppItem *AppManager::app(const QString &id) const
     return nullptr;
 }
 
-bool AppManager::launch(AppItem *app)
+void AppManager::loadAppletTranslation(AppItem *app)
+{
+    // QTranslator::load() discards the previous translation
+    if (m_translator.load(QLocale(),
+        Fs::staticDataDir() + "/apps/" + app->id + "/translations/" + app->id, "."))
+        QCoreApplication::installTranslator(&m_translator);
+}
+
+bool AppManager::execute(AppItem *app)
 {
     return QProcess::startDetached(app->executable, QStringList());
 }

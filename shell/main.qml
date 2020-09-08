@@ -123,6 +123,7 @@ SLWindow {
     function launch(app) {
         if (app.applet) {
             appletLoader.setSource(appsDir + "/" + app.applet);
+            appManager.loadAppletTranslation(app);
             statusBar.label = app.name;
         } else if (!appManager.launch(app)) {
             window.showError(qsTr("Unable to start the application"));

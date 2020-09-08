@@ -2,8 +2,7 @@
 #define SL_APPMANAGER_HPP
 
 #include <QObject>
-#include <QProcess>
-
+#include <QTranslator>
 
 class AppItem : public QObject
 {
@@ -34,10 +33,12 @@ public:
 
     const QList<QObject *> &apps() const { return mAppsModel; }
     const AppItem *app(const QString &id) const;
-    Q_INVOKABLE bool launch(AppItem *app);
+    Q_INVOKABLE void loadAppletTranslation(AppItem *app);
+    Q_INVOKABLE bool execute(AppItem *app);
 
 private:
     QList<QObject *> mAppsModel;
+    QTranslator m_translator;
 };
 
 #endif // SL_APPMANAGER_HPP
