@@ -82,12 +82,6 @@ SLWindow {
                 anchors.fill: parent
                 focus: true
                 source: window.initialApplet ? "../" + window.initialApplet : "Menu.qml"
-                onStatusChanged: {
-                    if (status == Loader.Error || status == Loader.Null) {
-                        window.showError(qsTr("Unable to start the QML applet"));
-                        reloadMenu();
-                    }
-                }
             }
 
             Keys.onPressed: {
@@ -117,10 +111,20 @@ SLWindow {
         statusBar.label = "Symbolibre";
     }
 
-    function launch(app) {
+    function launch(app, index) {
         if (app.applet) {
             appletLoader.setSource("../" + app.applet);
-            statusBar.label = app.name;
+
+            if(appletLoader.status == Loader.Ready) {
+                statusBar.label = app.name;
+            } else {
+                // Reload the menu (hence recreating the grid) and manually
+                // give focus to the newly-created item for the applet
+                reloadMenu();
+                appletLoader.item.currentIndex = index;
+                appletLoader.item.forceActiveFocus();
+                window.showError(qsTr("Unable to start the QML applet"));
+            }
         } else if (!launcher.launch(app)) {
             window.showError(qsTr("Unable to start the application"));
         }

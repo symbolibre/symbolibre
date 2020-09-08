@@ -52,10 +52,10 @@ GridView {
 
             TapHandler {
                 onPressedChanged: if (pressed) grid.currentIndex = index
-                onTapped: window.launch(modelData)
+                onTapped: window.launch(modelData, grid.currentIndex)
             }
 
-            Keys.onReturnPressed: window.launch(modelData)
+            Keys.onReturnPressed: window.launch(modelData, grid.currentIndex)
         }
     }
 
