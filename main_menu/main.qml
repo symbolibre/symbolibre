@@ -84,8 +84,8 @@ SLWindow {
                 source: window.initialApplet ? "../" + window.initialApplet : "Menu.qml"
                 onStatusChanged: {
                     if (status == Loader.Error || status == Loader.Null) {
-                        window.showError(qsTr("Unable to start the QML applet"));
                         reloadMenu();
+                        window.showError(qsTr("Unable to start the QML applet"));
                     }
                 }
             }
