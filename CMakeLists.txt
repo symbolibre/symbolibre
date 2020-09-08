@@ -12,7 +12,8 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick QuickControls2 Widgets OPTIONAL_COMPONENTS Test)
+find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick QuickControls2 Widgets
+    OPTIONAL_COMPONENTS LinguistTools Test)
 find_package(QCustomPlot REQUIRED)
 find_package(Giac REQUIRED)
 
@@ -112,3 +113,12 @@ endif()
 add_subdirectory(cmake)
 
 install(DIRECTORY icons DESTINATION ${SL_DATA_INSTALL_DIR})
+
+if(Qt5LinguistTools_FOUND)
+    # FIXME this should be an add_custom_command with the right deps
+    add_custom_target(translation
+        COMMAND $<TARGET_FILE:Qt5::lupdate> lib/ apps/ shell/
+            -ts ${CMAKE_CURRENT_BINARY_DIR}/symbolibre.ts
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_subdirectory(translations)
+endif()

@@ -8,6 +8,7 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QTranslator>
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/keyboard/VirtualKeyboardContext.hpp>
@@ -20,6 +21,9 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QApplication::setApplicationName("symbolibre");
+    QTranslator translator;
+    translator.load(QLocale(), Fs::staticDataDir() + "/translations/symbolibre", ".");
+    app.installTranslator(&translator);
 
     QCommandLineParser parser;
     parser.addPositionalArgument("applet",
