@@ -1,5 +1,5 @@
 set(shell_SOURCES
-    AppLauncher.cpp
+    AppManager.cpp
     main.cpp
 )
 set(shell_QML_SOURCES

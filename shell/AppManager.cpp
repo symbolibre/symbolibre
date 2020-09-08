@@ -1,4 +1,4 @@
-#include "AppLauncher.hpp"
+#include "AppManager.hpp"
 
 #include <symbolibre/config.hpp>
 #include <symbolibre/util/FileSystemSingleton.hpp>
@@ -16,7 +16,7 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 }
 
-AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
+AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel()
 {
     QDir appsDir(Fs::staticDataDir() + "/apps");
     QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
@@ -50,7 +50,7 @@ AppLauncher::AppLauncher(QObject *parent) : QObject(parent), mAppsModel()
     }
 }
 
-const AppItem *AppLauncher::app(const QString &id) const
+const AppItem *AppManager::app(const QString &id) const
 {
     for (auto obj : mAppsModel) {
         auto app = qobject_cast<const AppItem *>(obj);
@@ -60,7 +60,7 @@ const AppItem *AppLauncher::app(const QString &id) const
     return nullptr;
 }
 
-bool AppLauncher::launch(AppItem *app)
+bool AppManager::launch(AppItem *app)
 {
     return QProcess::startDetached(app->executable, QStringList());
 }

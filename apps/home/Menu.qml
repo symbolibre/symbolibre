@@ -14,7 +14,7 @@ GridView {
 
     cellWidth: 74; cellHeight: 86
 
-    model: launcher.appsModel
+    model: appManager.appsModel
     delegate: buttonDelegate
     highlight: highlightBar
     highlightFollowsCurrentItem: true

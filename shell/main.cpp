@@ -14,7 +14,7 @@
 #include <symbolibre/util/FileSystemSingleton.hpp>
 #include <symbolibre/applet/FunctionBarAttached.hpp>
 
-#include "AppLauncher.hpp"
+#include "AppManager.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -57,12 +57,12 @@ int main(int argc, char *argv[])
 
     QVariantMap initialProperties;
 
-    AppLauncher launcher;
+    AppManager appManager;
     VirtualKeyboardContext vk;
     vk.setActive(parser.isSet("keyboard"));
 
     if (parser.isSet("list-apps")) {
-        for (auto *obj : launcher.apps()) {
+        for (auto *obj : appManager.apps()) {
             auto *app = qobject_cast<AppItem *>(obj);
             qInfo("%ls", qUtf16Printable(app->id));
         }
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     }
     if (parser.positionalArguments().size() == 1) {
         QString appletId = parser.positionalArguments().front();
-        const auto *app = launcher.app(appletId);
+        const auto *app = appManager.app(appletId);
         if (!app) {
             qCritical() << QObject::tr("Unknown application %1").arg(appletId);
             return EXIT_FAILURE;
@@ -87,10 +87,11 @@ int main(int argc, char *argv[])
         initialProperties.insert("initialApplet", QVariant());
     }
 
+    initialProperties.insert("appManager", QVariant::fromValue(&appManager));
+
     QQmlEngine engine;
     engine.addImportPath(Fs::qmlDir());
     auto *context = new QQmlContext(engine.rootContext());
-    context->setContextProperty("launcher", &launcher);
     context->setContextProperty("keyboard", &vk);
 
 

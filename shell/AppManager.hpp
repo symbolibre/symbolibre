@@ -1,5 +1,5 @@
-#ifndef SL_MENU_APPLAUNCHER_HPP
-#define SL_MENU_APPLAUNCHER_HPP
+#ifndef SL_APPMANAGER_HPP
+#define SL_APPMANAGER_HPP
 
 #include <QObject>
 #include <QProcess>
@@ -24,13 +24,13 @@ public:
     QString iconPath;
 };
 
-class AppLauncher : public QObject
+class AppManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QObject*> appsModel MEMBER mAppsModel CONSTANT)
 
 public:
-    explicit AppLauncher(QObject *parent = nullptr);
+    explicit AppManager(QObject *parent = nullptr);
 
     const QList<QObject *> &apps() const { return mAppsModel; }
     const AppItem *app(const QString &id) const;
@@ -40,4 +40,4 @@ private:
     QList<QObject *> mAppsModel;
 };
 
-#endif // SL_MENU_APPLAUNCHER_HPP
+#endif // SL_APPMANAGER_HPP

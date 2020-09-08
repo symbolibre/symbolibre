@@ -13,6 +13,7 @@ SLWindow {
     height: 240 + (keyboard.active ? keyboardLoader.height : 0)
     title: qsTr("Symbolibre")
 
+    required property QtObject appManager
     required property string initialApplet
     readonly property string appsDir: Fs.staticDataDir() + "/apps"
 
@@ -123,7 +124,7 @@ SLWindow {
         if (app.applet) {
             appletLoader.setSource(appsDir + "/" + app.applet);
             statusBar.label = app.name;
-        } else if (!launcher.launch(app)) {
+        } else if (!appManager.launch(app)) {
             window.showError(qsTr("Unable to start the application"));
         }
     }
