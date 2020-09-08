@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     palette.setColor(QPalette::Text,            "black");
     palette.setColor(QPalette::ButtonText,      "white");
     palette.setColor(QPalette::BrightText,      "white");
-    palette.setColor(QPalette::Highlight,       "#4080c0");
+    palette.setColor(QPalette::Highlight,       "#80b0e0");
     palette.setColor(QPalette::HighlightedText, "white");
     palette.setColor(QPalette::Button,          "#2b79b5");
     palette.setColor(QPalette::Light,           "#0a67af");
