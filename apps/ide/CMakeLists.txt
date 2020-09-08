@@ -4,7 +4,10 @@ project(symbolibre-ide)
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Symbolibre 0.1 REQUIRED)
+if(NOT SYMBOLIBRE_BUILD)
+    find_package(Symbolibre 0.1 REQUIRED)
+endif()
+
 find_package(KF5SyntaxHighlighting REQUIRED)
 find_package(qtermwidget5 REQUIRED)
 
