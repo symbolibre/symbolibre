@@ -12,7 +12,7 @@ SLStandardApplet {
         width: parent.width - 20
         height: parent.height - 20
         anchors.centerIn: Overlay.overlay
-        catalogId: "math_fr"
+        catalogId: "math"
     }
     function openCatalog(callback) {
         catalog.setMenu("root");

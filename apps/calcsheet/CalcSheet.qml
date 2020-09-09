@@ -39,7 +39,7 @@ Item {
         anchors.centerIn: Overlay.overlay
         width: parent.width - 20
         height: parent.height - 20
-        catalogId: "math_fr"
+        catalogId: "math"
     }
     function openCatalog(callback) {
         catalog.setMenu("root");

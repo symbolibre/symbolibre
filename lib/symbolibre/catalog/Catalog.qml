@@ -8,8 +8,19 @@ RowLayout {
     id: root
     signal entrySelected(string entry)
     property string catalogId
+    property bool translatable: true
     property string currentMenu: "root"
     property alias keyNavigationWraps: listView.keyNavigationWraps
+
+    readonly property string translatedCatalogId: {
+        if (!translatable)
+            return catalogId;
+        for (const lang of Qt.locale().uiLanguages) {
+            if (Fs.fileExists(Fs.staticDataDir() + "/catalog/" + catalogId + "_" + lang + ".xml"))
+                return catalogId + "_" + lang;
+        }
+        return catalogId;
+    }
 
     function reset() {
         listView.history = []
@@ -26,7 +37,7 @@ RowLayout {
 
         model: XmlListModel {
             id: xmlModel
-            source: Fs.staticDataDir() + "/catalog/" + root.catalogId + ".xml"
+            source: Fs.staticDataDir() + "/catalog/" + root.translatedCatalogId + ".xml"
             query: "/catalog/menu[@id=\"" + currentMenu + "\"]/entry"
             XmlRole { name: "title"; query: "./@title/string()" }
             XmlRole { name: "doc"; query: "./@doc/string()" }
@@ -88,7 +99,8 @@ RowLayout {
         textFormat: TextEdit.RichText
 
         function getCatalogDoc(id) {
-            return Fs.readFile(Fs.staticDataDir() + "/catalog/" + root.catalogId + "/" + String(id) + ".html");
+            return Fs.readFile(Fs.staticDataDir() + "/catalog/" +
+                root.translatedCatalogId + "/" + String(id) + ".html");
         }
     }
 }
