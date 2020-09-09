@@ -34,7 +34,7 @@ set(editiontree_HEADERS
 
 add_library(editiontree OBJECT ${editiontree_SOURCES})
 target_link_libraries(editiontree
-    Giac::Giac
+    Giac
     ${QT_DEPS}
 )
 

@@ -18,13 +18,13 @@ if(Giac_FOUND)
     set(Giac_DEFINITIONS )
 endif()
 
-if(Giac_FOUND AND NOT TARGET Giac::Giac)
-    add_library(Giac::Giac UNKNOWN IMPORTED)
-    set_target_properties(Giac::Giac PROPERTIES
+if(Giac_FOUND AND NOT TARGET Giac)
+    add_library(Giac UNKNOWN IMPORTED)
+    set_target_properties(Giac PROPERTIES
         IMPORTED_LOCATION "${Giac_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${Giac_INCLUDE_DIR}"
     )
-    set_property(TARGET Giac::Giac
+    set_property(TARGET Giac
         PROPERTY INTERFACE_LINK_LIBRARIES
     )
 endif()

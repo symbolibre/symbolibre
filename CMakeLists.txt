@@ -48,6 +48,8 @@ else()
     if(QMAKE_QT_EXECUTABLE) # set by Qt Creator
         set(QMAKE_COMMAND ${QMAKE_QT_EXECUTABLE} CACHE STRING "qmake executable")
     else()
+        # FIXME we should use Qt5::qmake here, but it doesn't seem to work
+        # with execute_process
         set(QMAKE_COMMAND qmake CACHE STRING "qmake executable")
     endif()
     execute_process(COMMAND "${QMAKE_COMMAND}" -query QT_INSTALL_QML
@@ -117,7 +119,7 @@ install(DIRECTORY icons DESTINATION ${SL_DATA_INSTALL_DIR})
 if(Qt5LinguistTools_FOUND)
     # FIXME this should be an add_custom_command with the right deps
     add_custom_target(translation
-        COMMAND $<TARGET_FILE:Qt5::lupdate> lib/ apps/ shell/
+        COMMAND Qt5::lupdate lib/ apps/ shell/
             -ts ${CMAKE_CURRENT_BINARY_DIR}/symbolibre.ts
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(translations)

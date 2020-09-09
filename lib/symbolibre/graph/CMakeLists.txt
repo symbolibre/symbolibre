@@ -10,8 +10,8 @@ set(graphplugin_SOURCES
 
 add_library(graph OBJECT ${graph_SOURCES})
 target_link_libraries(graph
-    Giac::Giac
-    QCustomPlot::QCustomPlot
+    Giac
+    QCustomPlot
     ${QT_DEPS}
     Qt5::Widgets
 )

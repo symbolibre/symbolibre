@@ -27,13 +27,13 @@ if(QCustomPlot_FOUND)
     set(QCustomPlot_DEFINITIONS )
 endif()
 
-if(QCustomPlot_FOUND AND NOT TARGET QCustomPlot::QCustomPlot)
-    add_library(QCustomPlot::QCustomPlot UNKNOWN IMPORTED)
-    set_target_properties(QCustomPlot::QCustomPlot PROPERTIES
+if(QCustomPlot_FOUND AND NOT TARGET QCustomPlot)
+    add_library(QCustomPlot UNKNOWN IMPORTED)
+    set_target_properties(QCustomPlot PROPERTIES
         IMPORTED_LOCATION "${QCustomPlot_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${QCustomPlot_INCLUDE_DIR}"
     )
-    set_property(TARGET QCustomPlot::QCustomPlot
+    set_property(TARGET QCustomPlot
         PROPERTY INTERFACE_LINK_LIBRARIES ${QCustomPlot_deps}
     )
 endif()

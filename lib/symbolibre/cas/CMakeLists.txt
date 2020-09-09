@@ -9,7 +9,7 @@ set(cas_HEADERS
 )
 
 add_library(cas OBJECT ${cas_SOURCES})
-target_link_libraries(cas Giac::Giac ${QT_DEPS})
+target_link_libraries(cas Giac ${QT_DEPS})
 
 add_library(casplugin SHARED ${casplugin_SOURCES})
 target_link_libraries(casplugin Symbolibre::Symbolibre)
