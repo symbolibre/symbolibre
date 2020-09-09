@@ -8,6 +8,11 @@
 #include <QFile>
 #include <QStandardPaths>
 
+bool FileSystemSingleton::fileExists(const QString &path)
+{
+    return QFile::exists(path);
+}
+
 QString FileSystemSingleton::readFile(const QString &path)
 {
     QFile file(path);

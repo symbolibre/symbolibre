@@ -12,6 +12,7 @@ class FileSystemSingleton : public QObject
     QML_SINGLETON
 
 public:
+    Q_INVOKABLE static bool fileExists(const QString &path);
     Q_INVOKABLE static QString readFile(const QString &path);
     Q_INVOKABLE static void writeFile(const QString &path, const QString &content);
 
