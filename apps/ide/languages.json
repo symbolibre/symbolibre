@@ -1,0 +1,23 @@
+{
+"languages": [
+    {"name" : "Plain text", "cmd": "", "extension": ".txt"},
+    {"name" : "Python", "cmd": "python", "extension": ".py"},
+    {"name" : "Objective Caml", "cmd": "ocaml", "extension": ".ml",
+        "snippets": {
+            "while": "while * do\n\ndone;\n", 
+            "for": "for * do\n\ndone;\n",
+            "input": "read_int(*)",
+            "print": "print_string(*)",
+            "match": "match * with\n |.. -> ..\n",
+            "if": "else\n",
+            "let": "let * = .. in",
+            "let rec": "let rec * = .. in"
+            }
+    },
+    {"name" : "TI Basic", "cmd": "tibasic", "extension": ".tibs"},
+    {"name" : "Casio Basic", "cmd": "casiobasic", "extension": ".csbs"}
+
+]
+
+
+} 

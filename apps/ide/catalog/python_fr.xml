@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalog>
+    <menu id="root" title="Python">
+        <entry title="if">if *:
+</entry>
+        <entry title="else">else:
+</entry>
+        <entry title="for">for * in :
+</entry>
+        <entry title="while">while *:
+</entry>
+        <entry title="input">input(*)</entry>
+        <entry title="print">print(*)</entry>
+    </menu>
+</catalog>

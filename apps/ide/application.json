@@ -1,0 +1,5 @@
+{
+    "applet": "ide/IDE.qml",
+    "caption": "IDE",
+    "icon": "ide.png"
+}
