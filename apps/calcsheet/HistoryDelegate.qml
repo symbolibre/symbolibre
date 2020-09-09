@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.expr 1.0
 
 FocusScope {
     width: parent.width

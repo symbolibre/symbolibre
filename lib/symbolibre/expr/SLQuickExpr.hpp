@@ -74,6 +74,8 @@ signals:
 public slots:
     void insertJson(const QString &json);
 
+    bool dropCursorLeft();
+    bool dropCursorRight();
     bool moveCursorLeft();
     bool moveCursorRight();
     bool moveCursorUp();

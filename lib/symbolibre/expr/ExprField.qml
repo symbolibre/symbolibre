@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import org.symbolibre.applet 1.0
 import org.symbolibre.expr 1.0
+import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
 import "editiontree.js" as ET
 
@@ -20,6 +22,58 @@ FocusScope {
         json = JSON.stringify([""])
     }
 
+    Keys.onPressed: {
+        // TODO: Filter out exactly the keys unused by keyPressHandler()
+        var modifiers = [
+            Qt.Key_Shift, Qt.Key_Control, Qt.Key_Alt, Qt.Key_Meta,
+            Qt.Key_AltGr, Qt.Key_Super_L, Qt.Key_Super_R, Qt.Key_Menu ];
+        if (modifiers.includes(event.key)) return;
+
+        // Enter and Return are used to enter or leave the field
+        if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+            expr.focus = !expr.focus;
+            event.accepted = true;
+            return;
+        }
+
+        // Escape leaves the field
+        if (event.key === Qt.Key_Escape) {
+            expr.focus = false;
+            event.accepted = true;
+            return;
+        }
+
+        // Delete when field is unfocused clears it
+        if (event.key === Qt.Key_Delete && !expr.focus) {
+            expr.clear();
+            expr.focus = true;
+            event.accepted = true;
+            return;
+        }
+
+        // Left and right while the field is unfocused drop the cursor at the
+        // end or start. Any other key starts edition immediately at the end.
+        if (!expr.focus) {
+            expr.focus = true;
+
+            if (event.key === Qt.Key_Left) {
+                expr.dropCursorRight();
+            }
+            else if (event.key === Qt.Key_Right) {
+                expr.dropCursorLeft();
+            }
+            else {
+                expr.dropCursorRight();
+                expr.keyPressHandler(event);
+            }
+        }
+    }
+
+    // Stop editing whenever the ExprField loses focus
+    onActiveFocusChanged: {
+        expr.focus = false;
+    }
+
     Rectangle {
         id: rect
         anchors.fill: parent
@@ -29,13 +83,21 @@ FocusScope {
 
         Expr {
             id: expr
-            focus: true
+            focus: false
             x: parent.x + 2
             y: parent.y + 2
             width: parent.width - 4
             height: parent.height - 4
 
-            Keys.onPressed: {
+            FunctionBar.f1: FunctionKeyModel {
+                text: qsTr("Catalog")
+                onActivated: app.openCatalog(function (str) {
+                    expr.insertJson(str);
+                    expr.forceActiveFocus();
+                });
+            }
+
+            function keyPressHandler(event) {
                 function insert(data) {
                     insertJson(JSON.stringify(data))
                 }
@@ -45,10 +107,6 @@ FocusScope {
 
                 // Special keys
                 if (event.modifiers !== Qt.NoModifier && event.modifiers !== Qt.ShiftModifier)
-                    return;
-
-                // Enter, Return
-                if (event.text.includes("\n") || event.text.includes("\r"))
                     return;
 
                 if (event.key === Qt.Key_Backspace)   expr.deleteChar();
@@ -105,6 +163,13 @@ FocusScope {
                     return;
 
                 event.accepted = true;
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return ||
+                    event.key === Qt.Key_Escape) return;
+
+                keyPressHandler(event);
             }
         }
     }

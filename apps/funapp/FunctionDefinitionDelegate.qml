@@ -17,7 +17,7 @@ FocusScope {
         CheckBox {
             id: active
             checked: model.active
-            KeyNavigation.right: exprfield
+//            KeyNavigation.right: exprfield
             // FIXME is there a simpler/cleaner way to do this?
             Keys.onDownPressed: {
                 root.ListView.view.incrementCurrentIndex();
@@ -36,7 +36,7 @@ FocusScope {
             id: name
             text: model.name + "(x) = "
             color: model.color
-            KeyNavigation.right: exprfield
+//            KeyNavigation.right: exprfield
         }
         ExprField {
             id: exprfield
@@ -56,12 +56,6 @@ FocusScope {
                     root.ListView.view.decrementCurrentIndex();
                     root.ListView.view.currentItem.exprfield.forceActiveFocus()
                 }
-            }
-            Keys.onPressed: {
-                if (event.key == SLKey.F1)
-                    app.openCatalog(function(str) {
-                        exprfield.insertJson(str);
-                    });
             }
         }
     }

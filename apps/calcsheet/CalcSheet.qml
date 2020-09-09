@@ -82,12 +82,6 @@ Item {
                         historyModel.remove(historyModel.count - 1);
                     event.accepted = true;
                 }
-                if (event.key == SLKey.F1) {
-                    appRoot.openCatalog(function(str) {
-                        expr.insertJson(str);
-                    });
-                    event.accepted = true;
-                }
             }
             Component.onCompleted: forceActiveFocus()
             KeyNavigation.up: history.count ? history : null

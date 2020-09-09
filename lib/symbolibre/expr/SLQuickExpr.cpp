@@ -69,6 +69,24 @@ void SLQuickExpr::insertJson(const QString &json)
     updateResetCursor();
 }
 
+bool SLQuickExpr::dropCursorLeft()
+{
+    updateResetCursor();
+    bool ret = expr.dropCursor(MLEFT);
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
+}
+
+bool SLQuickExpr::dropCursorRight()
+{
+    updateResetCursor();
+    bool ret = expr.dropCursor(MRIGHT);
+    if (ret)
+        emit cursorPosChanged();
+    return ret;
+}
+
 bool SLQuickExpr::moveCursorLeft()
 {
     updateResetCursor();
