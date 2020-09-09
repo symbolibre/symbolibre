@@ -1,6 +1,7 @@
 {
     "id": "calcsheet",
     "applet": "calcsheet/CalcSheet.qml",
-    "caption": "Calcul",
+    "name": "Calculation",
+    "name_fr": "Calcul",
     "icon": "calcul.png"
 }

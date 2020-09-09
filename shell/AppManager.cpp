@@ -41,7 +41,19 @@ AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_trans
         appData->id = obj["id"].toString();
         if (appData->id.isEmpty())
             appData->id = apps[i];
-        appData->name = obj["caption"].toString();
+
+        // we look for a translated name in the json
+        // FIXME this may not play well with country codes
+        for (const auto &lang : QLocale().uiLanguages()) {
+            auto name = obj["name_" + lang];
+            if (name.isString()) {
+                appData->name = name.toString();
+                break;
+            }
+        }
+        if (appData->name.isEmpty())
+            appData->name = obj["name"].toString();
+
         appData->executable = obj["command"].toString().trimmed();
         appData->applet = obj["applet"].toString().trimmed();
         appData->iconPath = obj["icon"].toString().trimmed();
