@@ -36,8 +36,8 @@ QString FileSystemSingleton::prefixDir()
     QDir prefix(info.dli_fname);
     // this gives the actual directory of the lib
     prefix.cdUp();
-    // the prefix is the parent of the libdir
-    prefix.cdUp();
+    // the relative path from the libdir to the prefix is known at build-time
+    prefix.cd(SL_PREFIX_FROM_LIB_DIR);
     return prefix.absolutePath();
 #else
     // FIXME we should probably use GetModuleFileName on Windows
