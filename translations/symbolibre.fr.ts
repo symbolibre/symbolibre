@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr">
 <context>
+    <name>ExprField</name>
+    <message>
+        <location filename="../lib/symbolibre/expr/ExprField.qml" line="97"/>
+        <source>Catalog</source>
+        <translation>Catalogue</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/expr/ExprField.qml" line="104"/>
+        <source>Clear</source>
+        <translation>Effacer</translation>
+    </message>
+</context>
+<context>
     <name>FunApp</name>
     <message>
         <source>Confirm</source>
@@ -23,6 +36,21 @@ fonctions</translation>
     </message>
 </context>
 <context>
+    <name>FunctionDefinitionDelegate</name>
+    <message>
+        <location filename="../apps/funapp/FunctionDefinitionDelegate.qml" line="49"/>
+        <source>Hide</source>
+        <translation>Cacher
+fonction</translation>
+    </message>
+    <message>
+        <location filename="../apps/funapp/FunctionDefinitionDelegate.qml" line="49"/>
+        <source>Show</source>
+        <translation>Afficher
+fonction</translation>
+    </message>
+</context>
+<context>
     <name>FunctionMenu</name>
     <message>
         <source>Xmin</source>
@@ -39,6 +67,19 @@ fonctions</translation>
     <message>
         <source>Ymax</source>
         <translation>Ymax</translation>
+    </message>
+</context>
+<context>
+    <name>IDE</name>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="256"/>
+        <source>Create new file</source>
+        <translation>Nouveau fichier</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="265"/>
+        <source>Edit existing file</source>
+        <translation>Ouvrir un fichier existant</translation>
     </message>
 </context>
 <context>
@@ -78,6 +119,15 @@ fonctions</translation>
 <context>
     <name>main</name>
     <message>
+        <source>Settings</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/main.qml" line="15"/>
+        <source> - Symbolibre IDE</source>
+        <translation> - IDE Symbolibre</translation>
+    </message>
+    <message>
         <source>Symbolibre</source>
         <translation>Symbolibre</translation>
     </message>
@@ -96,10 +146,6 @@ fonctions</translation>
     <message>
         <source>Unable to start the application</source>
         <translation>Impossible de lancer l&apos;application</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Paramètres</translation>
     </message>
 </context>
 </TS>
