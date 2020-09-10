@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import org.symbolibre.controls 1.0
+import org.symbolibre.applet 1.0
 import org.symbolibre.keyboard 1.0
 
 FocusScope {
@@ -17,26 +18,11 @@ FocusScope {
         CheckBox {
             id: active
             checked: model.active
-//            KeyNavigation.right: exprfield
-            // FIXME is there a simpler/cleaner way to do this?
-            Keys.onDownPressed: {
-                root.ListView.view.incrementCurrentIndex();
-                root.ListView.view.currentItem.active.forceActiveFocus()
-            }
-            Keys.onUpPressed: {
-                if (index == 0) {
-                    event.accepted = false
-                } else {
-                    root.ListView.view.decrementCurrentIndex();
-                    root.ListView.view.currentItem.active.forceActiveFocus()
-                }
-            }
         }
         Label {
             id: name
             text: model.name + "(x) = "
             color: model.color
-//            KeyNavigation.right: exprfield
         }
         ExprField {
             id: exprfield
@@ -56,6 +42,11 @@ FocusScope {
                     root.ListView.view.decrementCurrentIndex();
                     root.ListView.view.currentItem.exprfield.forceActiveFocus()
                 }
+            }
+
+            FunctionBar.f1: FunctionKeyModel {
+                text: model.active ? qsTr("Hide") : qsTr("Show")
+                onActivated: model.active = !model.active;
             }
         }
     }
