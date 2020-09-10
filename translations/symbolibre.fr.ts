@@ -5,7 +5,7 @@
     <name>FunApp</name>
     <message>
         <source>Confirm</source>
-        <translation>Confirmer</translation>
+        <translation>Valider</translation>
     </message>
     <message>
         <source>Window</source>
@@ -18,7 +18,7 @@
     <message>
         <source>Function
 input</source>
-        <translation>Entrer
+        <translation>Saisie
 fonctions</translation>
     </message>
 </context>
