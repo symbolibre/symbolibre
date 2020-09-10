@@ -39,26 +39,26 @@ Page {
     Shortcut {
         sequence: "F1"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barModel.f1.activated()
+        onActivated: functionBar.barModel.f1 && functionBar.barModel.f1.activated()
     }
     Shortcut {
         sequence: "F2"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barModel.f2.activated()
+        onActivated: functionBar.barModel.f2 && functionBar.barModel.f2.activated()
     }
     Shortcut {
         sequence: "F3"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barModel.f3.activated()
+        onActivated: functionBar.barModel.f3 && functionBar.barModel.f3.activated()
     }
     Shortcut {
         sequence: "F4"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barModel.f4.activated()
+        onActivated: functionBar.barModel.f4 && functionBar.barModel.f4.activated()
     }
     Shortcut {
         sequence: "F5"
         context: Qt.ApplicationShortcut
-        onActivated: functionBar.barModel.f5.activated()
+        onActivated: functionBar.barModel.f5 && functionBar.barModel.f5.activated()
     }
 }
