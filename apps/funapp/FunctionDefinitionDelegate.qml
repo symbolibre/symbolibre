@@ -44,6 +44,7 @@ FocusScope {
                 }
             }
 
+            FunctionBar.combine: true
             FunctionBar.f1: FunctionKeyModel {
                 text: model.active ? qsTr("Hide") : qsTr("Show")
                 onActivated: model.active = !model.active;

@@ -5,9 +5,9 @@
 
 #include "FunctionBarAttached.hpp"
 
-AppletHelper::AppletHelper() : QObject(), m_functionBar(nullptr), m_window(nullptr)
+AppletHelper::AppletHelper() : QObject(), m_window(nullptr)
 {
-
+    m_functionBar = new FunctionBarAttached(this);
 }
 
 void AppletHelper::setWindow(QQuickWindow *window)
@@ -28,11 +28,15 @@ void AppletHelper::setWindow(QQuickWindow *window)
 
 void AppletHelper::updateModel()
 {
+    FunctionKeyModel *previousModel[6];
+
+    for (int key = 1; key <= 5; key++) {
+        previousModel[key] = m_functionBar->getF(key);
+        m_functionBar->setF(key, nullptr);
+    }
+
     if (!m_window) {
-        if (m_functionBar) {
-            m_functionBar = nullptr;
-            emit functionBarChanged(nullptr);
-        }
+        emit functionBarChanged(nullptr);
         return;
     }
 
@@ -41,17 +45,20 @@ void AppletHelper::updateModel()
         auto *obj = qmlAttachedPropertiesObject<FunctionBarAttached>(focusItem, false);
         auto *attached = qobject_cast<FunctionBarAttached *>(obj);
         if (attached) {
-            if (m_functionBar != attached) {
-                m_functionBar = attached;
-                emit functionBarChanged(m_functionBar);
+            for (int key = 1; key <= 5; key++) {
+                FunctionKeyModel *model = attached->getF(key);
+                if (model) m_functionBar->setF(key, model);
             }
-            return;
+
+            if (!attached->combine()) break;
         }
         focusItem = focusItem->parentItem();
     }
 
-    if (!m_functionBar)
-        return;
-    m_functionBar = nullptr;
-    emit functionBarChanged(m_functionBar);
+    bool changed = false;
+    for (int key = 1; key <= 5; key++) {
+        if (m_functionBar->getF(key) != previousModel[key]) changed = true;
+    }
+
+    if (changed) emit functionBarChanged(m_functionBar);
 }
