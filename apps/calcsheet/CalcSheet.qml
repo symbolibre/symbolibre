@@ -5,7 +5,6 @@ import org.symbolibre.util 1.0
 import org.symbolibre.keyboard 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.catalog 1.0
-import org.symbolibre.expr 1.0
 
 Item {
     id: appRoot

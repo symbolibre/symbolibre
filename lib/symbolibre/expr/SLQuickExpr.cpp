@@ -7,7 +7,6 @@ SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
     expr(), mFont(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
     cursorBlink(true), cursorTimer(this)
 {
-    mFont.setFamily("Free Sans");
     mFont.setHintingPreference(QFont::PreferFullHinting);
 
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));

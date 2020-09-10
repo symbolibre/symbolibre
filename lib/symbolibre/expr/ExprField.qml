@@ -10,6 +10,7 @@ FocusScope {
     implicitHeight: expr.implicitHeight + 4
     property alias text: expr.text
     property alias json: expr.json
+    property alias font: expr.font
 
     function insertJson(json) {
         return expr.insertJson(json);

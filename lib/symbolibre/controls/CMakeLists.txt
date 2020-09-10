@@ -1,4 +1,5 @@
 set(controls_QML_SOURCES
+    ExprField.qml
     SLStackLayout.qml
     SLStatusBar.qml
     SLTextField.qml
