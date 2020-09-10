@@ -14,6 +14,8 @@ FocusScope {
     property alias json: expr.json
     property alias font: expr.font
 
+    property bool permanentEditFocus: false
+
     function insertJson(json) {
         return expr.insertJson(json);
     }
@@ -23,6 +25,8 @@ FocusScope {
     }
 
     Keys.onPressed: {
+        if (permanentEditFocus) return;
+
         // TODO: Filter out exactly the keys unused by keyPressHandler()
         var modifiers = [
             Qt.Key_Shift, Qt.Key_Control, Qt.Key_Alt, Qt.Key_Meta,
@@ -71,7 +75,7 @@ FocusScope {
 
     // Stop editing whenever the ExprField loses focus
     onActiveFocusChanged: {
-        expr.focus = false;
+        expr.focus = permanentEditFocus;
     }
 
     Rectangle {
@@ -83,7 +87,7 @@ FocusScope {
 
         Expr {
             id: expr
-            focus: false
+            focus: permanentEditFocus
             x: parent.x + 2
             y: parent.y + 2
             width: parent.width - 4

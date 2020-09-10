@@ -68,6 +68,7 @@ Item {
         ExprField {
             id: expr
             focus: true
+            permanentEditFocus: true
             Layout.fillWidth: true
             Layout.maximumHeight: 120
             Keys.onPressed: {
