@@ -132,7 +132,7 @@ void atProd(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         giac::gen f(v[i]);
         if (f.type != giac::_SYMB) {
             if (i)
-                shell.editOperator('+', QString("×"));
+                shell.editOperator('*', QString("×"));
             if ((f.type == giac::_CPLX && giac::need_parenthesis(f))
                     || f.type == giac::_MOD) {
                 shell.editParen(LPAREN);
