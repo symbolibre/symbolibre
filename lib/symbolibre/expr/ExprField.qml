@@ -100,6 +100,10 @@ FocusScope {
                     expr.forceActiveFocus();
                 });
             }
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Clear")
+                onActivated: expr.clear();
+            }
 
             function keyPressHandler(event) {
                 function insert(data) {
