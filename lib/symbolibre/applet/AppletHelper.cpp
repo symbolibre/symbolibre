@@ -23,6 +23,7 @@ void AppletHelper::setWindow(QQuickWindow *window)
             this, &AppletHelper::updateModel);
 
     m_window = window;
+    if (m_window) updateModel();
 }
 
 void AppletHelper::updateModel()
