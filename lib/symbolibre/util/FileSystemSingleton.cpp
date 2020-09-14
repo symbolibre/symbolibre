@@ -7,6 +7,7 @@
 #ifdef SL_TARGET_UNIX
 # include <dlfcn.h>
 #endif
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
