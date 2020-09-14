@@ -1,4 +1,7 @@
-set(expr_SOURCES plugin.cpp SLQuickExpr.cpp)
+set(expr_SOURCES
+    plugin.cpp
+    SLQuickExpr.cpp
+)
 set(expr_QML_SOURCES
     ExprField.qml
     editiontree.js

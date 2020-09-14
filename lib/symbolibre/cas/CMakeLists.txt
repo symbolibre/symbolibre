@@ -8,8 +8,13 @@ set(cas_HEADERS
     MathContext.hpp
 )
 
+set(CMAKE_AUTOMOC OFF)
+qt5_wrap_cpp(cas_SOURCES ${cas_HEADERS})
+
 add_library(cas OBJECT ${cas_SOURCES})
 target_link_libraries(cas Giac ${QT_DEPS})
+
+set(CMAKE_AUTOMOC ON)
 
 add_library(casplugin SHARED ${casplugin_SOURCES})
 target_link_libraries(casplugin Symbolibre::Symbolibre)

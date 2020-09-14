@@ -8,6 +8,9 @@ set(graphplugin_SOURCES
     plugin.cpp
 )
 
+set(CMAKE_AUTOMOC OFF)
+qt5_wrap_cpp(graph_SOURCES ${graph_HEADERS})
+
 add_library(graph OBJECT ${graph_SOURCES})
 target_link_libraries(graph
     Giac
@@ -15,6 +18,8 @@ target_link_libraries(graph
     ${QT_DEPS}
     Qt5::Widgets
 )
+
+set(CMAKE_AUTOMOC ON)
 
 add_library(graphplugin SHARED ${graphplugin_SOURCES})
 target_link_libraries(graphplugin

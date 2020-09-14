@@ -15,10 +15,15 @@ set(keyboardplugin_SOURCES
     plugin.cpp
 )
 
+set(CMAKE_AUTOMOC OFF)
+qt5_wrap_cpp(keyboard_SOURCES ${keyboard_HEADERS})
+
 add_library(keyboard OBJECT ${keyboard_SOURCES})
 target_link_libraries(keyboard
     ${QT_DEPS}
 )
+
+set(CMAKE_AUTOMOC ON)
 
 add_library(keyboardplugin SHARED ${keyboardplugin_SOURCES})
 target_link_libraries(keyboardplugin
