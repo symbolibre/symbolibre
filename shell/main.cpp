@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     parser.process(app);
 
     auto font(app.font());
+    // Keep font size in sync with SLStyle.defaultPixelSize
     font.setPixelSize(12);
     font.setFamily("DejaVu Sans");
     font.setHintingPreference(QFont::PreferFullHinting);

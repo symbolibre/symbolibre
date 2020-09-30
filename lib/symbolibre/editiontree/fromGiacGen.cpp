@@ -444,6 +444,37 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 //      s += printasexp(g.feuille,0,contextptr);
 //      return s;
 //    }
+
+    // Unary functions that we interpret with fixed names
+    // TODO: usual.cc has a table of these functions (builtin_lexer_functions)
+    // TODO: built from static_lexer.h. Generate a reverse map at compile time
+    #define N(function) { giac::at_##function->ptr(), #function }
+    std::map<const giac::unary_function_abstract *, std::string> unary_names = {
+        N(ln), N(log10), N(sqrt),
+        N(sin), N(cos), N(tan), N(asin), N(acos), N(atan),
+        N(sinh), N(cosh), N(tanh), N(asinh), N(acosh), N(atanh),
+    };
+    #undef N
+
+    if (unary_names.count(e.sommet.ptr())) {
+        shell.editStr(unary_names[e.sommet.ptr()]);
+        shell.editParen(LPAREN);
+
+        if (e.feuille.type != giac::_VECT) {
+            atGen(e.feuille, shell, contextptr);
+        }
+        else {
+            giac::vecteur &v = *e.feuille._VECTptr;
+            for (int i = 0; i < v.size(); i++) {
+                if (i) shell.editStr(",");
+                atGen(v[i], shell, contextptr);
+            }
+        }
+
+        shell.editParen(RPAREN);
+        return;
+    }
+
     if (local_debug)
         std::cout << "-> @atSymbolic : UNTREATED CASE\n";
     std::string bin = e.print(contextptr);
@@ -552,6 +583,9 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 
 void copyExprAtCursor(giac::gen &expr, EditionTree &shell)
 {
+    // Simplify expression such as x*(1/y) into x/y
+    giac::print_rewrite_prod_inv = true;
+
     if (local_debug)
         std::cout << "@copyExprAtCursor\n";
     if (local_debug)

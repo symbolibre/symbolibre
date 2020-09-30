@@ -64,7 +64,7 @@ void Paren::draw(qreal x, qreal y, QPainter &painter, bool)
     const qreal font_size = painter.fontInfo().pixelSize();
 
     if (height <= 2 * font_size)
-        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignVCenter,
+        painter.drawText(brect, Qt::AlignHCenter | Qt::AlignBottom,
                          ((ptype == LPAREN ? "(" : ")")));
     else if (ptype == LPAREN) {
         qreal par_height = std::min(font_size, y + height - font_size / 2);
