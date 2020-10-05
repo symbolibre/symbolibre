@@ -3,6 +3,7 @@
 
 #include "InternalEditionNode.hpp"
 #include "Flow.hpp"
+#include "Paren.hpp"
 
 /** Sigma nodes are semantic nodes that represents finite sums.
  *
@@ -21,7 +22,7 @@ public:
     qreal sigma_height;
     qreal sigma_width;
 
-    enum {idx_lbound = 0, idx_rbound = 1};
+    enum {idx_lbound = 0, idx_rbound = 1, idx_term = 2};
 
 public:
     Sigma(void);
@@ -37,11 +38,19 @@ public:
 
     bool editMoveUp(void) override;
     bool editMoveDown(void) override;
+    bool editMoveLeft(void) override;
+    bool editMoveRight(void) override;
 
     /* About computing dimensions */
     void computeDimensions(QPainter &painter,
                            qreal lheight, qreal lascent) override;
     void draw(qreal x, qreal y, QPainter &painter, bool cursor) override;
+
+private:
+    // Parentheses around the term
+    Paren m_lpar, m_rpar;
+    // Width of the sum symbol + lower bound + upper bound group
+    qreal m_group_width;
 };
 
 #endif // SIGMA_HPP
