@@ -394,6 +394,33 @@ void atPow(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
     return;
 }
 
+void atOf(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
+{
+    if (e.feuille.type != giac::_VECT || e.feuille._VECTptr->size() != 2) {
+        std::string bin = e.print(contextptr);
+        shell.editStr(bin);
+        return;
+    }
+
+    giac::gen func = e.feuille._VECTptr->at(0);
+    giac::gen args = e.feuille._VECTptr->at(1);
+
+    shell.editStr(func.print(contextptr));
+    shell.editParen(LPAREN);
+
+    if (args.type == giac::_VECT) {
+        for (int i = 0; i < args._VECTptr->size(); i++) {
+            if (i != 0) shell.editStr(",");
+            atGen(args._VECTptr->at(i), shell, contextptr);
+        }
+    }
+    else {
+        atGen(args, shell, contextptr);
+    }
+
+    shell.editParen(RPAREN);
+}
+
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
     if (local_debug)
@@ -405,6 +432,9 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         shell.editParen(RPAREN);
         return;
     }
+
+    if (e.sommet == giac::at_of)
+        return atOf(e, shell, contextptr);
 
     if (e.sommet.ptr()->printsommet
             && e.sommet != giac::at_plus && e.sommet != giac::at_prod
