@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalog>
+    <menu id="root" title="Math.">
+        <entry title="Basic" jump="base" />
+        <entry title="Trigonometry" jump="trig" />
+        <entry title="Arithmetic" jump="arith" />
+    </menu>
+    <menu id="base" title="Basic">
+        <entry title="sqrt">{"type": "sqrt", "content":[[""]]}</entry>
+        <entry title="sum">{"type": "sum", "content":[[""],[""]]}</entry>
+        <entry title="abs">["abs"]</entry>
+        <entry title="iPart">["iPart"]</entry>
+        <entry title="frac">["frac"]</entry>
+        <entry title="round">["round"]</entry>
+    </menu>
+    <menu id="trig" title="Trigonometry">
+        <entry title="π" doc="pi">["π"]</entry>
+        <entry title="sin">["sin"]</entry>
+        <entry title="cos">["cos"]</entry>
+        <entry title="tan">["tan"]</entry>
+        <entry title="asin">["asin"]</entry>
+        <entry title="acos">["acos"]</entry>
+        <entry title="atan">["atan"]</entry>
+    </menu>
+    <menu id="arith" title="Arithmetic">
+        <entry title="GCD" doc="gcd">["gcd"]</entry>
+        <entry title="LCM" doc="lcm">["lcm"]</entry>
+        <entry title="Quotient" doc="iquo">["iquo"]</entry>
+        <entry title="Remainder" doc="irem">["irem"]</entry>
+    </menu>
+</catalog>
