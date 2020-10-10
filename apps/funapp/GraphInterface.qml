@@ -23,11 +23,6 @@ GraphView {
         }
     }
 
-    onActiveFocusChanged: {
-        if (!activeFocus)
-            viewChanged(plotItem.view);
-    }
-
     Keys.onPressed: {
         event.accepted = true;
 

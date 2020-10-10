@@ -37,6 +37,8 @@ SLStandardApplet {
                 onActivated: windowRangePopup.close()
             }
         }
+
+        onClosed: graph.setRange(menu.xmin, menu.xmax, menu.ymin, menu.ymax)
     }
 
     SLStackLayout {
@@ -72,10 +74,7 @@ SLStandardApplet {
                 clip: true
                 Keys.onReturnPressed: mainMenu.forceActiveFocus()
                 onVisibleChanged: {
-                    if (visible) {
-                        setRange(menu.xmin, menu.xmax, menu.ymin, menu.ymax)
-                        plot()
-                    }
+                    if (visible) plot()
                 }
                 onViewChanged: {
                     menu.xmin = view.x
