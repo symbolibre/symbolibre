@@ -15,9 +15,18 @@ RowLayout {
     readonly property string translatedCatalogId: {
         if (!translatable)
             return catalogId;
+
+        var path = (lang) => {
+            return Fs.staticDataDir() + "/catalog/" + catalogId + "_" + lang + ".xml";
+        };
+
         for (const lang of Qt.locale().uiLanguages) {
-            if (Fs.fileExists(Fs.staticDataDir() + "/catalog/" + catalogId + "_" + lang + ".xml"))
+            if (Fs.fileExists(path(lang)))
                 return catalogId + "_" + lang;
+
+            var base = lang.substr(0,2);
+            if (Fs.fileExists(path(base)))
+                return catalogId + "_" + base;
         }
         return catalogId;
     }
