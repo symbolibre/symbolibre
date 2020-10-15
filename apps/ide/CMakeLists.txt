@@ -14,7 +14,7 @@ find_package(qtermwidget5 REQUIRED)
 set_property(GLOBAL PROPERTY CXX_STANDARD 14)
 
 set(ideplugin_SOURCES languagesmodel.cpp plugin.cpp SourceEditor.cpp)
-set(ide_QML_SOURCES main.qml IDE.qml)
+set(ide_QML_SOURCES IDE.qml)
 
 add_library(ideplugin SHARED ${ideplugin_SOURCES})
 target_link_libraries(ideplugin
