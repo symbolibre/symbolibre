@@ -125,14 +125,35 @@ QString SourceEditor::filePath() const
     return m_filePath;
 }
 
-int SourceEditor::insertSnippet(QString snippet)
+int SourceEditor::insertSnippet(QString escaped_snippet)
 {
     /* TODO: If the selection is non-empty, it is correctly deleted but the
        TODO: cursor is placed after the snippet instead of in the middle. */
 
     int old_position = m_cursorPosition;
-    int pos_in_snipp = snippet.indexOf("*");
-    snippet.remove("*");
+    int pos_in_snipp = -1;
+
+    /* Set pos_in_snipp to the first occurrence of unescaped "*", remove other
+       unescaped "*", and expand escaped "\*" */
+    QString snippet;
+
+    for (auto it = escaped_snippet.begin(); it != escaped_snippet.end(); it++)
+    {
+        if (*it == '\\') {
+            ++it;
+            if (it != escaped_snippet.end())
+                snippet += *it;
+        }
+        else if (*it == '*') {
+            if (pos_in_snipp < 0)
+                pos_in_snipp = it - escaped_snippet.begin();
+        }
+        else {
+            snippet += *it;
+        }
+    }
+
+    qDebug() << snippet;
 
     textCursor().insertText(snippet);
     if (pos_in_snipp > -1)
