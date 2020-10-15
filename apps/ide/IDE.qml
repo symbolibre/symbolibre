@@ -6,11 +6,10 @@ import Qt.labs.folderlistmodel 2.2
 
 import org.symbolibre.applet 1.0
 import org.symbolibre.catalog 1.0
+import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
 
 SLStandardApplet {
-    // Edition
-
     property alias document: editor.document
     property alias textArea: editor.textArea
 
@@ -23,140 +22,130 @@ SLStandardApplet {
         callback: insertSnippet
     }
 
-    Editor {
-        id: editor
+    SLStackLayout {
+        id: stackLayout
+        currentIndex: 0
         anchors.fill: parent
-    }
 
-    Popup {
-        id: langPopup
-        width: 180
-        height: 100
-        anchors.centerIn: Overlay.overlay
-
-        modal: true
-        focus: true
-
-        ListView {
-            id: langselection
-            width: parent.width
-            height: parent.height
+        // Open an existing file
+        FocusScope {
             focus: true
-            clip: true
-            keyNavigationWraps: true
 
-            model: ["Python", "Plain text"]
-            delegate: ItemDelegate {
-                text: modelData
+            ListView {
+                id: fileExplorerView
                 width: parent.width
-                highlighted: ListView.isCurrentItem
+                height: parent.height
+                clip: true
+                focus: true
+                keyNavigationWraps: true
+                model: fileExplorerViewModel
+
+                delegate: ItemDelegate {
+                    width: parent.width
+                    text: model.fileName
+                    highlighted: ListView.isCurrentItem
+                    onClicked: {
+                        document.load(model.fileName);
+                        stackLayout.currentIndex = 2;
+                        stackLayout.children[2].forceActiveFocus();
+                    }
+                }
             }
 
-            Keys.onReturnPressed: {
-                editor.document.setLanguage(langselection.currentText) // TODO
-                langPopup.close()
-                textArea.forceActiveFocus()
-
+            FolderListModel {
+                id: fileExplorerViewModel
+                showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
+                folder: "file:///home/symbolibre/my_programs" // FIXME
             }
-        }
-    }
 
-    Popup {
-
-        id: popupFileExplorer
-        anchors.centerIn: Overlay.overlay
-        width: 200
-        height: 200
-
-        modal: true
-        focus: true
-
-        ListView {
-            id: fileExplorerView
-            width: parent.width
-            height: parent.height
-            focus: true
-            clip: true
-            keyNavigationWraps: true
-            model: fileExplorerViewModel
-            delegate: ItemDelegate {
-                width: parent.width
-                text: model.fileName
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    document.load(model.fileName);
-                    popupFileExplorer.close();
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("New file")
+                onActivated: {
+                    stackLayout.currentIndex = 1;
+                    stackLayout.children[1].forceActiveFocus();
                 }
             }
         }
 
-        FolderListModel {
-            id: fileExplorerViewModel
-            showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
-            folder: "file:///home/symbolibre/my_programs" // FIXME
-        }
-    }
+        // Create a new file
+        // This scope also allows the ColumnLayout to have margins
+        FocusScope {
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 8
+                anchors.rightMargin: 8
 
-    Popup {
-        id: popupStart
-        anchors.centerIn: Overlay.overlay
+                Label {
+                    text: qsTr("Create a new file")
+                    font.bold: true
+                }
+                RowLayout {
+                    Label {
+                        text: qsTr("Type")
+                    }
+                    ComboBox {
+                        id: newFileLang
 
-        modal: true
-        focus: true
-        visible: true
+                        model: ["Python", "Plain text"]
+                        focus: true
+                        implicitHeight: 32
+                        // Down is used to select options; better than nothing
+                        KeyNavigation.right: newFileName
+                    }
+                }
+                RowLayout {
+                    width: parent.width
+                    TextField {
+                        id: newFileName
+                        placeholderText: "file name"
+                        Layout.fillWidth: true
+                        implicitHeight: 30
 
-        ColumnLayout {
-            id: newOpenLayout
-            Button {
-                id: newButton
-                Layout.alignment: Qt.AlignHCenter
-                focus: true
-                text: qsTr("Create new file")
-                KeyNavigation.up: openButton
-                KeyNavigation.down: openButton
-                onClicked: { popupStart.close(); langPopup.open() }
+                        KeyNavigation.right: newFileSubmit
+                        KeyNavigation.down: newFileSubmit
+                    }
+                    Label { text: ".py" }
+                }
+                Button {
+                    id: newFileSubmit
+                    text: qsTr("Create")
+                    Layout.alignment: Qt.AlignHCenter
+                    implicitHeight: 30
+
+                    onClicked: {
+                        // TODO: Set language
+                        // document.languageData = newFileLang.currentText;
+                        stackLayout.currentIndex = 2;
+                        stackLayout.children[2].forceActiveFocus();
+                    }
+                }
+
+                FunctionBar.f5: FunctionKeyModel {
+                    text: qsTr("Open file")
+                    onActivated: {
+                        stackLayout.currentIndex = 0;
+                        stackLayout.children[0].forceActiveFocus();
+                    }
+                }
             }
-            Button {
-                id: openButton
-                Layout.alignment: Qt.AlignHCenter
-                focus: true
-                text: qsTr("Edit existing file")
-                onClicked: { popupStart.close(); popupFileExplorer.open() }
+        }
+
+        // Editor
+        Editor {
+            id: editor
+
+            FunctionBar.combine: true
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Back to\nfiles")
+                onActivated: {
+                    stackLayout.currentIndex = 0;
+                    stackLayout.children[0].forceActiveFocus();
+                }
             }
         }
-    }
-
-    // Keyboard shortcuts
-
-    FunctionBar.f1: FunctionKeyModel {
-        text: qsTr("Catalog")
-        onActivated: {
-            catalog.setMenu("root");
-            catalog.open();
-        }
-    }
-    FunctionBar.f2: FunctionKeyModel {
-        text: qsTr("Cycle\nfont size")
-        onActivated: {
-            var newSize = document.fontSize + 1;
-            document.fontSize = (newSize < 14) ? newSize : 10;
-        }
-    }
-    FunctionBar.f3: FunctionKeyModel {
-        text: qsTr("Execute")
-        onActivated: document.execute();
-    }
-    FunctionBar.f4: FunctionKeyModel {
-        text: qsTr("Undo")
-        onActivated: textArea.undo();
-    }
-    FunctionBar.f5: FunctionKeyModel {
-        text: qsTr("Back to\nfiles")
-        onActivated: popupStart.open();
     }
 
     function insertSnippet(key) {
         textArea.cursorPosition = document.insertSnippet(key);
     }
-
 }

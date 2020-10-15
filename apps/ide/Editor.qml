@@ -2,10 +2,11 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
+import org.symbolibre.applet 1.0
 import org.symbolibre.editor 1.0
 import org.symbolibre.keyboard 1.0
 
-Item {
+FocusScope {
     property alias document: document
     property alias textArea: textArea
 
@@ -157,5 +158,30 @@ Item {
         anchors.left:   sidebar.right
         anchors.right:  parent.right
         anchors.bottom: parent.bottom
+    }
+
+    /* Keyboard shortcuts */
+
+    FunctionBar.f1: FunctionKeyModel {
+        text: qsTr("Catalog")
+        onActivated: {
+            catalog.setMenu("root");
+            catalog.open();
+        }
+    }
+    FunctionBar.f2: FunctionKeyModel {
+        text: qsTr("Cycle\nfont size")
+        onActivated: {
+            var newSize = document.fontSize + 1;
+            document.fontSize = (newSize < 14) ? newSize : 10;
+        }
+    }
+    FunctionBar.f3: FunctionKeyModel {
+        text: qsTr("Execute")
+        onActivated: document.execute();
+    }
+    FunctionBar.f4: FunctionKeyModel {
+        text: qsTr("Undo")
+        onActivated: textArea.undo();
     }
 }
