@@ -153,8 +153,6 @@ int SourceEditor::insertSnippet(QString escaped_snippet)
         }
     }
 
-    qDebug() << snippet;
-
     textCursor().insertText(snippet);
     if (pos_in_snipp > -1)
         m_cursorPosition = old_position + pos_in_snipp;

@@ -2,10 +2,10 @@
 <catalog>
     <menu id="root" title="Python">
         <entry title="Import" jump="import" />
-        <entry title="Tests, boucles" jump="flow" />
-        <entry title="Entrées/sorties" jump="io" />
-        <entry title="Calcul" jump="math" />
-        <entry title="Booléens" jump="bool" />
+        <entry title="Conds, loops" jump="flow" />
+        <entry title="Input/Output" jump="io" />
+        <entry title="Computation" jump="math" />
+        <entry title="Booleans" jump="bool" />
         <entry title="Conversion" jump="conv" />
         <entry title="Exceptions" jump="except" />
     </menu>
@@ -17,7 +17,7 @@
         <entry title="math" doc="from-math-import-star">from math import \*</entry>
     </menu>
 
-    <menu id="flow" title="Tests, boucles">
+    <menu id="flow" title="Conds, loops">
         <entry title="if">if *:
 </entry>
         <entry title="elif" doc="if">elif *:
@@ -37,12 +37,12 @@
         <entry title="return">return</entry>
     </menu>
 
-    <menu id="io" title="Entrées/sorties">
+    <menu id="io" title="Input/Output">
         <entry title="input">input(*)</entry>
         <entry title="print">print(*)</entry>
     </menu>
 
-    <menu id="math" title="Calcul">
+    <menu id="math" title="Computation">
         <entry title="abs()" doc="abs">abs(*)</entry>
         <entry title="min()" doc="min">min(*)</entry>
         <entry title="max()" doc="max">max(*)</entry>
@@ -54,7 +54,7 @@
         <entry title="zip()" doc="zip">zip(*)</entry>
     </menu>
 
-    <menu id="bool" title="Booléens">
+    <menu id="bool" title="Booleans">
         <entry title="True">True</entry>
         <entry title="False">False</entry>
         <entry title="not">not</entry>
