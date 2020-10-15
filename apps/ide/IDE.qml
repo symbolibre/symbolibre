@@ -4,10 +4,11 @@ import QtQuick.Layouts 1.12
 import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
+import org.symbolibre.applet 1.0
 import org.symbolibre.catalog 1.0
 import org.symbolibre.keyboard 1.0
 
-Item {
+SLStandardApplet {
     // Edition
 
     property alias document: editor.document
@@ -127,42 +128,31 @@ Item {
 
     // Keyboard shortcuts
 
-    Shortcut {
-        sequence: "F3"
-        onActivated: {
-            document.execute()
-        }
-    }
-
-    Shortcut {
-        sequence: "Shift+F4"
-        onActivated: popupStart.open()
-    }
-
-    Shortcut {
-        sequence: "F1"
+    FunctionBar.f1: FunctionKeyModel {
+        text: qsTr("Catalog")
         onActivated: {
             catalog.setMenu("root");
             catalog.open();
         }
     }
-
-    Shortcut {
-        sequence: "F2"
+    FunctionBar.f2: FunctionKeyModel {
+        text: qsTr("Cycle\nfont size")
         onActivated: {
-            document.fontSize -= 1
+            var newSize = document.fontSize + 1;
+            document.fontSize = (newSize < 14) ? newSize : 10;
         }
     }
-    Shortcut {
-        sequence: "Shift+F2"
-        onActivated: {
-            document.fontSize += 1
-        }
+    FunctionBar.f3: FunctionKeyModel {
+        text: qsTr("Execute")
+        onActivated: document.execute();
     }
-
-    Shortcut {
-        sequence: "Shift+Backspace"
-        onActivated: textArea.undo()
+    FunctionBar.f4: FunctionKeyModel {
+        text: qsTr("Undo")
+        onActivated: textArea.undo();
+    }
+    FunctionBar.f5: FunctionKeyModel {
+        text: qsTr("Back to\nfiles")
+        onActivated: popupStart.open();
     }
 
     function insertSnippet(key) {
