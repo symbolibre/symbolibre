@@ -16,7 +16,7 @@ Item {
         width: parent.width - 1
         height: parent.height - 1
         anchors.centerIn: Overlay.overlay
-        catalogId: "python_fr"
+        catalogId: "python"
         callback: insertSnippet
     }
 
