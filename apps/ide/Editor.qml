@@ -174,8 +174,11 @@ FocusScope {
         onActivated: document.saveAs(document.filePath);
     }
     FunctionBar.f3: FunctionKeyModel {
-        text: qsTr("Execute")
-        onActivated: document.execute();
+        text: qsTr("Execute")  + (document.modified ? "*" : "")
+        onActivated: {
+            document.saveAs(document.filePath);
+            document.execute();
+        }
     }
     FunctionBar.f4: FunctionKeyModel {
         text: qsTr("Undo")

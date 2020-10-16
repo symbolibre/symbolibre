@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import Qt.labs.platform 1.0
 import Qt.labs.folderlistmodel 2.2
 
 import org.symbolibre.applet 1.0
@@ -145,10 +144,39 @@ SLStandardApplet {
             FunctionBar.f5: FunctionKeyModel {
                 text: qsTr("Back to\nfiles")
                 onActivated: {
-                    stackLayout.currentIndex = 0;
-                    stackLayout.children[0].forceActiveFocus();
+                    if (!document.modified) {
+                        stackLayout.currentIndex = 0;
+                        stackLayout.children[0].forceActiveFocus();
+                    }
+                    else {
+                        unsavedChangesDialog.open();
+                    }
                 }
             }
+        }
+    }
+
+    Dialog {
+        id: unsavedChangesDialog
+        anchors.centerIn: Overlay.overlay
+        modal: true
+        focus: true
+        title: qsTr("Save changes?")
+        standardButtons: Dialog.Save | Dialog.Discard | Dialog.Cancel
+        contentItem: Text {
+            text: qsTr("Save changes?")
+        }
+
+        onAccepted: {
+            document.saveAs(document.filePath);
+            close();
+            stackLayout.currentIndex = 0;
+            stackLayout.children[0].forceActiveFocus();
+        }
+        onDiscarded: {
+            close();
+            stackLayout.currentIndex = 0;
+            stackLayout.children[0].forceActiveFocus();
         }
     }
 
