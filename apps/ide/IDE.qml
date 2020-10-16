@@ -41,7 +41,7 @@ SLStandardApplet {
                 model: fileExplorerViewModel
 
                 delegate: ItemDelegate {
-                    width: parent.width
+                    width: parent ? parent.width : 1
                     text: model.fileName
                     highlighted: ListView.isCurrentItem
                     onClicked: {
