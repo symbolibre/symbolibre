@@ -183,6 +183,7 @@ private:
 
     QTermWidget *m_term;
     QTemporaryFile *m_termInput;
+    bool m_executionFinished;
 
     /* Properties inherited from the text area */
     QQuickTextDocument *m_document;

@@ -62,7 +62,7 @@
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
 SourceEditor::SourceEditor(QWidget *parent)
-    : QObject(parent), m_term(nullptr)
+    : QObject(parent), m_term(nullptr), m_executionFinished(false)
 {
     m_document = nullptr;
     m_cursorPosition = -1;
@@ -167,9 +167,17 @@ void SourceEditor::execute()
     {
         m_term = new QTermWidget(false, nullptr);
 
-        connect(m_term, &QTermWidget::finished, this, [this]() {
-            m_term->close();
+        connect(m_term, &QTermWidget::titleChanged, this, [this]() {
+            m_executionFinished = true;
+            m_term->sendText(tr("<Finished>"));
+        });
+
+        connect(m_term, &QTermWidget::termKeyPressed, this, [this]() {
+            if (!m_executionFinished)
+                return;
+
             m_termInput->close();
+            m_term->close();
             m_term = nullptr;
             m_termInput = nullptr;
         });
@@ -184,6 +192,7 @@ void SourceEditor::execute()
     m_term->setAttribute(Qt::WA_DeleteOnClose);
     m_term->resize(320, 222);
     m_term->setScrollBarPosition(QTermWidget::NoScrollBar);
+    m_term->setAutoClose(false);
 
     m_termInput = new QTemporaryFile("symbolibre-ide", m_term);
     if (!m_termInput->open())
@@ -191,13 +200,10 @@ void SourceEditor::execute()
     m_termInput->write(textDocument()->toPlainText().toUtf8());
     m_termInput->flush();
 
-    QString path = FileSystemSingleton::staticDataDir() + "/ide/exec-pause.sh";
-    m_term->setShellProgram(path);
-    m_term->setArgs(QStringList() << tr("<Finished>")
-        << "python3" // m_languageData->command
-        << m_termInput->fileName());
+    m_executionFinished = false;
+    m_term->setShellProgram("python3"); // m_languageData->command
+    m_term->setArgs(QStringList() << m_termInput->fileName());
     m_term->startShellProgram();
-
     m_term->show();
 }
 
