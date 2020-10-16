@@ -63,6 +63,8 @@
 #include <definition.h>
 #include <theme.h>
 
+#include <qtermwidget5/qtermwidget.h>
+
 #include "languagesmodel.h"
 
 /** SourceEditor is a wrapper around a text document in the source code editor.
@@ -178,6 +180,10 @@ Q_SIGNALS:
 private:
     QTextCursor textCursor() const;
     QTextDocument *textDocument() const;
+
+    QTermWidget *m_term;
+    QTemporaryFile *m_termInput;
+    void finishExecution();
 
     /* Properties inherited from the text area */
     QQuickTextDocument *m_document;

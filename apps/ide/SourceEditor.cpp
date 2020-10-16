@@ -62,7 +62,7 @@
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
 SourceEditor::SourceEditor(QWidget *parent)
-    : QObject(parent)
+    : QObject(parent), m_term(nullptr)
 {
     m_document = nullptr;
     m_cursorPosition = -1;
@@ -163,25 +163,44 @@ int SourceEditor::insertSnippet(QString escaped_snippet)
 void SourceEditor::execute()
 {
     // We create a Qt Widgets window for the terminal
-    // FIXME we should set an appropriate font
-    auto *term = new QTermWidget(false, nullptr);
-    connect(term, &QTermWidget::finished, term, &QTermWidget::close);
-    term->setAttribute(Qt::WA_DeleteOnClose);
-    term->resize(320, 222);
-    term->setScrollBarPosition(QTermWidget::NoScrollBar);
+    if (!m_term)
+        m_term = new QTermWidget(false, nullptr);
 
-    auto *tempFile = new QTemporaryFile("symbolibre-ide", term);
-    if (!tempFile->open())
-       return;
-    QTextStream out(tempFile);
-    out << textDocument()->toRawText();
-    tempFile->close();
+    // FIXME set a font selected from SLStyle
+    QFont font("DejaVu Sans Mono");
+    font.setStyleHint(QFont::Monospace);
+    m_term->setFont(font);
+    m_term->setTerminalFont(font);
 
-    term->setShellProgram(m_languageData->command);
-    term->setArgs(QStringList() << tempFile->fileName());
-    term->startShellProgram();
+    connect(m_term, &QTermWidget::finished, this,
+        &SourceEditor::finishExecution);
+    m_term->setAttribute(Qt::WA_DeleteOnClose);
+    m_term->resize(320, 222);
+    m_term->setScrollBarPosition(QTermWidget::NoScrollBar);
 
-    term->show();
+    m_termInput = new QTemporaryFile("symbolibre-ide", m_term);
+    if (!m_termInput->open())
+        return;
+    m_termInput->write(textDocument()->toPlainText().toUtf8());
+    m_termInput->flush();
+
+    m_term->setShellProgram("python3");//m_languageData->command);
+    m_term->setArgs(QStringList() << m_termInput->fileName());
+    m_term->startShellProgram();
+
+    m_term->show();
+}
+
+void SourceEditor::finishExecution()
+{
+    if (!m_term || !m_termInput) return;
+
+    m_term->close();
+    m_termInput->close();
+
+    m_term = nullptr;
+    delete m_termInput;
+    m_termInput = nullptr;
 }
 
 void SourceEditor::load(const QString &filePath)
