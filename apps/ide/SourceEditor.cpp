@@ -85,7 +85,16 @@ SourceEditor::SourceEditor(QWidget *parent)
     m_highlighter->setTheme(theme);
     connect(this, &SourceEditor::documentChanged, [&]() {
         m_highlighter->setDocument(textDocument());
+
+        // Propagate the document's modified signal to ours
+        connect(textDocument(), &QTextDocument::modificationChanged, this,
+            &SourceEditor::modifiedChanged);
     });
+}
+
+void SourceEditor::setModified(bool modified)
+{
+    textDocument()->setModified(modified);
 }
 
 void SourceEditor::setFontSize(int size)
@@ -113,6 +122,14 @@ void SourceEditor::setFontSize(int size)
     }
 
     emit fontSizeChanged();
+}
+
+bool SourceEditor::modified() const
+{
+    if (!textDocument())
+        return false;
+
+    return textDocument()->isModified();
 }
 
 LanguageData *SourceEditor::languageData() const
@@ -276,6 +293,9 @@ void SourceEditor::saveAs(const QString &filePath)
     }
     file.write((doc->toPlainText()).toUtf8());
     file.close();
+
+    doc->setModified(false);
+    emit modifiedChanged();
 
     if (filePath == m_filePath) return;
 

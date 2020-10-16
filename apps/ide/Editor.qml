@@ -170,11 +170,8 @@ FocusScope {
         }
     }
     FunctionBar.f2: FunctionKeyModel {
-        text: qsTr("Cycle\nfont size")
-        onActivated: {
-            var newSize = document.fontSize + 1;
-            document.fontSize = (newSize < 14) ? newSize : 10;
-        }
+        text: qsTr("Save") + (document.modified ? "*" : "")
+        onActivated: document.saveAs(document.filePath);
     }
     FunctionBar.f3: FunctionKeyModel {
         text: qsTr("Execute")

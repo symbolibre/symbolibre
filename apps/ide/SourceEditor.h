@@ -101,6 +101,10 @@ class SourceEditor: public QObject
     Q_PROPERTY(QQuickTextDocument *document
         MEMBER m_document NOTIFY documentChanged)
 
+    /** Whether the document has been modified. **/
+    Q_PROPERTY(bool modified
+        READ modified WRITE setModified NOTIFY modifiedChanged)
+
     /** Cursor position in the edition widget. Used for snippet insertion;
         should be bound to the cursorPosition attribute of the text area. **/
     Q_PROPERTY(int cursorPosition
@@ -135,10 +139,12 @@ public:
     explicit SourceEditor(QWidget *parent = nullptr);
 
     /* QML accessors */
+    bool modified() const;
     LanguageData *languageData() const;
     QString filePath() const;
 
     /* QML mutators */
+    void setModified(bool modified);
     void setFontSize(int size);
 
 
@@ -165,6 +171,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     /* QML property update signals */
     void documentChanged();
+    void modifiedChanged();
     void languageDataChanged(LanguageData *lang);
     void cursorPositionChanged();
     void selectionStartChanged();
