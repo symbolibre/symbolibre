@@ -153,6 +153,9 @@ public Q_SLOTS:
         is initialized from the file's extension. **/
     void load(const QString &filePath);
 
+    /** Create a new file and load it into the editor. **/
+    void create(const QString &filePath);
+
     /** Saves the contents of the editor to a file. This function is suitable
         for both Save and Save As. Always writes as UTF-8. **/
     void saveAs(const QString &filePath);

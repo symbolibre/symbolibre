@@ -85,8 +85,11 @@ SLStandardApplet {
                     }
                     ComboBox {
                         id: newFileLang
-
                         model: ["Python", "Plain text"]
+                        property var ext: {
+                            "Python": ".py",
+                            "Plain text": ".txt",
+                        }
                         focus: true
                         implicitHeight: 32
                         // Down is used to select options; better than nothing
@@ -104,7 +107,9 @@ SLStandardApplet {
                         KeyNavigation.right: newFileSubmit
                         KeyNavigation.down: newFileSubmit
                     }
-                    Label { text: ".py" }
+                    Label {
+                        text: newFileLang.ext[newFileLang.currentValue]
+                    }
                 }
                 Button {
                     id: newFileSubmit
@@ -113,8 +118,10 @@ SLStandardApplet {
                     implicitHeight: 30
 
                     onClicked: {
-                        // TODO: Set language
-                        // document.languageData = newFileLang.currentText;
+                        if (!newFileName.text)
+                            return;
+                        var ext = newFileLang.ext[newFileLang.currentValue];
+                        document.create(newFileName.text + ext);
                         stackLayout.currentIndex = 2;
                         stackLayout.children[2].forceActiveFocus();
                     }

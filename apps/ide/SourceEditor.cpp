@@ -162,6 +162,10 @@ int SourceEditor::insertSnippet(QString escaped_snippet)
 
 void SourceEditor::execute()
 {
+    // Only ever try if there is a command for the current language
+    if (m_languageData->command == "")
+        return;
+
     // We create a Qt Widgets window for the terminal
     if (!m_term)
     {
@@ -201,7 +205,7 @@ void SourceEditor::execute()
     m_termInput->flush();
 
     m_executionFinished = false;
-    m_term->setShellProgram("python3"); // m_languageData->command
+    m_term->setShellProgram(m_languageData->command);
     m_term->setArgs(QStringList() << m_termInput->fileName());
     m_term->startShellProgram();
     m_term->show();
@@ -235,6 +239,23 @@ void SourceEditor::load(const QString &filePath)
         m_languageData = &m_languages.getLanguageFromName("Text");
     }
     emit languageDataChanged(m_languageData);
+}
+
+void SourceEditor::create(const QString &filePath)
+{
+    QString local = filePath;
+
+    if (filePath.startsWith("file://"))
+        local = filePath.right(filePath.size() - 7);
+
+    QFile file(local);
+
+    if (!file.exists()) {
+        file.open(QFile::WriteOnly);
+        file.close();
+    }
+
+    load(filePath);
 }
 
 void SourceEditor::saveAs(const QString &filePath)
