@@ -164,7 +164,16 @@ void SourceEditor::execute()
 {
     // We create a Qt Widgets window for the terminal
     if (!m_term)
+    {
         m_term = new QTermWidget(false, nullptr);
+
+        connect(m_term, &QTermWidget::finished, this, [this]() {
+            m_term->close();
+            m_termInput->close();
+            m_term = nullptr;
+            m_termInput = nullptr;
+        });
+    }
 
     // FIXME set a font selected from SLStyle
     QFont font("DejaVu Sans Mono");
@@ -172,8 +181,6 @@ void SourceEditor::execute()
     m_term->setFont(font);
     m_term->setTerminalFont(font);
 
-    connect(m_term, &QTermWidget::finished, this,
-        &SourceEditor::finishExecution);
     m_term->setAttribute(Qt::WA_DeleteOnClose);
     m_term->resize(320, 222);
     m_term->setScrollBarPosition(QTermWidget::NoScrollBar);
@@ -184,23 +191,14 @@ void SourceEditor::execute()
     m_termInput->write(textDocument()->toPlainText().toUtf8());
     m_termInput->flush();
 
-    m_term->setShellProgram("python3");//m_languageData->command);
-    m_term->setArgs(QStringList() << m_termInput->fileName());
+    QString path = FileSystemSingleton::staticDataDir() + "/ide/exec-pause.sh";
+    m_term->setShellProgram(path);
+    m_term->setArgs(QStringList() << tr("<Finished>")
+        << "python3" // m_languageData->command
+        << m_termInput->fileName());
     m_term->startShellProgram();
 
     m_term->show();
-}
-
-void SourceEditor::finishExecution()
-{
-    if (!m_term || !m_termInput) return;
-
-    m_term->close();
-    m_termInput->close();
-
-    m_term = nullptr;
-    delete m_termInput;
-    m_termInput = nullptr;
 }
 
 void SourceEditor::load(const QString &filePath)
