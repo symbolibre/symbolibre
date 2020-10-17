@@ -11,6 +11,9 @@ class MathContext : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(int angleMode
+        READ angleMode WRITE setAngleMode NOTIFY angleModeChanged)
+
 public:
     MathContext();
 
@@ -22,6 +25,12 @@ public:
     Q_INVOKABLE void evalString(const QString &expr);
     EditionTree evalExpr(const EditionTree &etree, bool approx);
     Q_INVOKABLE QString evalExpr(const QString &json, bool approx);
+
+    int angleMode() const;
+    void setAngleMode(int mode);
+
+Q_SIGNALS:
+    void angleModeChanged();
 
 private:
     giac::context giac;

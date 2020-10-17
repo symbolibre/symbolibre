@@ -93,6 +93,9 @@ FocusScope {
             width: parent.width - 4
             height: parent.height - 4
 
+            // Allow the ExprField parent to specify whether to combine
+            FunctionBar.combine: root.FunctionBar.combine
+
             FunctionBar.f1: FunctionKeyModel {
                 text: qsTr("Catalog")
                 onActivated: app.openCatalog(function (str) {
@@ -100,7 +103,7 @@ FocusScope {
                     expr.forceActiveFocus();
                 });
             }
-            FunctionBar.f5: FunctionKeyModel {
+            FunctionBar.f2: FunctionKeyModel {
                 text: qsTr("Clear")
                 onActivated: expr.clear();
             }

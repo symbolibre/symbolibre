@@ -87,6 +87,13 @@ SLStandardApplet {
             }
             Component.onCompleted: forceActiveFocus()
             KeyNavigation.up: history.count ? history : null
+
+            FunctionBar.combine: true
         }
+    }
+
+    FunctionBar.f5: FunctionKeyModel {
+        text: math.angleMode ? qsTr("Angles:\nDegrees") : qsTr("Angles:\nRadians")
+        onActivated: math.angleMode ^= 1
     }
 }

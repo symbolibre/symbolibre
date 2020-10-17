@@ -36,7 +36,8 @@ class FunctionBarAttached : public QObject
     Q_PROPERTY(FunctionKeyModel *f3 MEMBER m_f3 NOTIFY changed)
     Q_PROPERTY(FunctionKeyModel *f4 MEMBER m_f4 NOTIFY changed)
     Q_PROPERTY(FunctionKeyModel *f5 MEMBER m_f5 NOTIFY changed)
-    Q_PROPERTY(bool combine MEMBER m_combine READ combine WRITE setCombine)
+    Q_PROPERTY(bool combine MEMBER m_combine READ combine WRITE setCombine
+        NOTIFY changed)
 
 public:
     FunctionBarAttached(QObject *parent = nullptr);

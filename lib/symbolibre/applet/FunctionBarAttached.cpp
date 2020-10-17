@@ -46,7 +46,11 @@ bool FunctionBarAttached::combine() const
 
 void FunctionBarAttached::setCombine(bool combine)
 {
+    bool changes = m_combine != combine;
     m_combine = combine;
+
+    if (changes)
+        emit changed();
 }
 
 FunctionBarAttached *FunctionBarAttached::qmlAttachedProperties(QObject *object)
