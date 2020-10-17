@@ -21,13 +21,21 @@ QString MathContext::toGiac(const QString &json)
 
 giac::gen MathContext::giacEvalString(const QString &expr)
 {
-    giac::gen f = giac::eval(giac::gen(expr.toStdString(), &giac), &giac);
-    std::string err = giac::parser_error(&giac);
+    giac::gen f;
+    std::string err = "";
+
+    try {
+        f = giac::eval(giac::gen(expr.toStdString(), &giac), &giac);
+        err = giac::parser_error(&giac);
+    }
+    catch (std::exception &e) {
+        err = std::string(e.what());
+    }
 
     if (err != "") {
-        f = giac::string2gen(err);
+        f = giac::string2gen(err, false);
         f.subtype = -1;
-        // Clear error for next operation
+        // Clear parser error for next operation
         giac::parser_error("", &giac);
     }
 
