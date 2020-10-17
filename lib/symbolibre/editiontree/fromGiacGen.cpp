@@ -602,6 +602,15 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
             std::cout << "_FRAC" << std::endl;
         atFrac(e, shell, contextptr);
         break;
+    case giac::_STRNG:
+        if (local_debug)
+            std::cout << "_STRNG" << std::endl;
+        /* Errors */
+        if (e.subtype == -1)
+            shell.editStr(*e.ref_STRNGptr());
+        else
+            shell.editStr(*e.ref_STRNGptr());
+        break;
     default:
         if (local_debug)
             std::cout << "Unknown case atGen" << std::endl;
