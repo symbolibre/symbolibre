@@ -5,7 +5,7 @@ import org.symbolibre.expr 1.0
 import org.symbolibre.style 1.0
 
 FocusScope {
-    width: parent.width
+    width: (parent ? parent.width : 1)
     height: column.height
     ColumnLayout {
         id: column
