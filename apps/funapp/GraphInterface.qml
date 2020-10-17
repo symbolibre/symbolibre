@@ -17,8 +17,13 @@ GraphView {
         for(i=0; i < functions.count; i++) {
             const f = functions.get(i);
             if (f.expr && f.active) {
-                math.evalString(f.name + "(x):=" + math.toGiac(f.expr));
-                plotItem.addGraph(f.name, f.color);
+                const err = math.evalString(f.name + "(x):=" + math.toGiac(f.expr));
+                if (err == "") {
+                    plotItem.addGraph(f.name, f.color);
+                }
+                else {
+                    console.log(err);
+                }
             }
         }
     }

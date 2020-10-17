@@ -42,9 +42,15 @@ giac::gen MathContext::giacEvalString(const QString &expr)
     return f;
 }
 
-void MathContext::evalString(const QString &expr)
+QString MathContext::evalString(const QString &expr)
 {
-    giacEvalString(expr);
+    giac::gen f = giacEvalString(expr);
+
+    // Only forward error messages
+    if (f.type == giac::_STRNG && f.subtype == -1)
+        return QString::fromStdString(*f.ref_STRNGptr());
+
+    return "";
 }
 
 EditionTree MathContext::evalExpr(const EditionTree &etree, bool approx)

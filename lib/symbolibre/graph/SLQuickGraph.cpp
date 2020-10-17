@@ -41,11 +41,18 @@ void SLQuickGraph::plotGraph(QString f)
     auto g = mGraphs[f];
     g->data()->clear();
 
+    bool err;
+
     double x = mView.left();
-    g->addData(x, getValue(f, x));
+    double y = getValue(f, x, &err);
+    if (!err)
+        g->addData(x, y);
+
     while (x <= mView.right()) {
         x += xScale();
-        g->addData(x, getValue(f, x));
+        y = getValue(f, x, &err);
+        if (!err)
+            g->addData(x, y);
     }
 
     redraw();
@@ -101,18 +108,24 @@ void SLQuickGraph::moveWindow(QPoint offset)
 
     mView.translate(offset.x()*xScale(), offset.y()*yScale());
 
+    bool err;
+
     foreach (QCPGraph *g, mGraphs) {
         if (offset.x() > 0) {
             double x = mView.right();
             for (int i = 0 ; i <= offset.x() ; i++) {
-                g->addData(x, getValue(g->name(), x));
+                double y = getValue(g->name(), x, &err);
+                if (!err)
+                    g->addData(x, y);
                 x += xScale();
             }
             g->data()->removeBefore(mView.left());
         } else if (offset.x() < 0) {
             double x = mView.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
-                g->addData(x, getValue(g->name(), x));
+                double y = getValue(g->name(), x, &err);
+                if (!err)
+                    g->addData(x, y);
                 x -= xScale();
             }
             g->data()->removeAfter(mView.right());
@@ -390,9 +403,21 @@ void SLQuickGraph::redraw()
     mPlot.replot(QCustomPlot::rpQueuedReplot);
 }
 
-double SLQuickGraph::getValue(const QString &f, double x)
+double SLQuickGraph::getValue(const QString &f, double x, bool *err)
 {
-    giac::gen y = mMathContext->giacEvalString(f)(giac::gen(x), mMathContext->giacContext());
+    giac::gen y;
+
+    try {
+        y = mMathContext->giacEvalString(f)(giac::gen(x), mMathContext->giacContext());
+        if (err)
+            *err = false;
+    }
+    catch (std::exception &e) {
+        std::cerr << f.toStdString() << ": " << e.what() << "\n";
+        y = giac::gen(0);
+        if (err)
+            *err = true;
+    }
 
     //if (y.is_real(mMathContext->giacContext()))
     return y.to_double(mMathContext->giacContext()); // returns NaN if y is not real

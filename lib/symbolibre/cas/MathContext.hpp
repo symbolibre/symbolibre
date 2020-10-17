@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE QString toGiac(const QString &json);
 
     giac::gen giacEvalString(const QString &expr);
-    Q_INVOKABLE void evalString(const QString &expr);
+    Q_INVOKABLE QString evalString(const QString &expr);
     EditionTree evalExpr(const EditionTree &etree, bool approx);
     Q_INVOKABLE QString evalExpr(const QString &json, bool approx);
 

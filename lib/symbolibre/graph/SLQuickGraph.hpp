@@ -73,7 +73,7 @@ private slots:
 
 private:
     void redraw();
-    double getValue(const QString &f, double x);
+    double getValue(const QString &f, double x, bool *err = nullptr);
 };
 
 #endif // SLQUICKGRAPH_HPP
