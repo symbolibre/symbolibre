@@ -51,6 +51,10 @@ SLStandardApplet {
             id: def
             focus: true
 
+            FunctionBar.f3: FunctionKeyModel {
+                text: math.angleMode ? qsTr("Angles:\nDegrees") : qsTr("Angles:\nRadians")
+                onActivated: math.angleMode ^= 1
+            }
             FunctionBar.f4: FunctionKeyModel {
                 text: qsTr("Window")
                 onActivated: windowRangePopup.open()
