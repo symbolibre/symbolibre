@@ -1,3 +1,6 @@
+// Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "languagesmodel.hpp"
 
 #include <iostream>

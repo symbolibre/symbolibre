@@ -36,3 +36,7 @@ Symbolibre shared library.
 instead of in a custom location.
 
 `-D DEV_BUILD=ON` enables compiler warnings and enables the `SET_RPATH` option.
+
+## Licenses
+
+See LICENSE.md.
