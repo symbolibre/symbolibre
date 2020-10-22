@@ -285,6 +285,24 @@ void SLQuickGraph::zoomIn(double value)
     setRange(view);
 }
 
+void SLQuickGraph::addError(QString msg)
+{
+    // Avoid repeating messages; important because functions are evaluated at
+    // typically tens of points and the errors often repeat
+    if (!mErrors.contains(msg)) {
+        mErrors.append(msg);
+        emit errorsChanged(mErrors);
+    }
+}
+
+void SLQuickGraph::clearErrors()
+{
+    bool changed = mErrors.size() > 0;
+    mErrors.clear();
+    if (changed)
+        emit errorsChanged(mErrors);
+}
+
 void SLQuickGraph::updateCustomPlotSize()
 {
     // FIXME width() and height() are initially null
@@ -370,6 +388,11 @@ bool SLQuickGraph::isCursorAttached() const
     return mCursorAttached;
 }
 
+const QStringList &SLQuickGraph::errors() const
+{
+    return mErrors;
+}
+
 void SLQuickGraph::setCursorAttached(bool attached)
 {
     if (attached == mCursorAttached)
@@ -413,7 +436,7 @@ double SLQuickGraph::getValue(const QString &f, double x, bool *err)
             *err = false;
     }
     catch (std::exception &e) {
-        std::cerr << f.toStdString() << ": " << e.what() << "\n";
+        addError(f + ":" + QString::fromStdString(e.what()));
         y = giac::gen(0);
         if (err)
             *err = true;

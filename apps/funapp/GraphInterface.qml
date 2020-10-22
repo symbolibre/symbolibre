@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Controls 2.5
 import org.symbolibre.graph 1.0
 import org.symbolibre.keyboard 1.0
 
@@ -13,18 +14,33 @@ GraphView {
     // Send a signal saying that range changed. Send when lose focus
     function plot() {
         plotItem.clearGraph();
+        plotItem.clearErrors();
+
         var i = 0
         for(i=0; i < functions.count; i++) {
             const f = functions.get(i);
             if (f.expr && f.active) {
-                const err = math.evalString(f.name + "(x):=" + math.toGiac(f.expr));
+                // Eliminate Edition Trees that reduce to empty expressions
+                const formula = math.toGiac(f.expr);
+                if (formula == "")
+                    continue;
+
+                const err = math.evalString(f.name + "(x):=" + formula);
                 if (err == "") {
                     plotItem.addGraph(f.name, f.color);
                 }
                 else {
-                    console.log(err);
+                    plotItem.addError("f" + i + ": " + err.trim());
                 }
             }
+        }
+    }
+
+    // Show errors in a popup (if any)
+    function showErrors() {
+        if (plotItem.errors.length > 0) {
+            errorMessages.text = plotItem.errors.join("\n");
+            errorPopup.open();
         }
     }
 
@@ -56,5 +72,4 @@ GraphView {
             event.accepted = false
         }
     }
-
 }

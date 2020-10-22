@@ -16,6 +16,9 @@ class SLQuickGraph : public QQuickPaintedItem
     Q_PROPERTY(bool cursorAttached
         READ isCursorAttached WRITE setCursorAttached NOTIFY cursorAttachedChanged)
 
+    // Also has public methods addError() and clearErrors()
+    Q_PROPERTY(QStringList errors READ errors NOTIFY errorsChanged)
+
 public:
     SLQuickGraph(QQuickItem *parent = nullptr);
 
@@ -28,6 +31,7 @@ public:
     const QRectF &view() const;
     QPointF cursorPos() const;
     bool isCursorAttached() const;
+    const QStringList &errors() const;
 
     double xScale() const;
     double yScale() const;
@@ -43,6 +47,7 @@ signals:
     void cursorPosChanged(QPointF);
     void selectedCurveChanged(QString);
     void cursorAttachedChanged(bool);
+    void errorsChanged(const QStringList &);
 
 private:
     MathContext *mMathContext;
@@ -54,6 +59,8 @@ private:
     QRectF mView;
     bool mCursorAttached;
 
+    QStringList mErrors;
+
 
 public:
     Q_INVOKABLE void addGraph(QString formula, QColor color = Qt::black);
@@ -63,6 +70,8 @@ public:
     Q_INVOKABLE void moveWindow(int x, int y);
     Q_INVOKABLE void moveCursor(int amtX, int amtY);
     Q_INVOKABLE void zoomIn(double value);
+    Q_INVOKABLE void addError(QString msg);
+    Q_INVOKABLE void clearErrors();
 
 public slots:
     void clearGraph();

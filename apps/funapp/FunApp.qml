@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.12
 import org.symbolibre.applet 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.catalog 1.0
@@ -41,6 +42,39 @@ SLStandardApplet {
         onClosed: graph.setRange(menu.xmin, menu.xmax, menu.ymin, menu.ymax)
     }
 
+    Popup {
+        id: errorPopup
+        width: parent.width - 20
+        height: parent.height - 20
+        anchors.centerIn: Overlay.overlay
+        modal: true
+        focus: true
+        padding: 4
+
+        Column {
+            focus: true
+            anchors.fill: parent
+
+            Text {
+                text: qsTr("Errors occured during plot:")
+                font.bold: true
+                wrapMode: Text.Wrap
+            }
+            Text {
+                id: errorMessages
+                // Error messages will go here when showing the popup
+                text: ""
+                wrapMode: Text.Wrap
+                width: parent.width
+            }
+
+            FunctionBar.f5: FunctionKeyModel {
+                text: qsTr("Ok")
+                onActivated: errorPopup.close()
+            }
+        }
+    }
+
     SLStackLayout {
         id: stackLayout
         anchors.fill: parent
@@ -64,6 +98,7 @@ SLStandardApplet {
                 onActivated: {
                     stackLayout.currentIndex = 1;
                     stackLayout.children[1].forceActiveFocus();
+                    graph.plot();
                 }
             }
         }
@@ -77,9 +112,7 @@ SLStandardApplet {
                 functions: def.functions
                 clip: true
                 Keys.onReturnPressed: mainMenu.forceActiveFocus()
-                onVisibleChanged: {
-                    if (visible) plot()
-                }
+
                 onViewChanged: {
                     menu.xmin = view.x
                     menu.xmax = view.x + view.width
@@ -123,6 +156,10 @@ SLStandardApplet {
                 text: "Y = " + String(graph.cursorPos.y.toPrecision(4))
             }
 
+            FunctionBar.f1: FunctionKeyModel {
+                text: graph.errors.length ? qsTr("Errors!") : ""
+                onActivated: graph.showErrors()
+            }
             FunctionBar.f4: FunctionKeyModel {
                 text: qsTr("Window")
                 onActivated: windowRangePopup.open();
