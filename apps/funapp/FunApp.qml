@@ -157,7 +157,7 @@ SLStandardApplet {
             }
 
             FunctionBar.f1: FunctionKeyModel {
-                text: graph.errors.length ? qsTr("Errors!") : ""
+                text: graph.errors.length ? qsTr("Show\nerrors") : ""
                 onActivated: graph.showErrors()
             }
             FunctionBar.f4: FunctionKeyModel {

@@ -30,7 +30,7 @@ GraphView {
                     plotItem.addGraph(f.name, f.color);
                 }
                 else {
-                    plotItem.addError("f" + i + ": " + err.trim());
+                    plotItem.addError(f.name + ": " + err.trim());
                 }
             }
         }
