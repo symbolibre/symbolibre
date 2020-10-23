@@ -17,7 +17,8 @@ RowLayout {
             return catalogId;
 
         var path = (lang) => {
-            return Fs.staticDataDir() + "/catalog/" + catalogId + "_" + lang + ".xml";
+            // Check whether the directory with translated doc exists
+            return Fs.staticDataDir() + "/catalog/" + catalogId + "_" + lang;
         };
 
         for (const lang of Qt.locale().uiLanguages) {
@@ -44,23 +45,19 @@ RowLayout {
 
         property var history: []
 
-        model: XmlListModel {
-            id: xmlModel
-            source: Fs.staticDataDir() + "/catalog/" + root.translatedCatalogId + ".xml"
-            query: "/catalog/menu[@id=\"" + currentMenu + "\"]/entry"
-            XmlRole { name: "title"; query: "./@title/string()" }
-            XmlRole { name: "doc"; query: "./@doc/string()" }
-            XmlRole { name: "insert"; query: "./string()" }
-            XmlRole { name: "jump"; query: "./@jump/string()" }
-            onStatusChanged: if (status == XmlListModel.Ready) listView.modelChanged()
+        Loader {
+            id: catalog_loader
+            source: Fs.staticDataDir() + "/catalog/" + catalogId + ".qml"
         }
+        model: catalog_loader.item.get(currentMenu)
+
         delegate: ItemDelegate {
             width: parent.width
-            text: (index < 10 ? String(index) + ". " : "   ") + model.title + (model.jump ? " >" : "")
+            text: (index < 10 ? String(index) + ". " : "   ") + model.title + (model.jump ? " ▸" : "")
             highlighted: ListView.isCurrentItem
 
             function confirm() {
-                if (model.jump != "") {
+                if (model.jump != undefined && model.jump != "") {
                     listView.history.push(currentMenu);
                     currentMenu = model.jump;
                 } else if (model.insert != "") {
@@ -98,7 +95,7 @@ RowLayout {
         readOnly: true
         wrapMode: TextEdit.Wrap
         text: {
-            if (xmlModel.status != XmlListModel.Ready || listView.currentIndex == -1)
+            if (catalog_loader.status != Loader.Ready || listView.currentIndex == -1)
                 return "";
             var doc = listView.model.get(listView.currentIndex).doc;
             if (!doc)

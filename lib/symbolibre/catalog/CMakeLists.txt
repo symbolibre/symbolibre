@@ -1,5 +1,7 @@
 set(catalog_QML_SOURCES
     Catalog.qml
+    CatalogModel.qml
+    CatalogPage.qml
     CatalogPopup.qml
 )
 

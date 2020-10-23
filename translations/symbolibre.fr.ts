@@ -7,7 +7,7 @@
         <location filename="../apps/calcsheet/CalcSheet.qml" line="98"/>
         <source>Results:
 Numerical</source>
-        <translation type="unfinished">Résultats:
+        <translation>Résultats:
 Approchés</translation>
     </message>
     <message>
@@ -279,6 +279,170 @@ fichiers</translation>
         <location filename="../apps/ide/main.qml" line="15"/>
         <source> - Symbolibre IDE</source>
         <translation> - IDE Symbolibre</translation>
+    </message>
+</context>
+<context>
+    <name>math</name>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="7"/>
+        <source>Math</source>
+        <translation>Math</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="10"/>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="25"/>
+        <source>Basic</source>
+        <translation>Basique</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="14"/>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="65"/>
+        <source>Trigonometry</source>
+        <translation>Trigonométrie</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="18"/>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="100"/>
+        <source>Arithmetic</source>
+        <translation>Arithmétique</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="28"/>
+        <source>sqrt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="32"/>
+        <source>sum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="36"/>
+        <source>Integral</source>
+        <translation>Intégrale</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="41"/>
+        <source>Antiderivative</source>
+        <translation>Primitive</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="46"/>
+        <source>abs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="50"/>
+        <source>iPart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="54"/>
+        <source>frac</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="58"/>
+        <source>round</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="68"/>
+        <source>π</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="73"/>
+        <source>sin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="77"/>
+        <source>cos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="81"/>
+        <source>tan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="85"/>
+        <source>asin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="89"/>
+        <source>acos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="93"/>
+        <source>atan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="103"/>
+        <source>GCD</source>
+        <translation>PGCD</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="108"/>
+        <source>LCM</source>
+        <translation>PPCM</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="113"/>
+        <source>Quotient</source>
+        <translation>Quotient</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="118"/>
+        <source>Remainder</source>
+        <translation>Reste</translation>
+    </message>
+</context>
+<context>
+    <name>python</name>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="7"/>
+        <source>Python</source>
+        <translation>Python</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="10"/>
+        <source>Import</source>
+        <translation>Import</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="14"/>
+        <source>Conds, loops</source>
+        <translation>Tests, boucles</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="18"/>
+        <source>Input/Output</source>
+        <translation>Entrées/sorties</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="22"/>
+        <source>Computation</source>
+        <translation>Calcul</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="26"/>
+        <source>Booleans</source>
+        <translation>Booléens</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="30"/>
+        <source>Conversion</source>
+        <translation>Conversion</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/catalog/python.qml" line="34"/>
+        <source>Exceptions</source>
+        <translation>Exceptions</translation>
     </message>
 </context>
 </TS>
