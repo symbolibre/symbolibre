@@ -4,6 +4,20 @@
 <context>
     <name>CalcSheet</name>
     <message>
+        <location filename="../apps/calcsheet/CalcSheet.qml" line="98"/>
+        <source>Results:
+Numerical</source>
+        <translation type="unfinished">Résultats:
+Approchés</translation>
+    </message>
+    <message>
+        <location filename="../apps/calcsheet/CalcSheet.qml" line="98"/>
+        <source>Results:
+Exact</source>
+        <translation>Résultats:
+Exacts</translation>
+    </message>
+    <message>
         <location filename="../apps/calcsheet/CalcSheet.qml" line="96"/>
         <source>Angles:
 Degrees</source>

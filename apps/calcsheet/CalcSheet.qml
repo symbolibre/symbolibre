@@ -11,6 +11,8 @@ SLStandardApplet {
     id: app
     visible: true
 
+    property bool approx: false
+
     ListModel {
         id: historyModel
         Component.onCompleted: {
@@ -76,7 +78,7 @@ SLStandardApplet {
                 if (event.key == SLKey.Enter && text != "") {
                     historyModel.insert(0, {
                         "source": expr.json,
-                        "result": math.evalExpr(expr.json, false)
+                        "result": math.evalExpr(expr.json, approx)
                     });
                     expr.clear();
                     history.currentIndex = 0;
@@ -92,6 +94,10 @@ SLStandardApplet {
         }
     }
 
+    FunctionBar.f4: FunctionKeyModel {
+        text: approx ? qsTr("Results:\nNumerical") : qsTr("Results:\nExact")
+        onActivated: approx = !approx
+    }
     FunctionBar.f5: FunctionKeyModel {
         text: math.angleMode ? qsTr("Angles:\nDegrees") : qsTr("Angles:\nRadians")
         onActivated: math.angleMode ^= 1
