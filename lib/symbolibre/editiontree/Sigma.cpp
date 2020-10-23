@@ -138,8 +138,9 @@ void Sigma::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
         const auto f = FontResizer(painter, pointSize * 2 / 3);
         children[idx_lbound].computeDimensions(painter, 0, 0);
         children[idx_rbound].computeDimensions(painter, 0, 0);
-        children[idx_term].computeDimensions(painter, 0, 0);
     }
+
+    children[idx_term].computeDimensions(painter, 0, 0);
 
     {
         const auto f = FontResizer(painter, pointSize * 3 / 2);
@@ -157,8 +158,8 @@ void Sigma::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
     m_group_width = std::max({sigma_width, children[idx_lbound].width, children[idx_rbound].width});
     width = m_group_width + m_lpar.width + children[idx_term].width + m_rpar.width;
 
-    qreal ascent1  = children[idx_rbound].height + sigma_height;
-    qreal descent1 = children[idx_lbound].height;
+    qreal ascent1  = children[idx_rbound].height + sigma_height - SIGMA_DESCENT;
+    qreal descent1 = children[idx_lbound].height + SIGMA_DESCENT;
     qreal ascent2  = children[idx_term].ascent;
     qreal descent2 = children[idx_term].height - ascent2;
 
@@ -185,7 +186,7 @@ void Sigma::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 
         /* Lower bound */
         qreal x_lbound = x + (m_group_width - children[idx_lbound].width) / 2;
-        qreal y_lbound = y + ascent;
+        qreal y_lbound = y + ascent + SIGMA_DESCENT;
         children[idx_lbound].draw(x_lbound, y_lbound, painter,
                                   cursor && (active_child_idx == idx_lbound));
 
@@ -212,7 +213,7 @@ void Sigma::draw(qreal x, qreal y, QPainter &painter, bool cursor)
     qreal term_y = y + ascent - children[idx_term].ascent;
 
     qreal par_y = (children[idx_term].height < sigma_height) ?
-        y + children[idx_rbound].height :
+        y + children[idx_rbound].height + (children[idx_term].height - children[idx_term].ascent) - SIGMA_DESCENT :
         term_y;
 
     m_lpar.draw(x + m_group_width, par_y, painter, false);
@@ -221,6 +222,6 @@ void Sigma::draw(qreal x, qreal y, QPainter &painter, bool cursor)
     // FIXME: Term position
     // Try 1+sum(a:=0,n,1+n/2) and see that the "+" signs are lined up (good)
     // but the "1" digits aren't (bad). The "1+" isn't consistent.
-    children[idx_term].draw(x + m_group_width + m_lpar.width, term_y - 1, painter,
+    children[idx_term].draw(x + m_group_width + m_lpar.width, term_y, painter,
         cursor && (active_child_idx == idx_term));
 }

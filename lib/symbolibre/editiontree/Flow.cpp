@@ -298,7 +298,7 @@ void Flow::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
             it--; /* go back before the parenthesis: get the dimensions of the block */
             if (it != flow.begin() && (*it)->empty())
                 it --;
-            qreal left_height        = (*it)->height;
+            qreal left_height = (*it)->height;
             qreal left_ascent = (*it)->ascent;
 
             it++; /* go back to the parenthesis */
@@ -307,14 +307,14 @@ void Flow::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 
             /* Compute parenthesis' size: only 'width' is important */
             (*it)->computeDimensions(painter, last_height, last_ascent);
-            (*it)->height        = left_height;
+            (*it)->height = left_height;
             (*it)->ascent = left_ascent;
             qreal it_width  = (*it)->width;
             qreal it_height = (*it)->height;
             qreal it_ascent = (*it)->ascent;
 
             if (!(*it)->empty()) {
-                last_height  = it_height;
+                last_height = it_height;
                 last_ascent = it_ascent;
             }
 
@@ -332,11 +332,11 @@ void Flow::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 
             /* Compute parenthesis' sizes: we keep 'width' only */
             (*it)->computeDimensions(painter, last_height, last_ascent);
-            (*it)->height        = sub_box.height;
+            (*it)->height = sub_box.height;
             (*it)->ascent = sub_box.ascent;
             if (new_it != flow.end()) { /* RPAREN (if exists) */
                 (*new_it)->computeDimensions(painter, last_height, last_ascent);
-                (*new_it)->height        = sub_box.height;
+                (*new_it)->height = sub_box.height;
                 (*new_it)->ascent = sub_box.ascent;
             }
             qreal it_width  = (*it)->width;

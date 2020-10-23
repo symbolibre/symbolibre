@@ -199,11 +199,11 @@ void Integral::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
     if (m_definite)
         m_group_height += children[idx_lbound].height + children[idx_rbound].height - 2 * INT_OVERLAP;
 
-    qreal ascent1 = m_definite ? int_height + children[idx_rbound].height - INT_OVERLAP : int_height;
+    qreal ascent1 = (m_definite ? int_height + children[idx_rbound].height - INT_OVERLAP : int_height) - INT_DESCENT;
     qreal ascent2 = children[idx_term].ascent;
     qreal ascent3 = m_definite ? 0 : children[idx_diff].ascent;
 
-    qreal descent1 = m_definite ? children[idx_lbound].height : 0;
+    qreal descent1 = (m_definite ? children[idx_lbound].height - INT_OVERLAP : 0) + INT_DESCENT;
     qreal descent2 = children[idx_term].height - ascent2;
     qreal descent3 = m_definite ? 0 : children[idx_diff].height - ascent3;
 
@@ -231,8 +231,8 @@ void Integral::draw(qreal x, qreal y, QPainter &painter, bool cursor)
 
         // FIXME: The symbol has 4 blank pixels on top of it when rendered.
         // Compensate by drawing it 4 pixels higher.
-        QRectF bint = QRectF(x, y + ascent - int_height - 4, int_width,
-            int_height + 4);
+        QRectF bint = QRectF(x, y + ascent - int_height + INT_DESCENT - 4,
+            int_width, int_height + 4);
         painter.drawText(bint, Qt::AlignLeft | Qt::AlignTop, QString("∫"));
     }
 
@@ -240,11 +240,11 @@ void Integral::draw(qreal x, qreal y, QPainter &painter, bool cursor)
         FontResizer f(painter, pointSize * 2 / 3);
 
         /* Lower bound */
-        qreal y_lbound = y + ascent - INT_OVERLAP;
+        qreal y_lbound = y + ascent + INT_DESCENT - INT_OVERLAP;
         children[idx_lbound].draw(x + int_width, y_lbound, painter,
                                   cursor && (active_child_idx == idx_lbound));
         /* Upper bound */
-        qreal y_rbound = y + ascent - int_height + INT_OVERLAP - children[idx_rbound].height;
+        qreal y_rbound = y + ascent - (int_height - INT_DESCENT - INT_OVERLAP) - children[idx_rbound].height;
         children[idx_rbound].draw(x + int_width, y_rbound, painter,
                                   cursor && (active_child_idx == idx_rbound));
     }
@@ -252,7 +252,9 @@ void Integral::draw(qreal x, qreal y, QPainter &painter, bool cursor)
     // Parentheses
     qreal term_y = y + ascent - children[idx_term].ascent;
 
-    qreal par_y = (children[idx_term].height < int_height) ? y + ascent - int_height: term_y;
+    qreal par_y = (children[idx_term].height < int_height) ?
+        y + ascent - int_height + INT_DESCENT :
+        term_y;
 
     m_lpar.draw(x + m_group_width, par_y, painter, false);
     m_rpar.draw(x + m_group_width + m_lpar.width + children[idx_term].width, par_y, painter, false);

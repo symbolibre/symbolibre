@@ -53,7 +53,7 @@ void Paren::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 
     width  = br.width() + PAREN_SPACE;
     height = std::max(metrics.height(), br.height());
-    ascent = metrics.ascent();
+    ascent = height;//metrics.ascent();
 }
 
 void Paren::draw(qreal x, qreal y, QPainter &painter, bool)

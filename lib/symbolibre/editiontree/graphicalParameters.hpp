@@ -15,6 +15,9 @@ constexpr int PAREN_SPACE = 0; /* space at the right and the left of the parenth
 constexpr int ROOT_HSPACE = 2; /* The space between the root top bar and the expression below */
 constexpr int ROOT_VSPACE = 2; /* The space on the right and left of the root, under the bar. */
 
+constexpr int SIGMA_DESCENT = 3; /* How much the sum symbol descends under the baseline */
+
 constexpr int INT_OVERLAP = 4; /* How much the upper and lower bound of an integral overlap the integral symbol's height */
+constexpr int INT_DESCENT = 3; /* How much the integral symbol descends under the baseline */
 
 #endif
