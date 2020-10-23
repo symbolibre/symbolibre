@@ -15,4 +15,6 @@ constexpr int PAREN_SPACE = 0; /* space at the right and the left of the parenth
 constexpr int ROOT_HSPACE = 2; /* The space between the root top bar and the expression below */
 constexpr int ROOT_VSPACE = 2; /* The space on the right and left of the root, under the bar. */
 
+constexpr int INT_OVERLAP = 4; /* How much the upper and lower bound of an integral overlap the integral symbol's height */
+
 #endif

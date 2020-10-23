@@ -7,7 +7,9 @@
     </menu>
     <menu id="base" title="Basic">
         <entry title="sqrt">{"type": "sqrt", "content":[[""]]}</entry>
-        <entry title="sum">{"type": "sum", "content":[[""],[""]]}</entry>
+        <entry title="sum">{"type": "sum", "content":[[""],[""],[""]]}</entry>
+        <entry title="Integral" doc="defint">{"type": "defint", "content":[[""],[""],[""]]}</entry>
+        <entry title="Antiderivate" doc="int">{"type": "int", "content":[[""],[""]]}</entry>
         <entry title="abs">["abs"]</entry>
         <entry title="iPart">["iPart"]</entry>
         <entry title="frac">["frac"]</entry>

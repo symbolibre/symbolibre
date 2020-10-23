@@ -49,7 +49,7 @@ QString Sigma::getText(void) const
 
     if (lower_bound.mid(1,2) == ":=") {
         var = lower_bound.mid(0,1);
-        lower_bound = lower_bound.mid(2);
+        lower_bound = lower_bound.mid(3);
     }
 
     return QString("sum(") + children[idx_term].getText() + "," + var + "," +
@@ -212,7 +212,7 @@ void Sigma::draw(qreal x, qreal y, QPainter &painter, bool cursor)
     qreal term_y = y + ascent - children[idx_term].ascent;
 
     qreal par_y = (children[idx_term].height < sigma_height) ?
-        par_y = y + children[idx_rbound].height :
+        y + children[idx_rbound].height :
         term_y;
 
     m_lpar.draw(x + m_group_width, par_y, painter, false);

@@ -3,6 +3,7 @@
 #include "EditionArea.hpp"
 #include "Flow.hpp"
 #include "Frac.hpp"
+#include "Integral.hpp"
 #include "InternalEditionNode.hpp"
 #include "Operator.hpp"
 #include "Paren.hpp"
@@ -112,6 +113,10 @@ EditionNode *deserializeInternalNode(QJsonObject node)
         ret = new Root;
     else if (name == "sum")
         ret = new Sigma;
+    else if (name == "defint")
+        ret = new Integral(true);
+    else if (name == "int")
+        ret = new Integral(false);
     else {
         qDebug() << "deserialization of unknown internal node";
         return nullptr;

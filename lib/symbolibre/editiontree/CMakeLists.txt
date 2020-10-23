@@ -4,6 +4,7 @@ set(editiontree_SOURCES
     FontResizer.cpp
     Frac.cpp
     fromGiacGen.cpp
+    Integral.cpp
     InternalEditionNode.cpp
     Operator.cpp
     Paren.cpp
@@ -21,6 +22,7 @@ set(editiontree_HEADERS
     Flow.hpp
     Frac.hpp
     graphicalParameters.hpp
+    Integral.hpp
     InternalEditionNode.hpp
     Operator.hpp
     Paren.hpp
