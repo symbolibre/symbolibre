@@ -27,6 +27,12 @@ void FileSystemSingleton::writeFile(const QString &path, const QString &content)
     file.write(content.toUtf8());
 }
 
+void FileSystemSingleton::deleteFile(const QString &path)
+{
+    QFile file(path);
+    file.remove();
+}
+
 QString FileSystemSingleton::prefixDir()
 {
 #ifdef SL_TARGET_UNIX

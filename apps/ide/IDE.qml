@@ -7,6 +7,7 @@ import org.symbolibre.applet 1.0
 import org.symbolibre.catalog 1.0
 import org.symbolibre.controls 1.0
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.util 1.0
 
 SLStandardApplet {
     property alias document: editor.document
@@ -19,6 +20,23 @@ SLStandardApplet {
         anchors.centerIn: Overlay.overlay
         catalogId: document.languageData.catalog
         callback: insertSnippet
+    }
+
+    Dialog {
+        id: fileRemovalDialog
+        anchors.centerIn: Overlay.overlay
+        modal: true
+        focus: true
+        title: qsTr("Remove file")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        property string name
+        property string path
+
+        contentItem: Text {
+            text: qsTr("Do you really want to delete {}?").replace("{}", fileRemovalDialog.name);
+        }
+        onAccepted: Fs.deleteFile(path);
     }
 
     SLStackLayout {
@@ -57,6 +75,16 @@ SLStandardApplet {
                 folder: document.workingDirectory
             }
 
+            FunctionBar.f4: FunctionKeyModel {
+                text: qsTr("Delete");
+                onActivated: {
+                    const name = fileExplorerView.currentItem.text;
+                    const path = document.workingDirectory + "/" + name;
+                    fileRemovalDialog.name = name;
+                    fileRemovalDialog.path = path;
+                    fileRemovalDialog.open();
+                }
+            }
             FunctionBar.f5: FunctionKeyModel {
                 text: qsTr("New file")
                 onActivated: {
