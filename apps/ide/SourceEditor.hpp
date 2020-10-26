@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#ifndef SOURCEEDITOR_H
-#define SOURCEEDITOR_H
+#ifndef SOURCEEDITOR_HPP
+#define SOURCEEDITOR_HPP
 
 #include <QFont>
 #include <QObject>
@@ -65,7 +65,7 @@
 
 #include <qtermwidget5/qtermwidget.h>
 
-#include "languagesmodel.h"
+#include "languagesmodel.hpp"
 
 /** SourceEditor is a wrapper around a text document in the source code editor.
     It binds code to language definitions and performs syntax highlighting,
@@ -89,7 +89,7 @@
             document: editor.textDocument
             cursorPosition: editor.cursorPosition
             selectionStart: editor.selectionStart
-            selectionEnd: editor.selectionENd
+            selectionEnd: editor.selectionEnd
         }
     **/
 class SourceEditor: public QObject
@@ -128,10 +128,8 @@ class SourceEditor: public QObject
     Q_PROPERTY(QString filePath
         READ filePath NOTIFY filePathChanged)
 
-    /**
-     * Name, canonical extension and interpreter of the currently selected
-     * language.
-     */
+    /** Name, canonical extension and interpreter of the currently selected
+        language. **/
     Q_PROPERTY(LanguageData *languageData
         READ languageData NOTIFY languageDataChanged)
 
@@ -217,4 +215,4 @@ private:
     KSyntaxHighlighting::Repository m_repository;
 };
 
-#endif /* SOURCEEDITOR_H */
+#endif /* SOURCEEDITOR_HPP */

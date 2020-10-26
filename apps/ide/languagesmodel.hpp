@@ -1,5 +1,5 @@
-#ifndef LANGUAGESMODEL_H
-#define LANGUAGESMODEL_H
+#ifndef LANGUAGESMODEL_HPP
+#define LANGUAGESMODEL_HPP
 
 #include <memory>
 
@@ -41,4 +41,4 @@ private:
     QMap<QString, LanguageData*> m_languages;
 };
 
-#endif // LANGUAGESMODEL_H
+#endif // LANGUAGESMODEL_HPP

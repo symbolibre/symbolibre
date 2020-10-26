@@ -48,7 +48,7 @@
 **
 ****************************************************************************/
 
-#include "SourceEditor.h"
+#include "SourceEditor.hpp"
 
 #include <QFile>
 #include <QFileInfo>
@@ -274,7 +274,7 @@ void SourceEditor::load(const QString &filePath)
     if (def.isValid()) {
         m_languageData = &m_languages.getLanguageFromName(def.name());
     } else {
-        m_languageData = &m_languages.getLanguageFromName("Text");
+        m_languageData = &m_languages.getLanguageFromName("Plain text");
     }
     emit languageDataChanged(m_languageData);
 }

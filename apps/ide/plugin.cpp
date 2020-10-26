@@ -1,4 +1,4 @@
-#include "SourceEditor.h"
+#include "SourceEditor.hpp"
 #include <QQmlExtensionPlugin>
 
 class EditorQmlPlugin : public QQmlExtensionPlugin
