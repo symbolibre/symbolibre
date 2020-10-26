@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.12
 import org.symbolibre.applet 1.0
 import org.symbolibre.editor 1.0
 import org.symbolibre.keyboard 1.0
+import org.symbolibre.util 1.0
 
 FocusScope {
     property alias document: document
@@ -17,6 +18,8 @@ FocusScope {
         cursorPosition: textArea.cursorPosition
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
+
+        workingDirectory: Fs.readWriteDataDir() + "/ide/programs"
 
         fontSize: 13
         onLoaded: {

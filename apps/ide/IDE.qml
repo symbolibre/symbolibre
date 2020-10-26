@@ -54,7 +54,7 @@ SLStandardApplet {
             FolderListModel {
                 id: fileExplorerViewModel
                 showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
-                folder: "file:///home/symbolibre/my_programs" // FIXME
+                folder: document.workingDirectory
             }
 
             FunctionBar.f5: FunctionKeyModel {

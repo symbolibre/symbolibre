@@ -50,6 +50,7 @@
 
 #include "SourceDocument.hpp"
 
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QQuickTextDocument>
@@ -256,23 +257,29 @@ void SourceDocument::execute()
     m_term->show();
 }
 
-void SourceDocument::load(const QString &filePath)
+void SourceDocument::load(const QString &filePath, bool create)
 {
-    QString local = filePath;
+    // Resolve absolute vs local path relative to working directory
+    QFileInfo info(QDir(m_workingDirectory), filePath);
+    QString path = info.absoluteFilePath();
+    QFile file(path);
 
-    if (filePath.startsWith("file://"))
-        local = filePath.right(filePath.size() - 7);
+    if (!file.exists()) {
+        if (!create)
+            return;
 
-    QFile file(local);
+        file.open(QFile::WriteOnly);
+        file.close();
+    }
 
-    if (file.exists() && file.open(QFile::ReadOnly | QFile::Text)) {
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
         QString data(file.readAll());
         QTextDocument *doc = textDocument();
         if (doc) doc->setModified(false);
         emit loaded(data.toUtf8());
     }
 
-    m_filePath = local;
+    m_filePath = path;
     emit filePathChanged();
 
     const auto def = m_repository.definitionForFileName(filePath);
@@ -288,32 +295,18 @@ void SourceDocument::load(const QString &filePath)
 
 void SourceDocument::create(const QString &filePath)
 {
-    QString local = filePath;
-
-    if (filePath.startsWith("file://"))
-        local = filePath.right(filePath.size() - 7);
-
-    QFile file(local);
-
-    if (!file.exists()) {
-        file.open(QFile::WriteOnly);
-        file.close();
-    }
-
-    load(filePath);
+    load(filePath, true);
 }
 
 void SourceDocument::saveAs(const QString &filePath)
 {
-    QString local = filePath;
-
-    if (filePath.startsWith("file://"))
-        local = filePath.right(filePath.size() - 7);
+    // Resolve absolute vs local path relative to working directory
+    QFileInfo info(QDir(m_workingDirectory), filePath);
+    QString path = info.absoluteFilePath();
+    QFile file(path);
 
     QTextDocument *doc = textDocument();
     if (!doc) return;
-
-    QFile file(local);
 
     if (!file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         emit error(file.errorString());
@@ -325,7 +318,7 @@ void SourceDocument::saveAs(const QString &filePath)
     doc->setModified(false);
     emit modifiedChanged();
 
-    if (filePath == m_filePath) return;
+    if (path == m_filePath) return;
 
     m_filePath = filePath;
     emit filePathChanged();

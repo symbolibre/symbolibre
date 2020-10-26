@@ -33,3 +33,4 @@ install(FILES application.json ${ide_QML_SOURCES}
 install(FILES languages.json DESTINATION ${Symbolibre_DATA_DIR}/ide)
 install(DIRECTORY syntax-files DESTINATION ${Symbolibre_DATA_DIR}/ide)
 install(DIRECTORY catalog DESTINATION ${Symbolibre_DATA_DIR})
+install(DIRECTORY programs DESTINATION ${Symbolibre_DATA_DIR}/ide)

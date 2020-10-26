@@ -138,6 +138,10 @@ class SourceDocument: public QObject
     Q_PROPERTY(LanguagesModel *languages
         READ languages NOTIFY languagesChanged)
 
+    /** Working directory for file loading and saving **/
+    Q_PROPERTY(QString workingDirectory
+        MEMBER m_workingDirectory NOTIFY workingDirectoryChanged)
+
 public:
     explicit SourceDocument(QWidget *parent = nullptr);
 
@@ -163,7 +167,7 @@ public Q_SLOTS:
     /** Load a file into the editor. The previous file is discarded
         regardless of whether is had unsaved contents. The syntax highlighter
         is initialized from the file's extension. **/
-    void load(const QString &filePath);
+    void load(const QString &filePath, bool create=false);
 
     /** Create a new file and load it into the editor. **/
     void create(const QString &filePath);
@@ -183,6 +187,7 @@ Q_SIGNALS:
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();
+    void workingDirectoryChanged();
 
     void fontSizeChanged();
     void filePathChanged();
@@ -220,6 +225,9 @@ private:
     /* Highlighting context */
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
+
+    /* Working directory, from where files are loaded and saved */
+    QString m_workingDirectory;
 };
 
 #endif /* SOURCEDOCUMENT_HPP */
