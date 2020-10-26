@@ -183,4 +183,7 @@ SLStandardApplet {
     function insertSnippet(key) {
         textArea.cursorPosition = document.insertSnippet(key);
     }
+    function insertAutoIndent() {
+        textArea.cursorPosition = document.insertAutoIndent();
+    }
 }

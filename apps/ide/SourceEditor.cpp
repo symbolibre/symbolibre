@@ -177,6 +177,27 @@ int SourceEditor::insertSnippet(QString escaped_snippet)
     return m_cursorPosition;
 }
 
+int SourceEditor::insertAutoIndent()
+{
+    QTextDocument *doc = textDocument();
+    if (!doc)
+        return m_cursorPosition;
+
+    QTextCursor start = textCursor();
+    start.movePosition(QTextCursor::StartOfLine);
+
+    QTextCursor end = start;
+    while (end.position() < m_cursorPosition &&
+        doc->characterAt(end.position()).isSpace()) {
+        end.setPosition(end.position() + 1);
+    }
+
+    start.setPosition(end.position(), QTextCursor::KeepAnchor);
+
+    textCursor().insertText("\n" + start.selectedText());
+    return m_cursorPosition;
+}
+
 void SourceEditor::execute()
 {
     // Only ever try if there is a command for the current language

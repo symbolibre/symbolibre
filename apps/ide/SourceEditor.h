@@ -152,6 +152,8 @@ public:
 
     /** Insert a snippet at the current cursor position. **/
     Q_INVOKABLE int insertSnippet(QString snippet);
+    /** Insert an auto-indented newline at the current cursor position. **/
+    Q_INVOKABLE int insertAutoIndent();
 
 public Q_SLOTS:
     /** Load a file into the editor. The previous file is discarded

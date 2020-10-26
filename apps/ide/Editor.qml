@@ -128,6 +128,9 @@ FocusScope {
                     case SLKey.Print:
                         insertSnippet("print");
                         break;
+                    case SLKey.Enter:
+                        insertAutoIndent();
+                        break;
 
                     default:
                         return;
