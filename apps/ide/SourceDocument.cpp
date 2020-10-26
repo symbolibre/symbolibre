@@ -48,7 +48,7 @@
 **
 ****************************************************************************/
 
-#include "SourceEditor.hpp"
+#include "SourceDocument.hpp"
 
 #include <QFile>
 #include <QFileInfo>
