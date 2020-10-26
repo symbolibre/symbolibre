@@ -45,12 +45,17 @@ LanguagesModel::LanguagesModel()
     }
 }
 
-// this should return a const reference, but QML does not allow it
-LanguageData &LanguagesModel::getLanguageFromName(const QString langname)
+QStringList LanguagesModel::languages() const
+{
+    return m_languages.keys();
+}
+
+// This should return a const pointer, but QML does not allow it
+LanguageData *LanguagesModel::data(const QString langname)
 {
     auto lang = m_languages.find(langname);
     if (lang != m_languages.end())
-        return **lang;
+        return *lang;
 
-    return *m_languages["Plain text"];
+    return m_languages["Plain text"];
 }

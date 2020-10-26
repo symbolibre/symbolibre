@@ -133,12 +133,18 @@ class SourceDocument: public QObject
     Q_PROPERTY(LanguageData *languageData
         READ languageData NOTIFY languageDataChanged)
 
+    /** Supported set of languages, with their canonical extensions and
+        interpreter commands. **/
+    Q_PROPERTY(LanguagesModel *languages
+        READ languages NOTIFY languagesChanged)
+
 public:
     explicit SourceDocument(QWidget *parent = nullptr);
 
     /* QML accessors */
     bool modified() const;
     LanguageData *languageData() const;
+    LanguagesModel *languages();
     QString filePath() const;
 
     /* QML mutators */
@@ -173,6 +179,7 @@ Q_SIGNALS:
     void documentChanged();
     void modifiedChanged();
     void languageDataChanged(LanguageData *lang);
+    void languagesChanged(LanguagesModel *languages);
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();

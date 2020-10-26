@@ -72,7 +72,7 @@ SourceDocument::SourceDocument(QWidget *parent)
     /* Overridden by setting the [fontSize] attribute from QML */
     setFontSize(13);
 
-    m_languageData = &m_languages.getLanguageFromName("Plain text");
+    m_languageData = m_languages.data("Plain text");
 
     m_repository.addCustomSearchPath(Fs::staticDataDir() + "/ide/syntax-files");
 
@@ -90,6 +90,8 @@ SourceDocument::SourceDocument(QWidget *parent)
         connect(textDocument(), &QTextDocument::modificationChanged, this,
             &SourceDocument::modifiedChanged);
     });
+
+    emit languagesChanged(&m_languages);
 }
 
 void SourceDocument::setModified(bool modified)
@@ -135,6 +137,11 @@ bool SourceDocument::modified() const
 LanguageData *SourceDocument::languageData() const
 {
     return m_languageData;
+}
+
+LanguagesModel *SourceDocument::languages()
+{
+    return &m_languages;
 }
 
 QString SourceDocument::filePath() const
@@ -272,9 +279,9 @@ void SourceDocument::load(const QString &filePath)
     m_highlighter->setDefinition(def);
     m_highlighter->rehighlight();
     if (def.isValid()) {
-        m_languageData = &m_languages.getLanguageFromName(def.name());
+        m_languageData = m_languages.data(def.name());
     } else {
-        m_languageData = &m_languages.getLanguageFromName("Plain text");
+        m_languageData = m_languages.data("Plain text");
     }
     emit languageDataChanged(m_languageData);
 }

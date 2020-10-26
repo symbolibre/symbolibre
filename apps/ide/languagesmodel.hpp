@@ -32,10 +32,13 @@ public:
 
 class LanguagesModel : public QObject
 {
+    Q_OBJECT
+
 public:
     LanguagesModel();
 
-    LanguageData &getLanguageFromName(const QString langname);
+    Q_INVOKABLE QStringList languages() const;
+    Q_INVOKABLE LanguageData *data(const QString langname);
 
 private:
     QMap<QString, LanguageData*> m_languages;
