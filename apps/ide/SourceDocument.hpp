@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#ifndef SOURCEEDITOR_HPP
-#define SOURCEEDITOR_HPP
+#ifndef SOURCEDOCUMENT_HPP
+#define SOURCEDOCUMENT_HPP
 
 #include <QFont>
 #include <QObject>
@@ -67,37 +67,37 @@
 
 #include "languagesmodel.hpp"
 
-/** SourceEditor is a wrapper around a text document in the source code editor.
-    It binds code to language definitions and performs syntax highlighting,
-    manages the file's storage path (during Open, Save as, etc), and exposes
-    graphical parameters such as the font size. It is used alongside a text
-    edition area to provide code edition functionalities. It can be seen as an
-    extension of TextDocument.
+/** SourceDocument is a wrapper around a text document in the source code
+    editor. It binds code to language definitions and performs syntax
+    highlighting, manages the file's storage path (during Open, Save as, etc),
+    and exposes graphical parameters such as the font size. It is used
+    alongside a text edition area to provide code edition functionalities. It
+    can be seen as an extension of TextDocument.
 
     This is, in essence, a QML object. Several properties must be QML-bound for
     advanced editing to work, and the interface is conceived for efficient use
     in a QML program.
 
-    When using SourceEditor, instantiate it along a QML editor such as TextEdit
-    or TextArea. Then, bind its document to the textDocument of the editor, and
-    its cursorPosition, selectionStart and selectionEnd properties to that of
-    the editor. This allows SourceEditor to perform smart snippet insertion,
-    among other features. For example:
+    When using SourceDocument, instantiate it along a QML editor such as
+    TextEdit or TextArea. Then, bind its document to the textDocument of the
+    editor, and its cursorPosition, selectionStart and selectionEnd properties
+    to that of the editor. This allows SourceDocument to perform smart snippet
+    insertion, among other features. For example:
 
-        SourceEditor {
-            id: srcedit
+        SourceDocument {
+            id: srcdoc
             document: editor.textDocument
             cursorPosition: editor.cursorPosition
             selectionStart: editor.selectionStart
             selectionEnd: editor.selectionEnd
         }
     **/
-class SourceEditor: public QObject
+class SourceDocument: public QObject
 {
     Q_OBJECT
 
     /** Underlying Qt Quick document. This attribute is used only in QML code
-        to bind SourceEditor to a text area. **/
+        to bind SourceDocument to a text area. **/
     Q_PROPERTY(QQuickTextDocument *document
         MEMBER m_document NOTIFY documentChanged)
 
@@ -134,7 +134,7 @@ class SourceEditor: public QObject
         READ languageData NOTIFY languageDataChanged)
 
 public:
-    explicit SourceEditor(QWidget *parent = nullptr);
+    explicit SourceDocument(QWidget *parent = nullptr);
 
     /* QML accessors */
     bool modified() const;
@@ -215,4 +215,4 @@ private:
     KSyntaxHighlighting::Repository m_repository;
 };
 
-#endif /* SOURCEEDITOR_HPP */
+#endif /* SOURCEDOCUMENT_HPP */

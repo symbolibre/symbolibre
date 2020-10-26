@@ -61,7 +61,7 @@
 
 #include <symbolibre/util/FileSystemSingleton.hpp>
 
-SourceEditor::SourceEditor(QWidget *parent)
+SourceDocument::SourceDocument(QWidget *parent)
     : QObject(parent), m_term(nullptr), m_executionFinished(false)
 {
     m_document = nullptr;
@@ -83,21 +83,21 @@ SourceEditor::SourceEditor(QWidget *parent)
         return;
     }
     m_highlighter->setTheme(theme);
-    connect(this, &SourceEditor::documentChanged, [&]() {
+    connect(this, &SourceDocument::documentChanged, [&]() {
         m_highlighter->setDocument(textDocument());
 
         // Propagate the document's modified signal to ours
         connect(textDocument(), &QTextDocument::modificationChanged, this,
-            &SourceEditor::modifiedChanged);
+            &SourceDocument::modifiedChanged);
     });
 }
 
-void SourceEditor::setModified(bool modified)
+void SourceDocument::setModified(bool modified)
 {
     textDocument()->setModified(modified);
 }
 
-void SourceEditor::setFontSize(int size)
+void SourceDocument::setFontSize(int size)
 {
     if (size <= 0) return;
     m_fontSize = size;
@@ -124,7 +124,7 @@ void SourceEditor::setFontSize(int size)
     emit fontSizeChanged();
 }
 
-bool SourceEditor::modified() const
+bool SourceDocument::modified() const
 {
     if (!textDocument())
         return false;
@@ -132,17 +132,17 @@ bool SourceEditor::modified() const
     return textDocument()->isModified();
 }
 
-LanguageData *SourceEditor::languageData() const
+LanguageData *SourceDocument::languageData() const
 {
     return m_languageData;
 }
 
-QString SourceEditor::filePath() const
+QString SourceDocument::filePath() const
 {
     return m_filePath;
 }
 
-int SourceEditor::insertSnippet(QString escaped_snippet)
+int SourceDocument::insertSnippet(QString escaped_snippet)
 {
     /* TODO: If the selection is non-empty, it is correctly deleted but the
        TODO: cursor is placed after the snippet instead of in the middle. */
@@ -177,7 +177,7 @@ int SourceEditor::insertSnippet(QString escaped_snippet)
     return m_cursorPosition;
 }
 
-int SourceEditor::insertAutoIndent()
+int SourceDocument::insertAutoIndent()
 {
     QTextDocument *doc = textDocument();
     if (!doc)
@@ -198,7 +198,7 @@ int SourceEditor::insertAutoIndent()
     return m_cursorPosition;
 }
 
-void SourceEditor::execute()
+void SourceDocument::execute()
 {
     // Only ever try if there is a command for the current language
     if (m_languageData->command == "")
@@ -249,7 +249,7 @@ void SourceEditor::execute()
     m_term->show();
 }
 
-void SourceEditor::load(const QString &filePath)
+void SourceDocument::load(const QString &filePath)
 {
     QString local = filePath;
 
@@ -279,7 +279,7 @@ void SourceEditor::load(const QString &filePath)
     emit languageDataChanged(m_languageData);
 }
 
-void SourceEditor::create(const QString &filePath)
+void SourceDocument::create(const QString &filePath)
 {
     QString local = filePath;
 
@@ -296,7 +296,7 @@ void SourceEditor::create(const QString &filePath)
     load(filePath);
 }
 
-void SourceEditor::saveAs(const QString &filePath)
+void SourceDocument::saveAs(const QString &filePath)
 {
     QString local = filePath;
 
@@ -324,7 +324,7 @@ void SourceEditor::saveAs(const QString &filePath)
     emit filePathChanged();
 }
 
-QTextCursor SourceEditor::textCursor() const
+QTextCursor SourceDocument::textCursor() const
 {
     QTextDocument *doc = textDocument();
     if (!doc)
@@ -340,7 +340,7 @@ QTextCursor SourceEditor::textCursor() const
     return cursor;
 }
 
-QTextDocument *SourceEditor::textDocument() const
+QTextDocument *SourceDocument::textDocument() const
 {
     if (!m_document)
         return nullptr;

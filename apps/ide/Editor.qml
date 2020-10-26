@@ -10,7 +10,7 @@ FocusScope {
     property alias document: document
     property alias textArea: textArea
 
-    SourceEditor {
+    SourceDocument {
         id: document
         document: textArea.textDocument
 

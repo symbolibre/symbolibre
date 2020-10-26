@@ -9,7 +9,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.editor"));
-        qmlRegisterType<SourceEditor>(uri, 1, 0, "SourceEditor");
+        qmlRegisterType<SourceDocument>(uri, 1, 0, "SourceDocument");
         qmlRegisterType<LanguageData>(uri, 1, 0, "LanguageData");
     }
 };
