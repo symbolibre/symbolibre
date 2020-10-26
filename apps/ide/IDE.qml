@@ -17,7 +17,7 @@ SLStandardApplet {
         width: parent.width - 1
         height: parent.height - 1
         anchors.centerIn: Overlay.overlay
-        catalogId: "python"
+        catalogId: document.languageData.catalog
         callback: insertSnippet
     }
 
@@ -122,8 +122,7 @@ SLStandardApplet {
                     onClicked: {
                         if (!newFileName.text)
                             return;
-                        var ext = newFileLang.ext[newFileLang.currentValue];
-                        document.create(newFileName.text + ext);
+                        document.create(newFileName.text + newFileLang.ext);
                         stackLayout.currentIndex = 2;
                         stackLayout.children[2].forceActiveFocus();
                     }

@@ -38,6 +38,10 @@ LanguagesModel::LanguagesModel()
             lang->name = langName;
             lang->command = language["cmd"].toString();
             lang->extension = language["extension"].toString();
+            lang->catalog = "";
+
+            if (language.contains("catalog"))
+                lang->catalog = language["catalog"].toString();
         }
     }
     if (!m_languages.contains("Plain text")) {

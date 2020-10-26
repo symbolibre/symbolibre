@@ -47,9 +47,9 @@ RowLayout {
 
         Loader {
             id: catalog_loader
-            source: Fs.staticDataDir() + "/catalog/" + catalogId + ".qml"
+            source: catalogId ? Fs.staticDataDir() + "/catalog/" + catalogId + ".qml" : "";
         }
-        model: catalog_loader.item.get(currentMenu)
+        model: catalogId ? catalog_loader.item.get(currentMenu) : undefined
 
         delegate: ItemDelegate {
             width: parent.width

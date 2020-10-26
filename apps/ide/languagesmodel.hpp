@@ -19,6 +19,7 @@ class LanguageData : public QObject
     Q_PROPERTY(QString name MEMBER name CONSTANT)
     Q_PROPERTY(QString extension MEMBER extension CONSTANT)
     Q_PROPERTY(QString command MEMBER command CONSTANT)
+    Q_PROPERTY(QString catalog MEMBER catalog CONSTANT)
 
     friend class LanguagesModel;
 
@@ -28,6 +29,7 @@ public:
     QString name;
     QString extension;
     QString command;
+    QString catalog;
 };
 
 class LanguagesModel : public QObject
