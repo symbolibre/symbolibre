@@ -72,7 +72,10 @@ SLStandardApplet {
             FolderListModel {
                 id: fileExplorerViewModel
                 showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
-                folder: document.workingDirectory
+                folder: {
+                    Fs.createDir(document.workingDirectory);
+                    document.workingDirectory;
+                }
             }
 
             FunctionBar.f4: FunctionKeyModel {
