@@ -37,7 +37,11 @@ QString FileSystemSingleton::prefixDir()
 {
 #ifdef SL_TARGET_UNIX
     Dl_info info;
-    dladdr(reinterpret_cast<void*>(&FileSystemSingleton::prefixDir), &info);
+    if (!dladdr(reinterpret_cast<void*>(&FileSystemSingleton::prefixDir), &info) ||
+        !info.dli_fname) {
+        qWarning() << "unable to locate libSymbolibre";
+        return SL_INSTALL_PREFIX;
+    }
     // this is the path to a (shared object) file, not a valid directory
     QDir prefix(info.dli_fname);
     // this gives the actual directory of the lib
@@ -68,6 +72,7 @@ QString FileSystemSingleton::staticDataDir()
 QString FileSystemSingleton::readWriteDataDir()
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/symbolibre");
-    dir.mkpath(".");
+    if (!dir.mkpath("."))
+        qWarning() << "unable to create the read-write data directory";
     return dir.absolutePath();
 }
