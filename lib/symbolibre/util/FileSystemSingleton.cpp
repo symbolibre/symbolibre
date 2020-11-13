@@ -33,6 +33,12 @@ void FileSystemSingleton::deleteFile(const QString &path)
     file.remove();
 }
 
+bool FileSystemSingleton::createDir(const QString &path)
+{
+    QDir dir(path);
+    return dir.mkpath(".");
+}
+
 QString FileSystemSingleton::prefixDir()
 {
 #ifdef SL_TARGET_UNIX

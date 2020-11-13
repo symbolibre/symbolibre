@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE static QString readFile(const QString &path);
     Q_INVOKABLE static void writeFile(const QString &path, const QString &content);
     Q_INVOKABLE static void deleteFile(const QString &path);
+    Q_INVOKABLE static bool createDir(const QString &path);
 
     Q_INVOKABLE static QString prefixDir();
     Q_INVOKABLE static QString qmlDir();
