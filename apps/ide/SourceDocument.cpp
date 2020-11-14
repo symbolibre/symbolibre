@@ -259,10 +259,7 @@ void SourceDocument::execute()
 
 void SourceDocument::load(const QString &filePath, bool create)
 {
-    // Resolve absolute vs local path relative to working directory
-    QFileInfo info(QDir(m_workingDirectory), filePath);
-    QString path = info.absoluteFilePath();
-    QFile file(path);
+    QFile file(filePath);
 
     if (!file.exists()) {
         if (!create)
@@ -279,7 +276,7 @@ void SourceDocument::load(const QString &filePath, bool create)
         emit loaded(data.toUtf8());
     }
 
-    m_filePath = path;
+    m_filePath = filePath;
     emit filePathChanged();
 
     const auto def = m_repository.definitionForFileName(filePath);
@@ -300,10 +297,7 @@ void SourceDocument::create(const QString &filePath)
 
 void SourceDocument::saveAs(const QString &filePath)
 {
-    // Resolve absolute vs local path relative to working directory
-    QFileInfo info(QDir(m_workingDirectory), filePath);
-    QString path = info.absoluteFilePath();
-    QFile file(path);
+    QFile file(filePath);
 
     QTextDocument *doc = textDocument();
     if (!doc) return;
@@ -318,7 +312,7 @@ void SourceDocument::saveAs(const QString &filePath)
     doc->setModified(false);
     emit modifiedChanged();
 
-    if (path == m_filePath) return;
+    if (filePath == m_filePath) return;
 
     m_filePath = filePath;
     emit filePathChanged();

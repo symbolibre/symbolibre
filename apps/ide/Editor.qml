@@ -19,8 +19,6 @@ FocusScope {
         selectionStart: textArea.selectionStart
         selectionEnd: textArea.selectionEnd
 
-        workingDirectory: Fs.readWriteDataDir() + "/programs"
-
         fontSize: 13
         onLoaded: {
             textArea.text = text

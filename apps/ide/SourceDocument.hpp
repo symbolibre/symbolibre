@@ -138,10 +138,6 @@ class SourceDocument: public QObject
     Q_PROPERTY(LanguagesModel *languages
         READ languages NOTIFY languagesChanged)
 
-    /** Working directory for file loading and saving **/
-    Q_PROPERTY(QString workingDirectory
-        MEMBER m_workingDirectory NOTIFY workingDirectoryChanged)
-
 public:
     explicit SourceDocument(QWidget *parent = nullptr);
 
@@ -187,7 +183,6 @@ Q_SIGNALS:
     void cursorPositionChanged();
     void selectionStartChanged();
     void selectionEndChanged();
-    void workingDirectoryChanged();
 
     void fontSizeChanged();
     void filePathChanged();
@@ -225,9 +220,6 @@ private:
     /* Highlighting context */
     KSyntaxHighlighting::SyntaxHighlighter *m_highlighter;
     KSyntaxHighlighting::Repository m_repository;
-
-    /* Working directory, from where files are loaded and saved */
-    QString m_workingDirectory;
 };
 
 #endif /* SOURCEDOCUMENT_HPP */

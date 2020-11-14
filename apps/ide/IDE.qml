@@ -13,6 +13,8 @@ SLStandardApplet {
     property alias document: editor.document
     property alias textArea: editor.textArea
 
+    property string workingDirectory: Fs.readWriteDataDir() + "/programs"
+
     CatalogPopup {
         id: catalog
         width: parent.width - 1
@@ -62,7 +64,7 @@ SLStandardApplet {
                     text: model.fileName
                     highlighted: ListView.isCurrentItem
                     onClicked: {
-                        document.load(model.fileName);
+                        document.load(model.filePath);
                         stackLayout.currentIndex = 2;
                         stackLayout.children[2].forceActiveFocus();
                     }
@@ -73,8 +75,8 @@ SLStandardApplet {
                 id: fileExplorerViewModel
                 showDirs: false // Would be buggy as we directly load the file when 'Return' is pressed
                 folder: {
-                    Fs.createDir(document.workingDirectory);
-                    document.workingDirectory;
+                    Fs.createDir(workingDirectory);
+                    workingDirectory;
                 }
             }
 
@@ -82,7 +84,7 @@ SLStandardApplet {
                 text: qsTr("Delete");
                 onActivated: {
                     const name = fileExplorerView.currentItem.text;
-                    const path = document.workingDirectory + "/" + name;
+                    const path = workingDirectory + "/" + name;
                     fileRemovalDialog.name = name;
                     fileRemovalDialog.path = path;
                     fileRemovalDialog.open();
@@ -153,7 +155,7 @@ SLStandardApplet {
                     onClicked: {
                         if (!newFileName.text)
                             return;
-                        document.create(newFileName.text + newFileLang.ext);
+                        document.create(workingDirectory + "/" + newFileName.text + newFileLang.ext);
                         stackLayout.currentIndex = 2;
                         stackLayout.children[2].forceActiveFocus();
                     }
