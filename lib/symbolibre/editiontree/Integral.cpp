@@ -3,8 +3,8 @@
 #include "FontResizer.hpp"
 
 Integral::Integral(bool definite): InternalEditionNode(definite ? 3 : 2),
-    int_height(0), int_width(0), m_lpar(LPAREN), m_rpar(RPAREN),
-    m_definite(definite)
+    int_height(0), int_width(0), m_definite(definite), m_lpar(LPAREN),
+    m_rpar(RPAREN)
 {
 }
 
@@ -181,7 +181,7 @@ void Integral::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
 
         // FIXME: Can't estimate size precisely; see Sigma
         QFontMetricsF metrics(painter.font());
-        QRectF br = metrics.boundingRect(QString("∫"));
+        // QRectF br = metrics.boundingRect(QString("∫"));
         int_height = 16;
         int_width = 6;
     }

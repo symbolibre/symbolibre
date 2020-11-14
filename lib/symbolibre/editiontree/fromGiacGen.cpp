@@ -409,7 +409,7 @@ void atOf(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
     shell.editParen(LPAREN);
 
     if (args.type == giac::_VECT) {
-        for (int i = 0; i < args._VECTptr->size(); i++) {
+        for (size_t i = 0; i < args._VECTptr->size(); i++) {
             if (i != 0) shell.editStr(",");
             atGen(args._VECTptr->at(i), shell, contextptr);
         }
@@ -495,7 +495,7 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         }
         else {
             giac::vecteur &v = *e.feuille._VECTptr;
-            for (int i = 0; i < v.size(); i++) {
+            for (size_t i = 0; i < v.size(); i++) {
                 if (i) shell.editStr(",");
                 atGen(v[i], shell, contextptr);
             }

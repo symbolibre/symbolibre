@@ -149,7 +149,7 @@ void Sigma::computeDimensions(QPainter &painter, qreal /**/, qreal /**/)
         // of the character here; use another method or an image. For now the
         // size is tied to the current font options.
         QFontMetricsF metrics(painter.font());
-        QRectF br = metrics.boundingRect(QString("∑"));
+        // QRectF br = metrics.boundingRect(QString("∑"));
         sigma_height = 15;
         sigma_width = 10;
     }
