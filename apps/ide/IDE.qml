@@ -127,19 +127,18 @@ SLStandardApplet {
 
                         focus: true
                         implicitHeight: 32
-                        // Down is used to select options; better than nothing
-                        KeyNavigation.right: newFileName
+                        KeyNavigation.down: newFileName
+                        KeyNavigation.priority: KeyNavigation.BeforeItem
                     }
                 }
                 RowLayout {
                     width: parent.width
                     TextField {
                         id: newFileName
-                        placeholderText: "file name"
+                        placeholderText: qsTr("file name")
                         Layout.fillWidth: true
                         implicitHeight: 30
 
-                        KeyNavigation.right: newFileSubmit
                         KeyNavigation.down: newFileSubmit
                     }
                     Label {
