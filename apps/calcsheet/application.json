@@ -3,5 +3,5 @@
     "applet": "calcsheet/CalcSheet.qml",
     "name": "Calculation",
     "name_fr": "Calcul",
-    "icon": "calcul.png"
+    "icon": "calculator.png"
 }

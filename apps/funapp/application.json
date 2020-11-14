@@ -2,5 +2,5 @@
     "applet": "funapp/FunApp.qml",
     "name": "Graph",
     "name_fr": "Graphe",
-    "icon": "fonctions.png"
+    "icon": "functions.png"
 }
