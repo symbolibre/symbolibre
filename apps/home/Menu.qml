@@ -33,7 +33,7 @@ GridView {
                 anchors.fill: parent
                 Image {
                     id: image
-                    source: Fs.staticDataDir() + "/icons/" + (modelData.iconPath || "symbolibre.png")
+                    source: Fs.staticDataDir() + "/icons/" + (modelData.iconPath || "programs.png")
                     anchors.horizontalCenter: parent.horizontalCenter
                     width:  48
                     height: width
