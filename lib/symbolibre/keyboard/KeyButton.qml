@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.12
-import org.symbolibre.keyboard 1.0
-import org.symbolibre.style 1.0
+import org.symbolibre.keyboard 0.2
+import org.symbolibre.style 0.2
 
 Rectangle {
     id: root

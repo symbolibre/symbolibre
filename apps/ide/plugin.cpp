@@ -12,8 +12,8 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.editor"));
-        qmlRegisterType<SourceDocument>(uri, 1, 0, "SourceDocument");
-        qmlRegisterType<LanguageData>(uri, 1, 0, "LanguageData");
+        qmlRegisterType<SourceDocument>(uri, 0, 2, "SourceDocument");
+        qmlRegisterType<LanguageData>(uri, 0, 2, "LanguageData");
     }
 };
 

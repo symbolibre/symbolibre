@@ -12,7 +12,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.util"));
-        qmlRegisterSingletonType<FileSystemSingleton>(uri, 1, 0, "Fs",
+        qmlRegisterSingletonType<FileSystemSingleton>(uri, 0, 2, "Fs",
         [](QQmlEngine *, QJSEngine *) {
             return new FileSystemSingleton;
         }

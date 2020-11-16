@@ -1,5 +1,5 @@
 module org.symbolibre.applet
 plugin appletplugin
-SLFunctionBar 1.0 SLFunctionBar.qml
-SLFunctionKey 1.0 SLFunctionKey.qml
-SLStandardApplet 1.0 SLStandardApplet.qml
+SLFunctionBar 0.2 SLFunctionBar.qml
+SLFunctionKey 0.2 SLFunctionKey.qml
+SLStandardApplet 0.2 SLStandardApplet.qml

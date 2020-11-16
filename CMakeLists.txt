@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
 project(Symbolibre
-    VERSION 0.1
+    VERSION 0.2
     DESCRIPTION "Calculator software"
     HOMEPAGE_URL "https://symbolibre.org"
 )

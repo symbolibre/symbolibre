@@ -4,10 +4,10 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import org.symbolibre.cas 1.0
-import org.symbolibre.controls 1.0
-import org.symbolibre.keyboard 1.0
-import org.symbolibre.util 1.0
+import org.symbolibre.cas 0.2
+import org.symbolibre.controls 0.2
+import org.symbolibre.keyboard 0.2
+import org.symbolibre.util 0.2
 
 SLWindow {
     id: window

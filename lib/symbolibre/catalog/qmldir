@@ -1,5 +1,5 @@
 module org.symbolibre.catalog
-Catalog 1.0 Catalog.qml
-CatalogModel 1.0 CatalogModel.qml
-CatalogPage 1.0 CatalogPage.qml
-CatalogPopup 1.0 CatalogPopup.qml
+Catalog 0.2 Catalog.qml
+CatalogModel 0.2 CatalogModel.qml
+CatalogPage 0.2 CatalogPage.qml
+CatalogPopup 0.2 CatalogPopup.qml

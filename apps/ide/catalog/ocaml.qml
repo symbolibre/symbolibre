@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import org.symbolibre.catalog 1.0
+import org.symbolibre.catalog 0.2
 
 CatalogModel {
     CatalogPage {

@@ -13,11 +13,11 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.keyboard"));
-        qmlRegisterSingletonType<SLKey>(uri, 1, 0, "SLKey",
+        qmlRegisterSingletonType<SLKey>(uri, 0, 2, "SLKey",
             [](QQmlEngine *, QJSEngine *) {
                 return new SLKey;
             });
-        qmlRegisterType<VirtualKeyboardContext>("org.symbolibre.keyboard", 1, 0,
+        qmlRegisterType<VirtualKeyboardContext>("org.symbolibre.keyboard", 0, 2,
                                                 "VirtualKeyboardContext");
     }
 };

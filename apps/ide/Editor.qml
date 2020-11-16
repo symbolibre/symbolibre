@@ -44,10 +44,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
-import org.symbolibre.applet 1.0
-import org.symbolibre.editor 1.0
-import org.symbolibre.keyboard 1.0
-import org.symbolibre.util 1.0
+import org.symbolibre.applet 0.2
+import org.symbolibre.editor 0.2
+import org.symbolibre.keyboard 0.2
+import org.symbolibre.util 0.2
 
 FocusScope {
     property alias document: document

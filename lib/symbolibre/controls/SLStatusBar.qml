@@ -3,7 +3,7 @@
 
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import org.symbolibre.style 1.0
+import org.symbolibre.style 0.2
 
 Rectangle {
     width: parent.width

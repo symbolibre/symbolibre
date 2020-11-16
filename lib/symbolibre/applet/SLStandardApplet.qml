@@ -4,7 +4,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
-import org.symbolibre.applet 1.0
+import org.symbolibre.applet 0.2
 
 Page {
     id: root

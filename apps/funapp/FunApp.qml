@@ -4,9 +4,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import org.symbolibre.applet 1.0
-import org.symbolibre.controls 1.0
-import org.symbolibre.catalog 1.0
+import org.symbolibre.applet 0.2
+import org.symbolibre.controls 0.2
+import org.symbolibre.catalog 0.2
 
 SLStandardApplet {
     id: app

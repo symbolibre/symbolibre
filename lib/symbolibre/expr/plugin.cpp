@@ -12,7 +12,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.expr"));
-        qmlRegisterType<SLQuickExpr>(uri, 1, 0, "Expr");
+        qmlRegisterType<SLQuickExpr>(uri, 0, 2, "Expr");
     }
 };
 

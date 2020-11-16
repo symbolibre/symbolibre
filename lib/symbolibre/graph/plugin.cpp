@@ -12,7 +12,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.graph"));
-        qmlRegisterType<SLQuickGraph>(uri, 1, 0, "GraphView");
+        qmlRegisterType<SLQuickGraph>(uri, 0, 2, "GraphView");
     }
 };
 

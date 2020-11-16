@@ -14,10 +14,10 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.applet"));
-        qmlRegisterType<AppletHelper>("org.symbolibre.applet", 1, 0, "AppletHelper");
+        qmlRegisterType<AppletHelper>("org.symbolibre.applet", 0, 2, "AppletHelper");
         qmlRegisterUncreatableType<FunctionBarAttached>("org.symbolibre.applet",
-            1, 0, "FunctionBar", "FunctionBar is meant to be used as an attached property only");
-        qmlRegisterType<FunctionKeyModel>("org.symbolibre.applet", 1, 0, "FunctionKeyModel");
+            0, 2, "FunctionBar", "FunctionBar is meant to be used as an attached property only");
+        qmlRegisterType<FunctionKeyModel>("org.symbolibre.applet", 0, 2, "FunctionKeyModel");
     }
 };
 

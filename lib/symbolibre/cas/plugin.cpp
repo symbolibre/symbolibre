@@ -12,7 +12,7 @@ public:
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(uri == QString("org.symbolibre.cas"));
-        qmlRegisterType<MathContext>("org.symbolibre.cas", 1, 0, "MathContext");
+        qmlRegisterType<MathContext>("org.symbolibre.cas", 0, 2, "MathContext");
     }
 };
 
