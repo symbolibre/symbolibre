@@ -4,8 +4,12 @@
         {"active": true, "name": "f2", "color": "red", "expr": "[\"\"]"},
         {"active": true, "name": "f3", "color": "green", "expr": "[\"\"]"},
         {"active": true, "name": "f4", "color": "blue", "expr": "[\"\"]"},
-        {"active": true, "name": "f5", "color": "gray", "expr": "[\"\"]"},
-        {"active": true, "name": "f6", "color": "orange", "expr": "[\"\"]"}
+        {"active": true, "name": "f5", "color": "darkorange", "expr": "[\"\"]"},
+        {"active": true, "name": "f6", "color": "fuchsia", "expr": "[\"\"]"},
+        {"active": true, "name": "f7", "color": "gray", "expr": "[\"\"]"},
+        {"active": true, "name": "f8", "color": "indigo", "expr": "[\"\"]"},
+        {"active": true, "name": "f9", "color": "darkcyan", "expr": "[\"\"]"},
+        {"active": true, "name": "f0", "color": "darkslategrey", "expr": "[\"\"]"}
     ],
     "window": "-10,-10,20x20"
 }
