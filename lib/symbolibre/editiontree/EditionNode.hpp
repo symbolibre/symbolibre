@@ -62,11 +62,11 @@ public:
     qreal ascent;
 private:
     /** The position of the node */
-    QPointF mPos;
+    QPointF m_pos;
 
 public:
     /** Constructor */
-    EditionNode() : width(0), height(0), ascent(0), mPos() {}
+    EditionNode() : width(0), height(0), ascent(0), m_pos() {}
     virtual ~EditionNode() = default;
 
     // FIXME needs Flow::flow to be a vector
@@ -75,7 +75,7 @@ public:
 
     QPointF getPos() const
     {
-        return mPos;
+        return m_pos;
     }
 
     /** Accepts a visitor. \see ActiveEditionNodeVisitor */
@@ -194,7 +194,7 @@ public:
      */
     virtual void draw(qreal x, qreal y, QPainter & /*painter*/,bool /*cursor*/)
     {
-        mPos = QPointF(x, y);
+        m_pos = QPointF(x, y);
     }
 };
 

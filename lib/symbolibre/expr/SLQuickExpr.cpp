@@ -4,20 +4,20 @@
 #include <QJsonDocument>
 
 SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
-    expr(), mFont(), textColor(Qt::black), halign(AlignLeft), valign(AlignTop),
-    cursorBlink(true), cursorTimer(this)
+    m_expr(), m_font(), m_textColor(Qt::black), m_halign(AlignLeft), m_valign(AlignTop),
+    m_cursorBlink(true), m_cursorTimer(this)
 {
-    mFont.setHintingPreference(QFont::PreferFullHinting);
+    m_font.setHintingPreference(QFont::PreferFullHinting);
 
     connect(this, SIGNAL(activeFocusChanged(bool)), this, SLOT(updateResetCursor()));
-    setImplicitHeight(QFontInfo(mFont).pixelSize());
+    setImplicitHeight(QFontInfo(m_font).pixelSize());
     setImplicitWidth(1);
     setAcceptedMouseButtons(Qt::AllButtons);
-    connect(&cursorTimer, &QTimer::timeout, [&]() {
-        cursorBlink = !cursorBlink;
+    connect(&m_cursorTimer, &QTimer::timeout, [&]() {
+        m_cursorBlink = !m_cursorBlink;
         update();
     });
-    cursorTimer.start(500);
+    m_cursorTimer.start(500);
     // QTextLayout forces QPainter::RasterOp_NotDestination composition mode,
     // which does not behave correctly when the background is transparent
     setFillColor(Qt::white);
@@ -32,7 +32,7 @@ SLQuickExpr::SLQuickExpr(QQuickItem *parent) : QQuickPaintedItem(parent),
 QString SLQuickExpr::json() const
 {
     QJsonDocument doc;
-    doc.setArray(expr.serialize(true));
+    doc.setArray(m_expr.serialize(true));
     return doc.toJson(QJsonDocument::Compact);
 }
 
@@ -41,7 +41,7 @@ void SLQuickExpr::setJson(const QString &json)
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     if (!doc.isArray())
         qDebug() << "bad editiontree json";
-    expr.deserialize(doc.array());
+    m_expr.deserialize(doc.array());
     emit exprChanged();
     emit cursorPosChanged();
     updateResetCursor();
@@ -51,12 +51,12 @@ void SLQuickExpr::insertJson(const QString &json)
 {
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     if (doc.isArray())
-        expr.insert(new Flow(deserializeFlow(doc.array())));
+        m_expr.insert(new Flow(deserializeFlow(doc.array())));
 
     else if (doc.isObject()) {
         auto node = deserializeInternalNode(doc.object());
         if (node)
-            expr.insert(node);
+            m_expr.insert(node);
     }
 
     else {
@@ -72,7 +72,7 @@ void SLQuickExpr::insertJson(const QString &json)
 bool SLQuickExpr::dropCursorLeft()
 {
     updateResetCursor();
-    bool ret = expr.dropCursor(MLEFT);
+    bool ret = m_expr.dropCursor(MLEFT);
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -81,7 +81,7 @@ bool SLQuickExpr::dropCursorLeft()
 bool SLQuickExpr::dropCursorRight()
 {
     updateResetCursor();
-    bool ret = expr.dropCursor(MRIGHT);
+    bool ret = m_expr.dropCursor(MRIGHT);
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -90,7 +90,7 @@ bool SLQuickExpr::dropCursorRight()
 bool SLQuickExpr::moveCursorLeft()
 {
     updateResetCursor();
-    bool ret = expr.editMoveLeft();
+    bool ret = m_expr.editMoveLeft();
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -99,7 +99,7 @@ bool SLQuickExpr::moveCursorLeft()
 bool SLQuickExpr::moveCursorRight()
 {
     updateResetCursor();
-    bool ret = expr.editMoveRight();
+    bool ret = m_expr.editMoveRight();
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -108,7 +108,7 @@ bool SLQuickExpr::moveCursorRight()
 bool SLQuickExpr::moveCursorUp()
 {
     updateResetCursor();
-    bool ret = expr.editMoveUp();
+    bool ret = m_expr.editMoveUp();
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -117,7 +117,7 @@ bool SLQuickExpr::moveCursorUp()
 bool SLQuickExpr::moveCursorDown()
 {
     updateResetCursor();
-    bool ret = expr.editMoveDown();
+    bool ret = m_expr.editMoveDown();
     if (ret)
         emit cursorPosChanged();
     return ret;
@@ -126,7 +126,7 @@ bool SLQuickExpr::moveCursorDown()
 bool SLQuickExpr::deleteChar()
 {
     updateResetCursor();
-    bool ret = expr.editDelete();
+    bool ret = m_expr.editDelete();
     if (ret) {
         emit exprChanged();
         emit cursorPosChanged();
@@ -137,7 +137,7 @@ bool SLQuickExpr::deleteChar()
 bool SLQuickExpr::clear()
 {
     updateResetCursor();
-    bool ret = expr.editClear();
+    bool ret = m_expr.editClear();
     emit exprChanged();
     emit cursorPosChanged();
     return ret;
@@ -145,91 +145,91 @@ bool SLQuickExpr::clear()
 
 void SLQuickExpr::setFont(const QFont &font)
 {
-    mFont = font;
+    m_font = font;
     updateResetCursor();
-    emit fontChanged(mFont);
+    emit fontChanged(m_font);
 }
 
 void SLQuickExpr::setColor(QColor color)
 {
-    textColor = color;
+    m_textColor = color;
     updateResetCursor();
     emit colorChanged(color);
 }
 
 void SLQuickExpr::setHorizontalAlignment(HorizontalAlignment align)
 {
-    halign = align;
+    m_halign = align;
     update();
 }
 
 void SLQuickExpr::setVerticalAlignment(VerticalAlignment align)
 {
-    valign = align;
+    m_valign = align;
     update();
 }
 
 void SLQuickExpr::updateResetCursor()
 {
     update();
-    cursorBlink = true;
+    m_cursorBlink = true;
     if (hasActiveFocus())
-        cursorTimer.start();
+        m_cursorTimer.start();
     else
-        cursorTimer.stop();
+        m_cursorTimer.stop();
 }
 
 void SLQuickExpr::paint(QPainter *painter)
 {
-    painter->setFont(mFont);
-    painter->setPen(textColor);
+    painter->setFont(m_font);
+    painter->setPen(m_textColor);
 
-    expr.computeDimensions(*painter);
-    setImplicitWidth(expr.getWidth());
-    setImplicitHeight(expr.getHeight());
+    m_expr.computeDimensions(*painter);
+    setImplicitWidth(m_expr.getWidth());
+    setImplicitHeight(m_expr.getHeight());
 
     // We don't want to display a box in an entirely empty expression
-    if (expr.empty() && (!hasActiveFocus() || !cursorBlink))
+    if (m_expr.empty() && (!hasActiveFocus() || !m_cursorBlink))
         return;
 
-    QPoint p = expr.getCursorCoordinates();
+    QPoint p = m_expr.getCursorCoordinates();
 
     // expr.draw() updates the position of the cursor
     // but we need to know the position of the cursor before drawing
     // in order to set the viewport if the expression does not fit completely
     // so we draw the expression twice as a workaround
     // FIXME we could compute node relative positions in computeDimensions()
-    if (expr.getWidth() > width() || expr.getHeight() > height()) {
-        expr.draw(0, 0, *painter, hasActiveFocus() && cursorBlink);
+    if (m_expr.getWidth() > width() || m_expr.getHeight() > height()) {
+        m_expr.draw(0, 0, *painter, hasActiveFocus() && m_cursorBlink);
         painter->eraseRect(painter->viewport());
-        p = expr.getCursorCoordinates();
+        p = m_expr.getCursorCoordinates();
     }
 
     int x, y;
-    if (expr.getWidth() <= width()) {
-        if (halign == AlignLeft)
+    if (m_expr.getWidth() <= width()) {
+        if (m_halign == AlignLeft)
             x = 0;
-        else if (halign == AlignRight)
-            x = width() - expr.getWidth();
+        else if (m_halign == AlignRight)
+            x = width() - m_expr.getWidth();
         else
-            x = width() / 2 - expr.getWidth() / 2;
+            x = width() / 2 - m_expr.getWidth() / 2;
     } else {
         x = width() / 2 - p.x();
     }
 
-    if (expr.getHeight() <= height()) {
-        if (valign == AlignTop)
+    if (m_expr.getHeight() <= height()) {
+        if (m_valign == AlignTop)
             y = 0;
-        else if (valign == AlignBottom)
-            y = height() - expr.getHeight();
+        else if (m_valign == AlignBottom)
+            y = height() - m_expr.getHeight();
         else
-            y = height() / 2 - expr.getHeight() / 2;
+            y = height() / 2 - m_expr.getHeight() / 2;
     } else {
         y = height() / 2 - p.y();
     }
 
     painter->translate(x, y);
-    expr.draw(0, 0, *painter, hasActiveFocus() && cursorBlink);
+    m_expr.draw(0, 0, *painter, hasActiveFocus() && m_cursorBlink);
 }
 
 void SLQuickExpr::keyPressEvent(QKeyEvent *event)

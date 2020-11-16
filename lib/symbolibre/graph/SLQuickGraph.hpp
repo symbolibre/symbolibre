@@ -50,16 +50,16 @@ signals:
     void errorsChanged(const QStringList &);
 
 private:
-    MathContext *mMathContext;
+    MathContext *m_mathContext;
 
-    QCustomPlot mPlot;
-    QMap<QString, QCPGraph*> mGraphs;
-    QCPItemTracer *mCursor;
+    QCustomPlot m_plot;
+    QMap<QString, QCPGraph*> m_graphs;
+    QCPItemTracer *m_cursor;
 
-    QRectF mView;
-    bool mCursorAttached;
+    QRectF m_view;
+    bool m_cursorAttached;
 
-    QStringList mErrors;
+    QStringList m_errors;
 
 
 public:

@@ -5,11 +5,11 @@
 #include "symbolibre/cas/MathContext.hpp"
 
 SLQuickGraph::SLQuickGraph(QQuickItem *parent) : QQuickPaintedItem(parent),
-    mMathContext(nullptr), mPlot(), mGraphs(), mCursor(new QCPItemTracer(&mPlot)),
-    mView(-10, -10, 20, 20), mCursorAttached(false)
+    m_mathContext(nullptr), m_plot(), m_graphs(), m_cursor(new QCPItemTracer(&m_plot)),
+    m_view(-10, -10, 20, 20), m_cursorAttached(false)
 {
-    mCursor->setStyle(QCPItemTracer::tsPlus);
-    mCursor->setVisible(false);
+    m_cursor->setStyle(QCPItemTracer::tsPlus);
+    m_cursor->setVisible(false);
 
     setFlag(QQuickItem::ItemHasContents, true);
 
@@ -17,9 +17,9 @@ SLQuickGraph::SLQuickGraph(QQuickItem *parent) : QQuickPaintedItem(parent),
     connect(this, &QQuickPaintedItem::heightChanged, this, &SLQuickGraph::updateCustomPlotSize);
 
     updateCustomPlotSize();
-    mPlot.xAxis->setRange(mView.left(), mView.right());
-    mPlot.yAxis->setRange(mView.top(), mView.bottom());
-    connect(&mPlot, SIGNAL(afterReplot()), this, SLOT(update()));
+    m_plot.xAxis->setRange(m_view.left(), m_view.right());
+    m_plot.yAxis->setRange(m_view.top(), m_view.bottom());
+    connect(&m_plot, SIGNAL(afterReplot()), this, SLOT(update()));
     redraw();
 }
 
@@ -27,7 +27,7 @@ void SLQuickGraph::paint(QPainter *painter)
 {
     QPixmap    picture(boundingRect().size().toSize());
     QCPPainter qcpPainter(&picture);
-    mPlot.toPainter(&qcpPainter);
+    m_plot.toPainter(&qcpPainter);
     painter->drawPixmap(QPoint(), picture);
 }
 
@@ -38,17 +38,17 @@ void SLQuickGraph::plotGraph(QString f)
      * compute the new points
      * plot the updated graph
      */
-    auto g = mGraphs[f];
+    auto g = m_graphs[f];
     g->data()->clear();
 
     bool err;
 
-    double x = mView.left();
+    double x = m_view.left();
     double y = getValue(f, x, &err);
     if (!err)
         g->addData(x, y);
 
-    while (x <= mView.right()) {
+    while (x <= m_view.right()) {
         x += xScale();
         y = getValue(f, x, &err);
         if (!err)
@@ -60,36 +60,36 @@ void SLQuickGraph::plotGraph(QString f)
 
 void SLQuickGraph::replotGraphs()
 {
-    for (const QString &f : mGraphs.keys())
+    for (const QString &f : m_graphs.keys())
         plotGraph(f);
 }
 
 MathContext * SLQuickGraph::mathContext() const
 {
-    return mMathContext;
+    return m_mathContext;
 }
 
 void SLQuickGraph::setMathContext(MathContext *ctx)
 {
-    if (ctx == mMathContext)
+    if (ctx == m_mathContext)
         return;
 
-    mMathContext = ctx;
+    m_mathContext = ctx;
     replotGraphs();
     emit mathContextChanged(ctx);
 }
 
 void SLQuickGraph::setRange(const QRectF &range)
 {
-    if (range == mView)
+    if (range == m_view)
         return;
 
-    mView = range;
-    mPlot.xAxis->setRange(mView.left(), mView.right());
-    mPlot.yAxis->setRange(mView.top(), mView.bottom());
+    m_view = range;
+    m_plot.xAxis->setRange(m_view.left(), m_view.right());
+    m_plot.yAxis->setRange(m_view.top(), m_view.bottom());
 
     replotGraphs();
-    emit viewChanged(mView);
+    emit viewChanged(m_view);
 }
 
 void SLQuickGraph::setRange(qreal xmin, qreal xmax, qreal ymin, qreal ymax)
@@ -104,45 +104,45 @@ void SLQuickGraph::moveWindow(QPoint offset)
         return;
 
     if (offset.x() > 320 || offset.x() < -320)
-        return setRange(mView.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
+        return setRange(m_view.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
 
-    mView.translate(offset.x()*xScale(), offset.y()*yScale());
+    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
 
     bool err;
 
-    foreach (QCPGraph *g, mGraphs) {
+    foreach (QCPGraph *g, m_graphs) {
         if (offset.x() > 0) {
-            double x = mView.right();
+            double x = m_view.right();
             for (int i = 0 ; i <= offset.x() ; i++) {
                 double y = getValue(g->name(), x, &err);
                 if (!err)
                     g->addData(x, y);
                 x += xScale();
             }
-            g->data()->removeBefore(mView.left());
+            g->data()->removeBefore(m_view.left());
         } else if (offset.x() < 0) {
-            double x = mView.left();
+            double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
                 double y = getValue(g->name(), x, &err);
                 if (!err)
                     g->addData(x, y);
                 x -= xScale();
             }
-            g->data()->removeAfter(mView.right());
+            g->data()->removeAfter(m_view.right());
         }
     }
 
-    mPlot.xAxis->setRange(mView.left(), mView.right());
-    mPlot.yAxis->setRange(mView.top(), mView.bottom());
+    m_plot.xAxis->setRange(m_view.left(), m_view.right());
+    m_plot.yAxis->setRange(m_view.top(), m_view.bottom());
     redraw();
 
-    if (!mCursorAttached) {
-        mCursor->position->setCoords(mView.center());
-        mCursor->setVisible(true);
+    if (!m_cursorAttached) {
+        m_cursor->position->setCoords(m_view.center());
+        m_cursor->setVisible(true);
         emit cursorPosChanged(cursorPos());
     }
 
-    emit viewChanged(mView);
+    emit viewChanged(m_view);
 }
 
 void SLQuickGraph::moveWindow(int x, int y)
@@ -152,43 +152,43 @@ void SLQuickGraph::moveWindow(int x, int y)
 
 void SLQuickGraph::moveCursor(int amtX, int amtY)
 {
-    if (mGraphs.isEmpty() || !mCursorAttached)
+    if (m_graphs.isEmpty() || !m_cursorAttached)
         return moveWindow(amtX, amtY);
 
-    if (!mCursor->visible()) {
-        QPointF cursorPos(mView.center());
-        QCPGraph *closest = mCursor->graph();
-        double yClo = getValue(mGraphs.first()->name(), cursorPos.x());
+    if (!m_cursor->visible()) {
+        QPointF cursorPos(m_view.center());
+        QCPGraph *closest = m_cursor->graph();
+        double yClo = getValue(m_graphs.first()->name(), cursorPos.x());
         double y;
-        foreach (QCPGraph *g, mGraphs) {
+        foreach (QCPGraph *g, m_graphs) {
             y = getValue(g->name(), cursorPos.x());
             if (std::abs(y - cursorPos.y()) <= std::abs(yClo - cursorPos.y())) {
                 closest = g;
                 yClo = y;
             }
         }
-        mCursor->setGraph(closest);
-        mCursor->setGraphKey(cursorPos.x());
-        mCursor->updatePosition();
+        m_cursor->setGraph(closest);
+        m_cursor->setGraphKey(cursorPos.x());
+        m_cursor->updatePosition();
         emit selectedCurveChanged(selectedCurve());
     }
 
     if (amtX != 0) {
-        mCursor->setGraphKey(cursorPos().x() + amtX * xScale());
-        mCursor->updatePosition();
+        m_cursor->setGraphKey(cursorPos().x() + amtX * xScale());
+        m_cursor->updatePosition();
     }
 
     if (amtY > 0) {
         // search curve just above
-        // in case of equality, they are ordered by name (their key in mGraphs)
+        // in case of equality, they are ordered by name (their key in m_graphs)
         // the boolean firstAfter serves this purpose
-        QCPGraph *above = mCursor->graph();
-        QCPGraph *minig = mCursor->graph();
+        QCPGraph *above = m_cursor->graph();
+        QCPGraph *minig = m_cursor->graph();
         double yAbo = std::numeric_limits<double>::max();
         double yMin = std::numeric_limits<double>::max();
         bool firstAfter = false;
-        foreach (QCPGraph *g, mGraphs) {
-            if (g == mCursor->graph()) {
+        foreach (QCPGraph *g, m_graphs) {
+            if (g == m_cursor->graph()) {
                 firstAfter = true;
                 continue;
             }
@@ -206,22 +206,22 @@ void SLQuickGraph::moveCursor(int amtX, int amtY)
                 yMin = y;
             }
         }
-        if (mCursor->graph() != above) {
-            mCursor->setGraph(above);
+        if (m_cursor->graph() != above) {
+            m_cursor->setGraph(above);
         } else {
-            mCursor->setGraph(minig);
+            m_cursor->setGraph(minig);
         }
-        mCursor->updatePosition();
+        m_cursor->updatePosition();
         emit selectedCurveChanged(selectedCurve());
     } else if (amtY < 0) {
         //search curve just below
-        QCPGraph *below = mCursor->graph();
-        QCPGraph *maxig = mCursor->graph();
+        QCPGraph *below = m_cursor->graph();
+        QCPGraph *maxig = m_cursor->graph();
         double yBel = -std::numeric_limits<double>::max();
         double yMax = -std::numeric_limits<double>::max();
         bool before = true;
-        foreach (QCPGraph *g, mGraphs) {
-            if (g == mCursor->graph()) {
+        foreach (QCPGraph *g, m_graphs) {
+            if (g == m_cursor->graph()) {
                 before = false;
                 continue;
             }
@@ -235,31 +235,31 @@ void SLQuickGraph::moveCursor(int amtX, int amtY)
                 yMax = y;
             }
         }
-        if (mCursor->graph() != below) {
-            mCursor->setGraph(below);
+        if (m_cursor->graph() != below) {
+            m_cursor->setGraph(below);
         } else {
-            mCursor->setGraph(maxig);
+            m_cursor->setGraph(maxig);
         }
-        mCursor->updatePosition();
+        m_cursor->updatePosition();
         emit selectedCurveChanged(selectedCurve());
     }
 
     QPointF windowMove;
     // center on cursor if too far away
-    if (!mView.contains(cursorPos())) {
-        windowMove += cursorPos() - mView.center();
+    if (!m_view.contains(cursorPos())) {
+        windowMove += cursorPos() - m_view.center();
     } else {
         // enforce a margin of 10 pixels
-        if (cursorPos().x() > mView.right() - 10 * xScale()) {
-            windowMove.rx() += cursorPos().x() + 10 * xScale() - mView.right();
-        } else if (cursorPos().x() < mView.left() + 10 * xScale()) {
-            windowMove.rx() += cursorPos().x() - 10 * xScale() - mView.left();
+        if (cursorPos().x() > m_view.right() - 10 * xScale()) {
+            windowMove.rx() += cursorPos().x() + 10 * xScale() - m_view.right();
+        } else if (cursorPos().x() < m_view.left() + 10 * xScale()) {
+            windowMove.rx() += cursorPos().x() - 10 * xScale() - m_view.left();
         }
 
-        if (cursorPos().y() < mView.top() + 10 * yScale()) {
-            windowMove.ry() += cursorPos().y() - 10 * yScale() - mView.top();
-        } else if (cursorPos().y() > mView.bottom() - 10 * yScale()) {
-            windowMove.ry() += cursorPos().y() + 10 * yScale() - mView.bottom();
+        if (cursorPos().y() < m_view.top() + 10 * yScale()) {
+            windowMove.ry() += cursorPos().y() - 10 * yScale() - m_view.top();
+        } else if (cursorPos().y() > m_view.bottom() - 10 * yScale()) {
+            windowMove.ry() += cursorPos().y() + 10 * yScale() - m_view.bottom();
         }
     }
 
@@ -267,7 +267,7 @@ void SLQuickGraph::moveCursor(int amtX, int amtY)
         moveWindow(windowMove.x() / xScale(), windowMove.y() / yScale());
     }
 
-    mCursor->setVisible(true);
+    m_cursor->setVisible(true);
     emit cursorPosChanged(cursorPos());
     redraw();
 }
@@ -276,9 +276,9 @@ void SLQuickGraph::zoomIn(double value)
 {
     // change ratio, center stays the same -> modifies X/Y.min/max
     QRectF view;
-    view.setSize(mView.size() / value);
+    view.setSize(m_view.size() / value);
     if (value < 1)
-        view.moveCenter(mView.center());
+        view.moveCenter(m_view.center());
     else
         view.moveCenter(cursorPos());
 
@@ -289,95 +289,95 @@ void SLQuickGraph::addError(QString msg)
 {
     // Avoid repeating messages; important because functions are evaluated at
     // typically tens of points and the errors often repeat
-    if (!mErrors.contains(msg)) {
-        mErrors.append(msg);
-        emit errorsChanged(mErrors);
+    if (!m_errors.contains(msg)) {
+        m_errors.append(msg);
+        emit errorsChanged(m_errors);
     }
 }
 
 void SLQuickGraph::clearErrors()
 {
-    bool changed = mErrors.size() > 0;
-    mErrors.clear();
+    bool changed = m_errors.size() > 0;
+    m_errors.clear();
     if (changed)
-        emit errorsChanged(mErrors);
+        emit errorsChanged(m_errors);
 }
 
 void SLQuickGraph::updateCustomPlotSize()
 {
     // FIXME width() and height() are initially null
-    mPlot.setGeometry(0, 0, std::max(width(), 100.), std::max(height(), 100.));
+    m_plot.setGeometry(0, 0, std::max(width(), 100.), std::max(height(), 100.));
 
     // the geometry change does not trigger a viewport update immediately
-    mPlot.setViewport(mPlot.geometry());
+    m_plot.setViewport(m_plot.geometry());
 
     // dimensions are only updated on replot
-    // mPlot.replot();
+    // m_plot.replot();
 
     replotGraphs();
 }
 
 void SLQuickGraph::addGraph(QString id, QColor color)
 {
-    if (mGraphs.contains(id)) {
-        mGraphs[id]->setPen(color);
+    if (m_graphs.contains(id)) {
+        m_graphs[id]->setPen(color);
     } else {
-        auto g = mPlot.addGraph();
+        auto g = m_plot.addGraph();
         g->setPen(color);
         g->setName(id);
-        mGraphs[id] = g;
+        m_graphs[id] = g;
     }
     plotGraph(id);
 }
 
 void SLQuickGraph::clearGraph()
 {
-    for (auto name : mGraphs.keys()) {
+    for (auto name : m_graphs.keys()) {
         removeGraph(name);
     }
 }
 
 void SLQuickGraph::removeGraph(QString name)
 {
-    if (mGraphs.contains(name)) {
-        if (mCursor->graph() == mGraphs[name]) {
-            mCursor->setGraph(nullptr);
-            mCursor->setVisible(false);
+    if (m_graphs.contains(name)) {
+        if (m_cursor->graph() == m_graphs[name]) {
+            m_cursor->setGraph(nullptr);
+            m_cursor->setVisible(false);
             emit selectedCurveChanged(QString());
         }
-        mPlot.removeGraph(mGraphs[name]);
-        mGraphs.remove(name);
+        m_plot.removeGraph(m_graphs[name]);
+        m_graphs.remove(name);
     }
 }
 
 const QRectF &SLQuickGraph::view() const
 {
-    return mView;
+    return m_view;
 }
 
 QPointF SLQuickGraph::cursorPos() const
 {
-    return mCursor->position->coords();
+    return m_cursor->position->coords();
 }
 
 QString SLQuickGraph::selectedCurve() const
 {
-    if (mCursor->graph())
-        return mCursor->graph()->name();
+    if (m_cursor->graph())
+        return m_cursor->graph()->name();
 
     return "";
 }
 
 void SLQuickGraph::setSelectedCurve(QString curve)
 {
-    auto it = mGraphs.find(curve);
-    if (it != mGraphs.end()) {
-        mCursor->setGraph(it.value());
-        mCursor->updatePosition();
+    auto it = m_graphs.find(curve);
+    if (it != m_graphs.end()) {
+        m_cursor->setGraph(it.value());
+        m_cursor->updatePosition();
         emit cursorPosChanged(cursorPos());
         emit selectedCurveChanged(curve);
     } else {
-        mCursor->setGraph(nullptr);
+        m_cursor->setGraph(nullptr);
         emit selectedCurveChanged(QString());
     }
     redraw();
@@ -385,27 +385,27 @@ void SLQuickGraph::setSelectedCurve(QString curve)
 
 bool SLQuickGraph::isCursorAttached() const
 {
-    return mCursorAttached;
+    return m_cursorAttached;
 }
 
 const QStringList &SLQuickGraph::errors() const
 {
-    return mErrors;
+    return m_errors;
 }
 
 void SLQuickGraph::setCursorAttached(bool attached)
 {
-    if (attached == mCursorAttached)
+    if (attached == m_cursorAttached)
         return;
-    mCursorAttached = attached;
+    m_cursorAttached = attached;
     if (attached) {
-        mCursor->setVisible(false);
+        m_cursor->setVisible(false);
     } else {
-        mCursor->setGraph(nullptr);
-        mCursor->setVisible(true);
-        mCursor->position->setCoords(mView.center());
+        m_cursor->setGraph(nullptr);
+        m_cursor->setVisible(true);
+        m_cursor->position->setCoords(m_view.center());
         emit selectedCurveChanged(QString());
-        emit cursorPosChanged(mCursor->position->coords());
+        emit cursorPosChanged(m_cursor->position->coords());
     }
     emit cursorAttachedChanged(attached);
     redraw();
@@ -413,17 +413,17 @@ void SLQuickGraph::setCursorAttached(bool attached)
 
 double SLQuickGraph::xScale() const
 {
-    return 4 * mView.width() / 320;
+    return 4 * m_view.width() / 320;
 }
 
 double SLQuickGraph::yScale() const
 {
-    return 4 * mView.height() / 240;
+    return 4 * m_view.height() / 240;
 }
 
 void SLQuickGraph::redraw()
 {
-    mPlot.replot(QCustomPlot::rpQueuedReplot);
+    m_plot.replot(QCustomPlot::rpQueuedReplot);
 }
 
 double SLQuickGraph::getValue(const QString &f, double x, bool *err)
@@ -431,7 +431,7 @@ double SLQuickGraph::getValue(const QString &f, double x, bool *err)
     giac::gen y;
 
     try {
-        y = mMathContext->giacEvalString(f)(giac::gen(x), mMathContext->giacContext());
+        y = m_mathContext->giacEvalString(f)(giac::gen(x), m_mathContext->giacContext());
         if (err)
             *err = false;
     }
@@ -442,6 +442,6 @@ double SLQuickGraph::getValue(const QString &f, double x, bool *err)
             *err = true;
     }
 
-    //if (y.is_real(mMathContext->giacContext()))
-    return y.to_double(mMathContext->giacContext()); // returns NaN if y is not real
+    //if (y.is_real(m_mathContext->giacContext()))
+    return y.to_double(m_mathContext->giacContext()); // returns NaN if y is not real
 }

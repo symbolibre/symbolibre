@@ -24,7 +24,7 @@ public:
 
     QString text() const
     {
-        return expr.getText();
+        return m_expr.getText();
     }
 
     QString json() const;
@@ -35,13 +35,13 @@ public:
 
     const QFont &font() const
     {
-        return mFont;
+        return m_font;
     }
     void setFont(const QFont &font);
 
     QColor color() const
     {
-        return textColor;
+        return m_textColor;
     }
     void setColor(QColor color);
 
@@ -50,7 +50,7 @@ public:
 
     HorizontalAlignment horizontalAlignment() const
     {
-        return halign;
+        return m_halign;
     }
 
     void setHorizontalAlignment(HorizontalAlignment align);
@@ -60,7 +60,7 @@ public:
 
     VerticalAlignment verticalAlignment() const
     {
-        return valign;
+        return m_valign;
     }
 
     void setVerticalAlignment(VerticalAlignment align);
@@ -90,13 +90,13 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    EditionTree expr;
-    QFont mFont;
-    QColor textColor;
-    HorizontalAlignment halign;
-    VerticalAlignment valign;
-    bool cursorBlink;
-    QTimer cursorTimer;
+    EditionTree m_expr;
+    QFont m_font;
+    QColor m_textColor;
+    HorizontalAlignment m_halign;
+    VerticalAlignment m_valign;
+    bool m_cursorBlink;
+    QTimer m_cursorTimer;
 };
 
 #endif // SLQUICKEXPR_HPP
