@@ -279,14 +279,32 @@ void SourceDocument::load(const QString &filePath, bool create)
     m_filePath = filePath;
     emit filePathChanged();
 
-    const auto def = m_repository.definitionForFileName(filePath);
-    m_highlighter->setDefinition(def);
-    m_highlighter->rehighlight();
-    if (def.isValid()) {
-        m_languageData = m_languages.data(def.name());
-    } else {
-        m_languageData = m_languages.data("Plain text");
+    m_languageData = m_languages.dataForFileName(filePath);
+
+    // If the extension is listed in languages.json, use the corresponding
+    // language info (no syntax highlighting if khighlight is not specified)
+    if (m_languageData != nullptr) {
+        QString defname = m_languageData->khighlight;
+        if (defname != "") {
+            const auto def = m_repository.definitionForName(defname);
+            m_highlighter->setDefinition(def);
+            m_highlighter->rehighlight();
+        }
     }
+    // Otherwise, auto-detect highlighting and try to match language info by
+    // highlighter name rather than extension
+    else {
+        const auto def = m_repository.definitionForFileName(filePath);
+        m_highlighter->setDefinition(def);
+        m_highlighter->rehighlight();
+
+        if (def.isValid()) {
+            m_languageData = m_languages.data(def.name());
+        } else {
+            m_languageData = m_languages.data("Plain text");
+        }
+    }
+
     emit languageDataChanged(m_languageData);
 }
 

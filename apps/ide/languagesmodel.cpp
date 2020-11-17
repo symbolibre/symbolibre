@@ -39,9 +39,12 @@ LanguagesModel::LanguagesModel()
             lang->command = language["cmd"].toString();
             lang->extension = language["extension"].toString();
             lang->catalog = "";
+            lang->khighlight = "";
 
             if (language.contains("catalog"))
                 lang->catalog = language["catalog"].toString();
+            if (language.contains("khighlight"))
+                lang->khighlight = language["khighlight"].toString();
         }
     }
     if (!m_languages.contains("Plain text")) {
@@ -62,4 +65,19 @@ LanguageData *LanguagesModel::data(const QString langname)
         return *lang;
 
     return m_languages["Plain text"];
+}
+
+LanguageData *LanguagesModel::dataForFileName(const QString fileName)
+{
+    int index = fileName.lastIndexOf('.');
+    if (index < 0)
+        return nullptr;
+
+    QString suffix = fileName.mid(index);
+    for (auto &lang: m_languages) {
+        if (lang->extension == suffix)
+            return lang;
+    }
+
+    return nullptr;
 }

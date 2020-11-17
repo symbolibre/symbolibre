@@ -20,6 +20,7 @@ class LanguageData : public QObject
     Q_PROPERTY(QString extension MEMBER extension CONSTANT)
     Q_PROPERTY(QString command MEMBER command CONSTANT)
     Q_PROPERTY(QString catalog MEMBER catalog CONSTANT)
+    Q_PROPERTY(QString khighlight MEMBER khighlight CONSTANT)
 
     friend class LanguagesModel;
 
@@ -30,6 +31,7 @@ public:
     QString extension;
     QString command;
     QString catalog;
+    QString khighlight;
 };
 
 class LanguagesModel : public QObject
@@ -41,6 +43,7 @@ public:
 
     Q_INVOKABLE QStringList languages() const;
     Q_INVOKABLE LanguageData *data(const QString langname);
+    Q_INVOKABLE LanguageData *dataForFileName(const QString fileName);
 
 private:
     QMap<QString, LanguageData*> m_languages;
