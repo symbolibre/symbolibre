@@ -128,12 +128,7 @@ SLStandardApplet {
                         focus: true
                         implicitHeight: 32
                         KeyNavigation.down: newFileName
-                        Keys.onDownPressed: function (e) {
-                            if (newFileLang.popup.opened)
-                                e.accepted = false;
-                            else
-                                newFileName.forceActiveFocus();
-                        }
+                        KeyNavigation.priority: newFileLang.popup.opened ? KeyNavigation.AfterItem : KeyNavigation.BeforeItem
                     }
                 }
                 RowLayout {
