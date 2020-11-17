@@ -1,7 +1,4 @@
 { "languages": [
     {"name" : "Plain text", "cmd": "", "extension": ".txt"},
-    {"name" : "Python", "cmd": "python", "extension": ".py", "catalog": "python"},
-    {"name" : "Objective Caml", "cmd": "ocaml", "extension": ".ml", "catalog": "ocaml"},
-    {"name" : "TI Basic", "cmd": "tibasic", "extension": ".tibs"},
-    {"name" : "Casio Basic", "cmd": "casiobasic", "extension": ".csbs"}
+    {"name" : "Python", "cmd": "python", "extension": ".py", "catalog": "python"}
 ]}
