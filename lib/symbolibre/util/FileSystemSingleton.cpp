@@ -39,6 +39,11 @@ bool FileSystemSingleton::createDir(const QString &path)
     return dir.mkpath(".");
 }
 
+bool FileSystemSingleton::copyFile(const QString &src, const QString &dst)
+{
+    return QFile(src).copy(dst);
+}
+
 QString FileSystemSingleton::prefixDir()
 {
 #ifdef SL_TARGET_UNIX

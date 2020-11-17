@@ -14,6 +14,15 @@ SLStandardApplet {
     property alias textArea: editor.textArea
 
     property string workingDirectory: Fs.readWriteDataDir() + "/programs"
+    property string exampleDirectory: Fs.staticDataDir() + "/ide/programs"
+
+    Component.onCompleted: {
+        const src = exampleDirectory + "/example.py";
+        const dst = workingDirectory + "/example.py";
+
+        if (!Fs.fileExists(dst))
+            Fs.copyFile(src, dst);
+    }
 
     CatalogPopup {
         id: catalog
