@@ -8,7 +8,7 @@ CatalogModel {
 
         ListModel {
             ListElement {
-                title: qsTr("Basic")
+                title: qsTr("Base")
                 jump: "basic"
             }
             ListElement {
@@ -24,15 +24,17 @@ CatalogModel {
 
     CatalogPage {
         name: "basic"
-        title: qsTr("Basic")
+        title: qsTr("Base")
 
         ListModel {
             ListElement {
-                title: qsTr("sqrt")
+                title: qsTr("Square root")
+                doc: "sqrt"
                 insert: '{"type": "sqrt", "content":[[""]]}'
             }
             ListElement {
-                title: qsTr("sum")
+                title: qsTr("Sum")
+                doc: "sum"
                 insert: '{"type": "sum", "content":[[""],[""]]}'
             }
             ListElement {
@@ -46,19 +48,23 @@ CatalogModel {
                 insert: '{"type": "int", "content":[[""],[""]]}'
             }
             ListElement {
-                title: qsTr("abs")
+                title: qsTr("Absolute value")
+                doc: "abs"
                 insert: '["abs"]'
             }
             ListElement {
-                title: qsTr("iPart")
+                title: qsTr("Int. part")
+                doc: "iPart"
                 insert: '["iPart"]'
             }
             ListElement {
-                title: qsTr("frac")
+                title: qsTr("Frac. part")
+                doc: "frac"
                 insert: '["frac"]'
             }
             ListElement {
-                title: qsTr("round")
+                title: qsTr("Rounded value")
+                doc: "round"
                 insert: '["round"]'
             }
         }
