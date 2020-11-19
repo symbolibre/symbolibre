@@ -109,8 +109,6 @@ void SLQuickGraph::moveWindow(QPoint offset)
     if (offset.x() > 320 || offset.x() < -320)
         return setRange(m_view.translated(QPointF(offset.x() * xScale(), offset.y() * yScale())));
 
-    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
-
     bool err;
 
     foreach (QCPGraph *g, m_graphs) {
@@ -122,7 +120,7 @@ void SLQuickGraph::moveWindow(QPoint offset)
                     g->addData(x, y);
                 x += xScale();
             }
-            g->data()->removeBefore(m_view.left());
+            g->data()->removeBefore(m_view.left() + offset.x() * xScale());
         } else if (offset.x() < 0) {
             double x = m_view.left();
             for (int i = offset.x() ; i <= 0 ; i++) {
@@ -131,9 +129,11 @@ void SLQuickGraph::moveWindow(QPoint offset)
                     g->addData(x, y);
                 x -= xScale();
             }
-            g->data()->removeAfter(m_view.right());
+            g->data()->removeAfter(m_view.right() + offset.x() * xScale());
         }
     }
+
+    m_view.translate(offset.x()*xScale(), offset.y()*yScale());
 
     m_plot.xAxis->setRange(m_view.left(), m_view.right());
     m_plot.yAxis->setRange(m_view.top(), m_view.bottom());
