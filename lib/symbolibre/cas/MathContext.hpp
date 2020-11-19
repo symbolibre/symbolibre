@@ -14,7 +14,7 @@ class MathContext : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int angleMode
+    Q_PROPERTY(AngleMode angleMode
         READ angleMode WRITE setAngleMode NOTIFY angleModeChanged)
 
 public:
@@ -29,8 +29,11 @@ public:
     EditionTree evalExpr(const EditionTree &etree, bool approx);
     Q_INVOKABLE QString evalExpr(const QString &json, bool approx);
 
-    int angleMode() const;
-    void setAngleMode(int mode);
+    enum AngleMode { Radian, Degree };
+    Q_ENUM(AngleMode)
+
+    AngleMode angleMode() const;
+    void setAngleMode(AngleMode mode);
 
 Q_SIGNALS:
     void angleModeChanged();

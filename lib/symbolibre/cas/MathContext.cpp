@@ -112,14 +112,16 @@ QString MathContext::evalExpr(const QString &json, bool approx)
     return doc.toJson(QJsonDocument::Compact);
 }
 
-int MathContext::angleMode() const {
-    return giac::angle_mode(&giac);
+MathContext::AngleMode MathContext::angleMode() const
+{
+    return static_cast<AngleMode>(giac::angle_mode(&giac));
 }
 
-void MathContext::setAngleMode(int mode) {
-    bool changed = (mode != angleMode());
-    giac::angle_mode(mode, &giac);
+void MathContext::setAngleMode(AngleMode mode)
+{
+    if (mode == angleMode())
+        return;
 
-    if (changed)
-        emit angleModeChanged();
+    giac::angle_mode(mode, &giac);
+    emit angleModeChanged();
 }
