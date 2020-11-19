@@ -148,6 +148,9 @@ bool SLQuickExpr::clear()
 
 void SLQuickExpr::setFont(const QFont &font)
 {
+    if (font == m_font)
+        return;
+
     m_font = font;
     updateResetCursor();
     emit fontChanged(m_font);
@@ -155,6 +158,9 @@ void SLQuickExpr::setFont(const QFont &font)
 
 void SLQuickExpr::setColor(QColor color)
 {
+    if (color == m_textColor)
+        return;
+
     m_textColor = color;
     updateResetCursor();
     emit colorChanged(color);
@@ -162,12 +168,18 @@ void SLQuickExpr::setColor(QColor color)
 
 void SLQuickExpr::setHorizontalAlignment(HorizontalAlignment align)
 {
+    if (align == m_halign)
+        return;
+
     m_halign = align;
     update();
 }
 
 void SLQuickExpr::setVerticalAlignment(VerticalAlignment align)
 {
+    if (align == m_valign)
+        return;
+
     m_valign = align;
     update();
 }
