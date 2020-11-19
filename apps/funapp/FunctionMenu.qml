@@ -4,7 +4,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import org.symbolibre.controls 0.2
 
 FocusScope {
     id: root
@@ -26,48 +25,48 @@ FocusScope {
             text: qsTr("Xmin")
         }
 
-        SLTextField {
+        TextField {
             id: xminField
             focus: true
             text: +xmin.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: xmaxField
-            onEditFocusChanged: if (!editFocus) xmin = parseFloat(text)
+            onActiveFocusChanged: if (!activeFocus) xmin = parseFloat(text)
         }
 
         Label {
             text: qsTr("Xmax")
         }
 
-        SLTextField {
+        TextField {
             id: xmaxField
             text: +xmax.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: yminField
-            onEditFocusChanged: if (!editFocus) xmax = parseFloat(text)
+            onActiveFocusChanged: if (!activeFocus) xmax = parseFloat(text)
         }
 
         Label {
             text: qsTr("Ymin")
         }
 
-        SLTextField {
+        TextField {
             id: yminField
             text: +ymin.toPrecision(6)
             Layout.fillWidth: true
             KeyNavigation.down: ymaxField
-            onEditFocusChanged: if (!editFocus) ymin = parseFloat(text)
+            onActiveFocusChanged: if (!activeFocus) ymin = parseFloat(text)
         }
 
         Label {
             text: qsTr("Ymax")
         }
 
-        SLTextField {
+        TextField {
             id: ymaxField
             text: +ymax.toPrecision(6)
             Layout.fillWidth: true
-            onEditFocusChanged: if (!editFocus) ymax = parseFloat(text)
+            onActiveFocusChanged: if (!activeFocus) ymax = parseFloat(text)
         }
     }
 }
