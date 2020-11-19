@@ -138,6 +138,7 @@ Rectangle {
             alphaKey: Qt.Key_D
         }
         KeyButton {
+            mathKey: SLKey.Euler
             progKey: Qt.Key_BracketRight
             alphaKey: Qt.Key_E
         }

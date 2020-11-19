@@ -23,7 +23,7 @@ public:
         Home = Qt::Key_F6, Help = Qt::Key_F7, Back = Qt::Key_Escape, Undo = Qt::Key_F8,
         Delete = Qt::Key_Backspace, Enter = Qt::Key_Return,
 
-        Pi = Qt::Key_F9, Imag = Qt::Key_F13,
+        Pi = Qt::Key_F9, Imag = Qt::Key_F13, Euler = Qt::Key_F26,
         Cos = Qt::Key_F14, Sin = Qt::Key_F15, Tan = Qt::Key_F16,
         Square = Qt::Key_F10, Sqrt = Qt::Key_F11,
         LogE = Qt::Key_F17, Log10 = Qt::Key_F18, Exp = Qt::Key_F19, Pow = Qt::Key_F12,

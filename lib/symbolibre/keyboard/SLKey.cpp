@@ -18,6 +18,9 @@ QString SLKey::text(int k)
     case Imag:
         return "i";
 
+    case Euler:
+        return "e";
+
     case Cos:
         return "cos";
 
