@@ -24,6 +24,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Symbolibre.  If not, see <https://www.gnu.org/licenses/>.
 
+## Documentation
+
+Documentation files (in the doc/ directory) are available under the CC BY-SA 4.0 license.
+
+Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
+
 ## Theme source code
 
 For files in the theme/ directory, see theme/README.md.
