@@ -206,7 +206,14 @@ FocusScope {
         anchors.bottom: parent.bottom
     }
 
-    /* Keyboard shortcuts */
+    // Keyboard shortcuts
+
+    Keys.onPressed: {
+        if (event.key === SLKey.Undo) {
+            textArea.undo();
+            event.accepted = true;
+        }
+    }
 
     FunctionBar.f1: FunctionKeyModel {
         text: qsTr("Catalog")
@@ -225,9 +232,5 @@ FocusScope {
             document.saveAs(document.filePath);
             document.execute();
         }
-    }
-    FunctionBar.f4: FunctionKeyModel {
-        text: qsTr("Undo")
-        onActivated: textArea.undo();
     }
 }
