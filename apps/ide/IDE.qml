@@ -151,8 +151,13 @@ SLStandardApplet {
 
                         focus: true
                         implicitHeight: 32
+
                         KeyNavigation.down: newFileName
-                        KeyNavigation.priority: newFileLang.popup.opened ? KeyNavigation.AfterItem : KeyNavigation.BeforeItem
+                        KeyNavigation.priority: newFileLang.popup.opened
+                            ? KeyNavigation.AfterItem
+                            : KeyNavigation.BeforeItem
+
+                        Component.onCompleted: currentIndex = find("Python")
                     }
                 }
                 RowLayout {
