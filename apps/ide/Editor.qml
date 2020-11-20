@@ -227,8 +227,10 @@ FocusScope {
         onActivated: document.saveAs(document.filePath);
     }
     FunctionBar.f3: FunctionKeyModel {
-        text: qsTr("Execute")  + (document.modified ? "*" : "")
-        onActivated: {
+        text: document.languageData.command
+            ? qsTr("Execute")  + (document.modified ? "*" : "")
+            : ""
+        onActivated: if (document.languageData.command) {
             document.saveAs(document.filePath);
             document.execute();
         }
