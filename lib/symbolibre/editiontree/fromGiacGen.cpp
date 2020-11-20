@@ -24,7 +24,7 @@ void atPow(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT);
 
-static bool local_debug = false;
+static bool local_debug = true;
 
 void atInt(int a, EditionTree &shell, EXT_GIAC_CONTEXT)
 {
@@ -436,6 +436,16 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         return;
     }
 
+    if (e.sommet == giac::at_program) {
+        giac::vecteur &v = *e.feuille._VECTptr;
+        std::string args = v[0].print();
+        if (v[0].type == giac::_VECT && v[0]._VECTptr->size() > 1)
+            args = "(" + args + ")";
+        shell.editStr(args + "->");
+        atGen(v[2], shell, contextptr);
+        return;
+    }
+
     if (e.sommet == giac::at_of)
         return atOf(e, shell, contextptr);
 
@@ -443,7 +453,7 @@ void atSymbolic(const giac::symbolic &e, EditionTree &shell, EXT_GIAC_CONTEXT)
             && e.sommet != giac::at_plus && e.sommet != giac::at_prod
             && e.sommet != giac::at_pow) {
         if (local_debug)
-            std::cout << "printsommet";
+            std::cout << "printsommet\n";
         // s += g.sommet.ptr()->printsommet(g.feuille,g.sommet.ptr()->s,contextptr);
         shell.editStr(e.sommet.ptr()->s);
         atGen(e.feuille, shell, contextptr);
@@ -590,7 +600,7 @@ void atGen(const giac::gen &e, EditionTree &shell, EXT_GIAC_CONTEXT)
         break;
     case giac::_VECT:
         if (local_debug)
-            std::cout << "_VECT" << std::endl;
+            std::cout << "_VECT (" << (int)e.subtype << ")" << std::endl;
         bin = e.print(contextptr);
         shell.editStr(bin);
         break;
