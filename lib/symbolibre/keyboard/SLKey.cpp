@@ -22,13 +22,13 @@ QString SLKey::text(int k)
         return "e";
 
     case Cos:
-        return "cos";
+        return "cos(";
 
     case Sin:
-        return "sin";
+        return "sin(";
 
     case Tan:
-        return "tan";
+        return "tan(";
 
     case Square:
         return "\u00B2";
@@ -37,10 +37,10 @@ QString SLKey::text(int k)
         return "\u221A";
 
     case LogE:
-        return "ln";
+        return "ln(";
 
     case Log10:
-        return "log";
+        return "log(";
 
     case Exp:
         return "e^";//"\u212F^";
@@ -107,6 +107,13 @@ QString SLKey::label(int k)
 
     case Qt::Key_Space:
         return "\u2423";
+
+    case Cos:
+    case Sin:
+    case Tan:
+    case LogE:
+    case Log10:
+        return text(k).chopped(1);
     }
 
     if (k >= Qt::Key_Left && k <= Qt::Key_Down)
