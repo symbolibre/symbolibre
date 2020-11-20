@@ -4,6 +4,11 @@
 <context>
     <name>CalcSheet</name>
     <message>
+        <location filename="../apps/calcsheet/CalcSheet.qml" line="16"/>
+        <source>Symbolibre Calculator</source>
+        <translation>Calculatrice Symbolibre</translation>
+    </message>
+    <message>
         <location filename="../apps/calcsheet/CalcSheet.qml" line="98"/>
         <source>Results:
 Numerical</source>
@@ -70,6 +75,11 @@ Radians</translation>
 </context>
 <context>
     <name>FunApp</name>
+    <message>
+        <location filename="../apps/funapp/FunApp.qml" line="13"/>
+        <source>Symbolibre Functions</source>
+        <translation>Fonctions Symbolibre</translation>
+    </message>
     <message>
         <source>Confirm</source>
         <translation>Valider</translation>
@@ -157,6 +167,37 @@ fonction</translation>
 <context>
     <name>IDE</name>
     <message>
+        <location filename="../apps/ide/IDE.qml" line="18"/>
+        <location filename="../apps/ide/IDE.qml" line="21"/>
+        <source>Symbolibre IDE</source>
+        <translation>IDE Symbolibre</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="52"/>
+        <source>Remove file</source>
+        <translation>Suppression de fichier</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="59"/>
+        <source>Do you really want to delete {}?</source>
+        <translation>Confirmer la suppression de {} ?</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="104"/>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="256"/>
+        <source>Create new file</source>
+        <translation>Nouveau fichier</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="265"/>
+        <source>Edit existing file</source>
+        <translation>Ouvrir un fichier existant</translation>
+    </message>
+    <message>
         <location filename="../apps/ide/IDE.qml" line="61"/>
         <source>New file</source>
         <translation>Nouveau
@@ -171,6 +212,11 @@ fichier</translation>
         <location filename="../apps/ide/IDE.qml" line="83"/>
         <source>Type</source>
         <translation>Type</translation>
+    </message>
+    <message>
+        <location filename="../apps/ide/IDE.qml" line="158"/>
+        <source>file name</source>
+        <translation>nom</translation>
     </message>
     <message>
         <location filename="../apps/ide/IDE.qml" line="115"/>
@@ -195,16 +241,6 @@ fichiers</translation>
         <location filename="../apps/ide/IDE.qml" line="167"/>
         <source>Save changes?</source>
         <translation>Enregistrer les modifications ?</translation>
-    </message>
-    <message>
-        <location filename="../apps/ide/IDE.qml" line="256"/>
-        <source>Create new file</source>
-        <translation>Nouveau fichier</translation>
-    </message>
-    <message>
-        <location filename="../apps/ide/IDE.qml" line="265"/>
-        <source>Edit existing file</source>
-        <translation>Ouvrir un fichier existant</translation>
     </message>
 </context>
 <context>
@@ -242,9 +278,9 @@ fichiers</translation>
     </message>
 </context>
 <context>
-    <name>SourceEditor</name>
+    <name>SourceDocument</name>
     <message>
-        <location filename="../apps/ide/SourceEditor.cpp" line="193"/>
+        <location filename="../apps/ide/SourceDocument.cpp" line="214"/>
         <source>&lt;Finished&gt;</source>
         <translation>&lt;Terminé&gt;</translation>
     </message>
@@ -295,6 +331,12 @@ fichiers</translation>
         <translation>Basique</translation>
     </message>
     <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="11"/>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="27"/>
+        <source>Base</source>
+        <translation>Général</translation>
+    </message>
+    <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="14"/>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="65"/>
         <source>Trigonometry</source>
@@ -312,8 +354,18 @@ fichiers</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="31"/>
+        <source>Square root</source>
+        <translation>Racine carrée</translation>
+    </message>
+    <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="32"/>
         <source>sum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="36"/>
+        <source>Sum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -337,14 +389,34 @@ fichiers</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="51"/>
+        <source>Absolute value</source>
+        <translation>Valeur absolue</translation>
+    </message>
+    <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="54"/>
         <source>frac</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="56"/>
+        <source>Int. part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="58"/>
         <source>round</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="61"/>
+        <source>Frac. part</source>
+        <translation>Partie frac.</translation>
+    </message>
+    <message>
+        <location filename="../lib/symbolibre/catalog/data/math.qml" line="66"/>
+        <source>Rounded value</source>
+        <translation>Arrondi</translation>
     </message>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="68"/>
@@ -403,6 +475,14 @@ fichiers</translation>
     </message>
 </context>
 <context>
+    <name>ocaml</name>
+    <message>
+        <location filename="../apps/ide/catalog/ocaml.qml" line="7"/>
+        <source>OCaml</source>
+        <translation>OCaml</translation>
+    </message>
+</context>
+<context>
     <name>python</name>
     <message>
         <location filename="../apps/ide/catalog/python.qml" line="7"/>
@@ -443,6 +523,14 @@ fichiers</translation>
         <location filename="../apps/ide/catalog/python.qml" line="34"/>
         <source>Exceptions</source>
         <translation>Exceptions</translation>
+    </message>
+</context>
+<context>
+    <name>SourceEditor</name>
+    <message>
+        <location filename="../apps/ide/SourceEditor.cpp" line="193"/>
+        <source>&lt;Finished&gt;</source>
+        <translation>&lt;Terminé&gt;</translation>
     </message>
 </context>
 </TS>
