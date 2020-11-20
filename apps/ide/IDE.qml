@@ -27,12 +27,16 @@ SLStandardApplet {
     property string workingDirectory: Fs.readWriteDataDir() + "/programs"
     property string exampleDirectory: Fs.staticDataDir() + "/ide/programs"
 
-    Component.onCompleted: {
-        const src = exampleDirectory + "/example.py";
-        const dst = workingDirectory + "/example.py";
-
+    function copyExample(name) {
+        const src = exampleDirectory + "/" + name;
+        const dst = workingDirectory + "/" + name;
         if (!Fs.fileExists(dst))
             Fs.copyFile(src, dst);
+    }
+
+    Component.onCompleted: {
+        copyExample("example.py");
+        copyExample("example.giac");
     }
 
     CatalogPopup {
