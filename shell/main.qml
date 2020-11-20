@@ -14,7 +14,7 @@ SLWindow {
     visible: true
     width: 320
     height: 240 + (keyboard.active ? keyboardLoader.height : 0)
-    title: qsTr("Symbolibre")
+    title: appletLoader.item.windowTitle || qsTr("Symbolibre")
 
     required property QtObject appManager
     required property string initialApplet

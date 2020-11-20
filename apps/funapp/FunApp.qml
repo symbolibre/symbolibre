@@ -10,6 +10,7 @@ import org.symbolibre.catalog 0.2
 
 SLStandardApplet {
     id: app
+    windowTitle: qsTr("Symbolibre Functions")
 
     CatalogPopup {
         id: catalog

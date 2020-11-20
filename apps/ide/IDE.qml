@@ -13,6 +13,14 @@ import org.symbolibre.keyboard 0.2
 import org.symbolibre.util 0.2
 
 SLStandardApplet {
+    windowTitle: {
+        if (stackLayout.currentIndex != 2)
+            return qsTr("Symbolibre IDE");
+        var path = document.filePath;
+        path = path.substring(path.lastIndexOf('/') + 1);
+        return path + " - " + qsTr("Symbolibre IDE");
+    }
+
     property alias document: editor.document
     property alias textArea: editor.textArea
 

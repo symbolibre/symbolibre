@@ -9,6 +9,7 @@ import org.symbolibre.applet 0.2
 Page {
     id: root
     property var overlayParent: coveringItem
+    property var windowTitle: undefined
     height: parent.height
     focus: true
     property var w: window

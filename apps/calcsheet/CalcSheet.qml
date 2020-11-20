@@ -13,6 +13,7 @@ import org.symbolibre.catalog 0.2
 SLStandardApplet {
     id: app
     visible: true
+    windowTitle: qsTr("Symbolibre Calculator")
 
     property bool approx: false
 
