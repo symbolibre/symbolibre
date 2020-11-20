@@ -20,9 +20,13 @@ FocusScope {
                 item.expr = JSON.stringify(item.expr);
                 fmodel.append(item);
             }
+            graph.view = Qt.rect(json.xmin, json.ymin, json.xmax-json.xmin, json.ymax-json.ymin);
         }
         Component.onDestruction: {
-            var json = {functions: []};
+            // serialization of QML basic types does not work properly
+            // so we serialize the window rect as 4 floats
+            var json = {functions: [], xmin: graph.view.left, ymin: graph.view.top,
+                xmax: graph.view.right, ymax: graph.view.bottom};
             for (let i = 0; i < fmodel.count; i++) {
                 // get returns a QObject that does not support arbitrary assignments
                 // so the deep copy turns it into a plain js object

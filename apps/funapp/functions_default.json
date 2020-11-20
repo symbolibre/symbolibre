@@ -11,5 +11,8 @@
         {"active": true, "name": "f9", "color": "darkcyan", "expr": [""]},
         {"active": true, "name": "f0", "color": "darkslategrey", "expr": [""]}
     ],
-    "window": "-10,-10,20x20"
+    "xmin": -10,
+    "xmax": 10,
+    "ymin": -10,
+    "ymax": 10
 }
