@@ -9,3 +9,4 @@ Welcome to Symbolibre's documentation!
    :caption: Contents:
 
    applet-dev
+   focus
