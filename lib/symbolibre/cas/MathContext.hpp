@@ -5,8 +5,6 @@
 #define MATHCONTEXT_HPP
 
 #include "symbolibre/editiontree.hpp"
-#include <giac/config.h>
-#include <giac/giac.h>
 
 #include <QObject>
 

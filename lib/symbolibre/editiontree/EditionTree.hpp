@@ -4,7 +4,9 @@
 #ifndef EDITIONTREE_HPP
 #define EDITIONTREE_HPP
 
-#include <giac/config.h>
+#ifdef HAVE_CONFIG_H
+# include <giac/config.h>
+#endif
 #include <giac/giac.h>
 
 #include <QJsonArray>

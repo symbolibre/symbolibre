@@ -4,11 +4,6 @@
 #include "EditionTree.hpp"
 
 #include <iostream>
-#include <giac/config.h>
-#include <giac/gen.h>
-#include <giac/usual.h>
-// #include <giac/dispatch.h>
-// #include <giac/usual.h>
 
 #define EXT_GIAC_CONTEXT const giac::context * contextptr
 
