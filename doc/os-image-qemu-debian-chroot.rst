@@ -1,17 +1,22 @@
 .. Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
 .. SPDX-License-Identifier: CC-BY-SA-4.0
+.. SPDX-License-Identifier: CC0-1.0
 
-=======================================
-OS image from static QEMU Debian chroot
-=======================================
+===================================================
+Generating an OS from a static-QEMU Raspbian chroot
+===================================================
 
 This page describes a setup where a Pi Zero OS image is generated from a
-Debian system that runs through QEMU on an x86_64 host, allowing for
+Raspbian system that runs through QEMU on an x86_64 host, allowing for
 package installation/compilation/etc outside of the Pi, then installed
 on the Pi’s SD card and boot up from the real hardware.
 
-Basic Debian chroot
--------------------
+The OS image produced in this tutorial is just the minimum working OS. To
+install a desktop environment and Symbolibre applications, follow with
+:doc:`setting-up-symbolibre-apps`.
+
+Basic Raspbian chroot
+---------------------
 
 First install a statically-linked version of QEMU that can be used to
 transparently execute ARM executables on your x86_64 Linux install.
@@ -35,14 +40,14 @@ QEMU binaries might need to copied or mounted to the chroot (see the
 appendix on the wiki page) which can be done elegantly with a bind-mount
 (see later).
 
-Create a starter Debian install with ``debootstrap`` on a new directory.
+Create a starter Raspbian install with ``debootstrap`` on a new directory.
 Because this is for a foreign architecture, only the first stage can be
 executed natively. You can use a mounted separate partition or a plain
 directory. ``--variant=minbase`` might provide a smaller image.
 
 ::
 
-   (host)% debootstrap --foreign --arch=armhf bullseye debian-bullseye-qemu-static/ https://archive.raspbian.org/raspbian/
+   (host)% debootstrap --foreign --arch=armhf bullseye symbolibre-os/ https://archive.raspbian.org/raspbian/
 
 The second stage of debootstrap must be executed from the
 ``/debootstrap/debootstrap`` executable left in the new system. This can
@@ -55,21 +60,21 @@ into the new system.
 
 ::
 
-   (host)% mount --bind /usr/bin/qemu-arm-static debian-bullseye-qemu-static/usr/bin
+   (host)% mount --bind /usr/bin/qemu-arm-static symbolibre-os/usr/bin
 
 Then log into Raspbian.
 
 ::
 
-   (host)% sudo chroot debian-bullseye-qemu-static/
+   (host)% sudo chroot symbolibre-os/
 
-First thing to do here is to update the terminal if Debian’s ``bash``
+First thing to do here is to update the terminal if Raspbian’s ``bash``
 does not recognize it (which causes backspace/arrows/etc to behave
 weirdly). A generally-safe choice is to ``export TERM=linux``.
 
 The ``PATH`` is also exported from your host environment, so make sure
 that ``/usr/local/sbin``, ``/usr/sbin`` and ``/sbin``, which are needed
-by Debian and not used by every OS out there, are all specified.
+by Raspbian and not used by every OS out there, are all specified.
 
 ::
 
@@ -127,29 +132,44 @@ host name should be set properly when booting from the Pi Zero.
 
 I suggest using a script to start the chroot (launch with ``sudo``):
 
-.. code:: sh
+.. code:: bash
 
-   #! /usr/bin/env bash
+  #! /usr/bin/env bash
+  # usage: sudo ./symbolibre-os.sh [--mount-qemu] [--arch-chroot]
 
-   # Use a basic standard terminal
-   export TERM=linux
-   # Add some Debian-required executable paths
-   export PATH="/usr/local/sbin:/usr/sbin:/sbin:$PATH"
-   # Override the host name when set by the host system
-   export HOSTNAME="slcalc"
+  mount_qemu=
+  use_arch_chroot=
 
-   if [[ "$1" = "--arch-chroot" ]]; then
-     # arch-chroot version: best to have the target directory a mount point, so if
-     # it's not make it one artificially
-     # sudo mount --bind debian-bullseye-qemu-static/ debian-bullseye-qemu-static/
-     # Chroot there
-     arch-chroot debian-bullseye-qemu-static/
-   else
-     # Normal chroot
-     chroot debian-bullseye-qemu-static/
-   fi
+  for arg in "$@"; do
+    case "$arg" in
+      "--mount-qemu") mount_qemu=1;;
+      "--arch-chroot") use_arch_chroot=1;;
+      *) echo "unrecognized argument $arg" >&2; exit 1
+    esac
+  done
 
-TODO: Bind-mount QEMU binaries in the script
+  # Use a basic standard terminal
+  export TERM=linux
+  # Add some Debian-required executable paths
+  export PATH="/usr/local/sbin:/usr/sbin:/sbin:$PATH"
+  # Set the proper host name
+  export HOSTNAME="slcalc"
+
+  # Mount QEMU executables into the chroot if needed
+  if [[ ! -z "$mount_qemu" ]]; then
+    mount --bind /usr/bin/qemu-arm-static symbolibre-os/usr/bin
+  fi
+
+  # arch-chroot version: best to have the target directory a mount point, so if
+  # it's not make it one artifically
+  if [[ ! -z "$use_arch_chroot" ]]; then
+    mount --bind symbolibre-os/ symbolibre-os/
+    arch-chroot symbolibre-os/
+    exit 0
+  fi
+
+  # Normal chroot
+  chroot symbolibre-os/
 
 Kernel and boot from Pi Zero
 ----------------------------
@@ -195,16 +215,16 @@ It seems that of the subfolders of ``lib/modules``, only the one named
 ``<x>.<y>.<z>+`` is used. Not copying the others saves about 200 MB.
 
 With that saved, reset the root partition with a copy of the chrooted
-Debian install and restore the saved files. The ``-K`` option to
+Raspbian install and restore the saved files. The ``-K`` option to
 ``rsync`` ensures that ``/lib/modules`` is copied correctly with respect
-to ``/lib`` being a symlink to ``/usr/lib`` in Debian (ie. ``modules``
+to ``/lib`` being a symlink to ``/usr/lib`` in Raspbian (ie. ``modules``
 is copied into ``/usr/lib``; the default behavior replaces the symlink
 with a new directory).
 
 ::
 
    % sudo rm -rf $MOUNTPOINT/*
-   % sudo cp -ra ../debian-bullseye-qemu-static/* $MOUNTPOINT/
+   % sudo cp -ra ../symbolibre-os/* $MOUNTPOINT/
    % sudo rsync -avK rpios-root/ $MOUNTPOINT/
 
 Then check that the fstab has correct partition UUIDs and modify it
@@ -292,12 +312,12 @@ change the PARTUUID to the correct ID in ``cmdline.txt``.
    % echo "console=serial0,115200 console=tty1 root=PARTUUID=2fed7fee-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait" | sudo tee $MOUNT_BOOT/cmdline.txt
 
 The boot partition is now complete. For the root partition, combine the
-chrooted Debian install with the kernel modules from the ``firmware``
+chrooted Raspbian install with the kernel modules from the ``firmware``
 directory and a copy of ``/etc/fstab`` from the previous section.
 
 ::
 
-   % sudo cp -ra ../debian-bullseye-qemu-static/* $MOUNT_ROOT/
+   % sudo cp -ra ../symbolibre-os/* $MOUNT_ROOT/
    % sudo cp -r firmware/modules $MOUNT_ROOT/usr/lib/
    # also copy the fstab
 
