@@ -11,3 +11,4 @@ Welcome to Symbolibre's documentation!
    applet-dev
    qml-modules
    focus
+   os-image-qemu-debian-chroot
