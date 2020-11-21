@@ -30,9 +30,6 @@ private:
 class FunctionBarAttached : public QObject
 {
     Q_OBJECT
-    QML_NAMED_ELEMENT(FunctionBar)
-    QML_UNCREATABLE("FunctionBarAttached is meant to be used as an attached property only.")
-    QML_ATTACHED(FunctionBarAttached)
 
     Q_PROPERTY(FunctionKeyModel *f1 MEMBER m_f1 NOTIFY changed)
     Q_PROPERTY(FunctionKeyModel *f2 MEMBER m_f2 NOTIFY changed)
@@ -60,5 +57,7 @@ private:
     FunctionKeyModel *m_f1, *m_f2, *m_f3, *m_f4, *m_f5;
     bool m_combine;
 };
+
+QML_DECLARE_TYPEINFO(FunctionBarAttached, QML_HAS_ATTACHED_PROPERTIES)
 
 #endif // SL_FUNCTIONBARATTACHED_HPP
