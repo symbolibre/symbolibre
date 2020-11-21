@@ -9,4 +9,5 @@ Welcome to Symbolibre's documentation!
    :caption: Contents:
 
    applet-dev
+   qml-modules
    focus
