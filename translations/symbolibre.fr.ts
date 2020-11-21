@@ -366,7 +366,7 @@ fichiers</translation>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="36"/>
         <source>Sum</source>
-        <translation type="unfinished"></translation>
+        <translation>Somme</translation>
     </message>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="36"/>
@@ -401,7 +401,7 @@ fichiers</translation>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="56"/>
         <source>Int. part</source>
-        <translation type="unfinished"></translation>
+        <translation>Partie entière</translation>
     </message>
     <message>
         <location filename="../lib/symbolibre/catalog/data/math.qml" line="58"/>
