@@ -13,7 +13,6 @@ configure_file(config.hpp.in config.hpp)
 
 set(symbolibre_HEADERS
     editiontree.hpp
-    ${CMAKE_CURRENT_BINARY_DIR}/config.hpp
 )
 
 add_library(Symbolibre SHARED)
