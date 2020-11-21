@@ -1,5 +1,5 @@
 { "languages": [
     {"name" : "Plain text", "cmd": "", "extension": ".txt"},
-    {"name" : "Python", "cmd": "python", "extension": ".py", "catalog": "python", "khighlight": "Python"},
+    {"name" : "Python", "cmd": "python3", "extension": ".py", "catalog": "python", "khighlight": "Python"},
     {"name" : "Giac", "cmd": "giac", "extension": ".giac"}
 ]}
