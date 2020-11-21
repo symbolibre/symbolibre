@@ -37,6 +37,10 @@ instead of in a custom location.
 
 `-D DEV_BUILD=ON` enables compiler warnings and enables the `SET_RPATH` option.
 
+## Documentation
+
+Run `sphinx-build doc doc/build` to build the HTML documentation in doc/build.
+
 ## Licenses
 
 See LICENSE.md.
