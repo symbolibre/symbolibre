@@ -64,12 +64,14 @@ The complete directory structure of this example applet would look like this:
 Function keys
 -------------
 
-A function key is defined by a ``FunctionKeyModel`` and its ``text``, ``color``,
-and ``onActivated`` properties. Functions can be assigned to the F1...F5 keys using the
-``FunctionBar`` attached property and its f1...f5 properties.
+A function key is defined by a ``FunctionKeyModel``, with two attributes
+``text`` and ``color`` and one signal ``activated``. Functions can be assigned
+to the F1...F5 keys using the ``FunctionBar`` attached property which has six
+attributes: ``f1`` to ``f5`` and ``combine``.
 
-Function keys actually shown are determined by scanning the active focus item and
-its successive parents until one with a ``FunctionBar`` attached property is found. ::
+Function keys shown on the bar are determined by scanning the tree from the
+active focus item up to the parents until an item with a ``FunctionBar``
+attached property is found. ::
 
     import QtQuick.Controls 2.5
     import org.symbolibre.applet 0.2
@@ -88,3 +90,9 @@ its successive parents until one with a ``FunctionBar`` attached property is fou
 
 In the above example, if the button has active focus, the F1 key label reads "Bar",
 otherwise it reads "Foo".
+
+Normally the search stops once an item that specifies function keys if found.
+If the ``FunctionBar.combine`` attribute is set to ``true``, the search will
+continue and the function keys will combine with whatever the next parent to
+define function keys provides. Remember that since the search is bottom-up, the
+``combine`` property should be set on the child.
