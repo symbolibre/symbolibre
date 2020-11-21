@@ -16,9 +16,10 @@ SLWindow {
     height: 240 + (keyboard.active ? keyboardLoader.height : 0)
     title: appletLoader.item.windowTitle || qsTr("Symbolibre")
 
-    required property QtObject appManager
-    required property string initialApplet
-    readonly property string appsDir: Fs.staticDataDir() + "/apps"
+    // FIXME: required/readonly are not available until Qt 5.15
+    /* required */ property QtObject appManager
+    /* required */ property string initialApplet
+    /* readonly */ property string appsDir: Fs.staticDataDir() + "/apps"
 
     // Move the overlay from the top-level window to the loaded application or
     // one of its subcomponents; this way, the status bar and keyboard are not
