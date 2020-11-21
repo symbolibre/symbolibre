@@ -31,7 +31,21 @@ Documentation files (in the doc/ directory) are available under the CC BY-SA 4.0
 Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
 
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
+To view a copy of this license, visit <https://creativecommons.org/licenses/by-sa/4.0/>.
+
+## Code examples
+
+Unless specified otherwise, blocks of source code present in the documentation
+(mainly indented blocks preceded by `::` or `.. code-block::`, that contain source code
+written in a programming language) can also be used under the CC0 1.0 license,
+as an alternative to the CC BY-SA 4.0 license.
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain worldwide.
+This software is distributed without any warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication along with this software.
+If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
 
 ## Theme source code
 
