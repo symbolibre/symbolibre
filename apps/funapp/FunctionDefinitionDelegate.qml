@@ -34,18 +34,6 @@ FocusScope {
             json: model.expr
             onJsonChanged: model.expr = json
             focus: true
-            Keys.onDownPressed: {
-                root.ListView.view.incrementCurrentIndex();
-                root.ListView.view.currentItem.exprfield.forceActiveFocus()
-            }
-            Keys.onUpPressed: {
-                if (index == 0) {
-                    event.accepted = false
-                } else {
-                    root.ListView.view.decrementCurrentIndex();
-                    root.ListView.view.currentItem.exprfield.forceActiveFocus()
-                }
-            }
 
             FunctionBar.combine: true
             FunctionBar.f1: FunctionKeyModel {
