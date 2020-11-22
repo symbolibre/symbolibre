@@ -27,6 +27,11 @@ set(USE_CUSTOM_QML_PATH ON CACHE BOOL
     "Install QML modules in a Symbolibre-specific location")
 set(SET_RPATH ${DEV_BUILD} CACHE BOOL
     "Set the RPATH of the applications to the install path of libSymbolibre")
+set(ENABLE_DOC OFF CACHE BOOL "Build HTML documentation")
+
+if(ENABLE_DOC)
+    find_program(SphinxBuild NAMES sphinx-build REQUIRED)
+endif()
 
 # signal the applications that they do not need to find_package(Symbolibre)
 set(SYMBOLIBRE_BUILD True)
@@ -126,4 +131,8 @@ if(Qt5LinguistTools_FOUND)
             -ts ${CMAKE_CURRENT_BINARY_DIR}/symbolibre.ts
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(translations)
+endif()
+
+if(ENABLE_DOC)
+    add_subdirectory(doc)
 endif()
