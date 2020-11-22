@@ -1,12 +1,13 @@
 .. Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
 .. SPDX-License-Identifier: CC-BY-SA-4.0
 
-Welcome to Symbolibre's documentation!
-======================================
+QML
+===
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
-   qml
-   system-image
+   applet-dev
+   qml-modules
+   focus

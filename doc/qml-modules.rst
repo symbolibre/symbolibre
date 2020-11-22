@@ -7,7 +7,7 @@ Symbolibre QML modules
 
 .. note::
    This documentation does not cover all the Symbolibre QML modules.
-   We plan to replace it with doxygen-based documentation.
+   Before completing it, we plan to replace it with a doxygen-based documentation.
 
    We cannot offer any guarantee on the stability of the APIs.
 
@@ -105,3 +105,10 @@ The following items are defined:
 * ``SLWindow`` is an ApplicationWindow that provides an additional
   ``void showError(string text[, string title])`` function to open a popup dialog.
   Symbolibre applets can assume they are run in an SLWindow, see :doc:`applet-dev`.
+
+-------------
+Other modules
+-------------
+
+Refer to the source tree for ``org.symbolibre.applet``, ``org.symbolibre.cas``,
+``org.symbolibre.catalog``, ``org.symbolibre.keyboard`` and ``org.symbolibre.style``.
