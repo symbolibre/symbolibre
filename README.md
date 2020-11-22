@@ -9,6 +9,12 @@ Qt 5.12 is available on Ubuntu 19.10 and Debian bullseye.
 
 To build the applications, QTermWidget and KSyntaxHighlighting are also needed.
 
+To install the dependencies on Debian or Ubuntu, run `apt install
+build-essential cmake libutf8proc-dev qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev
+qttools5-dev-tools qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts
+qml-module-qtquick-controls2 qml-module-qt-labs-folderlistmodel libkf5syntaxhighlighting-dev
+libqcustomplot-dev libqtermwidget5-0-dev libgmp-dev libgiac-dev xcas python3`.
+
 To install the project, run:
 ```sh
 git clone --recurse-submodules git@gitlab.aliens-lyon.fr:symbolibre/symbolibre-math.git
