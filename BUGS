@@ -1,0 +1,2 @@
+* On some configs, especially Debian and Ubuntu, `giac/config.h` is missing from
+the system headers, which may cause segfaults. To fix this, re-install giac from source.
