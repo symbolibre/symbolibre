@@ -12,3 +12,4 @@ Welcome to Symbolibre's documentation!
    qml-modules
    focus
    qemu-raspbian-chroot
+   setting-up-symbolibre-apps
