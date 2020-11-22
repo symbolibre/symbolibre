@@ -95,6 +95,7 @@ SLStandardApplet {
             KeyNavigation.up: history.count ? history : null
 
             FunctionBar.combine: true
+            combineExprControls: true
         }
     }
 

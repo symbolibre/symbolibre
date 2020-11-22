@@ -13,6 +13,7 @@ FocusScope {
     id: root
     implicitWidth: expr.implicitWidth + 4
     implicitHeight: expr.implicitHeight + 4
+    property bool combineExprControls: false
     property alias text: expr.text
     property alias json: expr.json
     property alias font: expr.font
@@ -97,7 +98,7 @@ FocusScope {
             height: parent.height - 4
 
             // Allow the ExprField parent to specify whether to combine
-            FunctionBar.combine: root.FunctionBar.combine
+            FunctionBar.combine: combineExprControls
 
             FunctionBar.f1: FunctionKeyModel {
                 text: qsTr("Catalog")
