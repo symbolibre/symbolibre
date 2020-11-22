@@ -17,8 +17,8 @@ SLWindow {
     title: appletLoader.item.windowTitle || qsTr("Symbolibre")
 
     // FIXME: required/readonly are not available until Qt 5.15
-    /* required */ property QtObject appManager
-    /* required */ property string initialApplet
+    // required property QtObject appManager
+    // required property string initialApplet
     /* readonly */ property string appsDir: Fs.staticDataDir() + "/apps"
 
     // Move the overlay from the top-level window to the loaded application or

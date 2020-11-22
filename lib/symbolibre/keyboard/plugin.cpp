@@ -14,7 +14,7 @@ public:
     {
         Q_ASSERT(uri == QString("org.symbolibre.keyboard"));
         qmlRegisterSingletonType<SLKey>(uri, 0, 2, "SLKey",
-            [](QQmlEngine *, QJSEngine *) {
+            [](QQmlEngine *, QJSEngine *) -> QObject* {
                 return new SLKey;
             });
         qmlRegisterType<VirtualKeyboardContext>("org.symbolibre.keyboard", 0, 2,

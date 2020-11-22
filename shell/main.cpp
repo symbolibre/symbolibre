@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
     QQuickStyle::setStyle(Fs::staticDataDir() + "/theme");
 
-    QVariantMap initialProperties;
+    QVector<QQmlContext::PropertyPair> initialProperties;
 
     AppManager appManager;
     VirtualKeyboardContext vk;
@@ -87,20 +87,21 @@ int main(int argc, char *argv[])
             qCritical() << QObject::tr("Application %1 is not an applet").arg(appletId);
             return EXIT_FAILURE;
         }
-        initialProperties.insert("initialApplet", app->applet);
+        initialProperties.append({"initialApplet", app->applet});
     } else if (parser.positionalArguments().size() > 1) {
         qCritical() << QObject::tr("Too many positional arguments");
         return EXIT_FAILURE;
     } else {
-        initialProperties.insert("initialApplet", QVariant());
+        initialProperties.append({"initialApplet", QVariant()});
     }
 
-    initialProperties.insert("appManager", QVariant::fromValue(&appManager));
+    initialProperties.append({"appManager", QVariant::fromValue(&appManager)});
 
     QQmlEngine engine;
     engine.addImportPath(Fs::qmlDir());
     auto *context = new QQmlContext(engine.rootContext());
     context->setContextProperty("keyboard", &vk);
+    context->setContextProperties(initialProperties);
 
 
     QQmlComponent component(&engine, QUrl::fromLocalFile(Fs::qmlDir() + "/shell/main.qml"));
@@ -108,7 +109,7 @@ int main(int argc, char *argv[])
         qCritical() << component.errors();
         return 1;
     }
-    auto *window = component.createWithInitialProperties(initialProperties, context);
+    auto *window = component.create(context);
     context->setParent(window);
 
     auto w = qobject_cast<QQuickWindow *>(window);

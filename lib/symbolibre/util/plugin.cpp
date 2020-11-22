@@ -13,7 +13,7 @@ public:
     {
         Q_ASSERT(uri == QString("org.symbolibre.util"));
         qmlRegisterSingletonType<FileSystemSingleton>(uri, 0, 2, "Fs",
-        [](QQmlEngine *, QJSEngine *) {
+        [](QQmlEngine *, QJSEngine *) -> QObject* {
             return new FileSystemSingleton;
         }
                                                      );
