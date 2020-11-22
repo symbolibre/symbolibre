@@ -157,6 +157,7 @@ I suggest using a script to start the chroot (launch with ``sudo``):
   if [[ ! -z "$use_arch_chroot" ]]; then
     mount --bind symbolibre-os/ symbolibre-os/
     arch-chroot symbolibre-os/
+    umount symbolibre-os/
     exit 0
   fi
 
