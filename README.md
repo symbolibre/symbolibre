@@ -4,8 +4,10 @@ This repository contains calculator applications and related libraries.
 
 ## Building the applications
 
-symbolibre-math depends on Qt >= 5.12, QCustomPlot and Giac.
+Symbolibre depends on Qt >= 5.12, QCustomPlot and Giac.
 Qt 5.12 is available on Ubuntu 19.10 and Debian bullseye.
+
+To build the applications, QTermWidget and KSyntaxHighlighting are also needed.
 
 To install the project, run:
 ```sh
@@ -28,16 +30,14 @@ invocation using the `-D CMAKE_INSTALL_PREFIX=` option.
 
 ### Additional CMake options
 
-If you choose a non-standard installation directory, you may want to add
+- If you choose a non-standard installation directory, you may want to add
 the `-D SET_RPATH=ON` option so that the installed binaries can locate the
 Symbolibre shared library.
-
-`-D USE_CUSTOM_QML_PATH=OFF` (default ON) installs the QML modules system-wide
+- `-D USE_CUSTOM_QML_PATH=OFF` (default ON) installs the QML modules system-wide
 instead of in a custom location.
-
-`-D DEV_BUILD=ON` enables compiler warnings and enables the `SET_RPATH` option.
-
-`-D ENABLE_DOC=ON` builds and installs HTML documentation (needs Sphinx).
+- `-D DEV_BUILD=ON` (default OFF) enables compiler warnings and enables the `SET_RPATH` option.
+- `-D ENABLE_DOC=ON` (default OFF) builds and installs HTML documentation (needs Sphinx).
+- `-D ENABLE_APPS=OFF` (default ON) disables building the applications.
 
 ## Licenses
 

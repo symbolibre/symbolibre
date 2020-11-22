@@ -36,9 +36,8 @@ To view a copy of this license, visit <https://creativecommons.org/licenses/by-s
 ## Code examples
 
 Unless specified otherwise, blocks of source code present in the documentation
-(mainly indented blocks preceded by `::` or `.. code-block::`, that contain source code
-written in a programming language) can also be used under the CC0 1.0 license,
-as an alternative to the CC BY-SA 4.0 license.
+(mainly indented blocks preceded by `::` or `.. code-block::`, that contain code)
+can also be used under the CC0 1.0 license, as an alternative to the CC BY-SA 4.0 license.
 
 To the extent possible under law, the author(s) have dedicated all copyright
 and related and neighboring rights to this software to the public domain worldwide.

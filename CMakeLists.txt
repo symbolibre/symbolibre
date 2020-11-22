@@ -22,7 +22,7 @@ if(BUILD_TESTING AND NOT(${Qt5Test_FOUND}))
 endif()
 
 set(DEV_BUILD OFF CACHE BOOL "Developer build")
-set(BUILD_APPS ON CACHE BOOL "Build Symbolibre applications")
+set(ENABLE_APPS ON CACHE BOOL "Build Symbolibre applications")
 set(USE_CUSTOM_QML_PATH ON CACHE BOOL
     "Install QML modules in a Symbolibre-specific location")
 set(SET_RPATH ${DEV_BUILD} CACHE BOOL
