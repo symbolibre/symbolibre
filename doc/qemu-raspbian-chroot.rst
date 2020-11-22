@@ -87,23 +87,15 @@ Then complete the system boostrap.
    % debootstrap/debootstrap --second-stage
 
 Add a new standard user (``symbolibre`` with password ``symbolibre``).
-Install ``sudo`` and give the new user ``sudo`` privilege with password.
-By default all members of group ``sudo`` get that (check with
-``visudo``) so just add that group.
 
 ::
 
    % adduser symbolibre
-   % apt install sudo
-   % adduser symbolibre sudo
-   % su symbolibre
 
 That’s it for the base system.
 
 Adding some detail
 ------------------
-
-Packages can now be installed with ``apt`` as needed.
 
 Because the guest system is not fully booted up from scratch with
 systemd, a few things like hostname resolution don’t work out of the
@@ -170,6 +162,29 @@ I suggest using a script to start the chroot (launch with ``sudo``):
 
   # Normal chroot
   chroot symbolibre-os/
+
+Now before we can install packages we need to keep the system up-to-date with
+the repositories.
+
+::
+
+  % apt update
+  % apt upgrade
+
+If the upgrade step complains of unmet dependencies, run
+``apt --fix-broken install`` as advertised before upgrading again.
+
+We haven't given the ``root`` account any password. Instead, we'd like to log
+in as ``symbolibre`` and use admin commands from there. Install ``sudo`` and
+give the user account admin privilege with password. By default all members of
+the ``sudo`` group get that (which you can check with ``visudo``).
+
+::
+
+  % apt install sudo
+  % adduser symbolibre sudo
+
+You can then go into user mode with ``sudo -iu symbolibre``.
 
 Kernel and boot from Pi Zero
 ----------------------------
@@ -333,3 +348,18 @@ TODO! General roadmap:
   Raspbian package
   `raspberry-pi-firmware-nokernel <http://archive.raspbian.org/raspbian/pool/firmware/r/raspberrypi-firmware-nokernel/>`_.
 * Compile the kernel and add the ``kernel.img`` and ``config.txt``.
+
+Updating the OS from now on
+---------------------------
+
+The boot partition that we just created is independent from the OS root. The OS
+can be updated from the chroot by just synchronizing the contents of the root
+partition.
+
+::
+
+   % rsync -a --progress --delete --exclude etc/fstab --exclude usr/lib/modules --exclude var/cache/apt symbolibre-os/ $MOUNT_ROOT/
+
+This method can be used even with different OS variants and chroots as long as
+they all agree on the kernel version and boot settings.
+
