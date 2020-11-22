@@ -8,6 +8,9 @@
 Writing a Symbolibre applet in QML
 ==================================
 
+.. note::
+   We cannot offer any guarantee on the stability of the APIs.
+
 ------
 Basics
 ------

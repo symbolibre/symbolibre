@@ -1,9 +1,15 @@
 .. Copyright 2018-2020 Symbolibre authors <https://symbolibre.org>
 .. SPDX-License-Identifier: CC-BY-SA-4.0
 
-=======================================
-QML modules from the Symbolibre library
-=======================================
+======================
+Symbolibre QML modules
+======================
+
+.. note::
+   This documentation does not cover all the Symbolibre QML modules.
+   We plan to replace it with doxygen-based documentation.
+
+   We cannot offer any guarantee on the stability of the APIs.
 
 -----------------------
 ``org.symbolibre.expr``
@@ -22,7 +28,7 @@ This module provides items that can display and edit math expressions.
 * ``font`` (font) is the font used to render the expression.
 * ``color`` (color) is the text and line color.
 * ``fillColor`` (color) is the background color. Transparent backgrounds are
-  not supported. By default this is inherited from ``QQuickPaintedItem``.
+  not supported. This property is inherited from ``QQuickPaintedItem``.
 * ``horizontalAlignment`` is the horizontal alignment of the contents within
   the item. Valid values are ``Expr.AlignLeft``, ``Expr.AlignHCenter`` and
   ``Expr.AlignRight``.
@@ -73,21 +79,29 @@ subfolder (unless the data being used is shared across several applications).
   // An example program from the IDE application
   const example_py = Fs.staticDataDir() + "/ide/programs/example.py"
 
-The ``Fs`` singleton also provides generic functions such as ``readFile`` and
-``fileExists``. The complete list can be found in the source code at
+The ``Fs`` singleton also provides functions for reading and writing to a file,
+although complex I/O should be left to C++ code.
+
+* ``string Fs.readFile(string path)`` reads a file and returns its contents,
+  or an empty string in case of an error.
+* ``void Fs.writeFile(string path, string content)`` writes the given string
+  to the given file, overwriting its previous content.
+
+The complete list can be found in the source code at
 ``lib/symbolibre/util``.
 
 ---------------------------
 ``org.symbolibre.controls``
 ---------------------------
 
-This module wraps some Qt Quick Controls 2 items, mostly to ease keyboard
+This module wraps some Qt Quick and Qt Quick Controls 2 items, mostly to ease keyboard
 navigation or integrate with Symbolibre applets. Generally they should be
 preferred to their Qt Quick original counterparts.
 
-Right now the following items are defined:
+The following items are defined:
 
-* ``SLStackLayout``: passes active focus as a ``FocusScope``.
-* ``SLTextField``: integrates more tightly witht the keyboard and touch.
-* ``SLWindow``: provides an error handler (applets normally need not concern
-  themselves with window management; see :doc:`applet-dev`).
+* ``SLStackLayout`` is a StackLayout that forward active focus to its children
+  like a ``FocusScope``.
+* ``SLWindow`` is an ApplicationWindow that provides an additional
+  ``void showError(string text[, string title])`` function to open a popup dialog.
+  Symbolibre applets can assume they are run in an SLWindow, see :doc:`applet-dev`.
