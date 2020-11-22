@@ -5,7 +5,7 @@ project(symbolibre-ide)
 set(CMAKE_AUTOMOC ON)
 
 if(NOT SYMBOLIBRE_BUILD)
-    find_package(Symbolibre 0.1 REQUIRED)
+    find_package(Symbolibre 0.2 REQUIRED)
 endif()
 
 find_package(KF5SyntaxHighlighting REQUIRED)
