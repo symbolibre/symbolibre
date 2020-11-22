@@ -81,32 +81,61 @@ with vim:
 Installing a desktop environment
 --------------------------------
 
-To install X with i3:
+With X and i3
+~~~~~~~~~~~~~
+
+*Warning: The X server seems to cope poorly with the modesetting driver used
+on the Raspberry Pi (the VC4 KMS driver). Clients can be accelerated but
+applications that render with X (such as xterm) and the window compositor are
+very slow.*
+
+The first option is to install X with `i3 <https://i3wm.org/>`_. The default
+configuration file is copied to its standard location in the user home.
 
 ::
 
-  % apt install xinit
-  % apt install i3
+  % apt install xinit i3
   # For safety, install a couple more fonts over xfonts-base
   % apt install xfonts-unifont xfonts-75dpi
-
-i3 can be started from the console by running ``startx``. The logs are stored
-in ``/var/log/Xorg*.log``. Copy the default configuration to the user home.
-
-::
-
   % mkdir -p $HOME/.config/i3
   % cp /etc/i3/config $HOME/.config/i3/
 
-Alternatively, to install Wayland with sway:
+i3 can be started from the console by running ``startx``. The logs are stored
+in ``/var/log/Xorg*.log`` or ``$HOME/.local/share/xorg/Xorg*.log``. The default
+terminal is ``xterm``.
+
+With Wayland and sway
+~~~~~~~~~~~~~~~~~~~~~
+
+Alternatively, Wayland can be installed with `sway <swaywm.org/>`_. Once again
+the configuration file is copied. The settings are very close to i3; the
+default terminal is a Wayland-native terminal called ``foot``.
 
 ::
 
-  % apt install sway
-  % apt install xwayland
+  % apt install sway xwayland
+  % mkdir -p $HOME/.config/sway
+  % cp /etc/sway/config $HOME/.config/sway
 
 sway can be started from the console by running ``sway``. A log can be obtained
-with ``sway -d 2> sway.log``.
+with ``sway -d 2> sway.log``. If you don't have a mouse on the Pi Zero, you
+might want to change the sway exit shortcut to not required cliking on a
+confirm button.
+
+::
+
+  bindsym $mod+Shift+E exec swaymsg exit
+
+``foot`` doesn't start if it's no using an Unicode locale, so you should set
+one in ``$HOME/.bashrc``. Additionally, sway overrides the keyboard layout so
+it should be specified before starting as well.
+
+::
+
+  export LANG=en_US.UTF-8
+  # Example for the French AZERTY keyboard
+  export XKB_DEFAULT_LAYOUT=fr
+  export XKB_DEFAULT_VARIANT=basic
 
 Configuring graphics acceleration
 ---------------------------------
@@ -115,7 +144,8 @@ The Raspberry Pi series come with a GPU of the
 `VideoCore family <https://en.wikipedia.org/wiki/VideoCore>`_, and the Pi Zero
 GPU in particular is based on VideoCore 4. The Linux open-source driver for VC4
 is `maintainted by Eric Anholt <https://github.com/anholt/linux/wiki/VC4>`_ and
-integrated into MESA since 2014.
+integrated into MESA since 2014. It offers a mode-setting interface through
+Linux's KMS.
 
 The first step is to enable the VC4 module in the boot configuration and
 allocate enough memory to the GPU. The 512 MiB Pi memory is shared between CPU
@@ -144,5 +174,32 @@ now is a good time to shut down and restart the Pi.
 When you log in with this new setup, the ``vc4`` driver should have been loaded
 automatically; ``lsmod | grep vc4`` should show it along with its dependencies.
 
-The VideoCore GPU, as an embedded architecture, supports the
-`OpenGL ES <https://en.wikipedia.org/wiki/GLES>`_ API.
+Both X and Wayland will automatically use this new driver to perform rendering.
+X will select the ``modesetting`` driver and enable acceleration:
+
+* For the server, Glamor will be enabled on the KMS device.
+* For clients, DRI2 will be enabled, letting applications perform GPU rendering
+  without talking to the server.
+
+However, as mentioned earlier, the Glamor half of that setup performs very
+poorly in our test setups. This makes window movement and resizing, as well as
+rendering in the server, very slow (even slower than with software rendering as
+provided by the ``fbdev`` driver). Applications like ``glxgears`` that use DRI2
+run very smoothly but applications that render through the X server like
+``xterm`` are extremely slow.
+
+On Wayland, sway will auto-detect the GPU at ``/dev/dri/card0`` (the ``dri``
+here has nothing to do with the X server's DRI2 technology and just represents
+the GPU) and use KMS with VC4 without any other configuration.
+
+To test client rendering, you can install the ``mesa-utils`` package, which
+provides tools to check the configuration and performance of the display, such
+as ``glxinfo`` and ``glxgears``.
+
+::
+
+  % apt install mesa-utils
+
+Native Wayland applications or X applications that support DRI through XWayland
+will use accelerated rendering. This is for instance the case with ``foot``,
+but not with ``xterm``, so not every program will run smoothly even with sway.
