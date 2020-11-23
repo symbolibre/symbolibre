@@ -76,32 +76,32 @@ CatalogModel {
 
         ListModel {
             ListElement {
-                title: qsTr("π")
+                title: "π"
                 doc: "pi"
                 insert: '["π"]'
             }
             ListElement {
-                title: qsTr("sin")
+                title: "sin"
                 insert: '["sin"]'
             }
             ListElement {
-                title: qsTr("cos")
+                title: "cos"
                 insert: '["cos"]'
             }
             ListElement {
-                title: qsTr("tan")
+                title: "tan"
                 insert: '["tan"]'
             }
             ListElement {
-                title: qsTr("asin")
+                title: "asin"
                 insert: '["asin"]'
             }
             ListElement {
-                title: qsTr("acos")
+                title: "acos"
                 insert: '["acos"]'
             }
             ListElement {
-                title: qsTr("atan")
+                title: "atan"
                 insert: '["atan"]'
             }
         }
