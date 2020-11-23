@@ -17,7 +17,7 @@ libqcustomplot-dev libqtermwidget5-0-dev libgmp-dev libgiac-dev xcas python3`.
 
 To install the project, run:
 ```sh
-git clone --recurse-submodules git@github.com:symbolibre/symbolibre.git
+git clone --recurse-submodules https://github.com/symbolibre/symbolibre.git
 cd symbolibre
 mkdir build
 cd build
