@@ -13,7 +13,8 @@ To install the dependencies on Debian or Ubuntu, run `apt install
 build-essential cmake libutf8proc-dev qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev
 qttools5-dev-tools qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts
 qml-module-qtquick-controls2 qml-module-qt-labs-folderlistmodel libkf5syntaxhighlighting-dev
-libqcustomplot-dev libqtermwidget5-0-dev libgmp-dev libgiac-dev xcas python3`.
+libqcustomplot-dev libqtermwidget5-0-dev libfltk1.3-dev libgmp-dev libgsl-dev libmpfi-dev
+libntl-dev libgiac-dev xcas python3`.
 
 To install the project, run:
 ```sh
