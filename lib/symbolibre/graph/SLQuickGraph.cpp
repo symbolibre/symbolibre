@@ -36,6 +36,9 @@ void SLQuickGraph::paint(QPainter *painter)
 
 void SLQuickGraph::plotGraph(QString f)
 {
+    if (m_view.width() <= 0 || m_view.height() <= 0)
+        return;
+
     /* take the name of graph to plot
      * reset the display
      * compute the new points
