@@ -89,6 +89,8 @@ void SLQuickGraph::setRange(const QRectF &range)
 {
     if (range == m_view)
         return;
+    if (range.width() <= 0 || range.height() <= 0)
+        return;
 
     m_view = range;
     m_plot.xAxis->setRange(m_view.left(), m_view.right());
