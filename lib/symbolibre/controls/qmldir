@@ -1,4 +1,5 @@
 module org.symbolibre.controls
+Expr 0.2 Expr.qml
 ExprField 0.2 ExprField.qml
 SLStackLayout 0.2 SLStackLayout.qml
 SLStatusBar 0.2 SLStatusBar.qml
