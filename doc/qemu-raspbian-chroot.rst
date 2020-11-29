@@ -55,7 +55,7 @@ be done through transparent QEMU emulation. However, the shared
 ``armhf`` libraries are also in the new system, so the root must be
 changed for dynamic loading to succeed.
 
-Before chrooting, on Debian at least the QEMU binaries should be mounted
+Before chrooting, on some distros the QEMU binaries should be mounted
 into the new system.
 
 ::
@@ -66,21 +66,13 @@ Then log into Raspbian.
 
 ::
 
-   (host)% sudo chroot symbolibre-os/
+   (host)% sudo chroot symbolibre-os /bin/env -i TERM=$TERM /bin/bash
 
-First thing to do here is to update the terminal if Raspbian’s ``bash``
-does not recognize it (which causes backspace/arrows/etc to behave
-weirdly). A generally-safe choice is to ``export TERM=linux``.
+``env -i`` clears the host environment variables. The ``TERM`` environment variable
+is preserved as it allows the capabilities of your terminal emulator to be
+properly identified.
 
-The ``PATH`` is also exported from your host environment, so make sure
-that ``/usr/local/sbin``, ``/usr/sbin`` and ``/sbin``, which are needed
-by Raspbian and not used by every OS out there, are all specified.
-
-::
-
-   % export PATH="/sbin:/usr/sbin:/usr/local/sbin:$PATH"
-
-Then complete the system boostrap.
+Once in the Raspbian chroot, complete the system boostrap.
 
 ::
 
@@ -175,18 +167,6 @@ the repositories.
 If the upgrade step complains of unmet dependencies, run
 ``apt --fix-broken install`` as advertised before upgrading again.
 
-We haven't given the ``root`` account any password. Instead, we'd like to log
-in as ``symbolibre`` and use admin commands from there. Install ``sudo`` and
-give the user account admin privilege with password. By default all members of
-the ``sudo`` group get that (which you can check with ``visudo``).
-
-::
-
-  % apt install sudo
-  % adduser symbolibre sudo
-
-You can then go into user mode with ``sudo -iu symbolibre``.
-
 Kernel and boot from Pi Zero
 ----------------------------
 
@@ -270,14 +250,24 @@ Finally, put the SD card into the Raspberry Pi and boot.
 Option 2: From official firmware with pre-built kernel
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Start from a blank SD card and use ``parted`` to make a new partition
-table. If the card has partitions, they will be overridden by
-``mklabel``. Add two partitions:
+Start from a blank microSD card and make a new partition table.
 
-1. A boot partition of 256 Mo, type ``W95 FAT32 (LBA)`` (type ID is
+.. warning::
+
+   All existing data on the SD card will be lost.
+
+1. A boot partition of at least 100 Mo, type ``W95 FAT32 (LBA)`` (type ID is
    ``0x0c``);
-2. A root partition of the rest (eg. 7.5 Go), type ``Linux`` which is
-   actually EXT (type ID is ``0x83``).
+2. A root partition of at least 1.5 Go, type ``Linux`` (type ID is ``0x83``),
+   preferably with an ext4 filesystem.
+
+The instructions that follow use the command-line tool ``parted`` for partitioning,
+but more user-friendly partitioning tool can also be used: ``gparted``, ``cfdisk``, etc.
+The exact partition sizes do not matter.
+
+"""""""""""""""""""""""""""""
+Partitioning using ``parted``
+"""""""""""""""""""""""""""""
 
 The first partition should not start at sector 0 because space is needed
 for the partition table. We start at sector 8192, which is what
@@ -296,26 +286,20 @@ The disk identifier changes when the partition table is changed, so make
 sure to update the partition UUIDs if you’re going to reuse a previous
 version of ``/etc/fstab``.
 
-Create the file systems, for instance here with ``/dev/sdc`` as a
+Create the file systems, for instance here with ``/dev/mmcblk0`` as a
 device, and give useful names at the same time.
 
 ::
 
-   % sudo mkfs.fat -F 32 -n slboot /dev/sdc1
-   % sudo mkfs.ext4 -L slroot /dev/sdc2
+   % sudo mkfs.fat -F 32 -n slboot /dev/mmcblk0p1
+   % sudo mkfs.ext4 -L slroot /dev/mmcblk0p2
 
-Now get the repository with the Raspberry Pi boot files and kernel
-modules. This is a pretty large repo (14G) because of the history, so
-you can also `download a zip archive from
-Github <https://github.com/raspberrypi/firmware/archive/master.zip>`__
+Now get the repository with the Raspberry Pi boot files and kernel modules
+`from Github <https://github.com/raspberrypi/firmware/archive/master.tar.gz>`__
 (~400M once uncompressed).
 
-::
-
-   % git clone https://github.com/raspberrypi/firmware.git
-
 Mount both partitions and copy the boot folder to /boot. Add in a
-``config.txt`` and a ``cmdline.txt``. Both can be derived from the
+``cmdline.txt``. It can be derived from the
 Raspberry Pi OS iso, though ``config.txt`` is almost empty. Remember to
 change the PARTUUID to the correct ID in ``cmdline.txt``.
 
@@ -324,8 +308,7 @@ change the PARTUUID to the correct ID in ``cmdline.txt``.
    % MOUNT_BOOT="/path/to/slboot"
    % MOUNT_ROOT="/path/to/slroot"
    % sudo cp -r firmware/boot/* $MOUNT_BOOT
-   % echo "dtparam=audio=on" | sudo tee $MOUNT_BOOT/config.txt
-   % echo "console=serial0,115200 console=tty1 root=PARTUUID=2fed7fee-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait" | sudo tee $MOUNT_BOOT/cmdline.txt
+   % echo "console=serial0,115200 console=tty1 root=PARTUUID=$(sudo blkid -s PARTUUID -o value /dev/mmcblk0p2) rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait" | sudo tee $MOUNT_BOOT/cmdline.txt
 
 The boot partition is now complete. For the root partition, combine the
 chrooted Raspbian install with the kernel modules from the ``firmware``

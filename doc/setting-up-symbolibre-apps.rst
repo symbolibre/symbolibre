@@ -20,6 +20,25 @@ The main parts here are:
 Quality-of-life settings
 ------------------------
 
+Adding a user
+~~~~~~~~~~~~~
+
+Graphical applications will run under an unprivileged user, so let’s create one.
+
+::
+
+  % adduser symbolibre
+
+You can then go into user mode with ``su - symbolibre``.
+
+``su`` should be sufficient to switch between users but it can be convenient to
+set up ``sudo`` if you are used to it.
+
+::
+
+  % apt install sudo
+  % usermod -aG sudo symbolibre
+
 Keyboard layout
 ~~~~~~~~~~~~~~~
 
@@ -107,7 +126,7 @@ terminal is ``xterm``.
 With Wayland and sway
 ~~~~~~~~~~~~~~~~~~~~~
 
-Alternatively, Wayland can be installed with `sway <swaywm.org/>`_. Once again
+Alternatively, Wayland can be installed with `sway <https://swaywm.org/>`_. Once again
 the configuration file is copied. The settings are very close to i3; the
 default terminal is a Wayland-native terminal called ``foot``.
 
