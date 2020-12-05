@@ -6,6 +6,10 @@
 Generating an OS from a static-QEMU Raspbian chroot
 ===================================================
 
+.. warning::
+
+   This page is a work in progress.
+
 This page describes a setup where a Pi Zero OS image is generated from a
 Raspbian system that runs through QEMU on an x86_64 host, allowing for
 package installation/compilation/etc outside of the Pi, then installed

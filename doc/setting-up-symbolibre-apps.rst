@@ -6,6 +6,10 @@
 Setting up the Symbolibre OS and applications
 =============================================
 
+.. warning::
+
+   This page is a work in progress, instructions are incomplete.
+
 This page describes the installation of a desktop environment along with the
 Symbolibre applications on a Raspbian image. To generate the base system, see
 :doc:`qemu-raspbian-chroot`.
