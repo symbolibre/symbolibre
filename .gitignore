@@ -5,6 +5,9 @@
 *.so
 # binaries
 a.out
+# cached QML/js
+*.qmlc
+*.jsc
 # Qt project files and meta-object compiler files
 *.user
 moc_*
