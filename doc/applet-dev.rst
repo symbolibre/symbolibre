@@ -45,7 +45,7 @@ Its structure is as follows:
 
    {
      "id": "example",
-     "applet": "example/Example.qml",
+     "applet": "Example.qml",
      "name": "My first applet",
      "icon": "example.png"
    }

@@ -1,5 +1,5 @@
 {
-    "applet": "ide/IDE.qml",
+    "applet": "IDE.qml",
     "name": "Code editor",
     "name_fr": "Éditeur de code",
     "icon": "ide.png"

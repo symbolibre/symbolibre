@@ -23,17 +23,17 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_translator()
 {
     QDir appsDir(Fs::staticDataDir() + "/apps");
-    QStringList apps(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
+    QStringList appDirs(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
 
-    for(int i = 0; i < apps.size(); i++) {
+    for (const auto &appDir : appDirs) {
 
         // TODO a 'hidden' boolean in the json would be more flexible
-        if (apps[i] == "home")
+        if (appDir == "home")
             continue;
 
-        QFile file(appsDir.absoluteFilePath(apps[i] + "/application.json"));
+        QFile file(appsDir.absoluteFilePath(appDir + "/application.json"));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qWarning() << "unable to read JSON data for application" << apps[i];
+            qWarning() << "unable to read JSON data for application" << appDir;
             continue;
         }
 
@@ -43,7 +43,7 @@ AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_trans
         auto appData = new AppItem(this);
         appData->id = obj["id"].toString();
         if (appData->id.isEmpty())
-            appData->id = apps[i];
+            appData->id = appDir;
 
         // we look for a translated name in the json
         // FIXME this may not play well with country codes
@@ -58,7 +58,7 @@ AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_trans
             appData->name = obj["name"].toString();
 
         appData->executable = obj["command"].toString().trimmed();
-        appData->applet = obj["applet"].toString().trimmed();
+        appData->applet = appDir + "/" + obj["applet"].toString().trimmed();
         appData->iconPath = obj["icon"].toString().trimmed();
         mAppsModel.append(appData);
 
