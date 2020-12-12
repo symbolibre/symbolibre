@@ -28,7 +28,8 @@ SLQuickGraph::SLQuickGraph(QQuickItem *parent) : QQuickPaintedItem(parent),
 
 void SLQuickGraph::paint(QPainter *painter)
 {
-    QPixmap    picture(boundingRect().size().toSize());
+    QPixmap picture(boundingRect().size().toSize() * qGuiApp->devicePixelRatio());
+    picture.setDevicePixelRatio(qGuiApp->devicePixelRatio());
     QCPPainter qcpPainter(&picture);
     m_plot.toPainter(&qcpPainter);
     painter->drawPixmap(QPoint(), picture);
