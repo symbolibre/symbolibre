@@ -32,7 +32,7 @@ Graphical applications will run under the unprivileged ``symbolibre`` user.
 ``su`` should be sufficient to switch between users but it can be convenient to
 set up ``sudo`` if you are used to it.
 
-::
+.. code:: bash
 
   % apt install sudo
   % usermod -aG sudo symbolibre
@@ -40,7 +40,7 @@ set up ``sudo`` if you are used to it.
 If you don't, you will have to become root with ``su root`` so you should set a
 password for this account.
 
-::
+.. code:: bash
 
   % passwd root
 
@@ -53,7 +53,7 @@ Keyboard layout
 If you don't have a QWERTY keyboard, you might want to change the layout of the
 TTY console. You can do so in the post-install script of ``console-tools``.
 
-::
+.. code:: bash
 
   % apt install console-tools
   # ... follow instructions to select a keyboard layout
@@ -71,7 +71,7 @@ If you plan on using any other locale than the default C/English, edit the list
 in ``/etc/locale.gen`` and run ``locale-gen``. You should always prefer UTF-8
 locales when available.
 
-::
+.. code:: bash
 
   % apt install locales
   # edit /etc/locale.gen to uncomment desired locales
@@ -97,7 +97,7 @@ You can for instance enable colors for ``ls`` in ``.bashrc``:
 Or install another text editor such as ``vim`` (the default is ``nano``, which
 is the most beginner-friendly):
 
-::
+.. code:: bash
 
   % apt install vim
   % echo "export EDITOR=vim" | tee -a $HOME/.bashrc
@@ -119,7 +119,7 @@ With X and i3
 The first option is to install X with `i3 <https://i3wm.org/>`_. The default
 configuration file is copied to its standard location in the user home.
 
-::
+.. code:: bash
 
   % apt install xinit i3
   # For safety, install a couple more fonts over xfonts-base
@@ -138,7 +138,7 @@ Alternatively, Wayland can be installed with `sway <https://swaywm.org/>`_.
 Once again the configuration file is copied. The settings are very close to i3;
 the default terminal is a Wayland-native terminal called ``foot``.
 
-::
+.. code:: bash
 
   % apt install sway xwayland
   % mkdir -p $HOME/.config/sway
@@ -158,7 +158,7 @@ leave the desktop.
 one in ``$HOME/.bashrc``. Additionally, sway overrides the keyboard layout so
 it should be specified before starting as well.
 
-::
+.. code:: bash
 
   export LANG='en_US.UTF-8'
   # Example for the French AZERTY keyboard
@@ -192,7 +192,7 @@ For user processes to be able to access the GPU (which is for instance needed
 by ``sway`` since Wayland compositors don't run as root), ``symbolibre`` should
 be a member of the ``video`` group.
 
-::
+.. code:: bash
 
   % usermod -a -G video symbolibre
 
@@ -224,7 +224,7 @@ To test client rendering, you can install the ``mesa-utils`` package, which
 provides tools to check the configuration and performance of the display, such
 as ``glxinfo`` and ``glxgears``.
 
-::
+.. code:: bash
 
   % apt install mesa-utils
 
@@ -243,7 +243,7 @@ First is the Qt framework, with Qt Quick, Qt Quick Controls 2, developer tools
 (mainly for translation support), and direct Wayland support. In addition, a
 couple of QML modules used by the Symbolibre applications.
 
-::
+.. code:: bash
 
   % apt install qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev qttools5-dev-tools qtwayland5
   % apt install qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-controls2 qml-module-qtquick-layouts qml-module-qt-labs-folderlistmodel
@@ -252,7 +252,7 @@ For the Symbolibre applications, we need building tools, a couple of libraries
 (graph rendering, syntax highlighting, Giac mainly), and some packages that Qt
 and Giac depend on but are not listed as such.
 
-::
+.. code:: bash
 
   % apt install build-essential cmake
   % apt install libgmp-dev libmpfi-dev libgsl-dev libntl-dev libfltk1.3-dev libutf8proc-dev
@@ -260,7 +260,7 @@ and Giac depend on but are not listed as such.
 
 Finally, there are interpreters for the languages supported by the IDE app.
 
-::
+.. code:: bash
 
   % apt install python3
   % apt install xcas
