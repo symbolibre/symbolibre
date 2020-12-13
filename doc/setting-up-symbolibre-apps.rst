@@ -24,16 +24,11 @@ The main parts here are:
 Quality-of-life settings
 ------------------------
 
-Adding a user
-~~~~~~~~~~~~~
+Getting privileged access
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Graphical applications will run under an unprivileged user, so let’s create one.
-
-::
-
-  % adduser symbolibre
-
-You can then go into user mode with ``su - symbolibre``.
+Graphical applications will run under the unprivileged ``symbolibre`` user. Log
+into this account with ``su - symbolibre``.
 
 ``su`` should be sufficient to switch between users but it can be convenient to
 set up ``sudo`` if you are used to it.
@@ -42,6 +37,13 @@ set up ``sudo`` if you are used to it.
 
   % apt install sudo
   % usermod -aG sudo symbolibre
+
+If you don't, you will have to become root with ``su root`` so you should set a
+password for this account.
+
+::
+
+  % passwd root
 
 Keyboard layout
 ~~~~~~~~~~~~~~~
@@ -72,28 +74,25 @@ locales when available.
   # edit /etc/locale.gen to uncomment desired locales
   % locale-gen
 
-Aliases and commodities
-~~~~~~~~~~~~~~~~~~~~~~~
+The default terminal emulator in Wayland/sway requires an UTF-8 locale to be
+set; make sure to select one if you want to take this route.
 
-If you plan on using applications other than the Symbolibre default or a
-terminal, this is a good time to configure core utilities in ``.bashrc``.
+Configuring tools
+~~~~~~~~~~~~~~~~~
+
+If you plan on using a terminal, or applications other than the Symbolibre
+default, this is a good time to configure core utilities and install tools that
+are not in the base image.
+
+You can for instance enable colors for ``ls`` in ``.bashrc``:
 
 .. code:: bash
 
   alias ls='ls --color=auto --group-directories-first'
   alias ll='ls -lh'
 
-  function mkcd {
-    mkdir "$1"
-    cd "$1"
-  }
-
-Text editor
-~~~~~~~~~~~
-
-The default text editor is ``nano``. Any alternative can be installed; don't
-forget to set the ``EDITOR`` and ``VISUAL`` variables accordingly. For instance
-with vim:
+Or install another text editor such as ``vim`` (the default is ``nano``, which
+is the most beginner-friendly):
 
 ::
 
@@ -107,10 +106,12 @@ Installing a desktop environment
 With X and i3
 ~~~~~~~~~~~~~
 
-*Warning: The X server seems to cope poorly with the modesetting driver used
-on the Raspberry Pi (the VC4 KMS driver). Clients can be accelerated but
-applications that render with X (such as xterm) and the window compositor are
-very slow.*
+.. warning::
+
+  The X server seems to cope poorly with the modesetting driver used on the
+  the Raspberry Pi (the VC4 KMS driver). Clients can be accelerated but
+  applications that render with X (such as xterm) and the window compositor are
+  very slow.
 
 The first option is to install X with `i3 <https://i3wm.org/>`_. The default
 configuration file is copied to its standard location in the user home.

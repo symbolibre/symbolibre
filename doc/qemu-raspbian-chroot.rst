@@ -36,8 +36,8 @@ Restart the service manually once the static QEMU is installed.
 
 ::
 
-   (host)% yay -S binfmt-qemu-static qemu-user-static-bin
-   (host)% sudo systemctl restart systemd-binfmt
+   (host)% pacman -S binfmt-qemu-static qemu-user-static-bin
+   (host)% systemctl restart systemd-binfmt
 
 On Debian see `[2] <https://wiki.debian.org/QemuUserEmulation>`__. The
 QEMU binaries might need to copied or mounted to the chroot (see the
@@ -72,9 +72,10 @@ Then log into Raspbian.
 
    (host)% sudo chroot symbolibre-os /bin/env -i TERM=$TERM /bin/bash
 
-``env -i`` clears the host environment variables. The ``TERM`` environment variable
-is preserved as it allows the capabilities of your terminal emulator to be
-properly identified.
+``env -i`` clears the host environment variables. The ``TERM`` environment
+variable is preserved as it allows the capabilities of your terminal emulator
+to be properly identified. If your terminal is not supported by the
+newly-installed OS, you can always set ``TERM=linux``.
 
 Once in the Raspbian chroot, complete the system boostrap.
 
@@ -138,8 +139,6 @@ I suggest using a script to start the chroot (launch with ``sudo``):
 
   # Use a basic standard terminal
   export TERM=linux
-  # Add some Debian-required executable paths
-  export PATH="/usr/local/sbin:/usr/sbin:/sbin:$PATH"
   # Set the proper host name
   export HOSTNAME="slcalc"
 
@@ -152,13 +151,13 @@ I suggest using a script to start the chroot (launch with ``sudo``):
   # it's not make it one artifically
   if [[ ! -z "$use_arch_chroot" ]]; then
     mount --bind symbolibre-os/ symbolibre-os/
-    arch-chroot symbolibre-os/
+    env -i TERM="$TERM" HOSTNAME="$HOSTNAME" arch-chroot symbolibre-os/
     umount symbolibre-os/
     exit 0
   fi
 
-  # Normal chroot
-  chroot symbolibre-os/
+  # Normal chroot. Debian will supply a default PATH
+  env -i TERM="$TERM" HOSTNAME="$HOSTNAME" chroot symbolibre-os/
 
 Now before we can install packages we need to keep the system up-to-date with
 the repositories.
