@@ -27,8 +27,7 @@ Quality-of-life settings
 Getting privileged access
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Graphical applications will run under the unprivileged ``symbolibre`` user. Log
-into this account with ``su - symbolibre``.
+Graphical applications will run under the unprivileged ``symbolibre`` user.
 
 ``su`` should be sufficient to switch between users but it can be convenient to
 set up ``sudo`` if you are used to it.
@@ -45,6 +44,9 @@ password for this account.
 
   % passwd root
 
+For the rest of this tutorial, log into the user account with either ``su -
+symbolibre`` or ``sudo -iu symbolibre``.
+
 Keyboard layout
 ~~~~~~~~~~~~~~~
 
@@ -59,7 +61,8 @@ TTY console. You can do so in the post-install script of ``console-tools``.
 * For the French AZERTY keyboard, select 22 (Other) then 37 (French) then 1
   (French).
 
-If prompted, you should set UTF-8 as the encoding on the console (27).
+If prompted, you should set UTF-8 as the encoding on the console (27), and
+leave the character set of the console to guess (23).
 
 Generate locales
 ~~~~~~~~~~~~~~~~
@@ -131,9 +134,9 @@ terminal is ``xterm``.
 With Wayland and sway
 ~~~~~~~~~~~~~~~~~~~~~
 
-Alternatively, Wayland can be installed with `sway <https://swaywm.org/>`_. Once again
-the configuration file is copied. The settings are very close to i3; the
-default terminal is a Wayland-native terminal called ``foot``.
+Alternatively, Wayland can be installed with `sway <https://swaywm.org/>`_.
+Once again the configuration file is copied. The settings are very close to i3;
+the default terminal is a Wayland-native terminal called ``foot``.
 
 ::
 
@@ -143,20 +146,21 @@ default terminal is a Wayland-native terminal called ``foot``.
 
 sway can be started from the console by running ``sway``. A log can be obtained
 with ``sway -d 2> sway.log``. If you don't have a mouse on the Pi Zero, you
-might want to change the sway exit shortcut to not required cliking on a
-confirm button.
+might want to change the sway exit shortcut to ``swaymsg exit`` instead of the
+default ``swaynag`` command that requires you to click on a confirm button to
+leave the desktop.
 
 ::
 
   bindsym $mod+Shift+E exec swaymsg exit
 
-``foot`` doesn't start if it's no using an Unicode locale, so you should set
+``foot`` doesn't start if it's not using an Unicode locale, so you should set
 one in ``$HOME/.bashrc``. Additionally, sway overrides the keyboard layout so
 it should be specified before starting as well.
 
 ::
 
-  export LANG=en_US.UTF-8
+  export LANG='en_US.UTF-8'
   # Example for the French AZERTY keyboard
   export XKB_DEFAULT_LAYOUT=fr
   export XKB_DEFAULT_VARIANT=basic
@@ -227,3 +231,36 @@ as ``glxinfo`` and ``glxgears``.
 Native Wayland applications or X applications that support DRI through XWayland
 will use accelerated rendering. This is for instance the case with ``foot``,
 but not with ``xterm``, so not every program will run smoothly even with sway.
+
+Installing libraries for the Symbolibre applications
+----------------------------------------------------
+
+We want to install the Qt framework with Qt Quick and a couple of QML modules.
+Some of these have GLES variants, but not all packages down the dependency tree
+support these alternatives, so we install the normal set.
+
+First is the Qt framework, with Qt Quick, Qt Quick Controls 2, developer tools
+(mainly for translation support), and direct Wayland support. In addition, a
+couple of QML modules used by the Symbolibre applications.
+
+::
+
+  % apt install qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev qttools5-dev-tools qtwayland5
+  % apt install qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-controls2 qml-module-qtquick-layouts qml-module-qt-labs-folderlistmodel
+
+For the Symbolibre applications, we need building tools, a couple of libraries
+(graph rendering, syntax highlighting, Giac mainly), and some packages that Qt
+and Giac depend on but are not listed as such.
+
+::
+
+  % apt install build-essential cmake
+  % apt install libgmp-dev libmpfi-dev libgsl-dev libntl-dev libfltk1.3-dev libutf8proc-dev
+  % apt install libqcustomplot-dev libgiac-dev libkf5syntaxhighlighting-dev libqtermwidget5-0-dev
+
+Finally, there are interpreters for the languages supported by the IDE app.
+
+::
+
+  % apt install python3
+  % apt install xcas

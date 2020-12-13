@@ -95,17 +95,17 @@ Adding some detail
 ------------------
 
 Because the guest system is not fully booted up from scratch with
-systemd, a few things like hostname resolution don’t work out of the
-box. On Arch, one can use arch-chroot or manually bind the required
+systemd, a few things don’t work out of the box (for instance there is no
+``/proc``). On Arch, one can use arch-chroot or manually bind the required
 filesystems into the chroot. See
 `[3] <https://wiki.archlinux.org/index.php/Chroot#Usage>`__ for both
-options. Though stuff like accessing dbus will also affect the host
-system so it might not be a good idea.
+options. Accessing dbus in this setup will affect your host system, so be
+careful.
 
 For now, set the hostname in ``/etc/hostname`` and update ``/etc/hosts``
-so that ``sudo`` stops complaining about not being able to resolve that
-name. Don’t use ``hostnamectl`` as it will affect the host system. The
-host name should be set properly when booting from the Pi Zero.
+so that ``sudo`` doesn't complain about not being able to resolve it. Don’t use
+the ``hostname`` or ``hostnamectl`` tools as it will affect the host system.
+The name should already be set properly when booting from the Pi Zero.
 
 ::
 
