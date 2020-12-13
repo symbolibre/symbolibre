@@ -245,7 +245,7 @@ couple of QML modules used by the Symbolibre applications.
 
 .. code:: bash
 
-  % apt install qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev qttools5-dev-tools qtwayland5
+  % apt install qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev qttools5-dev qtwayland5
   % apt install qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-controls2 qml-module-qtquick-layouts qml-module-qt-labs-folderlistmodel
 
 For the Symbolibre applications, we need building tools, a couple of libraries
@@ -264,3 +264,44 @@ Finally, there are interpreters for the languages supported by the IDE app.
 
   % apt install python3
   % apt install xcas
+
+Building the Symbolibre applications
+------------------------------------
+
+Download a copy of the release from the
+`symbolibre repository <https://github.com/symbolibre/symbolibre/>`_. You can't
+download Github's automatic ZIP directly because it doesn't have the submodule
+in the ``theme`` folder; you would need to download it separately from the
+`symbolibre-theme repository <https://github.com/symbolibre/symbolibre-theme/>`_.
+
+.. code:: bash
+
+  % sudo apt install wget
+  % wget https://github.com/symbolibre/symbolibre/releases/download/v0.2/symbolibre-0.2.tar.gz
+  % tar -xzvf symbolibre-0.2.tar.gz && cd symbolibre-0.2
+
+Configure the build in a ``build`` directory. CMake attemps (and fails) to read
+``/proc/cpuinfo`` to determine the number of CPU cores, but it doesn't prevent
+you from building in parallel.
+
+We install in ``/usr/local`` which is not a search path for libraries by
+default, se we set the rpath of the executable to reference them (an
+alternative would be to add ``/usr/local/lib`` to the user's
+``LD_LIBRARY_PATH`` at login).
+
+.. code:: bash
+
+  % mkdir build && cd build
+  % cmake .. -DSET_RPATH=ON
+
+The build and install.
+
+
+.. code:: bash
+
+  % make -j$(nproc)
+  % make install
+
+The calculator's main menu can be started with the ``symbolibre`` command. QML
+files are compiled at runtime and the results are cached, so startup is a bit
+faster after the first time.
