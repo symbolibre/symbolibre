@@ -20,7 +20,7 @@ AppItem::AppItem(QObject *parent) : QObject(parent),
 
 }
 
-AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_translator()
+AppManager::AppManager(QObject *parent) : QObject(parent), m_appsModel(), m_translator()
 {
     QDir appsDir(Fs::staticDataDir() + "/apps");
     QStringList appDirs(appsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
@@ -60,7 +60,7 @@ AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_trans
         appData->executable = obj["command"].toString().trimmed();
         appData->applet = appDir + "/" + obj["applet"].toString().trimmed();
         appData->iconPath = obj["icon"].toString().trimmed();
-        mAppsModel.append(appData);
+        m_appsModel.append(appData);
 
         file.close();
     }
@@ -68,7 +68,7 @@ AppManager::AppManager(QObject *parent) : QObject(parent), mAppsModel(), m_trans
 
 const AppItem *AppManager::app(const QString &id) const
 {
-    for (auto obj : mAppsModel) {
+    for (auto obj : m_appsModel) {
         auto app = qobject_cast<const AppItem *>(obj);
         if (app->id == id)
             return app;

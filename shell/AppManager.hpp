@@ -29,18 +29,18 @@ public:
 class AppManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QObject*> appsModel MEMBER mAppsModel CONSTANT)
+    Q_PROPERTY(QList<QObject*> appsModel MEMBER m_appsModel CONSTANT)
 
 public:
     explicit AppManager(QObject *parent = nullptr);
 
-    const QList<QObject *> &apps() const { return mAppsModel; }
+    const QList<QObject *> &apps() const { return m_appsModel; }
     const AppItem *app(const QString &id) const;
     Q_INVOKABLE void loadAppletTranslation(AppItem *app);
     Q_INVOKABLE bool execute(AppItem *app);
 
 private:
-    QList<QObject *> mAppsModel;
+    QList<QObject *> m_appsModel;
     QTranslator m_translator;
 };
 
