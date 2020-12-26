@@ -47,6 +47,8 @@ SLWindow {
 
     MathContext {
         id: math
+        Component.onCompleted: math.loadState(Fs.readWriteDataDir() + "/cas_state.json")
+        Component.onDestruction: math.saveState(Fs.readWriteDataDir() + "/cas_state.json")
     }
 
     Dialog {

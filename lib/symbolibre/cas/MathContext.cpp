@@ -14,17 +14,12 @@
 
 MathContext::MathContext() : QObject(), giac()
 {
-    loadState();
+
 }
 
-MathContext::~MathContext()
+void MathContext::loadState(const QString &path)
 {
-    saveState();
-}
-
-void MathContext::loadState()
-{
-    QFile file(Fs::readWriteDataDir() + "/cas_state.json");
+    QFile file(path);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         qWarning() << "no saved CAS state found";
         return;
@@ -40,9 +35,21 @@ void MathContext::loadState()
     }
 }
 
-void MathContext::saveState()
+void MathContext::saveState(const QString &path)
 {
-
+    QFile file(path);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        qWarning() << "unable to write CAS state file";
+        return;
+    }
+    QJsonObject variables;
+    const QList<QString> variableList {"f1", "f2", "f3"}; // tmp.
+    for (const auto &v : variableList) {
+        variables[v] = QString::fromStdString(giacEvalString(v).print());
+    }
+    QJsonObject root;
+    root["variables"] = variables;
+    file.write(QJsonDocument(root).toJson());
 }
 
 QString MathContext::toGiac(const QString &json)
