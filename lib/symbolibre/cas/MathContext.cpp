@@ -2,12 +2,45 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "MathContext.hpp"
-#include <QDebug>
-#include <QJsonDocument>
+
 #include <iostream>
 #include <string>
 
+#include <QDebug>
+#include <QJsonDocument>
+
+#include "../util/FileSystemSingleton.hpp"
+
+
 MathContext::MathContext() : QObject(), giac()
+{
+    loadState();
+}
+
+MathContext::~MathContext()
+{
+    saveState();
+}
+
+void MathContext::loadState()
+{
+    QFile file(Fs::readWriteDataDir() + "/cas_state.json");
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        qWarning() << "no saved CAS state found";
+        return;
+    }
+    auto doc = QJsonDocument::fromJson(file.readAll());
+    if (!doc.object()["variables"].isObject()) {
+        qWarning() << "unable to read CAS state file";
+        return;
+    }
+    auto variables = doc.object()["variables"].toObject();
+    for (auto it = variables.constBegin(); it != variables.constEnd(); ++it) {
+        giacEvalString(it.key() + " := " + it.value().toString());
+    }
+}
+
+void MathContext::saveState()
 {
 
 }

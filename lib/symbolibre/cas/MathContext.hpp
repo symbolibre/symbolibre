@@ -17,6 +17,7 @@ class MathContext : public QObject
 
 public:
     MathContext();
+    ~MathContext();
 
     giac::context * giacContext() { return &giac; }
 
@@ -35,6 +36,10 @@ public:
 
 Q_SIGNALS:
     void angleModeChanged();
+
+private:
+    void loadState();
+    void saveState();
 
 private:
     giac::context giac;
