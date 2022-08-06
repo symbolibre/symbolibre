@@ -7,6 +7,7 @@
 #include <string>
 
 #include <QDebug>
+#include <QDir>
 #include <QJsonDocument>
 
 #include "../util/FileSystemSingleton.hpp"
@@ -23,6 +24,50 @@ void MathContext::setConfigPath(const QString &path)
         m_configPath = path;
         emit configPathChanged(path);
     }
+}
+
+QStringList MathContext::persistentVariables() const
+{
+    QDir varsDir(m_configPath + "/vars");
+    QStringList varFiles(varsDir.entryList(QDir::Files, QDir::Name));
+
+    QStringList allVars;
+
+    for (const auto &varFile : varFiles) {
+
+        QFile file(varsDir.absoluteFilePath(varFile));
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qWarning() << "unable to read JSON data for math variables from file " << varFile;
+            continue;
+        }
+
+        auto doc = QJsonDocument::fromJson(file.readAll());
+        auto vars = doc.object()["variables"].toArray();
+
+        for (const auto &var : vars) {
+            if (var.isString()) {
+                allVars.append(var.toString());
+            } else {
+                qWarning() << "invalid JSON math variable data";
+            }
+        }
+    }
+
+    return allVars;
+}
+
+void MathContext::registerPersistentVariables(const QString &cat, const QStringList &vars) const
+{
+    Fs::createDir(m_configPath + "/vars");
+    QFile file(m_configPath + "/vars/" + cat + ".json");
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        qWarning() << "unable to write persistent math variables file to " << m_configPath;
+        return;
+    }
+    auto array = QJsonArray::fromStringList(vars);
+    QJsonObject root;
+    root["variables"] = array;
+    file.write(QJsonDocument(root).toJson());
 }
 
 void MathContext::loadState()
@@ -51,8 +96,7 @@ void MathContext::saveState()
         return;
     }
     QJsonObject variables;
-    const QList<QString> variableList {"f1", "f2", "f3"}; // tmp.
-    for (const auto &v : variableList) {
+    for (const auto &v : persistentVariables()) {
         variables[v] = QString::fromStdString(giacEvalString(v).print());
     }
     QJsonObject root;

@@ -19,6 +19,9 @@ class MathContext : public QObject
 public:
     MathContext();
 
+    Q_INVOKABLE QStringList persistentVariables() const;
+    Q_INVOKABLE void registerPersistentVariables(const QString &cat, const QStringList &vars) const;
+
     const QString &configPath() const { return m_configPath; }
     void setConfigPath(const QString &path);
 
