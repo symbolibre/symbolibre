@@ -50,10 +50,10 @@
 #include <QQuickTextDocument>
 #include <QPlainTextEdit>
 
-#include <syntaxhighlighter.h>
-#include <repository.h>
-#include <definition.h>
-#include <theme.h>
+#include <KSyntaxHighlighting/SyntaxHighlighter>
+#include <KSyntaxHighlighting/Repository>
+#include <KSyntaxHighlighting/Definition>
+#include <KSyntaxHighlighting/Theme>
 
 #include <qtermwidget5/qtermwidget.h>
 
