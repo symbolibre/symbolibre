@@ -12,6 +12,14 @@ SLStandardApplet {
     id: app
     windowTitle: qsTr("Symbolibre Functions")
 
+    Component.onCompleted: {
+        var l = [];
+        for (var i = 0; i < 10; i++) {
+            l.push("f" + i);
+        }
+        math.registerPersistentVariables("funapp", l);
+    }
+
     CatalogPopup {
         id: catalog
         width: parent.width - 20
