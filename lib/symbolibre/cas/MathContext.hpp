@@ -12,11 +12,15 @@ class MathContext : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString configPath READ configPath WRITE setConfigPath NOTIFY configPathChanged)
     Q_PROPERTY(AngleMode angleMode
         READ angleMode WRITE setAngleMode NOTIFY angleModeChanged)
 
 public:
     MathContext();
+
+    const QString &configPath() const { return m_configPath; }
+    void setConfigPath(const QString &path);
 
     giac::context * giacContext() { return &giac; }
 
@@ -34,14 +38,16 @@ public:
     void setAngleMode(AngleMode mode);
 
 Q_SIGNALS:
+    void configPathChanged(const QString &);
     void angleModeChanged();
 
 public:
-    Q_INVOKABLE void loadState(const QString &path);
-    Q_INVOKABLE void saveState(const QString &path);
+    Q_INVOKABLE void loadState();
+    Q_INVOKABLE void saveState();
 
 private:
     giac::context giac;
+    QString m_configPath;
 };
 
 #endif // MATHCONTEXT_HPP

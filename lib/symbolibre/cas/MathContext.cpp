@@ -12,14 +12,22 @@
 #include "../util/FileSystemSingleton.hpp"
 
 
-MathContext::MathContext() : QObject(), giac()
+MathContext::MathContext() : QObject(), giac(), m_configPath(Fs::readWriteDataDir())
 {
 
 }
 
-void MathContext::loadState(const QString &path)
+void MathContext::setConfigPath(const QString &path)
 {
-    QFile file(path);
+    if (path != m_configPath) {
+        m_configPath = path;
+        emit configPathChanged(path);
+    }
+}
+
+void MathContext::loadState()
+{
+    QFile file(m_configPath + "/cas_state.json");
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         qWarning() << "no saved CAS state found";
         return;
@@ -35,9 +43,9 @@ void MathContext::loadState(const QString &path)
     }
 }
 
-void MathContext::saveState(const QString &path)
+void MathContext::saveState()
 {
-    QFile file(path);
+    QFile file(m_configPath + "/cas_state.json");
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         qWarning() << "unable to write CAS state file";
         return;
