@@ -78,7 +78,7 @@ SLStandardApplet {
             permanentEditFocus: true
             Layout.fillWidth: true
             Layout.maximumHeight: 120
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (event.key == SLKey.Enter && text != "") {
                     historyModel.insert(0, {
                         "source": expr.json,

@@ -9,7 +9,7 @@ set(cas_HEADERS
 )
 
 set(CMAKE_AUTOMOC OFF)
-qt5_wrap_cpp(cas_SOURCES ${cas_HEADERS})
+qt_wrap_cpp(cas_SOURCES ${cas_HEADERS})
 
 add_library(cas OBJECT ${cas_SOURCES})
 target_link_libraries(cas Giac ${QT_DEPS})

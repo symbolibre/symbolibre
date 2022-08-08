@@ -1,6 +1,11 @@
 include(FindPackageHandleStandardArgs)
 
-find_package(Qt5 QUIET REQUIRED Core Gui PrintSupport Widgets)
+if(Qt6_FOUND)
+    find_package(Qt6 QUIET REQUIRED Core Gui PrintSupport Widgets)
+else()
+    find_package(Qt5 QUIET REQUIRED Core Gui PrintSupport Widgets)
+endif()
+
 find_path(QCustomPlot_INCLUDE_DIR qcustomplot.h)
 find_library(QCustomPlot_LIBRARY qcustomplot)
 
@@ -10,10 +15,10 @@ find_package_handle_standard_args(QCustomPlot DEFAULT_MSG
 )
 
 set(QCustomPlot_deps
-        Qt5::Core
-        Qt5::Gui
-        Qt5::PrintSupport
-        Qt5::Widgets
+        Qt::Core
+        Qt::Gui
+        Qt::PrintSupport
+        Qt::Widgets
 )
 
 if(QCustomPlot_FOUND)

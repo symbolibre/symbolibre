@@ -16,7 +16,7 @@ set(keyboardplugin_SOURCES
 )
 
 set(CMAKE_AUTOMOC OFF)
-qt5_wrap_cpp(keyboard_SOURCES ${keyboard_HEADERS})
+qt_wrap_cpp(keyboard_SOURCES ${keyboard_HEADERS})
 
 add_library(keyboard OBJECT ${keyboard_SOURCES})
 target_link_libraries(keyboard

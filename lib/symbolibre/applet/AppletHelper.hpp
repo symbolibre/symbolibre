@@ -5,9 +5,9 @@
 #define SL_APPLETHELPER_HPP
 
 #include <QObject>
+#include <QQuickWindow>
 
-class QQuickWindow;
-class FunctionBarAttached;
+#include "FunctionBarAttached.hpp"
 
 class AppletHelper : public QObject
 {

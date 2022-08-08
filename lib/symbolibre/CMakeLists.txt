@@ -18,7 +18,7 @@ set(symbolibre_HEADERS
 add_library(Symbolibre SHARED)
 target_link_libraries(Symbolibre
     PRIVATE applet keyboard cas editiontree graph util
-    PUBLIC Giac ${QT_DEPS} Qt5::QuickControls2 Qt5::Widgets
+    PUBLIC Giac ${QT_DEPS} Qt::QuickControls2 Qt::Widgets
 )
 target_include_directories(Symbolibre INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 

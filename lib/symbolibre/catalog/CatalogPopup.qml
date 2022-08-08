@@ -24,7 +24,7 @@ Popup {
         id: catalog
         anchors.fill: parent
         keyNavigationWraps: true
-        onEntrySelected: {
+        onEntrySelected: entry => {
           callback(entry);
           popup.close();
         }

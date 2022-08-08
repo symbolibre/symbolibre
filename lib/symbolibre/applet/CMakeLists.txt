@@ -18,7 +18,7 @@ set(appletplugin_SOURCES
 )
 
 set(CMAKE_AUTOMOC OFF)
-qt5_wrap_cpp(applet_SOURCES ${applet_HEADERS})
+qt_wrap_cpp(applet_SOURCES ${applet_HEADERS})
 
 add_library(applet OBJECT ${applet_SOURCES})
 target_link_libraries(applet ${QT_DEPS})

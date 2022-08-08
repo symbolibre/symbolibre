@@ -28,7 +28,7 @@ FocusScope {
         json = JSON.stringify([""])
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         if (permanentEditFocus) return;
 
         // TODO: Filter out exactly the keys unused by keyPressHandler()
@@ -180,7 +180,7 @@ FocusScope {
                 event.accepted = true;
             }
 
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return ||
                     event.key === Qt.Key_Escape) return;
 

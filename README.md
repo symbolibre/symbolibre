@@ -4,8 +4,8 @@ This repository contains calculator applications and related libraries.
 
 ## Building the applications
 
-Symbolibre depends on Qt >= 5.12, QCustomPlot and Giac.
-Qt 5.12 is available on Ubuntu 19.10 and Debian bullseye.
+Symbolibre depends on Qt >= 5.15, QCustomPlot and Giac.
+Qt 5.15 is available on Ubuntu 22.04 and Debian 11.
 
 To build the applications, QTermWidget and KSyntaxHighlighting are also needed.
 

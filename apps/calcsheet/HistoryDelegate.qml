@@ -27,7 +27,7 @@ FocusScope {
                 font.family: SLStyle.mathFont
                 json: model.source
                 KeyNavigation.down: resultExpr
-                Keys.onPressed: {
+                Keys.onPressed: event => {
                     if (event.key == SLKey.Enter) {
                         expr.json = json;
                         expr.forceActiveFocus();
@@ -51,7 +51,7 @@ FocusScope {
                 font.family: SLStyle.mathFont
                 json: model.result
                 focus: true
-                Keys.onPressed: {
+                Keys.onPressed: event => {
                     if (event.key == SLKey.Enter) {
                         expr.json = json;
                         expr.forceActiveFocus();
@@ -61,7 +61,7 @@ FocusScope {
             }
         }
     }
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         if (event.key == SLKey.Delete) {
             historyModel.remove(index);
             event.accepted = true;

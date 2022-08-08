@@ -47,7 +47,7 @@ GraphView {
         }
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         event.accepted = true;
 
         if (event.key === Qt.Key_Right) {

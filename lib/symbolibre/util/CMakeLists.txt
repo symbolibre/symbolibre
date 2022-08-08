@@ -9,7 +9,7 @@ set(utilplugin_SOURCES
 )
 
 set(CMAKE_AUTOMOC OFF)
-qt5_wrap_cpp(util_SOURCES ${util_HEADERS})
+qt_wrap_cpp(util_SOURCES ${util_HEADERS})
 
 add_library(util OBJECT ${util_SOURCES})
 target_link_libraries(util PUBLIC ${QT_DEPS})

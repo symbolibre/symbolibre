@@ -7,7 +7,7 @@
 #include <QQuickPaintedItem>
 #include <qcustomplot.h>
 
-class MathContext;
+#include "../cas/MathContext.hpp"
 
 class SLQuickGraph : public QQuickPaintedItem
 {

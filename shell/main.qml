@@ -24,24 +24,25 @@ SLWindow {
     // Move the overlay from the top-level window to the loaded application or
     // one of its subcomponents; this way, the status bar and keyboard are not
     // covered when opening popups.
-    overlay.parent: appletLoader.item.overlayParent || appletLoader
-    overlay.height: overlay.parent.height
+    Overlay.overlay.parent: appletLoader.item.overlayParent || appletLoader
+    Overlay.overlay.width: Overlay.overlay.parent.width
+    Overlay.overlay.height: Overlay.overlay.parent.height
 
     // The overlay is automatically resized with the window, so monitor changes
     // to make sure we always override this behavior
     Connections {
-        target: overlay
+        target: Overlay.overlay
         function onHeightChanged(height) {
-            overlay.height = overlay.parent.height;
+            window.Overlay.overlay.height = window.Overlay.overlay.parent.height;
         }
         function onParentChanged(parent) {
-            overlay.height = overlay.parent.height;
+            window.Overlay.overlay.height = window.Overlay.overlay.parent.height;
         }
     }
     Connections {
         target: window
         function onHeightChanged(height) {
-            overlay.height = overlay.parent.height;
+            window.Overlay.overlay.height = window.Overlay.overlay.parent.height;
         }
     }
 
@@ -99,7 +100,7 @@ SLWindow {
                 }
             }
 
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (event.key == SLKey.Home) {
                     backToMenuDialog.open();
                     event.accepted = true;

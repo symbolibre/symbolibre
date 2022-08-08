@@ -12,15 +12,7 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Qt5 5.12 REQUIRED Core Gui Qml Quick QuickControls2 Widgets
-    OPTIONAL_COMPONENTS LinguistTools Test)
-find_package(QCustomPlot REQUIRED)
-find_package(Giac REQUIRED)
-
-if(BUILD_TESTING AND NOT(${Qt5Test_FOUND}))
-    message(SEND_ERROR "Tests enabled but Qt5Test not found")
-endif()
-
+set(ALLOW_QT6 ON CACHE BOOL "Use Qt6 in place of Qt5 if available")
 set(DEV_BUILD OFF CACHE BOOL "Developer build")
 set(ENABLE_APPS ON CACHE BOOL "Build Symbolibre applications")
 set(USE_CUSTOM_QML_PATH ON CACHE BOOL
@@ -28,6 +20,25 @@ set(USE_CUSTOM_QML_PATH ON CACHE BOOL
 set(SET_RPATH ${DEV_BUILD} CACHE BOOL
     "Set the RPATH of the applications to the install path of libSymbolibre")
 set(ENABLE_DOC OFF CACHE BOOL "Build HTML documentation")
+
+if(ALLOW_QT6)
+    set (SL_QT_VERSION 6)
+    find_package(Qt6 6.2 REQUIRED Core Gui Qml Quick QuickControls2 Widgets
+        OPTIONAL_COMPONENTS LinguistTools Test)
+endif()
+
+if(NOT Qt6_FOUND)
+    set (SL_QT_VERSION 5)
+    find_package(Qt5 5.15 REQUIRED Core Gui Qml Quick QuickControls2 Widgets
+        OPTIONAL_COMPONENTS LinguistTools Test)
+endif()
+
+find_package(QCustomPlot REQUIRED)
+find_package(Giac REQUIRED)
+
+if(BUILD_TESTING AND NOT(${Qt6Test_FOUND}) AND NOT(${Qt5Test_FOUND}))
+    message(SEND_ERROR "Tests enabled but QtTest not found")
+endif()
 
 if(ENABLE_DOC)
     find_program(SphinxBuild NAMES sphinx-build REQUIRED)
@@ -56,9 +67,9 @@ else()
     if(QMAKE_QT_EXECUTABLE) # set by Qt Creator
         set(QMAKE_COMMAND ${QMAKE_QT_EXECUTABLE} CACHE STRING "qmake executable")
     else()
-        # FIXME we should use Qt5::qmake here, but it doesn't seem to work
+        # FIXME we should use Qt::qmake here, but it doesn't seem to work
         # with execute_process
-        set(QMAKE_COMMAND qmake CACHE STRING "qmake executable")
+        set(QMAKE_COMMAND qmake6 CACHE STRING "qmake executable")
     endif()
     execute_process(COMMAND "${QMAKE_COMMAND}" -query QT_INSTALL_QML
         RESULT_VARIABLE QML_INSTALL_DIR_QMAKE_STATUS
@@ -88,7 +99,7 @@ if(SET_RPATH)
     set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
 endif()
 
-set(QT_DEPS Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick)
+set(QT_DEPS Qt::Core Qt::Gui Qt::Qml Qt::Quick)
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 14)
 
@@ -124,10 +135,10 @@ add_subdirectory(cmake)
 
 install(DIRECTORY icons DESTINATION ${SL_DATA_INSTALL_DIR})
 
-if(Qt5LinguistTools_FOUND)
+if(Qt6LinguistTools_FOUND OR Qt5LinguistTools_FOUND)
     # FIXME this should be an add_custom_command with the right deps
     add_custom_target(translation
-        COMMAND Qt5::lupdate lib/ apps/ shell/
+        COMMAND Qt::lupdate lib/ apps/ shell/
             -ts ${CMAKE_CURRENT_BINARY_DIR}/symbolibre.ts
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(translations)

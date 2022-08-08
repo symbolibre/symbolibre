@@ -76,7 +76,7 @@ RowLayout {
             Keys.onBackPressed: back()
             Keys.onLeftPressed: back()
         }
-        Keys.onPressed: {
+        Keys.onPressed: event => {
             var digit = event.key - Qt.Key_0;
             if (digit >= 0 && digit <= 9) {
                 event.accepted = true;

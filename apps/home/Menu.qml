@@ -26,7 +26,7 @@ GridView {
     focus: true
 
     // we intercept the home key here so that it does not open the dialog to back to the menu
-    Keys.onPressed: if (event.key == SLKey.Home) event.accepted = true
+    Keys.onPressed: event => { if (event.key == SLKey.Home) event.accepted = true }
 
     Component {
         id: buttonDelegate
